@@ -1,4 +1,4 @@
-# Cognitive Skill Profiling System
+# MathsMate
 
 An AI-powered module that collects student interaction data from a math
 learning platform and generates a multi-dimensional cognitive profile
