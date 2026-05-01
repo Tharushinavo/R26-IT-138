@@ -60,7 +60,7 @@ Research Client 01/
 │   ├── app.json
 │   └── package.json
 │
-└── README.md                # ← You are here
+└── README.md
 ```
 
 ## Quick start
