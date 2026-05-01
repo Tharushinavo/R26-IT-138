@@ -1,0 +1,25 @@
+{
+  "expo": {
+    "name": "MathMinds",
+    "slug": "mathminds",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "scheme": "mathminds",
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#FFF8E7"
+    },
+    "ios": { "supportsTablet": true },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#FFF8E7"
+      }
+    },
+    "web": { "favicon": "./assets/favicon.png" },
+    "extra": {
+      "apiUrl": "http://localhost:8000",
+      "supabaseUrl": "https://wrovptyerhwpaogvxgci.supabase.co"
+    }
+  }
+}

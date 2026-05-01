@@ -1,0 +1,76 @@
+student_id,question_id,topic,difficulty,response_time_sec,attempts,is_correct,hint_used,click_count,session_time_sec,time_between_actions,error_type,label_memory,label_attention,label_number_sense,label_processing_speed
+S001,Q009,Addition,Easy,5.2,1,true,false,3,45,1.2,none,High,High,High,Fast
+S001,Q010,Addition,Easy,6.1,1,true,false,4,50,1.5,none,High,High,High,Fast
+S001,Q014,Subtraction,Easy,7.0,1,true,false,3,55,1.3,none,High,High,High,Fast
+S001,Q006,Number Comparison,Easy,4.5,1,true,false,2,40,1.0,none,High,High,High,Fast
+S001,Q011,Addition,Medium,8.5,1,true,false,5,60,1.8,none,High,High,High,Fast
+S002,Q009,Addition,Easy,12.3,2,true,true,8,90,2.5,calculation,Medium,Medium,Medium,Moderate
+S002,Q010,Addition,Easy,10.8,2,false,true,7,85,2.3,calculation,Medium,Medium,Medium,Moderate
+S002,Q014,Subtraction,Easy,11.5,1,true,false,6,80,2.0,none,Medium,Medium,Medium,Moderate
+S002,Q006,Number Comparison,Easy,9.2,1,true,false,5,70,1.8,none,Medium,High,Medium,Moderate
+S002,Q011,Addition,Medium,14.0,2,false,true,9,100,2.8,calculation,Medium,Medium,Medium,Moderate
+S003,Q009,Addition,Easy,18.5,3,false,true,12,120,3.5,conceptual,Low,Low,Low,Slow
+S003,Q010,Addition,Easy,20.1,3,false,true,14,130,4.0,conceptual,Low,Low,Low,Slow
+S003,Q014,Subtraction,Easy,22.0,3,false,true,15,140,3.8,conceptual,Low,Low,Low,Slow
+S003,Q006,Number Comparison,Easy,16.5,2,false,true,10,110,3.2,conceptual,Low,Low,Low,Slow
+S003,Q011,Addition,Medium,25.0,3,false,true,18,150,4.5,conceptual,Low,Low,Low,Slow
+S004,Q009,Addition,Easy,6.0,1,true,false,3,48,1.1,none,High,High,High,Fast
+S004,Q010,Addition,Easy,5.5,1,true,false,3,42,1.0,none,High,High,High,Fast
+S004,Q014,Subtraction,Easy,7.2,1,true,false,4,55,1.4,none,High,High,High,Fast
+S004,Q011,Addition,Medium,9.0,1,true,false,5,65,1.6,none,High,Medium,High,Fast
+S004,Q013,Addition,Hard,12.0,2,true,false,7,80,2.0,none,High,Medium,High,Moderate
+S005,Q009,Addition,Easy,15.0,2,true,true,9,100,2.8,none,Medium,Low,Medium,Slow
+S005,Q010,Addition,Easy,14.2,2,false,true,10,95,3.0,careless,Medium,Low,Medium,Slow
+S005,Q014,Subtraction,Easy,16.8,2,true,true,8,105,2.5,none,Medium,Low,Medium,Slow
+S005,Q006,Number Comparison,Easy,13.0,1,true,true,7,90,2.2,none,Medium,Low,High,Moderate
+S005,Q015,Subtraction,Easy,17.5,3,false,true,11,115,3.2,calculation,Medium,Low,Medium,Slow
+S006,Q009,Addition,Easy,8.0,1,true,false,4,55,1.5,none,High,High,Medium,Fast
+S006,Q010,Addition,Easy,7.5,1,true,false,4,50,1.3,none,High,High,Medium,Fast
+S006,Q014,Subtraction,Easy,9.0,1,true,false,5,60,1.6,none,High,High,Medium,Fast
+S006,Q016,Subtraction,Medium,11.0,2,true,false,6,75,1.9,none,High,Medium,Medium,Moderate
+S006,Q011,Addition,Medium,10.5,1,true,false,5,70,1.7,none,High,High,Medium,Fast
+S007,Q009,Addition,Easy,19.0,3,false,true,13,125,3.6,conceptual,Low,Low,Medium,Slow
+S007,Q010,Addition,Easy,17.5,2,false,true,11,115,3.2,calculation,Low,Low,Medium,Slow
+S007,Q001,Counting,Easy,8.0,1,true,false,4,50,1.5,none,Medium,Medium,High,Moderate
+S007,Q006,Number Comparison,Easy,7.5,1,true,false,3,45,1.2,none,Medium,High,High,Fast
+S007,Q014,Subtraction,Easy,21.0,3,false,true,15,135,4.0,conceptual,Low,Low,Medium,Slow
+S008,Q009,Addition,Easy,10.0,1,true,false,5,65,1.8,none,Medium,High,High,Moderate
+S008,Q010,Addition,Easy,9.5,1,true,false,5,60,1.6,none,Medium,High,High,Moderate
+S008,Q011,Addition,Medium,12.5,2,true,false,7,80,2.1,none,Medium,Medium,High,Moderate
+S008,Q016,Subtraction,Medium,13.0,2,true,true,8,85,2.3,none,Medium,Medium,Medium,Moderate
+S008,Q006,Number Comparison,Easy,7.0,1,true,false,3,45,1.1,none,High,High,High,Fast
+S009,Q009,Addition,Easy,25.0,3,false,true,16,150,4.5,conceptual,Low,Low,Low,Slow
+S009,Q010,Addition,Easy,22.5,3,false,true,14,140,4.0,conceptual,Low,Low,Low,Slow
+S009,Q001,Counting,Easy,15.0,2,true,true,9,100,3.0,none,Medium,Low,Medium,Slow
+S009,Q014,Subtraction,Easy,24.0,3,false,true,17,145,4.2,conceptual,Low,Low,Low,Slow
+S009,Q006,Number Comparison,Easy,18.0,2,false,true,12,120,3.5,conceptual,Low,Low,Low,Slow
+S010,Q009,Addition,Easy,6.5,1,true,false,3,48,1.2,none,High,High,High,Fast
+S010,Q010,Addition,Easy,5.8,1,true,false,3,42,1.0,none,High,High,High,Fast
+S010,Q011,Addition,Medium,8.0,1,true,false,4,55,1.4,none,High,High,High,Fast
+S010,Q013,Addition,Hard,10.5,1,true,false,6,70,1.8,none,High,High,High,Moderate
+S010,Q016,Subtraction,Medium,9.5,1,true,false,5,60,1.5,none,High,High,High,Fast
+S011,Q009,Addition,Easy,11.0,2,true,false,6,75,2.0,none,Medium,Medium,High,Moderate
+S011,Q010,Addition,Easy,12.5,2,true,true,7,80,2.2,none,Medium,Medium,Medium,Moderate
+S011,Q014,Subtraction,Easy,10.0,1,true,false,5,65,1.7,none,High,High,High,Moderate
+S011,Q006,Number Comparison,Easy,8.5,1,true,false,4,55,1.4,none,High,High,High,Fast
+S011,Q015,Subtraction,Easy,13.5,2,false,true,8,85,2.5,calculation,Medium,Medium,Medium,Moderate
+S012,Q009,Addition,Easy,20.0,3,false,true,14,130,3.8,conceptual,Low,Low,Low,Slow
+S012,Q010,Addition,Easy,18.5,2,false,true,12,120,3.5,calculation,Low,Low,Low,Slow
+S012,Q001,Counting,Easy,12.0,2,true,true,8,90,2.5,none,Medium,Medium,Medium,Moderate
+S012,Q014,Subtraction,Easy,22.5,3,false,true,16,140,4.0,conceptual,Low,Low,Low,Slow
+S012,Q006,Number Comparison,Easy,15.0,2,false,true,10,100,3.0,conceptual,Low,Low,Low,Slow
+S013,Q009,Addition,Easy,7.0,1,true,false,4,50,1.3,none,High,High,High,Fast
+S013,Q011,Addition,Medium,9.5,1,true,false,5,65,1.6,none,High,High,High,Fast
+S013,Q013,Addition,Hard,13.0,2,true,false,7,85,2.0,none,High,Medium,High,Moderate
+S013,Q016,Subtraction,Medium,10.0,1,true,false,5,70,1.5,none,High,High,High,Fast
+S013,Q017,Subtraction,Hard,14.5,2,true,true,8,90,2.2,none,Medium,Medium,High,Moderate
+S014,Q009,Addition,Easy,16.0,2,true,true,9,105,2.8,none,Medium,Low,Medium,Slow
+S014,Q010,Addition,Easy,14.5,2,false,true,10,95,3.0,careless,Medium,Low,Medium,Slow
+S014,Q001,Counting,Easy,10.0,1,true,false,5,70,1.8,none,High,Medium,High,Moderate
+S014,Q014,Subtraction,Easy,18.0,3,false,true,12,115,3.5,calculation,Low,Low,Medium,Slow
+S014,Q006,Number Comparison,Easy,12.5,2,true,true,8,85,2.5,none,Medium,Low,High,Moderate
+S015,Q009,Addition,Easy,9.0,1,true,false,4,60,1.5,none,High,High,High,Moderate
+S015,Q010,Addition,Easy,8.5,1,true,false,4,55,1.3,none,High,High,High,Fast
+S015,Q011,Addition,Medium,11.5,2,true,false,6,75,1.9,none,Medium,Medium,High,Moderate
+S015,Q014,Subtraction,Easy,10.0,1,true,false,5,65,1.6,none,High,High,High,Moderate
+S015,Q016,Subtraction,Medium,12.0,1,true,false,6,80,2.0,none,High,High,Medium,Moderate
