@@ -1,16 +1,13 @@
-"""Loads the trained Decision Tree classifier from a .pkl file and
-produces a cognitive profile.
+"""Loads the Colab-trained Decision Tree Pipeline and predicts cognitive profiles.
 
-The trained model is expected to be one of:
-  (A) A single multi-output classifier that predicts 4 labels in order:
-      [memory, attention, number_sense, processing_speed]
-      with each label being one of: "low" | "medium" | "high".
+The trained model artifact is a dict with keys:
+  - model: sklearn Pipeline (preprocessor + MultiOutputClassifier)
+  - feature_cols: list of raw input feature names
+  - target_cols: list of target label names
+  - label_classes: dict of allowed classes per target
 
-  (B) A dict of 4 independent classifiers:
-      {"memory": clf, "attention": clf, "number_sense": clf, "processing_speed": clf}
-
-If no model file is present, a deterministic rule-based fallback is used
-so the API is still usable during development.
+The pipeline expects raw per-interaction features (no manual encoding required).
+For a student profile, we predict per-interaction and aggregate by majority vote.
 """
 from __future__ import annotations
 
@@ -20,12 +17,13 @@ from typing import Any, Dict, List
 
 import joblib
 import numpy as np
+import pandas as pd
 
 from app.config import get_settings
 from app.schemas import CognitiveFeatures, CognitiveProfile
-from app.services.features import FEATURE_ORDER, features_to_row
+from app.services.features import events_to_dataframe
 
-
+# Expected output dimensions and levels
 DIMENSIONS: List[str] = ["memory_level", "attention_level", "number_sense_level", "processing_speed_level"]
 LEVELS = ("low", "medium", "high")
 SPEED_LEVELS = ("Slow", "Moderate", "Fast")
@@ -34,31 +32,31 @@ SPEED_LEVELS = ("Slow", "Moderate", "Fast")
 class _ModelHolder:
     def __init__(self) -> None:
         self._lock = threading.Lock()
-        self._model: Any = None
+        self._artifact: Dict[str, Any] | None = None
         self._loaded_path: str | None = None
 
-    def get(self) -> Any:
+    def get(self) -> Dict[str, Any] | None:
         settings = get_settings()
         path = settings.model_path
-        if self._model is not None and self._loaded_path == path:
-            return self._model
+        if self._artifact is not None and self._loaded_path == path:
+            return self._artifact
         with self._lock:
-            if self._model is not None and self._loaded_path == path:
-                return self._model
+            if self._artifact is not None and self._loaded_path == path:
+                return self._artifact
             if path and os.path.isfile(path):
-                self._model = joblib.load(path)
+                self._artifact = joblib.load(path)
                 self._loaded_path = path
             else:
-                self._model = None
+                self._artifact = None
                 self._loaded_path = None
-        return self._model
+        return self._artifact
 
 
 _holder = _ModelHolder()
 
 
 def _rule_based_profile(features: CognitiveFeatures) -> Dict[str, str]:
-    """Fallback classifier when no .pkl is available. Purely heuristic."""
+    """Fallback classifier when no model is available. Purely heuristic."""
     def bucket(value: float, low_thr: float, high_thr: float) -> str:
         if value <= low_thr:
             return "low"
@@ -92,51 +90,91 @@ def _rule_based_profile(features: CognitiveFeatures) -> Dict[str, str]:
     }
 
 
-def _predict_with_model(model: Any, row: List[float]) -> Dict[str, str]:
-    X = np.array([row], dtype=float)
+def _predict_per_interaction(artifact: Dict[str, Any], df: pd.DataFrame) -> pd.DataFrame:
+    """Predict cognitive labels for each interaction row using the trained Pipeline."""
+    pipeline = artifact["model"]
+    # Pipeline expects the same column order as training
+    feature_cols = artifact["feature_cols"]
+    X = df[feature_cols]
+    
+    # Pipeline handles preprocessing (OneHotEncoding) internally
+    preds = pipeline.predict(X)  # shape: (n_interactions, 4)
+    
+    target_cols = artifact["target_cols"]
+    pred_df = pd.DataFrame(preds, columns=target_cols, index=df.index)
+    return pred_df
 
-    # Case B: dict of per-dimension classifiers
-    if isinstance(model, dict):
-        out: Dict[str, str] = {}
-        for dim in DIMENSIONS:
-            clf = model.get(dim)
-            if clf is None:
-                raise ValueError(f"Model dict missing key: {dim}")
-            pred = clf.predict(X)[0]
-            out[dim] = str(pred)
-        return out
 
-    # Case A: single (multi-output) estimator
-    preds = model.predict(X)
-    preds = np.array(preds)
-    if preds.ndim == 1:
-        # If model returns a single label, broadcast to every dimension as a fallback
-        label = str(preds[0])
-        return {d: label for d in DIMENSIONS}
-    row0 = preds[0]
-    if len(row0) != len(DIMENSIONS):
-        raise ValueError(
-            f"Model output has {len(row0)} labels, expected {len(DIMENSIONS)} "
-            f"in order {DIMENSIONS}"
-        )
-    return {d: str(row0[i]) for i, d in enumerate(DIMENSIONS)}
+def _majority_vote_profile(pred_df: pd.DataFrame) -> Dict[str, str]:
+    """Aggregate per-interaction predictions to a single student profile via majority vote."""
+    if pred_df.empty:
+        # Fallback to medium/moderate if no predictions
+        return {
+            "label_memory": "Medium",
+            "label_attention": "Medium",
+            "label_number_sense": "Medium",
+            "label_processing_speed": "Moderate",
+        }
+    
+    profile = {}
+    for col in pred_df.columns:
+        votes = pred_df[col].value_counts()
+        winner = votes.idxmax()
+        profile[col] = str(winner)
+    return profile
 
 
 def predict_profile(
     student_id: str,
-    features: CognitiveFeatures,
+    events: List[Any],  # List[InteractionEvent]
     session_id: str | None = None,
 ) -> CognitiveProfile:
-    row = features_to_row(features)
-    model = _holder.get()
-    if model is None:
+    """
+    Predict a student's cognitive profile from interaction events.
+    
+    Args:
+        student_id: Student identifier
+        events: List of InteractionEvent objects (per question)
+        session_id: Optional session identifier
+    
+    Returns:
+        CognitiveProfile with predicted levels and metadata
+    """
+    # Load model artifact
+    artifact = _holder.get()
+    
+    if artifact is None:
+        # Fallback: aggregate to features and use rule-based
+        from app.services.features import compute_features
+        features = compute_features(events)
         labels = _rule_based_profile(features)
         model_version = "rule-based-v1"
     else:
         try:
-            labels = _predict_with_model(model, row)
-            model_version = "decision-tree-v1"
-        except Exception:
+            # Convert events to DataFrame with raw feature columns
+            df = events_to_dataframe(events)
+            if df.empty:
+                # Fallback to rule-based if no valid events
+                from app.services.features import compute_features
+                features = compute_features(events)
+                labels = _rule_based_profile(features)
+                model_version = "rule-based-v1"
+            else:
+                # Predict per interaction, then majority vote
+                pred_df = _predict_per_interaction(artifact, df)
+                vote_profile = _majority_vote_profile(pred_df)
+                # Map from label_* to dimension names
+                labels = {
+                    "memory_level": vote_profile.get("label_memory", "Medium"),
+                    "attention_level": vote_profile.get("label_attention", "Medium"),
+                    "number_sense_level": vote_profile.get("label_number_sense", "Medium"),
+                    "processing_speed_level": vote_profile.get("label_processing_speed", "Moderate"),
+                }
+                model_version = "decision-tree-colab-v1"
+        except Exception as e:
+            # Any model error falls back to rule-based
+            from app.services.features import compute_features
+            features = compute_features(events)
             labels = _rule_based_profile(features)
             model_version = "rule-based-v1"
 
@@ -150,12 +188,17 @@ def predict_profile(
                 labels[k] = "medium"
 
     # Compute confidence score (simple heuristic: based on number of events)
-    q = features.total_questions
-    confidence = min(1.0, q / 10.0) * 0.7 + features.accuracy * 0.3
+    q = len(events)
+    accuracy = sum(1 for e in events if getattr(e, 'is_correct', False)) / max(q, 1)
+    confidence = min(1.0, q / 10.0) * 0.7 + accuracy * 0.3
 
     # Generate recommendation
     from app.services.recommendation import generate_recommendation
     recommendation = generate_recommendation(labels)
+
+    # Build CognitiveFeatures for the response (aggregated stats)
+    from app.services.features import compute_features
+    agg_features = compute_features(events)
 
     return CognitiveProfile(
         student_id=student_id,
@@ -167,16 +210,25 @@ def predict_profile(
         confidence_score=round(confidence, 2),
         recommendation=recommendation,
         model_version=model_version,
-        features=features,
+        features=agg_features,
     )
 
 
 def model_status() -> dict:
-    model = _holder.get()
+    """Return model loading status and metadata."""
+    artifact = _holder.get()
     settings = get_settings()
+    if artifact is None:
+        return {
+            "model_loaded": False,
+            "model_path": settings.model_path,
+            "error": "Model file not found or failed to load",
+        }
     return {
-        "model_loaded": model is not None,
+        "model_loaded": True,
         "model_path": settings.model_path,
-        "feature_order": FEATURE_ORDER,
+        "feature_cols": artifact.get("feature_cols"),
+        "target_cols": artifact.get("target_cols"),
+        "label_classes": artifact.get("label_classes"),
         "dimensions": DIMENSIONS,
     }

@@ -26,6 +26,7 @@ export const colors = {
   teal: '#2DD4BF',
   yellow: '#FBBF24',
   warmYellow: '#FFD93D',       // warm button/accent yellow
+  warmYellowSoft: '#FFF5D6',   // soft warm yellow background
   mint: '#A8E6CF',
 
   // Semantic

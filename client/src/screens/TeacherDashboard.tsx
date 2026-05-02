@@ -14,6 +14,7 @@ import Card from '../components/Card';
 import PrimaryButton from '../components/PrimaryButton';
 import LanguageToggle from '../components/LanguageToggle';
 import { useLanguage } from '../i18n/LanguageContext';
+import { useAuth } from '../context/AuthContext';
 import { colors, radius, spacing, typography } from '../theme';
 import { api, type StudentSummary } from '../api/client';
 
@@ -45,6 +46,7 @@ const weakestArea = (p: StudentSummary['latest_profile'], labels: { memory: stri
 
 export default function TeacherDashboard({ route, navigation }: Props) {
   const { t } = useLanguage();
+  const { logout } = useAuth();
   const { teacherId } = route.params;
   const [students, setStudents] = useState<StudentSummary[]>([]);
   const [loading, setLoading] = useState(true);
@@ -168,9 +170,12 @@ export default function TeacherDashboard({ route, navigation }: Props) {
       ))}
 
       <PrimaryButton
-        title={t.teacherDash.backToLogin}
+        title="Logout"
         variant="ghost"
-        onPress={() => navigation.popToTop()}
+        onPress={async () => {
+          await logout();
+          navigation.replace('Login');
+        }}
       />
     </ScrollView>
   );

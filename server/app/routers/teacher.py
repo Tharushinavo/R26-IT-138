@@ -1,20 +1,25 @@
 """Teacher dashboard endpoints (plan Section 7.2).
 GET /teacher/students/{student_id}/summary
+Protected: requires JWT authentication and teacher/admin role.
 """
 from __future__ import annotations
 
 from typing import List
 
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 
 from app.schemas import StudentSummary, CognitiveProfile
 from app.services import supabase_client
+from app.routers.auth import get_current_teacher
 
 router = APIRouter(prefix="/teacher", tags=["teacher"])
 
 
 @router.get("/students/{student_id}/summary", response_model=StudentSummary)
-def get_student_summary(student_id: str) -> StudentSummary:
+def get_student_summary(
+    student_id: str,
+    current_user: dict = Depends(get_current_teacher)
+) -> StudentSummary:
     """Return student interaction summary and latest cognitive profile."""
     # Get latest profile
     latest_profile_data = supabase_client.fetch_latest_profile(student_id)
@@ -43,9 +48,10 @@ def get_student_summary(student_id: str) -> StudentSummary:
 
 
 @router.get("/students", response_model=List[StudentSummary])
-def list_students() -> List[StudentSummary]:
+def list_students(current_user: dict = Depends(get_current_teacher)) -> List[StudentSummary]:
     """Return a list of all students with their latest profiles.
     Falls back to an empty list if Supabase is not configured.
+    Requires teacher or admin role.
     """
     students = supabase_client.fetch_all_students()
     if not students:

@@ -1,6 +1,7 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   Alert,
+  Animated,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -10,23 +11,18 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../App';
 import PrimaryButton from '../components/PrimaryButton';
 import Card from '../components/Card';
+import AnimalMascot from '../components/AnimalMascot';
+import CelebrationOverlay from '../components/CelebrationOverlay';
 import { useLanguage } from '../i18n/LanguageContext';
 import { colors, radius, spacing, typography } from '../theme';
-import { api, type InteractionEvent, type Question } from '../api/client';
+import { api, type InteractionEvent } from '../api/client';
+import { pickQuestions, type BankQuestion } from '../data/questionBank';
+import { playSound, unloadAllSounds } from '../utils/sounds';
+import { animalForTopic, randomCelebrationAnimal, type AnimalId } from '../assets/animalImages';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'MathActivity'>;
 
 const TOTAL_QUESTIONS = 10;
-
-const TOPIC_EMOJI: Record<string, string> = {
-  'Counting': '🔢',
-  'Number Recognition': '🔍',
-  'Number Comparison': '⚖️',
-  'Addition': '➕',
-  'Subtraction': '➖',
-  'Multiplication': '✖️',
-  'Division': '➗',
-};
 
 const DIFFICULTY_DOTS: Record<string, number> = {
   'Easy': 1,
@@ -35,14 +31,14 @@ const DIFFICULTY_DOTS: Record<string, number> = {
 };
 
 export default function MathActivityScreen({ route, navigation }: Props) {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const { studentId } = route.params;
   const sessionId = useMemo(
     () => `ses_${Date.now()}_${Math.floor(Math.random() * 10000)}`,
     [],
   );
 
-  const [questions, setQuestions] = useState<Question[]>([]);
+  const [bankQuestions, setBankQuestions] = useState<BankQuestion[]>([]);
   const [index, setIndex] = useState(0);
   const [selected, setSelected] = useState<string | null>(null);
   const [attempts, setAttempts] = useState(0);
@@ -53,28 +49,63 @@ export default function MathActivityScreen({ route, navigation }: Props) {
   const [events, setEvents] = useState<InteractionEvent[]>([]);
   const [feedback, setFeedback] = useState<'correct' | 'wrong' | null>(null);
   const [loadingQuestions, setLoadingQuestions] = useState(true);
+  const [showCelebration, setShowCelebration] = useState(false);
+  const [celebrationAnimal, setCelebrationAnimal] = useState<AnimalId>(5);
 
   const questionStartRef = useRef<number>(Date.now());
   const sessionStartRef = useRef<number>(Date.now());
   const lastActionRef = useRef<number>(Date.now());
 
-  // Load questions from backend (falls back to seed data)
+  // Animated values for question entrance
+  const slideAnim = useRef(new Animated.Value(0)).current;
+  const scaleAnim = useRef(new Animated.Value(1)).current;
+
+  // Load questions: try backend first, fall back to local question bank
   useEffect(() => {
     (async () => {
       try {
         const q = await api.getQuestions();
-        // Shuffle and pick TOTAL_QUESTIONS
-        const shuffled = q.sort(() => Math.random() - 0.5).slice(0, TOTAL_QUESTIONS);
-        setQuestions(shuffled);
+        if (q && q.length >= TOTAL_QUESTIONS) {
+          const shuffled = q.sort(() => Math.random() - 0.5).slice(0, TOTAL_QUESTIONS);
+          // Map API questions to BankQuestion shape
+          const mapped: BankQuestion[] = shuffled.map((apiQ) => {
+            const topic = (apiQ.topic as BankQuestion['topic']) || 'Addition';
+            return {
+              id: apiQ.id,
+              set: 1 as const,
+              topic,
+              difficulty: apiQ.difficulty,
+              question_text: apiQ.question_text,
+              question_text_si: apiQ.question_text,
+              correct_answer: apiQ.correct_answer,
+              options: apiQ.options ?? [apiQ.correct_answer],
+              mascot: animalForTopic(topic),
+            };
+          });
+          setBankQuestions(mapped);
+        } else {
+          throw new Error('Not enough questions');
+        }
       } catch {
-        // Fallback: generate simple questions locally
-        setQuestions(generateFallbackQuestions(TOTAL_QUESTIONS));
+        // Use local 60-question bank with randomization
+        setBankQuestions(pickQuestions(TOTAL_QUESTIONS));
       }
       setLoadingQuestions(false);
     })();
+    return () => { unloadAllSounds(); };
   }, []);
 
-  const current = questions[index];
+  const current = bankQuestions[index];
+
+  // Animate question entrance
+  const animateEntrance = useCallback(() => {
+    slideAnim.setValue(60);
+    scaleAnim.setValue(0.9);
+    Animated.parallel([
+      Animated.spring(slideAnim, { toValue: 0, friction: 6, tension: 80, useNativeDriver: true }),
+      Animated.spring(scaleAnim, { toValue: 1, friction: 5, tension: 100, useNativeDriver: true }),
+    ]).start();
+  }, [slideAnim, scaleAnim]);
 
   // Reset state when question changes
   useEffect(() => {
@@ -86,7 +117,10 @@ export default function MathActivityScreen({ route, navigation }: Props) {
     setHintUsed(false);
     setShowHint(false);
     setFeedback(null);
-  }, [index]);
+    setShowCelebration(false);
+    animateEntrance();
+    if (index > 0) playSound('nextQuestion');
+  }, [index, animateEntrance]);
 
   function trackAction() {
     lastActionRef.current = Date.now();
@@ -96,24 +130,26 @@ export default function MathActivityScreen({ route, navigation }: Props) {
   function handleSelect(option: string) {
     if (feedback) return;
     trackAction();
+    playSound('tap');
     setSelected(option);
   }
 
   function handleHint() {
     if (showHint) return;
     trackAction();
+    playSound('hint');
     setShowHint(true);
     setHintUsed(true);
   }
 
-  function classifyError(isCorrect: boolean, given: string, expected: string, q: Question): InteractionEvent['error_type'] {
+  function classifyError(isCorrect: boolean, given: string, expected: string, topic: string): InteractionEvent['error_type'] {
     if (isCorrect) return 'none';
     const givenNum = parseFloat(given);
     const expectedNum = parseFloat(expected);
     if (!isNaN(givenNum) && !isNaN(expectedNum)) {
       const diff = Math.abs(givenNum - expectedNum);
       if (diff <= 2) return 'careless';
-      if (q.topic === 'Number Comparison') return 'conceptual';
+      if (topic === 'Number Comparison') return 'conceptual';
       return 'calculation';
     }
     return 'unknown';
@@ -130,6 +166,7 @@ export default function MathActivityScreen({ route, navigation }: Props) {
     // Allow second attempt on wrong answer
     if (!isCorrect && nextAttempts < 2) {
       setFeedback('wrong');
+      playSound('wrong');
       setTimeout(() => {
         setFeedback(null);
         setSelected(null);
@@ -137,6 +174,13 @@ export default function MathActivityScreen({ route, navigation }: Props) {
       return;
     }
 
+    if (isCorrect) {
+      playSound('correct');
+      setCelebrationAnimal(randomCelebrationAnimal());
+      setShowCelebration(true);
+    } else {
+      playSound('wrong');
+    }
     setFeedback(isCorrect ? 'correct' : 'wrong');
 
     const now = Date.now();
@@ -146,7 +190,7 @@ export default function MathActivityScreen({ route, navigation }: Props) {
       ? (now - questionStartRef.current) / (clickCount * 1000)
       : responseTimeSec;
 
-    const errorType = classifyError(isCorrect, selected, current.correct_answer, current);
+    const errorType = classifyError(isCorrect, selected, current.correct_answer, current.topic);
 
     const event: InteractionEvent = {
       student_id: studentId,
@@ -169,13 +213,14 @@ export default function MathActivityScreen({ route, navigation }: Props) {
     const nextEvents = [...events, event];
     setEvents(nextEvents);
 
-    if (index + 1 < questions.length) {
-      setTimeout(() => setIndex(index + 1), 800);
+    if (index + 1 < bankQuestions.length) {
+      setTimeout(() => setIndex(index + 1), isCorrect ? 1400 : 800);
       return;
     }
 
     // Last question — send data and navigate to profile
     setSubmitting(true);
+    playSound('complete');
     try {
       await api.logInteractions(nextEvents).catch(() => undefined);
       await api.generateProfile({
@@ -183,7 +228,9 @@ export default function MathActivityScreen({ route, navigation }: Props) {
         session_id: sessionId,
         events: nextEvents,
       });
-      navigation.replace('ProfileResult', { studentId, sessionId });
+      setTimeout(() => {
+        navigation.replace('ProfileResult', { studentId, sessionId });
+      }, 1800);
     } catch (e: any) {
       Alert.alert(
         t.activity.couldNotReachServer,
@@ -197,7 +244,7 @@ export default function MathActivityScreen({ route, navigation }: Props) {
   if (loadingQuestions) {
     return (
       <View style={styles.center}>
-        <Text style={{ fontSize: 48 }}>📚</Text>
+        <AnimalMascot animal={5} size={120} />
         <Text style={styles.loadingText}>{t.activity.loadingQuestions}</Text>
       </View>
     );
@@ -205,11 +252,14 @@ export default function MathActivityScreen({ route, navigation }: Props) {
 
   if (!current) return null;
 
-  const progress = (index + 1) / questions.length;
-  const options = current.options ?? [current.correct_answer];
+  const progress = (index + 1) / bankQuestions.length;
+  const questionText = lang === 'si' ? current.question_text_si : current.question_text;
 
   return (
     <View style={styles.container}>
+      {/* Celebration overlay */}
+      <CelebrationOverlay visible={showCelebration} animal={celebrationAnimal} />
+
       {/* Timer display */}
       <TimerDisplay startTime={sessionStartRef.current} />
 
@@ -219,84 +269,104 @@ export default function MathActivityScreen({ route, navigation }: Props) {
           <View style={[styles.progressFill, { width: `${progress * 100}%` }]} />
         </View>
         <Text style={styles.progressLabel}>
-          {index + 1} / {questions.length}
+          {index + 1} / {bankQuestions.length}
         </Text>
       </View>
 
       {/* Feedback Banner */}
       {feedback && (
-        <View
+        <Animated.View
           style={[
             styles.feedbackBanner,
-            { backgroundColor: feedback === 'correct' ? colors.successBg : colors.dangerBg },
+            {
+              backgroundColor: feedback === 'correct' ? colors.successBg : colors.dangerBg,
+              borderColor: feedback === 'correct' ? colors.success : colors.danger,
+            },
           ]}
         >
           <Text style={styles.feedbackText}>
             {feedback === 'correct' ? t.activity.greatJob : t.activity.tryAgain}
           </Text>
-        </View>
+        </Animated.View>
       )}
 
-      {/* Question Card */}
-      <Card style={styles.questionCard}>
-        <View style={styles.qTypeRow}>
-          <Text style={styles.qTypeEmoji}>{TOPIC_EMOJI[current.topic] ?? '🤔'}</Text>
-          <Text style={styles.qType}>{current.topic}</Text>
-          <View style={styles.difficultyDots}>
-            {Array.from({ length: 3 }).map((_, i) => (
-              <View
-                key={i}
-                style={[
-                  styles.dot,
-                  {
-                    backgroundColor:
-                      i < (DIFFICULTY_DOTS[current.difficulty] ?? 1)
-                        ? colors.primary
-                        : colors.border,
-                  },
-                ]}
-              />
-            ))}
+      {/* Question Card — animated entrance */}
+      <Animated.View style={{ flex: 1, transform: [{ translateY: slideAnim }, { scale: scaleAnim }] }}>
+        <Card style={styles.questionCard}>
+          {/* Topic + Difficulty + Animal Mascot */}
+          <View style={styles.qHeader}>
+            <View style={styles.qTypeRow}>
+              <Text style={styles.qType}>{current.topic}</Text>
+              <View style={styles.difficultyDots}>
+                {Array.from({ length: 3 }).map((_, i) => (
+                  <View
+                    key={i}
+                    style={[
+                      styles.dot,
+                      {
+                        backgroundColor:
+                          i < (DIFFICULTY_DOTS[current.difficulty] ?? 1)
+                            ? colors.primary
+                            : colors.border,
+                      },
+                    ]}
+                  />
+                ))}
+              </View>
+            </View>
+            <AnimalMascot
+              animal={current.mascot}
+              size={72}
+              celebrating={feedback === 'correct'}
+            />
           </View>
-        </View>
 
-        <Text style={styles.prompt}>{current.question_text}</Text>
+          <Text style={styles.prompt}>{questionText}</Text>
 
-        <View style={styles.options}>
-          {options.map((opt, optIdx) => {
-            const isSelected = selected === opt;
-            const optionColors = [colors.primary, colors.purple, colors.teal, colors.orange];
-            const bgColor = optionColors[optIdx % optionColors.length];
-            return (
-              <TouchableOpacity
-                key={`${opt}-${optIdx}`}
-                activeOpacity={0.7}
-                onPress={() => handleSelect(opt)}
-                disabled={!!feedback}
-                style={[
-                  styles.option,
-                  isSelected && [styles.optionSelected, { borderColor: bgColor, backgroundColor: bgColor }],
-                ]}
-              >
-                <Text
+          <View style={styles.options}>
+            {current.options.map((opt, optIdx) => {
+              const isSelected = selected === opt;
+              const optionColors = [colors.coral, colors.green, colors.blue, colors.purple];
+              const bgColor = optionColors[optIdx % optionColors.length];
+              const optionLetters = ['A', 'B', 'C', 'D'];
+              return (
+                <TouchableOpacity
+                  key={`${opt}-${optIdx}`}
+                  activeOpacity={0.7}
+                  onPress={() => handleSelect(opt)}
+                  disabled={!!feedback}
                   style={[
-                    styles.optionText,
-                    isSelected && styles.optionTextSelected,
+                    styles.option,
+                    isSelected && [styles.optionSelected, { borderColor: bgColor, backgroundColor: bgColor }],
                   ]}
                 >
-                  {opt}
-                </Text>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
-
-        {showHint && (
-          <View style={styles.hintBox}>
-            <Text style={styles.hintText}>💡 {hintFor(current)}</Text>
+                  <View style={styles.optionInner}>
+                    <View style={[styles.optionBadge, { backgroundColor: isSelected ? 'rgba(255,255,255,0.3)' : bgColor + '30' }]}>
+                      <Text style={[styles.optionBadgeText, { color: isSelected ? '#FFF' : bgColor }]}>
+                        {optionLetters[optIdx]}
+                      </Text>
+                    </View>
+                    <Text
+                      style={[
+                        styles.optionText,
+                        isSelected && styles.optionTextSelected,
+                      ]}
+                    >
+                      {opt}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              );
+            })}
           </View>
-        )}
-      </Card>
+
+          {showHint && (
+            <View style={styles.hintBox}>
+              <Text style={styles.hintText}>💡 {hintFor(current.topic)}</Text>
+            </View>
+          )}
+        </Card>
+      </Animated.View>
 
       {/* Attempt counter */}
       <View style={styles.metaRow}>
@@ -314,7 +384,7 @@ export default function MathActivityScreen({ route, navigation }: Props) {
           style={{ flex: 1 }}
         />
         <PrimaryButton
-          title={index + 1 === questions.length ? `${t.common.finish} 🎉` : t.common.submit}
+          title={index + 1 === bankQuestions.length ? t.common.finish : t.common.submit}
           onPress={handleSubmit}
           disabled={selected === null || !!feedback}
           loading={submitting}
@@ -362,41 +432,18 @@ const timerStyles = StyleSheet.create({
   },
 });
 
-function hintFor(q: Question): string {
-  const t = q.topic.toLowerCase();
+function hintFor(topic: string): string {
+  const t = topic.toLowerCase();
   if (t.includes('addition')) return 'Try counting up from the bigger number.';
   if (t.includes('subtraction')) return 'Think: what do I add to the small number to get the big one?';
-  if (t.includes('multiplication')) return 'Break it into smaller groups you already know.';
+  if (t.includes('division')) return 'Try splitting into equal groups.';
   if (t.includes('comparison')) return 'Compare the first digits first.';
   if (t.includes('counting')) return 'Count carefully, one by one.';
-  if (t.includes('recognition')) return 'Look at the shape of each number carefully.';
   return 'Take a breath and read the question again.';
 }
 
-function generateFallbackQuestions(count: number): Question[] {
-  const questions: Question[] = [];
-  for (let i = 0; i < count; i++) {
-    const a = Math.floor(Math.random() * 15) + 1;
-    const b = Math.floor(Math.random() * 15) + 1;
-    const answer = a + b;
-    const opts = new Set<string>([String(answer)]);
-    while (opts.size < 4) {
-      opts.add(String(answer + Math.floor(Math.random() * 7) - 3));
-    }
-    questions.push({
-      id: `fallback_${i}`,
-      topic: 'Addition',
-      difficulty: answer > 20 ? 'Medium' : 'Easy',
-      question_text: `${a} + ${b} = ?`,
-      correct_answer: String(answer),
-      options: Array.from(opts).sort(() => Math.random() - 0.5),
-    });
-  }
-  return questions;
-}
-
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: spacing.lg, gap: spacing.sm },
+  container: { flex: 1, padding: spacing.lg, paddingTop: spacing.md, gap: spacing.sm },
   center: {
     flex: 1,
     alignItems: 'center',
@@ -405,7 +452,8 @@ const styles = StyleSheet.create({
   },
   loadingText: {
     ...typography.subtitle,
-    color: colors.textMuted,
+    color: colors.textWarm,
+    marginTop: spacing.md,
   },
   progressWrap: {
     flexDirection: 'row',
@@ -414,14 +462,16 @@ const styles = StyleSheet.create({
   },
   progressBar: {
     flex: 1,
-    height: 12,
+    height: 14,
     backgroundColor: colors.skyBlueSoft,
     borderRadius: radius.pill,
     overflow: 'hidden',
+    borderWidth: 1.5,
+    borderColor: colors.border,
   },
   progressFill: {
     height: '100%',
-    backgroundColor: colors.primary,
+    backgroundColor: colors.warmYellow,
     borderRadius: radius.pill,
   },
   progressLabel: {
@@ -431,20 +481,27 @@ const styles = StyleSheet.create({
   feedbackBanner: {
     paddingVertical: spacing.sm,
     paddingHorizontal: spacing.md,
-    borderRadius: radius.md,
+    borderRadius: radius.lg,
     alignItems: 'center',
+    borderWidth: 2,
   },
   feedbackText: {
     ...typography.subtitle,
     color: colors.text,
+    fontSize: 16,
   },
-  questionCard: { gap: spacing.md, flex: 1 },
+  questionCard: { gap: spacing.sm, flex: 1 },
+  qHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
   qTypeRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: spacing.sm,
+    flex: 1,
   },
-  qTypeEmoji: { fontSize: 20 },
   qType: {
     ...typography.caption,
     color: colors.primaryDark,
@@ -462,11 +519,12 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   prompt: {
-    fontSize: 32,
+    fontSize: 28,
     fontWeight: '800',
     color: colors.textWarm,
     textAlign: 'center',
-    paddingVertical: spacing.md,
+    paddingVertical: spacing.sm,
+    lineHeight: 38,
   },
   options: {
     flexDirection: 'row',
@@ -476,9 +534,10 @@ const styles = StyleSheet.create({
   },
   option: {
     minWidth: '44%',
-    paddingVertical: spacing.lg,
+    paddingVertical: spacing.md,
+    paddingHorizontal: spacing.sm,
     borderRadius: radius.xl,
-    backgroundColor: colors.skyBlueSoft,
+    backgroundColor: colors.surfaceSoft,
     borderWidth: 2.5,
     borderColor: colors.border,
     alignItems: 'center',
@@ -486,8 +545,24 @@ const styles = StyleSheet.create({
   optionSelected: {
     borderWidth: 2.5,
   },
+  optionInner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+  },
+  optionBadge: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  optionBadgeText: {
+    fontSize: 14,
+    fontWeight: '800',
+  },
   optionText: {
-    fontSize: 24,
+    fontSize: 22,
     fontWeight: '800',
     color: colors.textWarm,
   },
@@ -496,7 +571,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.warningBg,
     padding: spacing.md,
     borderRadius: radius.md,
-    borderWidth: 1,
+    borderWidth: 1.5,
     borderColor: '#F4E2A1',
   },
   hintText: { ...typography.body, color: '#8A6A12' },

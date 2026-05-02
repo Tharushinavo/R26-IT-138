@@ -1,4 +1,10 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const API_URL = process.env.EXPO_PUBLIC_API_BASE ?? 'http://localhost:8000';
+
+// ── Storage Keys ──
+const TOKEN_KEY = 'mm.authToken';
+const USER_KEY = 'mm.authUser';
 
 // ── Types matching backend schemas ──
 
@@ -67,15 +73,88 @@ export interface StudentSummary {
   last_activity_date?: string;
 }
 
+// ── Auth Types ──
+
+export type UserRole = 'student' | 'teacher' | 'parent' | 'admin';
+
+export interface User {
+  id: string;
+  email?: string;
+  full_name?: string;
+  role: UserRole;
+  grade?: string;
+  created_at?: string;
+}
+
+export interface AuthResponse {
+  message: string;
+  user: User;
+  access_token: string;
+  token_type: 'bearer';
+}
+
+export interface LoginRequest {
+  email: string;
+  password: string;
+}
+
+export interface RegisterRequest {
+  email: string;
+  password: string;
+  full_name: string;
+  role: UserRole;
+}
+
+// ── Token Storage ──
+
+export async function getStoredToken(): Promise<string | null> {
+  return AsyncStorage.getItem(TOKEN_KEY);
+}
+
+export async function setStoredToken(token: string): Promise<void> {
+  await AsyncStorage.setItem(TOKEN_KEY, token);
+}
+
+export async function removeStoredToken(): Promise<void> {
+  await AsyncStorage.removeItem(TOKEN_KEY);
+}
+
+export async function getStoredUser(): Promise<User | null> {
+  const json = await AsyncStorage.getItem(USER_KEY);
+  return json ? JSON.parse(json) : null;
+}
+
+export async function setStoredUser(user: User): Promise<void> {
+  await AsyncStorage.setItem(USER_KEY, JSON.stringify(user));
+}
+
+export async function removeStoredUser(): Promise<void> {
+  await AsyncStorage.removeItem(USER_KEY);
+}
+
+export async function clearAuth(): Promise<void> {
+  await AsyncStorage.multiRemove([TOKEN_KEY, USER_KEY]);
+}
+
 // ── HTTP helper ──
 
-async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
+async function request<T>(path: string, init: RequestInit = {}, auth: boolean = false): Promise<T> {
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+    ...(init.headers as Record<string, string> || {}),
+  };
+  
+  // Attach auth token if required or available
+  if (auth) {
+    const token = await getStoredToken();
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+  }
+  
   const res = await fetch(`${API_URL}${path}`, {
     ...init,
-    headers: {
-      'Content-Type': 'application/json',
-      ...(init.headers || {}),
-    },
+    headers,
   });
   const text = await res.text();
   const data = text ? JSON.parse(text) : null;
@@ -160,15 +239,57 @@ export const api = {
     );
   },
 
-  // Teacher
+  // ── Auth ──
+  
+  async login(credentials: LoginRequest): Promise<AuthResponse> {
+    const res = await request<AuthResponse>('/auth/login', {
+      method: 'POST',
+      body: JSON.stringify(credentials),
+    });
+    // Store token and user
+    await setStoredToken(res.access_token);
+    await setStoredUser(res.user);
+    return res;
+  },
+
+  async register(data: RegisterRequest): Promise<AuthResponse> {
+    const res = await request<AuthResponse>('/auth/register', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+    // Store token and user
+    await setStoredToken(res.access_token);
+    await setStoredUser(res.user);
+    return res;
+  },
+
+  async getCurrentUser(): Promise<User> {
+    return request<User>('/auth/me', {}, true);
+  },
+
+  async refreshToken(): Promise<{ access_token: string; token_type: 'bearer' }> {
+    const res = await request<{ access_token: string; token_type: 'bearer' }>('/auth/refresh', {
+      method: 'POST',
+    }, true);
+    await setStoredToken(res.access_token);
+    return res;
+  },
+
+  async logout(): Promise<void> {
+    await clearAuth();
+  },
+
+  // Teacher (requires auth)
   getStudentSummary(studentId: string) {
     return request<StudentSummary>(
       `/teacher/students/${encodeURIComponent(studentId)}/summary`,
+      {},
+      true
     );
   },
 
   getStudentsList() {
-    return request<StudentSummary[]>('/teacher/students');
+    return request<StudentSummary[]>('/teacher/students', {}, true);
   },
 
   // Health

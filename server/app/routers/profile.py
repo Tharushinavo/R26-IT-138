@@ -11,7 +11,6 @@ from app.schemas import (
     ProfileRequest,
 )
 from app.services import supabase_client
-from app.services.features import compute_features
 from app.services.model import model_status, predict_profile
 
 router = APIRouter(prefix="/profiles", tags=["profiles"])
@@ -29,9 +28,8 @@ def generate_profile(body: ProfileRequest) -> CognitiveProfile:
     if not body.events:
         raise HTTPException(status_code=400, detail="No events provided")
 
-    features = compute_features(body.events)
     profile = predict_profile(
-        student_id=body.student_id, features=features, session_id=body.session_id
+        student_id=body.student_id, events=body.events, session_id=body.session_id
     )
 
     supabase_client.insert_profile(profile.model_dump(mode="json"))
@@ -70,9 +68,8 @@ def predict_from_single(body: PredictRequest) -> CognitiveProfile:
             pass
 
     all_events = stored_events + [current_event]
-    features = compute_features(all_events)
     profile = predict_profile(
-        student_id=body.student_id, features=features
+        student_id=body.student_id, events=all_events
     )
 
     supabase_client.insert_profile(profile.model_dump(mode="json"))
@@ -93,8 +90,7 @@ def get_latest(student_id: str, session_id: Optional[str] = Query(default=None))
             detail="No stored profile or interactions found for this student",
         )
     events = [InteractionEvent(**row) for row in rows]
-    features = compute_features(events)
-    profile = predict_profile(student_id=student_id, features=features, session_id=session_id)
+    profile = predict_profile(student_id=student_id, events=events, session_id=session_id)
     supabase_client.insert_profile(profile.model_dump(mode="json"))
     return profile
 

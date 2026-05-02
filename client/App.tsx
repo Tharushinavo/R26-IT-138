@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { LanguageProvider, useLanguage } from './src/i18n/LanguageContext';
+import { AuthProvider } from './src/context/AuthContext';
 import LogoScreen from './src/screens/LogoScreen';
 import SplashScreen from './src/screens/SplashScreen';
 import LanguageSelectScreen from './src/screens/LanguageSelectScreen';
@@ -68,7 +69,9 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <LanguageProvider>
-        <AppNavigator />
+        <AuthProvider>
+          <AppNavigator />
+        </AuthProvider>
       </LanguageProvider>
     </SafeAreaProvider>
   );
