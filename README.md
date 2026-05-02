@@ -30,31 +30,6 @@ to support children with dyscalculia.
 4. Backend extracts aggregated features and feeds them into a pre-trained Decision Tree model (`.pkl`) to predict 4 cognitive dimension labels.
 5. The resulting cognitive profile is stored in Supabase and displayed to the student/teacher.
 
----
-
-## App screens (11 total)
-
-| # | Screen | Purpose |
-|---|--------|---------|
-| 1 | **LogoScreen** | Animated branding — bouncing lion mascot, floating numbers |
-| 2 | **SplashScreen** | Cognitive profiling intro — sheep mascot, feature cards |
-| 3 | **LanguageSelectScreen** | Choose English or Sinhala (giraffe mascot) |
-| 4 | **LoginScreen** | Email / password / role login |
-| 5 | **SignUpScreen** | Full registration form |
-| 6 | **WelcomeScreen** | Quick intro before dashboard |
-| 7 | **StudentDashboard** | Latest profile summary, start activity, view history |
-| 8 | **MathActivityScreen** | Questions + timer + attempts + hints + interaction tracking |
-| 9 | **ProfileResultScreen** | 4-dimension cognitive profile + explanations + recommendations |
-| 10 | **ProfileHistoryScreen** | Past profiles over time (table view) |
-| 11 | **TeacherDashboard** | Student list, latest profiles, weakest areas |
-
-**Navigation flow:**
-Logo → Splash → LanguageSelect → Login / SignUp → StudentDashboard / TeacherDashboard → MathActivity → ProfileResult → ProfileHistory
-
-**UI theme:** Cartoon kid-friendly — warm cream (#FFF8E7), yellow accents (#FFD93D), animal mascots (🦁🐸🐑🦒🐵), rounded bubbly cards, bilingual (EN + SI).
-
----
-
 ## Project structure
 
 ```
