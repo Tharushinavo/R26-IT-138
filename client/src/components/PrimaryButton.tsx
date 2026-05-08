@@ -14,7 +14,7 @@ interface Props {
   onPress?: () => void | Promise<void>;
   disabled?: boolean;
   loading?: boolean;
-  variant?: 'primary' | 'ghost';
+  variant?: 'primary' | 'ghost' | 'coral';
   style?: ViewStyle;
 }
 
@@ -27,7 +27,12 @@ export default function PrimaryButton({
   style,
 }: Props) {
   const isGhost = variant === 'ghost';
+  const isCoral = variant === 'coral';
   const isDisabled = disabled || loading;
+  
+  const buttonStyle = isGhost ? styles.ghost : isCoral ? styles.coral : styles.primary;
+  const textStyle = isGhost ? styles.textGhost : isCoral ? styles.textCoral : styles.textPrimary;
+  
   return (
     <TouchableOpacity
       activeOpacity={0.75}
@@ -35,16 +40,16 @@ export default function PrimaryButton({
       disabled={isDisabled}
       style={[
         styles.base,
-        isGhost ? styles.ghost : styles.primary,
+        buttonStyle,
         isDisabled && styles.disabled,
         style,
       ]}
     >
       {loading ? (
-        <ActivityIndicator color={isGhost ? colors.primary : colors.textInverse} />
+        <ActivityIndicator color={isGhost || isCoral ? colors.primary : colors.textInverse} />
       ) : (
         <View style={styles.inner}>
-          <Text style={[styles.text, isGhost ? styles.textGhost : styles.textPrimary]}>
+          <Text style={[styles.text, textStyle]}>
             {title}
           </Text>
         </View>
@@ -82,8 +87,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     elevation: 2,
   },
+  coral: {
+    backgroundColor: colors.coral,
+    shadowColor: 'rgba(224, 110, 82, 0.4)',
+  },
   disabled: { opacity: 0.5 },
   text: { ...typography.subtitle, letterSpacing: 0.3 },
   textPrimary: { color: colors.textWarm },
   textGhost: { color: colors.textWarm },
+  textCoral: { color: colors.textInverse },
 });

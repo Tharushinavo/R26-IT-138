@@ -1,14 +1,17 @@
 import React, { useEffect, useRef } from 'react';
-import { Animated, StyleSheet, View, Text } from 'react-native';
+import { Animated, StyleSheet, View, Text, Image } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../App';
 import { useLanguage } from '../i18n/LanguageContext';
 import { colors, typography, spacing } from '../theme';
+import { ANIMAL_IMAGES } from '../assets/animalImages';
+import { getStoredToken, getStoredUser } from '../api/client';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Logo'>;
 
 export default function LogoScreen({ navigation }: Props) {
   const { t } = useLanguage();
+  const navigatedRef = useRef(false);
   const scaleAnim = useRef(new Animated.Value(0.3)).current;
   const opacityAnim = useRef(new Animated.Value(0)).current;
   const taglineOpacity = useRef(new Animated.Value(0)).current;
@@ -66,12 +69,31 @@ export default function LogoScreen({ navigation }: Props) {
     floatLoop(num3Float, 600);
     floatLoop(num4Float, 900);
 
-    const timer = setTimeout(() => {
-      navigation.replace('Splash');
+    // After splash delay, check stored auth and route accordingly
+    const timer = setTimeout(async () => {
+      if (navigatedRef.current) return;
+      navigatedRef.current = true;
+
+      try {
+        const token = await getStoredToken();
+        const storedUser = await getStoredUser();
+
+        if (token && storedUser) {
+          if (storedUser.role === 'teacher' || storedUser.role === 'admin') {
+            navigation.replace('TeacherDashboard', { teacherId: storedUser.id });
+          } else {
+            navigation.replace('StudentDashboard', { studentId: storedUser.id, role: storedUser.role });
+          }
+        } else {
+          navigation.replace('Splash');
+        }
+      } catch {
+        navigation.replace('Splash');
+      }
     }, 3000);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [navigation]);
 
   return (
     <View style={styles.container}>
@@ -114,7 +136,7 @@ export default function LogoScreen({ navigation }: Props) {
         ]}
       >
         <View style={styles.mascotCircle}>
-          <Text style={styles.mascotEmoji}>🦁</Text>
+          <Image source={ANIMAL_IMAGES[5]} style={styles.mascotImage} resizeMode="contain" />
         </View>
       </Animated.View>
 
@@ -130,16 +152,16 @@ export default function LogoScreen({ navigation }: Props) {
       <View style={styles.bottomBar}>
         <View style={styles.animalRow}>
           <View style={[styles.animalPill, { backgroundColor: '#FFE0D0' }]}>
-            <Text style={{ fontSize: 22 }}>🐸</Text>
+            <Image source={ANIMAL_IMAGES[1]} style={styles.animalPillImage} resizeMode="contain" />
           </View>
           <View style={[styles.animalPill, { backgroundColor: '#D6F5E3' }]}>
-            <Text style={{ fontSize: 22 }}>🐑</Text>
+            <Image source={ANIMAL_IMAGES[15]} style={styles.animalPillImage} resizeMode="contain" />
           </View>
           <View style={[styles.animalPill, { backgroundColor: '#E0E8FF' }]}>
-            <Text style={{ fontSize: 22 }}>🐵</Text>
+            <Image source={ANIMAL_IMAGES[18]} style={styles.animalPillImage} resizeMode="contain" />
           </View>
           <View style={[styles.animalPill, { backgroundColor: '#FFF0D0' }]}>
-            <Text style={{ fontSize: 22 }}>🦒</Text>
+            <Image source={ANIMAL_IMAGES[12]} style={styles.animalPillImage} resizeMode="contain" />
           </View>
         </View>
         <Text style={styles.versionText}>Cognitive Skill Profiling System</Text>
@@ -230,7 +252,8 @@ const styles = StyleSheet.create({
     shadowRadius: 16,
     elevation: 8,
   },
-  mascotEmoji: { fontSize: 64 },
+  mascotImage: { width: 80, height: 80 },
+  animalPillImage: { width: 32, height: 32 },
   appName: {
     fontSize: 42,
     fontWeight: '900',

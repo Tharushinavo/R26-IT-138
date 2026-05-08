@@ -1,188 +1,271 @@
-import React, { useState } from 'react';
+/**
+ * LoginScreen - Welcome back! Kid-friendly animated login with
+ * cartoon animal mascot (Panda waving). Distinct from SignUp.
+ */
+import React, { useEffect, useRef, useState } from 'react';
 import {
+  Animated,
+  Image,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
-  View,
-  ScrollView,
-  KeyboardAvoidingView,
-  Platform,
   TouchableOpacity,
+  View,
 } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../App';
-import PrimaryButton from '../components/PrimaryButton';
 import Card from '../components/Card';
+import PrimaryButton from '../components/PrimaryButton';
+import { ANIMAL_IMAGES } from '../assets/animalImages';
+import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../i18n/LanguageContext';
 import { colors, radius, spacing, typography } from '../theme';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
-const STUDENT_KEY = 'mm.studentId';
-const NAME_KEY = 'mm.name';
-const ROLE_KEY = 'mm.role';
-
 export default function LoginScreen({ navigation }: Props) {
   const { t } = useLanguage();
-  const [name, setName] = useState('');
+  const { login } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState<'student' | 'teacher'>('student');
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const isValid = name.trim().length > 0 && email.trim().length > 0 && password.length >= 4;
+  // Animations
+  const mascotBounce = useRef(new Animated.Value(0)).current;
+  const mascotRotate = useRef(new Animated.Value(0)).current;
+  const cardSlide = useRef(new Animated.Value(50)).current;
+  const cardOpacity = useRef(new Animated.Value(0)).current;
+  const float1 = useRef(new Animated.Value(0)).current;
+  const float2 = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    // Mascot wave animation
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(mascotBounce, { toValue: -10, duration: 600, useNativeDriver: true }),
+        Animated.timing(mascotBounce, { toValue: 0, duration: 600, useNativeDriver: true }),
+      ])
+    ).start();
+
+    // Gentle rotation
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(mascotRotate, { toValue: 1, duration: 2000, useNativeDriver: true }),
+        Animated.timing(mascotRotate, { toValue: -1, duration: 2000, useNativeDriver: true }),
+      ])
+    ).start();
+
+    // Card entrance
+    Animated.parallel([
+      Animated.timing(cardSlide, { toValue: 0, duration: 600, useNativeDriver: true }),
+      Animated.timing(cardOpacity, { toValue: 1, duration: 600, useNativeDriver: true }),
+    ]).start();
+
+    // Background floating elements
+    const floatAnim = (anim: Animated.Value, delay: number) => {
+      setTimeout(() => {
+        Animated.loop(
+          Animated.sequence([
+            Animated.timing(anim, { toValue: -15, duration: 2000, useNativeDriver: true }),
+            Animated.timing(anim, { toValue: 15, duration: 2000, useNativeDriver: true }),
+          ])
+        ).start();
+      }, delay);
+    };
+    floatAnim(float1, 0);
+    floatAnim(float2, 1000);
+  }, []);
+
+  const rotate = mascotRotate.interpolate({
+    inputRange: [-1, 0, 1],
+    outputRange: ['-5deg', '0deg', '5deg'],
+  });
+
+  const isValid = email.trim().length > 0 && password.length >= 4;
 
   async function handleSignIn() {
     if (!isValid) return;
     setLoading(true);
+    setError(null);
 
-    const studentId = `S_${Date.now()}_${Math.floor(Math.random() * 10000)}`;
-    await AsyncStorage.setItem(STUDENT_KEY, studentId);
-    await AsyncStorage.setItem(NAME_KEY, name.trim());
-    await AsyncStorage.setItem(ROLE_KEY, role);
-
-    setLoading(false);
-
-    if (role === 'teacher') {
-      navigation.replace('TeacherDashboard', { teacherId: studentId });
-    } else {
-      navigation.replace('StudentDashboard', { studentId, role });
+    try {
+      const user = await login({ email: email.trim(), password });
+      // Navigate based on role
+      if (user.role === 'teacher' || user.role === 'admin') {
+        navigation.replace('TeacherDashboard', { teacherId: user.id });
+      } else {
+        navigation.replace('StudentDashboard', { studentId: user.id, role: user.role });
+      }
+    } catch (e: any) {
+      setError(e?.message || 'Login failed. Please check your credentials.');
+      setLoading(false);
     }
   }
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      style={styles.flex}
-    >
-      <ScrollView
-        contentContainerStyle={styles.container}
-        keyboardShouldPersistTaps="handled"
-      >
-        {/* Header */}
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={styles.flex}>
+      <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
+        {/* Decorative floating shapes */}
+        <Animated.View style={[styles.floatShape, styles.float1, { transform: [{ translateY: float1 }] }]}>
+          <Text style={styles.shapeText}>+</Text>
+        </Animated.View>
+        <Animated.View style={[styles.floatShape, styles.float2, { transform: [{ translateY: float2 }] }]}>
+          <Text style={styles.shapeText}>×</Text>
+        </Animated.View>
+
+        {/* Header with waving mascot - Welcome Back theme */}
         <View style={styles.hero}>
-          <View style={styles.iconCircle}>
-            <Text style={{ fontSize: 36 }}>👋</Text>
-          </View>
+          <Animated.View
+            style={[
+              styles.mascotWrap,
+              { transform: [{ translateY: mascotBounce }, { rotate }] },
+            ]}
+          >
+            <View style={styles.mascotCircle}>
+              <Image source={ANIMAL_IMAGES[18]} style={styles.mascot} resizeMode="contain" />
+            </View>
+            <View style={styles.waveBadge}>
+              <Text style={styles.waveText}>👋</Text>
+            </View>
+          </Animated.View>
+
           <Text style={styles.title}>{t.login.greeting}</Text>
           <Text style={styles.subtitle}>{t.login.subtitle}</Text>
         </View>
 
-        <Card style={styles.card}>
-          {/* Name */}
-          <Text style={styles.label}>{t.login.yourName}</Text>
-          <TextInput
-            value={name}
-            onChangeText={setName}
-            placeholder={t.login.namePlaceholder}
-            placeholderTextColor={colors.textMuted}
-            style={styles.input}
-            autoCapitalize="words"
-          />
+        <Animated.View
+          style={[
+            styles.cardWrap,
+            { transform: [{ translateY: cardSlide }], opacity: cardOpacity },
+          ]}
+        >
+          <Card style={styles.card}>
+            {error && (
+              <View style={styles.errorBox}>
+                <Text style={styles.errorText}>{error}</Text>
+              </View>
+            )}
 
-          {/* Email */}
-          <Text style={styles.label}>{t.login.email}</Text>
-          <TextInput
-            value={email}
-            onChangeText={setEmail}
-            placeholder={t.login.emailPlaceholder}
-            placeholderTextColor={colors.textMuted}
-            style={styles.input}
-            keyboardType="email-address"
-            autoCapitalize="none"
-          />
+            {/* Email */}
+            <Text style={styles.label}>{t.login.email}</Text>
+            <TextInput
+              value={email}
+              onChangeText={setEmail}
+              placeholder={t.login.emailPlaceholder}
+              placeholderTextColor={colors.textMuted}
+              style={styles.input}
+              keyboardType="email-address"
+              autoCapitalize="none"
+              autoComplete="email"
+            />
 
-          {/* Password */}
-          <Text style={styles.label}>{t.login.password}</Text>
-          <TextInput
-            value={password}
-            onChangeText={setPassword}
-            placeholder={t.login.passwordPlaceholder}
-            placeholderTextColor={colors.textMuted}
-            style={styles.input}
-            secureTextEntry
-          />
+            {/* Password */}
+            <Text style={styles.label}>{t.login.password}</Text>
+            <TextInput
+              value={password}
+              onChangeText={setPassword}
+              placeholder={t.login.passwordPlaceholder}
+              placeholderTextColor={colors.textMuted}
+              style={styles.input}
+              secureTextEntry
+              autoComplete="password"
+            />
 
-          {/* Role */}
-          <Text style={[styles.label, { marginTop: spacing.sm }]}>{t.login.iAmA}</Text>
-          <View style={styles.roleRow}>
-            <TouchableOpacity
-              style={[styles.roleBtn, role === 'student' && styles.roleBtnActive]}
-              onPress={() => setRole('student')}
-              activeOpacity={0.7}
-            >
-              <Text style={{ fontSize: 28 }}>🧒</Text>
-              <Text style={[styles.roleText, role === 'student' && styles.roleTextActive]}>
-                {t.login.studentLabel}
-              </Text>
+            {/* Sign In */}
+            <PrimaryButton
+              title={t.login.continue}
+              onPress={handleSignIn}
+              disabled={!isValid}
+              loading={loading}
+              style={styles.submitBtn}
+            />
+
+            {/* Forgot password */}
+            <TouchableOpacity style={styles.forgotRow} activeOpacity={0.7}>
+              <Text style={styles.forgotText}>{t.login.forgotPassword}</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.roleBtn, role === 'teacher' && styles.roleBtnActive]}
-              onPress={() => setRole('teacher')}
-              activeOpacity={0.7}
-            >
-              <Text style={{ fontSize: 28 }}>👩‍🏫</Text>
-              <Text style={[styles.roleText, role === 'teacher' && styles.roleTextActive]}>
-                {t.login.teacherLabel}
-              </Text>
-            </TouchableOpacity>
-          </View>
 
-          {/* Sign In */}
-          <PrimaryButton
-            title={t.login.continue}
-            onPress={handleSignIn}
-            disabled={!isValid}
-            loading={loading}
-          />
-
-          {/* Forgot password */}
-          <TouchableOpacity style={styles.forgotRow} activeOpacity={0.7}>
-            <Text style={styles.forgotText}>{t.login.forgotPassword}</Text>
-          </TouchableOpacity>
-
-          {/* Sign up link */}
-          <View style={styles.linkRow}>
-            <Text style={styles.linkText}>{t.login.noAccount} </Text>
-            <TouchableOpacity onPress={() => navigation.replace('SignUp')} activeOpacity={0.7}>
-              <Text style={styles.linkAction}>{t.login.signUp}</Text>
-            </TouchableOpacity>
-          </View>
-        </Card>
+            {/* Sign up link */}
+            <View style={styles.linkRow}>
+              <Text style={styles.linkText}>{t.login.noAccount} </Text>
+              <TouchableOpacity onPress={() => navigation.replace('SignUp')} activeOpacity={0.7}>
+                <Text style={styles.linkAction}>{t.login.signUp}</Text>
+              </TouchableOpacity>
+            </View>
+          </Card>
+        </Animated.View>
       </ScrollView>
     </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
-  flex: { flex: 1, backgroundColor: colors.background },
+  flex: { flex: 1 },
   container: {
+    flexGrow: 1,
     padding: spacing.lg,
-    paddingTop: spacing.md,
-    paddingBottom: spacing.xxl,
+    justifyContent: 'center',
   },
-  hero: {
-    alignItems: 'center',
-    marginTop: spacing.sm,
-    marginBottom: spacing.lg,
-  },
-  iconCircle: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: colors.warmYellow,
+  // Floating decorative shapes
+  floatShape: {
+    position: 'absolute',
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: colors.skyBlueSoft,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: spacing.md,
-    borderWidth: 3,
-    borderColor: '#FFE082',
-    shadowColor: 'rgba(255, 180, 0, 0.3)',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 1,
-    shadowRadius: 8,
-    elevation: 4,
   },
+  float1: { top: 100, left: 20 },
+  float2: { top: 150, right: 20, backgroundColor: colors.warmYellowSoft },
+  shapeText: {
+    fontSize: 24,
+    fontWeight: '900',
+    color: colors.primary,
+  },
+  // Hero section with mascot
+  hero: {
+    alignItems: 'center',
+    marginBottom: spacing.lg,
+  },
+  mascotWrap: {
+    position: 'relative',
+    marginBottom: spacing.md,
+  },
+  mascotCircle: {
+    width: 110,
+    height: 110,
+    borderRadius: 55,
+    backgroundColor: colors.warmYellowSoft,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 4,
+    borderColor: colors.warmYellow,
+    shadowColor: 'rgba(255, 180, 0, 0.3)',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 1,
+    shadowRadius: 16,
+    elevation: 8,
+  },
+  mascot: { width: 90, height: 90 },
+  waveBadge: {
+    position: 'absolute',
+    bottom: 0,
+    right: -5,
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: colors.coral,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 3,
+    borderColor: colors.background,
+  },
+  waveText: { fontSize: 18 },
   title: {
     ...typography.title,
     color: colors.textWarm,
@@ -191,74 +274,60 @@ const styles = StyleSheet.create({
   subtitle: {
     ...typography.body,
     color: colors.textMuted,
-    marginTop: spacing.xs,
     textAlign: 'center',
+    marginTop: spacing.xs,
   },
-  card: {
-    gap: spacing.md,
+  cardWrap: {},
+  card: { gap: spacing.sm },
+  errorBox: {
+    backgroundColor: 'rgba(224, 110, 82, 0.15)',
+    padding: spacing.sm,
+    borderRadius: radius.md,
+    marginBottom: spacing.sm,
+  },
+  errorText: {
+    ...typography.caption,
+    color: colors.coral,
+    textAlign: 'center',
   },
   label: {
     ...typography.caption,
     color: colors.textWarm,
-    textTransform: 'uppercase',
-    letterSpacing: 0.8,
+    fontWeight: '700',
   },
   input: {
     backgroundColor: colors.surfaceSoft,
-    borderRadius: radius.xl,
-    paddingHorizontal: spacing.lg,
-    paddingVertical: 14,
+    borderRadius: radius.md,
+    padding: spacing.md,
     fontSize: 16,
     color: colors.text,
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: colors.border,
   },
-  roleRow: {
-    flexDirection: 'row',
-    gap: spacing.md,
-    marginBottom: spacing.sm,
-  },
-  roleBtn: {
-    flex: 1,
-    alignItems: 'center',
-    paddingVertical: spacing.md,
-    borderRadius: radius.xl,
-    backgroundColor: colors.surfaceSoft,
-    borderWidth: 2.5,
-    borderColor: colors.border,
-    gap: spacing.xs,
-  },
-  roleBtnActive: {
-    borderColor: colors.warmYellow,
-    backgroundColor: '#FFF8E0',
-  },
-  roleText: {
-    ...typography.caption,
-    color: colors.textMuted,
-  },
-  roleTextActive: {
-    color: colors.textWarm,
-    fontWeight: '700',
+  submitBtn: {
+    marginTop: spacing.sm,
   },
   forgotRow: {
     alignItems: 'center',
+    marginTop: spacing.md,
   },
   forgotText: {
     ...typography.caption,
-    color: colors.blue,
+    color: colors.textMuted,
+    textDecorationLine: 'underline',
   },
   linkRow: {
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: spacing.xs,
+    marginTop: spacing.lg,
   },
   linkText: {
     ...typography.body,
     color: colors.textMuted,
   },
   linkAction: {
-    ...typography.subtitle,
-    color: colors.coral,
+    ...typography.body,
+    color: colors.primary,
+    fontWeight: '700',
   },
 });

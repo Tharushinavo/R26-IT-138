@@ -5,31 +5,29 @@ import {
   View,
   ScrollView,
   RefreshControl,
+  TouchableOpacity,
 } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../App';
 import PrimaryButton from '../components/PrimaryButton';
 import Card from '../components/Card';
 import LanguageToggle from '../components/LanguageToggle';
 import { useLanguage } from '../i18n/LanguageContext';
+import { useAuth } from '../context/AuthContext';
 import { colors, radius, spacing, typography } from '../theme';
 import { api, type CognitiveProfile } from '../api/client';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'StudentDashboard'>;
 
-const NAME_KEY = 'mm.name';
-
 export default function StudentDashboard({ route, navigation }: Props) {
   const { t } = useLanguage();
+  const { user, logout } = useAuth();
   const { studentId } = route.params;
-  const [name, setName] = useState('');
+  const name = user?.full_name || '';
   const [profile, setProfile] = useState<CognitiveProfile | null>(null);
   const [refreshing, setRefreshing] = useState(false);
 
   const load = useCallback(async () => {
-    const storedName = await AsyncStorage.getItem(NAME_KEY);
-    if (storedName) setName(storedName);
     try {
       const p = await api.getLatestProfile(studentId);
       setProfile(p);
@@ -37,6 +35,11 @@ export default function StudentDashboard({ route, navigation }: Props) {
       setProfile(null);
     }
   }, [studentId]);
+
+  const handleLogout = async () => {
+    await logout();
+    navigation.replace('Login');
+  };
 
   useEffect(() => { load(); }, [load]);
 
@@ -129,6 +132,11 @@ export default function StudentDashboard({ route, navigation }: Props) {
           variant="ghost"
         />
       </View>
+
+      {/* Logout */}
+      <TouchableOpacity style={styles.logoutRow} onPress={handleLogout} activeOpacity={0.7}>
+        <Text style={styles.logoutText}>Logout</Text>
+      </TouchableOpacity>
     </ScrollView>
   );
 }
@@ -198,5 +206,15 @@ const styles = StyleSheet.create({
   actions: {
     gap: spacing.md,
     marginTop: spacing.sm,
+  },
+  logoutRow: {
+    alignItems: 'center',
+    marginTop: spacing.lg,
+    paddingVertical: spacing.sm,
+  },
+  logoutText: {
+    ...typography.caption,
+    color: colors.coral,
+    textDecorationLine: 'underline',
   },
 });

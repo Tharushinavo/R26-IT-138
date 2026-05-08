@@ -9,11 +9,17 @@ class Settings(BaseSettings):
     app_port: int = 8000
     cors_origins: str = "*"
 
+    # Supabase
     supabase_url: str = ""
     supabase_service_role_key: str = ""
     supabase_anon_key: str = ""
 
-    model_path: str = "./app/ml/cognitive_profile_model.pkl"
+    # JWT Auth
+    jwt_secret_key: str = "your-secret-key-change-in-production"
+    jwt_algorithm: str = "HS256"
+    access_token_expire_minutes: int = 1440  # 24 hours for mobile app UX
+
+    model_path: str = "./app/ml/cognitive_model.pkl"
 
     model_config = SettingsConfigDict(
         env_file=".env",

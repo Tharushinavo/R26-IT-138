@@ -9,6 +9,7 @@ from __future__ import annotations
 from statistics import mean, pstdev
 from typing import List
 
+import pandas as pd
 from app.schemas import CognitiveFeatures, InteractionEvent
 
 
@@ -60,3 +61,33 @@ def compute_features(events: List[InteractionEvent]) -> CognitiveFeatures:
 def features_to_row(features: CognitiveFeatures) -> list[float]:
     d = features.model_dump()
     return [float(d[k]) for k in FEATURE_ORDER]
+
+
+def events_to_dataframe(events: List[InteractionEvent]) -> pd.DataFrame:
+    """Convert a list of InteractionEvent objects to a DataFrame with raw feature columns.
+    
+    The trained Pipeline expects these exact columns (no preprocessing):
+    question_id, topic, difficulty, response_time_sec, attempts, is_correct,
+    hint_used, click_count, session_time_sec, time_between_actions, error_type
+    """
+    if not events:
+        return pd.DataFrame()
+    
+    rows = []
+    for e in events:
+        rows.append({
+            "question_id": e.question_id,
+            "topic": e.topic,
+            "difficulty": e.difficulty,
+            "response_time_sec": e.response_time_sec,
+            "attempts": e.attempts,
+            "is_correct": e.is_correct,
+            "hint_used": e.hint_used,
+            "click_count": e.click_count,
+            "session_time_sec": e.session_time_sec,
+            "time_between_actions": e.time_between_actions,
+            "error_type": e.error_type,
+        })
+    
+    df = pd.DataFrame(rows)
+    return df
