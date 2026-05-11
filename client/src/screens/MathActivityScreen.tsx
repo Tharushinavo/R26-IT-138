@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import {
   Alert,
   Animated,
@@ -11,6 +11,7 @@ import {
   Vibration,
   View,
 } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { useFocusEffect } from '@react-navigation/native';
 import PrimaryButton from '../components/PrimaryButton';
 import Card from '../components/Card';
@@ -84,12 +85,32 @@ export default function MathActivityScreen({ route, navigation }: any) {
     return () => { unloadAllSounds(); };
   }, []);
 
+  useLayoutEffect(() => {
+    if (quizGate === 'start' || quizGate === 'resume') {
+      navigation.setOptions({
+        headerLeft: () => (
+          <TouchableOpacity
+            onPress={() => navigation.navigate('StudentTabs', { screen: 'StudentHome', params: { studentId } })}
+            style={{ paddingHorizontal: 12, marginLeft: -8 }}
+          >
+            <Ionicons name="arrow-back" size={24} color={colors.textWarm} />
+          </TouchableOpacity>
+        ),
+      });
+    } else {
+      // Hide back button during active quiz
+      navigation.setOptions({ headerLeft: () => null });
+    }
+  }, [navigation, quizGate, studentId, colors]);
+
   // Handle mobile back button — navigate to Home tab instead of closing app
   useFocusEffect(
     useCallback(() => {
       const onBackPress = () => {
         if (submittingRef.current) return true;
-        try { navigation.navigate('StudentHome', { studentId }); } catch {}
+        try { 
+          navigation.navigate('StudentTabs', { screen: 'StudentHome', params: { studentId } }); 
+        } catch {}
         return true;
       };
       const subscription = BackHandler.addEventListener('hardwareBackPress', onBackPress);
@@ -366,6 +387,7 @@ export default function MathActivityScreen({ route, navigation }: any) {
         student_id: studentId,
         session_id: sessionId,
         events: nextEvents,
+        language: lang,
       });
       console.log('[activity] profile generation success', {
         studentId,
@@ -374,12 +396,8 @@ export default function MathActivityScreen({ route, navigation }: any) {
         modelVersion: profile.model_version,
       });
       setTimeout(() => {
-        // Navigate to Profile tab to show the result, or push to stack ProfileResult
-        try {
-          navigation.navigate('StudentProfile', { studentId, sessionId });
-        } catch {
-          navigation.navigate('ProfileResult', { studentId, sessionId });
-        }
+        // Navigate to ProfileResult to show the new profile generated
+        navigation.navigate('ProfileResult', { studentId, sessionId });
         // Reset quiz gate so next visit shows Start Quiz
         setQuizGate('start');
       }, 1800);

@@ -13,14 +13,14 @@ from __future__ import annotations
 
 import os
 import threading
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 import joblib
 import numpy as np
 import pandas as pd
 
 from app.config import get_settings
-from app.schemas import CognitiveFeatures, CognitiveProfile
+from app.schemas import CognitiveFeatures, CognitiveProfile, InteractionEvent
 from app.services.features import events_to_dataframe
 
 # Expected output dimensions and levels
@@ -142,16 +142,17 @@ def _majority_vote_profile(pred_df: pd.DataFrame) -> Dict[str, str]:
 
 def predict_profile(
     student_id: str,
-    events: List[Any],  # List[InteractionEvent]
-    session_id: str | None = None,
+    events: List[InteractionEvent],
+    session_id: Optional[str] = None,
+    language: Optional[str] = "en"
 ) -> CognitiveProfile:
-    """
-    Predict a student's cognitive profile from interaction events.
+    """Predict cognitive profile.
     
     Args:
         student_id: Student identifier
         events: List of InteractionEvent objects (per question)
         session_id: Optional session identifier
+        language: Optional language code (e.g. 'si' for Sinhala, 'en' for English)
     
     Returns:
         CognitiveProfile with predicted levels and metadata
@@ -161,6 +162,7 @@ def predict_profile(
     
     if artifact is None:
         # Fallback: aggregate to features and use rule-based
+        print("🧠 [COGNITIVE MODEL] Using rule-based fallback - ML model not loaded")
         from app.services.features import compute_features
         features = compute_features(events)
         labels = _rule_based_profile(features)
@@ -171,12 +173,14 @@ def predict_profile(
             df = events_to_dataframe(events)
             if df.empty:
                 # Fallback to rule-based if no valid events
+                print("🧠 [COGNITIVE MODEL] Using rule-based fallback - empty DataFrame")
                 from app.services.features import compute_features
                 features = compute_features(events)
                 labels = _rule_based_profile(features)
                 model_version = "rule-based-v1"
             else:
                 # Predict per interaction, then majority vote
+                print("🌳 [COGNITIVE MODEL] Using Decision Tree ML model for prediction")
                 pred_df = _predict_per_interaction(artifact, df)
                 vote_profile = _majority_vote_profile(pred_df)
                 # Map from label_* to dimension names
@@ -188,8 +192,10 @@ def predict_profile(
                     "processing_speed_level": _normalize_speed(vote_profile.get("label_processing_speed", "Moderate")),
                 }
                 model_version = "decision-tree-colab-v1"
+                print(f"🧠 [COGNITIVE MODEL] ML prediction complete - model_version: {model_version}")
         except Exception as e:
             # Any model error falls back to rule-based
+            print(f"🧠 [COGNITIVE MODEL] ML model failed ({e}), falling back to rule-based")
             from app.services.features import compute_features
             features = compute_features(events)
             labels = _rule_based_profile(features)
@@ -215,11 +221,11 @@ def predict_profile(
     agg_features = compute_features(events)
     
     # Combine recommendation with dynamic insight for richer output
-    rec_text = generate_recommendation(labels)
-    insight_text = generate_insight(labels, agg_features.model_dump())
+    rec_text = generate_recommendation(labels, language)
+    insight_text = generate_insight(labels, agg_features.model_dump(), language)
     recommendation = f"{insight_text}\n\n{rec_text}"
 
-    return CognitiveProfile(
+    profile = CognitiveProfile(
         student_id=student_id,
         session_id=session_id,
         memory_level=labels["memory_level"],  # type: ignore[arg-type]
@@ -231,6 +237,11 @@ def predict_profile(
         model_version=model_version,
         features=agg_features,
     )
+
+    # Final confirmation log
+    print(f"🧠 [COGNITIVE MODEL] Profile generated using: {model_version} for student_id: {student_id}")
+
+    return profile
 
 
 def model_status() -> dict:

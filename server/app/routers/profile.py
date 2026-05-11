@@ -111,7 +111,10 @@ def generate_profile(body: ProfileRequest) -> CognitiveProfile:
 
     try:
         profile = predict_profile(
-            student_id=body.student_id, events=body.events, session_id=body.session_id
+            student_id=body.student_id, 
+            events=body.events, 
+            session_id=body.session_id,
+            language=body.language
         )
     except Exception as e:
         logger.error(f"Profile prediction failed: {e}")
@@ -158,7 +161,7 @@ def predict_from_single(body: PredictRequest) -> CognitiveProfile:
 
     try:
         profile = predict_profile(
-            student_id=body.student_id, events=all_events
+            student_id=body.student_id, events=all_events, language=body.language
         )
     except Exception as e:
         logger.error(f"Profile prediction failed: {e}")

@@ -97,11 +97,7 @@ export default function StudentDashboard({ route }: any) {
             <Text style={styles.dimLabel}>⚡ {t.common.speed}</Text>
             <Text style={styles.dimValue}>{levelLabel(profile.processing_speed_level)}</Text>
           </View>
-          {profile.confidence_score != null && (
-            <Text style={styles.confidence}>
-              {t.common.confidence}: {Math.round(profile.confidence_score * 100)}%
-            </Text>
-          )}
+          {/* Confidence removed */}
         </Card>
       )}
 

@@ -19,12 +19,15 @@ import { api, type CognitiveProfile } from '../api/client';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'ProfileHistory'>;
 
-const levelEmoji = (l: string) => {
+const levelWord = (l: string, t: any) => {
   switch (l) {
-    case 'high': case 'Fast': return '🌟';
-    case 'medium': case 'Moderate': return '👍';
-    case 'low': case 'Slow': return '💪';
-    default: return '–';
+    case 'high': return t.levels.levelHigh;
+    case 'medium': return t.levels.levelMedium;
+    case 'low': return t.levels.levelLow;
+    case 'Fast': return t.levels.levelFast;
+    case 'Moderate': return t.levels.levelModerate;
+    case 'Slow': return t.levels.levelSlow;
+    default: return l.toUpperCase();
   }
 };
 
@@ -34,6 +37,15 @@ const levelColor = (l: string, colors: ReturnType<typeof useAppTheme>['colors'])
     case 'medium': case 'Moderate': return colors.primary;
     case 'low': case 'Slow': return colors.warning;
     default: return colors.textMuted;
+  }
+};
+
+const levelBg = (l: string, colors: ReturnType<typeof useAppTheme>['colors']) => {
+  switch (l) {
+    case 'high': case 'Fast': return colors.successBg;
+    case 'medium': case 'Moderate': return colors.skyBlueSoft;
+    case 'low': case 'Slow': return colors.warningBg;
+    default: return colors.surfaceSoft;
   }
 };
 
@@ -98,6 +110,14 @@ export default function ProfileHistoryScreen({ route, navigation }: Props) {
     );
   }
 
+  const LevelChip = ({ level }: { level: string }) => (
+    <View style={[styles.chip, { backgroundColor: levelBg(level, colors), borderColor: levelColor(level, colors) + '60' }]}>
+      <Text style={[styles.chipText, { color: levelColor(level, colors) }]}>
+        {levelWord(level, t)}
+      </Text>
+    </View>
+  );
+
   return (
     <View style={{ flex: 1, backgroundColor: colors.background }}>
     <ScrollView
@@ -113,15 +133,15 @@ export default function ProfileHistoryScreen({ route, navigation }: Props) {
           .replace('{s}', profiles.length === 1 ? '' : 's')}
       </Text>
 
-      {/* History Table */}
+      {/* ── History Table ── */}
       <Card style={styles.tableCard}>
         {/* Header Row */}
         <View style={styles.tableHeader}>
-          <Text style={[styles.headerCell, { flex: 1.5 }]}>{t.common.date}</Text>
-          <Text style={styles.headerCell}>🧠</Text>
-          <Text style={styles.headerCell}>🎯</Text>
-          <Text style={styles.headerCell}>🔢</Text>
-          <Text style={styles.headerCell}>⚡</Text>
+          <Text style={[styles.headerCell, styles.dateCol]}>{t.common.date}</Text>
+          <Text style={[styles.headerCell, styles.dimCol]}>{t.history.columnMemory}</Text>
+          <Text style={[styles.headerCell, styles.dimCol]}>{t.history.columnAttention}</Text>
+          <Text style={[styles.headerCell, styles.dimCol]}>{t.history.columnNumberSense}</Text>
+          <Text style={[styles.headerCell, styles.dimCol]}>{t.history.columnSpeed}</Text>
         </View>
 
         {/* Data Rows */}
@@ -133,67 +153,90 @@ export default function ProfileHistoryScreen({ route, navigation }: Props) {
               key={idx}
               style={[styles.tableRow, idx % 2 === 0 && styles.tableRowAlt]}
             >
-              <Text style={[styles.cell, { flex: 1.5 }]}>{dateStr}</Text>
-              <Text style={[styles.cell, { color: levelColor(p.memory_level, colors) }]}>
-                {levelEmoji(p.memory_level)}
-              </Text>
-              <Text style={[styles.cell, { color: levelColor(p.attention_level, colors) }]}>
-                {levelEmoji(p.attention_level)}
-              </Text>
-              <Text style={[styles.cell, { color: levelColor(p.number_sense_level, colors) }]}>
-                {levelEmoji(p.number_sense_level)}
-              </Text>
-              <Text style={[styles.cell, { color: levelColor(p.processing_speed_level, colors) }]}>
-                {levelEmoji(p.processing_speed_level)}
-              </Text>
+              <Text style={[styles.dateCell]}>{dateStr}</Text>
+              <View style={styles.dimCell}>
+                <Text style={[styles.cellWord, { color: levelColor(p.memory_level, colors) }]}>
+                  {levelWord(p.memory_level, t)}
+                </Text>
+              </View>
+              <View style={styles.dimCell}>
+                <Text style={[styles.cellWord, { color: levelColor(p.attention_level, colors) }]}>
+                  {levelWord(p.attention_level, t)}
+                </Text>
+              </View>
+              <View style={styles.dimCell}>
+                <Text style={[styles.cellWord, { color: levelColor(p.number_sense_level, colors) }]}>
+                  {levelWord(p.number_sense_level, t)}
+                </Text>
+              </View>
+              <View style={styles.dimCell}>
+                <Text style={[styles.cellWord, { color: levelColor(p.processing_speed_level, colors) }]}>
+                  {levelWord(p.processing_speed_level, t)}
+                </Text>
+              </View>
             </View>
           );
         })}
       </Card>
 
-      {/* Legend */}
+      {/* ── Legend ── */}
       <Card style={styles.legendCard}>
         <Text style={styles.legendTitle}>{t.history.legend}</Text>
-        <View style={styles.legendRow}>
-          <Text style={styles.legendItem}>{t.history.legendHigh}</Text>
-          <Text style={styles.legendItem}>{t.history.legendMedium}</Text>
-          <Text style={styles.legendItem}>{t.history.legendLow}</Text>
+        <View style={styles.legendGrid}>
+          {/* High */}
+          <View style={[styles.legendItem, { backgroundColor: colors.successBg, borderColor: colors.success + '50' }]}>
+            <View style={[styles.legendDot, { backgroundColor: colors.success }]} />
+            <View>
+              <Text style={[styles.legendLevel, { color: colors.success }]}>{t.history.legendHigh}</Text>
+              <Text style={styles.legendSub}>{t.history.legendHighSub}</Text>
+            </View>
+          </View>
+          {/* Medium */}
+          <View style={[styles.legendItem, { backgroundColor: colors.skyBlueSoft, borderColor: colors.primary + '50' }]}>
+            <View style={[styles.legendDot, { backgroundColor: colors.primary }]} />
+            <View>
+              <Text style={[styles.legendLevel, { color: colors.primary }]}>{t.history.legendMedium}</Text>
+              <Text style={styles.legendSub}>{t.history.legendMediumSub}</Text>
+            </View>
+          </View>
+          {/* Low */}
+          <View style={[styles.legendItem, { backgroundColor: colors.warningBg, borderColor: colors.warning + '50' }]}>
+            <View style={[styles.legendDot, { backgroundColor: colors.warning }]} />
+            <View>
+              <Text style={[styles.legendLevel, { color: colors.warning }]}>{t.history.legendLow}</Text>
+              <Text style={styles.legendSub}>{t.history.legendLowSub}</Text>
+            </View>
+          </View>
         </View>
       </Card>
 
-      {/* Detailed List */}
+      {/* ── Detailed List ── */}
       {profiles.map((p, idx) => (
         <Card key={`detail-${idx}`} style={styles.detailCard}>
           <Text style={styles.detailDate}>
             {new Date(p.generated_at).toLocaleDateString()} –{' '}
             {new Date(p.generated_at).toLocaleTimeString()}
           </Text>
-          <View style={styles.detailRow}>
-            <Text style={styles.detailLabel}>{t.common.memory}</Text>
-            <Text style={[styles.detailValue, { color: levelColor(p.memory_level, colors) }]}>
-              {levelEmoji(p.memory_level)} {p.memory_level}
-            </Text>
-          </View>
-          <View style={styles.detailRow}>
-            <Text style={styles.detailLabel}>{t.common.attention}</Text>
-            <Text style={[styles.detailValue, { color: levelColor(p.attention_level, colors) }]}>
-              {levelEmoji(p.attention_level)} {p.attention_level}
-            </Text>
-          </View>
-          <View style={styles.detailRow}>
-            <Text style={styles.detailLabel}>{t.common.numberSense}</Text>
-            <Text style={[styles.detailValue, { color: levelColor(p.number_sense_level, colors) }]}>
-              {levelEmoji(p.number_sense_level)} {p.number_sense_level}
-            </Text>
-          </View>
-          <View style={styles.detailRow}>
-            <Text style={styles.detailLabel}>{t.common.speed}</Text>
-            <Text style={[styles.detailValue, { color: levelColor(p.processing_speed_level, colors) }]}>
-              {levelEmoji(p.processing_speed_level)} {p.processing_speed_level}
-            </Text>
+          <View style={styles.chipRow}>
+            <View style={styles.chipGroup}>
+              <Text style={styles.chipLabel}>{t.common.memory}</Text>
+              <LevelChip level={p.memory_level} />
+            </View>
+            <View style={styles.chipGroup}>
+              <Text style={styles.chipLabel}>{t.common.attention}</Text>
+              <LevelChip level={p.attention_level} />
+            </View>
+            <View style={styles.chipGroup}>
+              <Text style={styles.chipLabel}>{t.common.numberSense}</Text>
+              <LevelChip level={p.number_sense_level} />
+            </View>
+            <View style={styles.chipGroup}>
+              <Text style={styles.chipLabel}>{t.common.speed}</Text>
+              <LevelChip level={p.processing_speed_level} />
+            </View>
           </View>
           <Text style={styles.detailAccuracy}>
-            {t.common.accuracy}: {Math.round(p.features.accuracy * 100)}% | {t.common.questions}: {p.features.total_questions}
+            {t.common.correctness}: {Math.round(p.features.accuracy * 100)}% | {t.common.questions}: {p.features.total_questions}
           </Text>
         </Card>
       ))}
@@ -218,33 +261,79 @@ const createStyles = (colors: ReturnType<typeof useAppTheme>['colors']) => Style
   emptySubtitle: { ...typography.body, color: colors.textMuted, textAlign: 'center', maxWidth: 280 },
   container: { padding: spacing.lg, paddingTop: spacing.md, gap: spacing.md, paddingBottom: spacing.xxl },
   heading: { ...typography.title, color: colors.textWarm },
-  subheading: { ...typography.body, color: colors.textMuted, marginBottom: spacing.sm },
+  subheading: { ...typography.body, color: colors.textMuted, marginBottom: spacing.xs },
+
+  // Table
   tableCard: { padding: 0, overflow: 'hidden' },
   tableHeader: {
-    flexDirection: 'row', backgroundColor: colors.skyBlue,
-    paddingVertical: spacing.sm, paddingHorizontal: spacing.md,
+    flexDirection: 'row',
+    backgroundColor: colors.skyBlue,
+    paddingVertical: 10,
+    paddingHorizontal: spacing.sm,
   },
   headerCell: {
-    flex: 1, ...typography.caption, color: colors.textWarm, textAlign: 'center',
+    ...typography.small,
+    fontWeight: '700',
+    color: colors.deepBlue,
+    textAlign: 'center',
+    textTransform: 'uppercase',
+    letterSpacing: 0.4,
   },
+  dateCol: { flex: 1.2 },
+  dimCol: { flex: 1.4 },
   tableRow: {
-    flexDirection: 'row', paddingVertical: spacing.sm, paddingHorizontal: spacing.md,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 9,
+    paddingHorizontal: spacing.sm,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.border,
   },
   tableRowAlt: { backgroundColor: colors.skyBlueSoft },
-  cell: {
-    flex: 1, ...typography.body, textAlign: 'center', color: colors.text,
+  dateCell: {
+    flex: 1.2,
+    ...typography.caption,
+    color: colors.textMuted,
+    textAlign: 'center',
+    fontWeight: '600',
   },
-  legendCard: { gap: spacing.sm },
-  legendTitle: { ...typography.caption, color: colors.textWarm },
-  legendRow: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.md },
-  legendItem: { ...typography.small, color: colors.textMuted },
-  detailCard: { gap: spacing.xs },
-  detailDate: { ...typography.caption, color: colors.primaryDark, marginBottom: 4 },
-  detailRow: {
-    flexDirection: 'row', justifyContent: 'space-between',
-    paddingVertical: 4, borderBottomWidth: 1, borderBottomColor: colors.border,
+  dimCell: { flex: 1.4, alignItems: 'center' },
+  cellWord: {
+    fontSize: 10,
+    fontWeight: '800',
+    letterSpacing: 0.6,
+    textAlign: 'center',
   },
-  detailLabel: { ...typography.body, color: colors.text },
-  detailValue: { ...typography.caption },
-  detailAccuracy: { ...typography.small, color: colors.textMuted, marginTop: 4, textAlign: 'right' },
+
+  // Legend
+  legendCard: { gap: spacing.md },
+  legendTitle: { ...typography.subtitle, color: colors.textWarm, marginBottom: spacing.xs },
+  legendGrid: { gap: spacing.sm },
+  legendItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    borderRadius: radius.lg,
+    borderWidth: 1,
+  },
+  legendDot: { width: 12, height: 12, borderRadius: 6 },
+  legendLevel: { ...typography.caption, fontWeight: '800' },
+  legendSub: { ...typography.small, color: colors.textMuted },
+
+  // Detail Cards
+  detailCard: { gap: spacing.sm },
+  detailDate: { ...typography.caption, color: colors.primaryDark, fontWeight: '700' },
+  chipRow: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.sm },
+  chipGroup: { alignItems: 'center', gap: 4, minWidth: 70 },
+  chipLabel: { ...typography.small, color: colors.textMuted, textTransform: 'uppercase', fontSize: 9, letterSpacing: 0.5 },
+  chip: {
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 4,
+    borderRadius: radius.pill,
+    borderWidth: 1,
+  },
+  chipText: { fontWeight: '800', fontSize: 10, letterSpacing: 0.6 },
+  detailAccuracy: { ...typography.small, color: colors.textMuted, marginTop: 4 },
 });

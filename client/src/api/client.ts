@@ -354,6 +354,7 @@ export const api = {
     student_id: string;
     session_id?: string;
     events: InteractionEvent[];
+    language?: string;
   }) {
     return request<CognitiveProfile>('/profiles/generate', {
       method: 'POST',

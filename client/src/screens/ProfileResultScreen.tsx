@@ -135,14 +135,10 @@ export default function ProfileResultScreen({ route, navigation }: Props) {
         </Text>
         <View style={styles.accuracyBadge}>
           <Text style={styles.accuracyText}>
-            {Math.round(profile.features.accuracy * 100)}% {t.common.accuracy}
+            {Math.round(profile.features.accuracy * 100)}% {t.common.correctness}
           </Text>
         </View>
-        {profile.confidence_score != null && (
-          <Text style={styles.confidenceText}>
-            {t.common.confidence}: {Math.round(profile.confidence_score * 100)}%
-          </Text>
-        )}
+          {/* Confidence removed */}
       </Card>
 
       {/* Dimension Cards */}
@@ -310,36 +306,38 @@ const createStyles = (colors: ReturnType<typeof useAppTheme>['colors']) => Style
   loadingSubtitle: { ...typography.body, color: colors.textMuted },
   emptyTitle: { ...typography.title, color: colors.textWarm, textAlign: 'center', marginBottom: spacing.sm },
   emptySubtitle: { ...typography.body, color: colors.textMuted, textAlign: 'center', marginBottom: spacing.lg, maxWidth: 280 },
-  headerCard: { gap: spacing.sm, alignItems: 'center', paddingVertical: spacing.xl },
-  heading: { ...typography.title, color: colors.textWarm, textAlign: 'center' },
+  headerCard: { gap: spacing.sm, alignItems: 'center', paddingVertical: spacing.xxl, backgroundColor: colors.surface, borderRadius: radius.xl, shadowColor: colors.primaryDark, shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.1, shadowRadius: 12, elevation: 4 },
+  heading: { ...typography.title, fontSize: 26, color: colors.textWarm, textAlign: 'center' },
   headingSub: { ...typography.body, color: colors.textMuted, textAlign: 'center' },
   accuracyBadge: {
     backgroundColor: colors.successBg,
     paddingHorizontal: spacing.lg, paddingVertical: spacing.sm,
-    borderRadius: radius.pill, marginTop: spacing.xs,
+    borderRadius: radius.pill, marginTop: spacing.md,
+    borderWidth: 1, borderColor: colors.success + '40',
   },
-  accuracyText: { ...typography.subtitle, color: colors.success },
+  accuracyText: { ...typography.subtitle, color: colors.success, fontSize: 18 },
   confidenceText: { ...typography.caption, color: colors.textMuted, marginTop: 4 },
-  dimCard: { gap: spacing.md, paddingVertical: spacing.lg },
+  dimCard: { gap: spacing.md, paddingVertical: spacing.lg, borderRadius: radius.lg, borderWidth: 1, borderColor: colors.border + '50' },
   dimHeader: { flexDirection: 'row', alignItems: 'center', gap: spacing.md },
-  dimIconCircle: { width: 52, height: 52, borderRadius: 26, alignItems: 'center', justifyContent: 'center' },
+  dimIconCircle: { width: 56, height: 56, borderRadius: 28, alignItems: 'center', justifyContent: 'center', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.05, shadowRadius: 4, elevation: 2 },
   levelRow: { flexDirection: 'row', alignItems: 'center', gap: spacing.md },
-  levelBarBg: { flex: 1, height: 10, backgroundColor: colors.skyBlueSoft, borderRadius: radius.pill, overflow: 'hidden' },
+  levelBarBg: { flex: 1, height: 12, backgroundColor: colors.skyBlueSoft, borderRadius: radius.pill, overflow: 'hidden' },
   levelBarFill: { height: '100%', borderRadius: radius.pill },
-  levelBadge: { paddingHorizontal: spacing.md, paddingVertical: 6, borderRadius: radius.pill },
-  levelBadgeText: { fontWeight: '800', fontSize: 11, letterSpacing: 0.8 },
-  recommendCard: { gap: spacing.sm },
-  recommendTitle: { ...typography.subtitle, color: colors.textWarm },
-  recommendText: { ...typography.body, color: colors.text, lineHeight: 24 },
-  statsCard: { gap: spacing.md },
-  statsTitle: { ...typography.title, color: colors.textWarm },
+  levelBadge: { paddingHorizontal: spacing.md, paddingVertical: 8, borderRadius: radius.pill, borderWidth: 1, borderColor: 'rgba(0,0,0,0.05)' },
+  levelBadgeText: { fontWeight: '800', fontSize: 12, letterSpacing: 0.8 },
+  recommendCard: { gap: spacing.sm, backgroundColor: colors.skyBlueSoft, borderColor: colors.primary + '30', borderWidth: 1 },
+  recommendTitle: { ...typography.subtitle, color: colors.primaryDark, fontSize: 18 },
+  recommendText: { ...typography.body, color: colors.text, lineHeight: 26 },
+  statsCard: { gap: spacing.md, backgroundColor: colors.surfaceSoft },
+  statsTitle: { ...typography.title, color: colors.textWarm, fontSize: 20 },
   statsGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing.md },
   statBox: {
-    width: '46%', backgroundColor: colors.skyBlueSoft, borderRadius: radius.lg,
-    padding: spacing.md, alignItems: 'center', gap: 4,
+    width: '47%', backgroundColor: colors.surface, borderRadius: radius.lg,
+    padding: spacing.md, alignItems: 'center', gap: 6,
+    shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.05, shadowRadius: 3, elevation: 1,
   },
-  statValue: { ...typography.subtitle, color: colors.textWarm },
-  statLabel: { ...typography.caption, color: colors.textMuted },
-  modelInfo: { ...typography.small, color: colors.textMuted, textAlign: 'center' },
+  statValue: { ...typography.title, fontSize: 22, color: colors.primaryDark },
+  statLabel: { ...typography.caption, color: colors.textMuted, textTransform: 'uppercase', fontSize: 10, letterSpacing: 0.5 },
+  modelInfo: { ...typography.small, color: colors.textMuted, textAlign: 'center', marginTop: spacing.sm },
   actionGroup: { gap: spacing.md, marginTop: spacing.sm },
 });

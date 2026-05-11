@@ -141,6 +141,7 @@ class ProfileRequest(BaseModel):
     """Request to compute a profile from an explicit batch of events."""
     student_id: str
     session_id: Optional[str] = None
+    language: Optional[str] = "en"
     events: List[InteractionEvent]
 
 
@@ -148,6 +149,7 @@ class PredictRequest(BaseModel):
     """Request to predict a profile from a single interaction (plan Section 7.2)."""
     student_id: str
     question_id: str
+    language: Optional[str] = "en"
     topic: str = "Addition"
     difficulty: Literal["Easy", "Medium", "Hard"] = "Easy"
     response_time_sec: float = Field(..., ge=0)
@@ -157,7 +159,7 @@ class PredictRequest(BaseModel):
     click_count: int = Field(0, ge=0)
     session_time_sec: float = Field(0, ge=0)
     time_between_actions: float = Field(0, ge=0)
-    error_type: str = "none"
+    error_type: Literal["none", "calculation", "conceptual", "careless", "unknown"] = "none"
 
 
 class MessageResponse(BaseModel):
