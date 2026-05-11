@@ -82,7 +82,7 @@ test("Respects count limit", len(count_limited) == 2)
 
 # ── Configuration ────────────────────────────────────────────────────────
 print("\nTest Suite: Configuration")
-test("Gemini model is 2.0-flash", DEFAULT_MODELS["gemini"] == "gemini-2.0-flash")
+test("Gemini model is gemini-flash-latest", DEFAULT_MODELS["gemini"] == "gemini-flash-latest")
 test("429 has friendly message", "busy" in _FRIENDLY_ERRORS[429].lower() or "rate" in _FRIENDLY_ERRORS[429].lower())
 test("401 has friendly message", "api key" in _FRIENDLY_ERRORS[401].lower())
 test("404 has friendly message", "model" in _FRIENDLY_ERRORS[404].lower() or "deprecated" in _FRIENDLY_ERRORS[404].lower())

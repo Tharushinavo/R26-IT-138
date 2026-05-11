@@ -2,7 +2,7 @@
  * Gemini API integration for generating math hints
  * Uses Google's Gemini Flash model for AI-powered hints
  */
-const GEMINI_API_KEY = 'AIzaSyCanKEsi1SCqV27zj445npdXsjq3O7jqvo';
+const GEMINI_API_KEY = 'AIzaSyDtMzAtBoSKSg9dp6Ao-CBzunb4HJbDiwY';
 const GEMINI_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent';
 
 export interface GeminiHint {

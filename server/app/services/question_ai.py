@@ -13,7 +13,7 @@ Provider = Literal["openai", "gemini", "deepseek"]
 
 DEFAULT_MODELS: Dict[Provider, str] = {
     "openai": "gpt-4.1-mini",
-    "gemini": "gemini-2.0-flash",
+    "gemini": "gemini-flash-latest",
     "deepseek": "deepseek-chat",
 }
 
