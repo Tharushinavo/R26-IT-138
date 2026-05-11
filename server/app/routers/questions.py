@@ -7,10 +7,11 @@ from typing import List, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 
-from app.schemas import AIQuestionGenerateRequest, MessageResponse, Question, QuestionCreate, QuestionUpdate
+from app.schemas import AIQuestionGenerateRequest, AIQuestionGenerateSimpleRequest, MessageResponse, Question, QuestionCreate, QuestionUpdate
 from app.routers.auth import get_current_teacher
 from app.services import supabase_client
 from app.services.question_ai import generate_questions as generate_ai_questions
+from app.config import get_settings
 
 router = APIRouter(prefix="/questions", tags=["questions"])
 
@@ -186,3 +187,42 @@ def generate_questions(
             detail="AI generated questions, but none were saved. Check Supabase configuration and questions table.",
         )
     return created
+
+
+@router.post("/generate-simple", response_model=List[QuestionCreate], status_code=status.HTTP_200_OK)
+def generate_questions_simple(
+    body: AIQuestionGenerateSimpleRequest,
+    current_user: dict = Depends(get_current_teacher),
+) -> List[QuestionCreate]:
+    """Generate question drafts using the server-configured Gemini API key.
+
+    Returns drafts only – they are NOT saved to Supabase.
+    The teacher reviews and saves them individually via POST /questions.
+    """
+    settings = get_settings()
+    api_key = settings.gemini_api_key
+    if not api_key:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Gemini API key is not configured on the server. Please contact the administrator.",
+        )
+
+    try:
+        drafts = generate_ai_questions(
+            provider="gemini",
+            api_key=api_key,
+            topic=body.topic,
+            difficulty=body.difficulty,
+            count=body.count,
+            model=None,  # use default gemini-1.5-flash
+            instructions=body.instructions,
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+    if not drafts:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail="AI did not return any valid questions. Please try again.",
+        )
+    return drafts

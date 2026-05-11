@@ -21,7 +21,10 @@ import ProfileResultScreen from './src/screens/ProfileResultScreen';
 import ProfileHistoryScreen from './src/screens/ProfileHistoryScreen';
 import TeacherHomeScreen from './src/screens/TeacherHomeScreen';
 import TeacherDashboard from './src/screens/TeacherDashboard';
-import CognitiveQuestionsScreen from './src/screens/CognitiveQuestionsScreen';
+import QuestionLandingScreen from './src/screens/QuestionLandingScreen';
+import ManualCreateScreen from './src/screens/ManualCreateScreen';
+import EditQuestionsScreen from './src/screens/EditQuestionsScreen';
+import AIGenerateScreen from './src/screens/AIGenerateScreen';
 import SettingsScreen from './src/screens/SettingsScreen';
 import { ThemeProvider, lightColors, spacing, useAppTheme } from './src/theme';
 
@@ -42,6 +45,9 @@ export type RootStackParamList = {
   ProfileHistory: { studentId: string };
   TeacherDashboard: { teacherId: string };
   CognitiveQuestions: { teacherId: string };
+  ManualCreateQuestion: { teacherId: string };
+  EditQuestions: { teacherId: string };
+  AIGenerate: { teacherId: string };
 };
 
 export type StudentTabParamList = {
@@ -190,7 +196,7 @@ function TeacherTabNavigator({ route }: any) {
       />
       <TeacherTab.Screen
         name="TeacherQuestions"
-        component={CognitiveQuestionsScreen as React.ComponentType<any>}
+        component={QuestionLandingScreen as React.ComponentType<any>}
         initialParams={{ teacherId }}
         options={{
           title: t.tabs.questions,
@@ -255,7 +261,10 @@ function AppNavigator() {
         <Stack.Screen name="ProfileResult" component={ProfileResultScreen} options={{ title: t.nav.cognitiveProfile }} />
         <Stack.Screen name="ProfileHistory" component={ProfileHistoryScreen} options={{ title: t.nav.profileHistory }} />
         <Stack.Screen name="TeacherDashboard" component={TeacherDashboard} options={{ title: t.nav.teacherDashboard }} />
-        <Stack.Screen name="CognitiveQuestions" component={CognitiveQuestionsScreen} options={{ title: t.nav.cognitiveQuestions }} />
+        <Stack.Screen name="CognitiveQuestions" component={QuestionLandingScreen} options={{ title: t.nav.cognitiveQuestions }} />
+        <Stack.Screen name="ManualCreateQuestion" component={ManualCreateScreen} options={{ title: '✏️ Create Question' }} />
+        <Stack.Screen name="EditQuestions" component={EditQuestionsScreen} options={{ title: '📝 Edit Questions' }} />
+        <Stack.Screen name="AIGenerate" component={AIGenerateScreen} options={{ title: '✨ AI Questions' }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

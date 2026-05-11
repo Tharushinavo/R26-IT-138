@@ -50,15 +50,19 @@ create index if not exists idx_students_teacher  on students(teacher_id);
 -- ══════════════════════════════════════════════════════════
 create table if not exists questions (
     id             uuid primary key default gen_random_uuid(),
-    question_code  text unique,
+    question_code  text,
     topic          text not null,
     difficulty     text not null check (difficulty in ('Easy', 'Medium', 'Hard')),
     question_text  text not null,
     correct_answer text not null,
     options        jsonb,
+    created_by     uuid references auth.users(id),
     created_at     timestamptz default now()
 );
 
+-- Unique only when question_code is actually provided (allows multiple NULLs safely)
+create unique index if not exists idx_questions_code_unique
+    on questions(question_code) where question_code is not null;
 create index if not exists idx_questions_topic      on questions(topic);
 create index if not exists idx_questions_difficulty  on questions(difficulty);
 

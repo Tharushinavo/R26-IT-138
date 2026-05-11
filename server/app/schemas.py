@@ -48,6 +48,14 @@ class AIQuestionGenerateRequest(BaseModel):
     instructions: Optional[str] = None
 
 
+class AIQuestionGenerateSimpleRequest(BaseModel):
+    """Teacher-friendly request – no provider/api_key/model required."""
+    topic: str = "Addition"
+    difficulty: Literal["Easy", "Medium", "Hard"] = "Easy"
+    count: int = Field(5, ge=1, le=10)
+    instructions: Optional[str] = None
+
+
 # ---------- Interaction events (raw data captured during activity) ----------
 
 class InteractionEvent(BaseModel):

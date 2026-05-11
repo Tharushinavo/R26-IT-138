@@ -14,14 +14,13 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../App';
 import Card from '../components/Card';
 import PrimaryButton from '../components/PrimaryButton';
-import { api, type AIQuestionProvider, type Question, type QuestionInput } from '../api/client';
+import { api, type Question, type QuestionInput } from '../api/client';
 import { colors as lightColors, radius, spacing, typography, useAppTheme } from '../theme';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'CognitiveQuestions'>;
 type Difficulty = QuestionInput['difficulty'];
 
 const DIFFICULTIES: Difficulty[] = ['Easy', 'Medium', 'Hard'];
-const PROVIDERS: AIQuestionProvider[] = ['openai', 'gemini', 'deepseek'];
 
 const emptyForm = {
   question_code: '',
@@ -32,7 +31,7 @@ const emptyForm = {
   optionsText: '',
 };
 
-export default function CognitiveQuestionsScreen({ route }: Props) {
+export default function CognitiveQuestionsScreen({ route, navigation }: Props) {
   const { teacherId } = route.params;
   const { colors } = useAppTheme();
   const styles = createStyles(colors);
@@ -42,15 +41,6 @@ export default function CognitiveQuestionsScreen({ route }: Props) {
   const [saving, setSaving] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [form, setForm] = useState(emptyForm);
-
-  const [provider, setProvider] = useState<AIQuestionProvider>('openai');
-  const [apiKey, setApiKey] = useState('');
-  const [aiTopic, setAiTopic] = useState('Addition');
-  const [aiDifficulty, setAiDifficulty] = useState<Difficulty>('Easy');
-  const [aiCount, setAiCount] = useState('5');
-  const [aiModel, setAiModel] = useState('');
-  const [aiInstructions, setAiInstructions] = useState('');
-  const [generating, setGenerating] = useState(false);
 
   const load = useCallback(async (showSpinner = true) => {
     if (showSpinner) setLoading(true);
@@ -148,31 +138,7 @@ export default function CognitiveQuestionsScreen({ route }: Props) {
     );
   }
 
-  async function generateWithAI() {
-    if (!apiKey.trim()) {
-      Alert.alert('API key required', 'Enter an API key for the selected AI provider.');
-      return;
-    }
-    setGenerating(true);
-    try {
-      const created = await api.generateQuestionsAI({
-        provider,
-        api_key: apiKey.trim(),
-        topic: aiTopic.trim() || 'Addition',
-        difficulty: aiDifficulty,
-        count: Math.max(1, Math.min(20, Number(aiCount) || 5)),
-        model: aiModel.trim() || undefined,
-        instructions: aiInstructions.trim() || undefined,
-      });
-      setQuestions(prev => [...created, ...prev]);
-      setApiKey('');
-      Alert.alert('Questions created', `${created.length} question(s) were saved to Supabase.`);
-    } catch (e: any) {
-      Alert.alert('AI generation failed', e?.message || 'Check the provider, model, and API key.');
-    } finally {
-      setGenerating(false);
-    }
-  }
+
 
   if (loading) {
     return (
@@ -269,91 +235,16 @@ export default function CognitiveQuestionsScreen({ route }: Props) {
         />
       </Card>
 
-      <Card style={styles.formCard}>
-        <Text style={styles.sectionTitle}>AI auto-generate</Text>
-        <Text style={styles.helperText}>Your API key is only sent to your backend for this request and is not saved by the app.</Text>
-        <Text style={styles.label}>Provider</Text>
-        <View style={styles.segmentRow}>
-          {PROVIDERS.map(item => (
-            <SegmentButton
-              key={item}
-              label={item}
-              active={provider === item}
-              onPress={() => setProvider(item)}
-            />
-          ))}
-        </View>
-        <Field label="API key">
-          <TextInput
-            value={apiKey}
-            onChangeText={setApiKey}
-            placeholder="Paste provider API key"
-            placeholderTextColor={colors.textMuted}
-            style={styles.input}
-            secureTextEntry
-            autoCapitalize="none"
-          />
-        </Field>
-        <Field label="Model">
-          <TextInput
-            value={aiModel}
-            onChangeText={setAiModel}
-            placeholder="Optional, leave blank for default"
-            placeholderTextColor={colors.textMuted}
-            style={styles.input}
-            autoCapitalize="none"
-          />
-        </Field>
-        <View style={styles.aiRow}>
-          <View style={styles.aiCol}>
-            <Field label="Topic">
-              <TextInput
-                value={aiTopic}
-                onChangeText={setAiTopic}
-                placeholder="Addition"
-                placeholderTextColor={colors.textMuted}
-                style={styles.input}
-              />
-            </Field>
-          </View>
-          <View style={styles.countCol}>
-            <Field label="Count">
-              <TextInput
-                value={aiCount}
-                onChangeText={setAiCount}
-                keyboardType="number-pad"
-                placeholder="5"
-                placeholderTextColor={colors.textMuted}
-                style={styles.input}
-              />
-            </Field>
-          </View>
-        </View>
-        <Text style={styles.label}>Difficulty</Text>
-        <View style={styles.segmentRow}>
-          {DIFFICULTIES.map(item => (
-            <SegmentButton
-              key={item}
-              label={item}
-              active={aiDifficulty === item}
-              onPress={() => setAiDifficulty(item)}
-            />
-          ))}
-        </View>
-        <Field label="Instructions">
-          <TextInput
-            value={aiInstructions}
-            onChangeText={setAiInstructions}
-            placeholder="Optional: focus on memory, attention, or number sense"
-            placeholderTextColor={colors.textMuted}
-            style={[styles.input, styles.multiline]}
-            multiline
-          />
-        </Field>
+      {/* AI Generate — navigates to dedicated screen */}
+      <Card style={[styles.formCard, { alignItems: 'center', gap: spacing.md }]}>
+        <Text style={{ fontSize: 36 }}>✨</Text>
+        <Text style={styles.sectionTitle}>Generate with AI</Text>
+        <Text style={[styles.helperText, { textAlign: 'center' }]}>
+          Let AI create questions for you. Choose a type, difficulty, and the AI does the rest!
+        </Text>
         <PrimaryButton
-          title="Generate with AI"
-          onPress={generateWithAI}
-          loading={generating}
+          title="✨ Generate Questions"
+          onPress={() => navigation.navigate('AIGenerate', { teacherId })}
           variant="coral"
         />
       </Card>
@@ -521,16 +412,6 @@ const createStyles = (colors: typeof lightColors) => StyleSheet.create({
   },
   segmentTextActive: {
     color: colors.textInverse,
-  },
-  aiRow: {
-    flexDirection: 'row',
-    gap: spacing.sm,
-  },
-  aiCol: {
-    flex: 1,
-  },
-  countCol: {
-    width: 92,
   },
   listHeader: {
     flexDirection: 'row',

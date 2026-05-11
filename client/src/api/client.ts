@@ -44,6 +44,22 @@ export interface AIQuestionGenerateRequest {
   instructions?: string;
 }
 
+export interface AIQuestionGenerateSimpleRequest {
+  topic: string;
+  difficulty: 'Easy' | 'Medium' | 'Hard';
+  count: number;
+  instructions?: string;
+}
+
+export interface QuestionDraft {
+  topic: string;
+  difficulty: 'Easy' | 'Medium' | 'Hard';
+  question_text: string;
+  correct_answer: string;
+  options?: string[];
+  question_code?: string;
+}
+
 export interface InteractionEvent {
   student_id: string;
   session_id: string;
@@ -306,6 +322,13 @@ export const api = {
 
   generateQuestionsAI(params: AIQuestionGenerateRequest) {
     return request<Question[]>('/questions/generate', {
+      method: 'POST',
+      body: JSON.stringify(params),
+    }, true);
+  },
+
+  generateQuestionsSimple(params: AIQuestionGenerateSimpleRequest) {
+    return request<QuestionDraft[]>('/questions/generate-simple', {
       method: 'POST',
       body: JSON.stringify(params),
     }, true);

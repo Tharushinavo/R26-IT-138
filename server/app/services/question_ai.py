@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import time
 from typing import Any, Dict, List, Literal, Optional
 from urllib import request
 from urllib.error import HTTPError, URLError
@@ -12,9 +13,24 @@ Provider = Literal["openai", "gemini", "deepseek"]
 
 DEFAULT_MODELS: Dict[Provider, str] = {
     "openai": "gpt-4.1-mini",
-    "gemini": "gemini-1.5-flash",
+    "gemini": "gemini-2.0-flash",
     "deepseek": "deepseek-chat",
 }
+
+# Friendly messages for common HTTP errors
+_FRIENDLY_ERRORS: Dict[int, str] = {
+    401: "Invalid API key. Please ask the administrator to check the Gemini API key.",
+    403: "API key does not have permission. Please check the API key settings in Google AI Studio.",
+    404: "AI model not found. The configured model may have been deprecated.",
+    429: "AI service is temporarily busy (rate limit). Please wait a moment and try again.",
+    500: "AI service encountered an internal error. Please try again later.",
+    503: "AI service is temporarily unavailable. Please try again in a few minutes.",
+}
+
+# Retry configuration for transient errors (429, 500, 503)
+_RETRYABLE_CODES = {429, 500, 503}
+_MAX_RETRIES = 3
+_INITIAL_BACKOFF_SEC = 2.0
 
 
 def generate_questions(
@@ -67,16 +83,40 @@ def _build_prompt(topic: str, difficulty: str, count: int, instructions: Optiona
 
 
 def _post_json(url: str, headers: Dict[str, str], payload: Dict[str, Any]) -> Dict[str, Any]:
+    """Send a POST request with automatic retry for transient errors (429, 500, 503)."""
     data = json.dumps(payload).encode("utf-8")
-    req = request.Request(url, data=data, headers=headers, method="POST")
-    try:
-        with request.urlopen(req, timeout=45) as res:
-            return json.loads(res.read().decode("utf-8"))
-    except HTTPError as exc:
-        detail = exc.read().decode("utf-8", errors="ignore")
-        raise ValueError(f"AI provider returned {exc.code}: {detail[:300]}") from exc
-    except URLError as exc:
-        raise ValueError(f"Could not reach AI provider: {exc.reason}") from exc
+
+    last_exc: Exception | None = None
+    for attempt in range(_MAX_RETRIES):
+        req = request.Request(url, data=data, headers=headers, method="POST")
+        try:
+            with request.urlopen(req, timeout=60) as res:
+                return json.loads(res.read().decode("utf-8"))
+        except HTTPError as exc:
+            code = exc.code
+            detail_raw = exc.read().decode("utf-8", errors="ignore")
+
+            # If retryable, wait and try again
+            if code in _RETRYABLE_CODES and attempt < _MAX_RETRIES - 1:
+                wait = _INITIAL_BACKOFF_SEC * (2 ** attempt)
+                time.sleep(wait)
+                last_exc = exc
+                continue
+
+            # Build a user-friendly message
+            friendly = _FRIENDLY_ERRORS.get(code)
+            if friendly:
+                raise ValueError(friendly) from exc
+            raise ValueError(f"AI provider returned error {code}: {detail_raw[:200]}") from exc
+        except URLError as exc:
+            if attempt < _MAX_RETRIES - 1:
+                time.sleep(_INITIAL_BACKOFF_SEC)
+                last_exc = exc
+                continue
+            raise ValueError(f"Could not reach AI provider: {exc.reason}") from exc
+
+    # Should not reach here, but just in case
+    raise ValueError("AI generation failed after multiple retries. Please try again later.")
 
 
 def _call_openai_compatible(url: str, api_key: str, model: str, prompt: str) -> str:
