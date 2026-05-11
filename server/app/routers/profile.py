@@ -4,7 +4,7 @@ import logging
 import traceback
 from typing import List, Optional
 
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRoute.3r, HTTPException, Query
 
 from app.schemas import (
     CognitiveProfile,
