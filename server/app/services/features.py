@@ -81,8 +81,8 @@ def events_to_dataframe(events: List[InteractionEvent]) -> pd.DataFrame:
             "difficulty": e.difficulty,
             "response_time_sec": e.response_time_sec,
             "attempts": e.attempts,
-            "is_correct": e.is_correct,
-            "hint_used": e.hint_used,
+            "is_correct": int(e.is_correct),  # Convert bool to int for sklearn compatibility
+            "hint_used": int(e.hint_used),      # Convert bool to int for sklearn compatibility
             "click_count": e.click_count,
             "session_time_sec": e.session_time_sec,
             "time_between_actions": e.time_between_actions,

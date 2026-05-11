@@ -19,7 +19,7 @@ class Settings(BaseSettings):
     jwt_algorithm: str = "HS256"
     access_token_expire_minutes: int = 1440  # 24 hours for mobile app UX
 
-    model_path: str = "./app/ml/cognitive_model.pkl"
+    model_path: str = "./app/cognitive_model_files/cognitive_model.pkl"
 
     model_config = SettingsConfigDict(
         env_file=".env",

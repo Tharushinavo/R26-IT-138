@@ -1,27 +1,26 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { useLanguage } from '../i18n/LanguageContext';
 import { radius, spacing, typography, useAppTheme } from '../theme';
 
-export default function LanguageToggle() {
-  const { lang, setLanguage, t } = useLanguage();
-  const { colors, isDark } = useAppTheme();
+export default function ThemeToggle() {
+  const { colors, isDark, mode, setThemeMode } = useAppTheme();
   const styles = createStyles(colors, isDark);
+
   return (
     <View style={styles.container}>
       <TouchableOpacity
-        style={[styles.btn, lang === 'en' && styles.active]}
-        onPress={() => setLanguage('en')}
+        style={[styles.btn, mode === 'light' && styles.active]}
+        onPress={() => setThemeMode('light')}
         activeOpacity={0.7}
       >
-        <Text style={[styles.text, lang === 'en' && styles.activeText]}>EN</Text>
+        <Text style={[styles.text, mode === 'light' && styles.activeText]}>Light</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        style={[styles.btn, lang === 'si' && styles.active]}
-        onPress={() => setLanguage('si')}
+        style={[styles.btn, mode === 'dark' && styles.active]}
+        onPress={() => setThemeMode('dark')}
         activeOpacity={0.7}
       >
-        <Text style={[styles.text, lang === 'si' && styles.activeText]}>සිං</Text>
+        <Text style={[styles.text, mode === 'dark' && styles.activeText]}>Dark</Text>
       </TouchableOpacity>
     </View>
   );

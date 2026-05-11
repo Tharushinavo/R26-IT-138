@@ -13,6 +13,21 @@ create table if not exists user_profiles (
     created_at  timestamptz default now()
 );
 
+-- Role-specific teacher metadata. Every teacher/admin also remains in
+-- user_profiles, which is the main users list used by the app.
+create table if not exists teachers (
+    id          uuid primary key references auth.users(id) on delete cascade,
+    full_name   text,
+    email       text,
+    created_at  timestamptz default now()
+);
+
+insert into teachers (id, full_name)
+select id, full_name
+from user_profiles
+where role in ('teacher', 'admin')
+on conflict (id) do update set full_name = excluded.full_name;
+
 -- ══════════════════════════════════════════════════════════
 -- Table 2: students
 -- ══════════════════════════════════════════════════════════

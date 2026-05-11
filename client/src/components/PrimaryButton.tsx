@@ -7,7 +7,7 @@ import {
   View,
   ViewStyle,
 } from 'react-native';
-import { colors, radius, typography } from '../theme';
+import { radius, typography, useAppTheme } from '../theme';
 
 interface Props {
   title: string;
@@ -26,6 +26,9 @@ export default function PrimaryButton({
   variant = 'primary',
   style,
 }: Props) {
+  const { colors, isDark } = useAppTheme();
+  const primaryTextColor = isDark ? colors.textInverse : colors.textWarm;
+  const styles = createStyles(colors, primaryTextColor);
   const isGhost = variant === 'ghost';
   const isCoral = variant === 'coral';
   const isDisabled = disabled || loading;
@@ -46,7 +49,7 @@ export default function PrimaryButton({
       ]}
     >
       {loading ? (
-        <ActivityIndicator color={isGhost || isCoral ? colors.primary : colors.textInverse} />
+        <ActivityIndicator color={isGhost || isCoral ? colors.primary : primaryTextColor} />
       ) : (
         <View style={styles.inner}>
           <Text style={[styles.text, textStyle]}>
@@ -58,7 +61,7 @@ export default function PrimaryButton({
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (colors: ReturnType<typeof useAppTheme>['colors'], primaryTextColor: string) => StyleSheet.create({
   base: {
     minHeight: 56,
     paddingHorizontal: 28,
@@ -92,8 +95,8 @@ const styles = StyleSheet.create({
     shadowColor: 'rgba(224, 110, 82, 0.4)',
   },
   disabled: { opacity: 0.5 },
-  text: { ...typography.subtitle, letterSpacing: 0.3 },
-  textPrimary: { color: colors.textWarm },
+  text: { ...typography.subtitle, letterSpacing: 0.3, textAlign: 'center' },
+  textPrimary: { color: primaryTextColor },
   textGhost: { color: colors.textWarm },
   textCoral: { color: colors.textInverse },
 });

@@ -9,11 +9,12 @@ import { Audio } from 'expo-av';
 // Free sound effect URLs (royalty-free, child-friendly)
 const SOUND_URLS = {
   correct: 'https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3',     // happy ding
-  wrong: 'https://assets.mixkit.co/active_storage/sfx/2003/2003-preview.mp3',       // soft wrong buzz
+  wrong: 'https://assets.mixkit.co/active_storage/sfx/2364/2364-preview.mp3',       // denied buzzer
   tap: 'https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3',         // soft click/pop
   hint: 'https://assets.mixkit.co/active_storage/sfx/2570/2570-preview.mp3',        // magic chime
   complete: 'https://assets.mixkit.co/active_storage/sfx/1435/1435-preview.mp3',    // celebration fanfare
   nextQuestion: 'https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3', // whoosh
+  alarm: 'https://assets.mixkit.co/active_storage/sfx/1647/1647-preview.mp3',       // alarm warning beep
 };
 
 export type SoundName = keyof typeof SOUND_URLS;

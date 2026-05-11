@@ -29,6 +29,25 @@ class QuestionCreate(BaseModel):
     options: Optional[List[str]] = None
 
 
+class QuestionUpdate(BaseModel):
+    question_code: Optional[str] = None
+    topic: Optional[str] = None
+    difficulty: Optional[Literal["Easy", "Medium", "Hard"]] = None
+    question_text: Optional[str] = None
+    correct_answer: Optional[str] = None
+    options: Optional[List[str]] = None
+
+
+class AIQuestionGenerateRequest(BaseModel):
+    provider: Literal["openai", "gemini", "deepseek"]
+    api_key: str = Field(..., min_length=10)
+    topic: str = "Addition"
+    difficulty: Literal["Easy", "Medium", "Hard"] = "Easy"
+    count: int = Field(5, ge=1, le=20)
+    model: Optional[str] = None
+    instructions: Optional[str] = None
+
+
 # ---------- Interaction events (raw data captured during activity) ----------
 
 class InteractionEvent(BaseModel):
@@ -155,6 +174,31 @@ class UserProfile(BaseModel):
     email: Optional[str] = None
     full_name: Optional[str] = None
     role: str = "student"
+    avatar_url: Optional[str] = None
+
+class UserProfileUpdate(BaseModel):
+    full_name: Optional[str] = None
+    password: Optional[str] = None
+    avatar_url: Optional[str] = None
+
+class TopicPerformance(BaseModel):
+    topic: str
+    total_questions: int = 0
+    accuracy: float = 0.0
+    avg_response_time_sec: float = 0.0
+    retry_rate: float = 0.0
+    hint_rate: float = 0.0
+
+class StudentPerformance(BaseModel):
+    total_questions: int = 0
+    completed_sessions: int = 0
+    accuracy: float = 0.0
+    avg_response_time_sec: float = 0.0
+    avg_attempts: float = 1.0
+    retry_rate: float = 0.0
+    hint_rate: float = 0.0
+    last_topic: Optional[str] = None
+    topics: List[TopicPerformance] = Field(default_factory=list)
 
 class StudentSummary(BaseModel):
     student_id: str
@@ -163,3 +207,17 @@ class StudentSummary(BaseModel):
     total_interactions: int = 0
     latest_profile: Optional[CognitiveProfile] = None
     last_activity_date: Optional[str] = None
+    grade: Optional[str] = None
+    performance: StudentPerformance = Field(default_factory=StudentPerformance)
+
+class TeacherDashboardStats(BaseModel):
+    total_students: int = 0
+    students_with_profiles: int = 0
+    total_interactions: int = 0
+    average_accuracy: float = 0.0
+    average_response_time_sec: float = 0.0
+    needs_support_count: int = 0
+
+class TeacherDashboardResponse(BaseModel):
+    stats: TeacherDashboardStats
+    students: List[StudentSummary]

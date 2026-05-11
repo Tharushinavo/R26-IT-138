@@ -5,10 +5,12 @@ from __future__ import annotations
 
 from typing import List, Optional
 
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 
-from app.schemas import Question
+from app.schemas import AIQuestionGenerateRequest, MessageResponse, Question, QuestionCreate, QuestionUpdate
+from app.routers.auth import get_current_teacher
 from app.services import supabase_client
+from app.services.question_ai import generate_questions as generate_ai_questions
 
 router = APIRouter(prefix="/questions", tags=["questions"])
 
@@ -108,3 +110,79 @@ def get_questions(
     if difficulty:
         result = [q for q in result if q.difficulty.lower() == difficulty.lower()]
     return result[:limit]
+
+
+@router.post("", response_model=Question, status_code=status.HTTP_201_CREATED)
+def create_question(
+    body: QuestionCreate,
+    current_user: dict = Depends(get_current_teacher),
+) -> Question:
+    """Create a cognitive/math question. Requires teacher/admin role."""
+    created = supabase_client.insert_question(body.model_dump(mode="json", exclude_none=True))
+    if not created:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="Could not create question. Check Supabase configuration and questions table.",
+        )
+    return created
+
+
+@router.put("/{question_id}", response_model=Question)
+def update_question(
+    question_id: str,
+    body: QuestionUpdate,
+    current_user: dict = Depends(get_current_teacher),
+) -> Question:
+    """Update a cognitive/math question. Requires teacher/admin role."""
+    patch = body.model_dump(mode="json", exclude_none=True)
+    if not patch:
+        raise HTTPException(status_code=400, detail="No fields provided")
+    updated = supabase_client.update_question(question_id, patch)
+    if not updated:
+        raise HTTPException(status_code=404, detail="Question not found or Supabase unavailable")
+    return updated
+
+
+@router.delete("/{question_id}", response_model=MessageResponse)
+def delete_question(
+    question_id: str,
+    current_user: dict = Depends(get_current_teacher),
+) -> MessageResponse:
+    """Delete a cognitive/math question. Requires teacher/admin role."""
+    ok = supabase_client.delete_question(question_id)
+    if not ok:
+        raise HTTPException(status_code=404, detail="Question not found or Supabase unavailable")
+    return MessageResponse(message="Question deleted", id=question_id)
+
+
+@router.post("/generate", response_model=List[Question], status_code=status.HTTP_201_CREATED)
+def generate_questions(
+    body: AIQuestionGenerateRequest,
+    current_user: dict = Depends(get_current_teacher),
+) -> List[Question]:
+    """Generate questions with an AI provider and save them into Supabase."""
+    try:
+        drafts = generate_ai_questions(
+            provider=body.provider,
+            api_key=body.api_key,
+            topic=body.topic,
+            difficulty=body.difficulty,
+            count=body.count,
+            model=body.model,
+            instructions=body.instructions,
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+    created: List[Question] = []
+    for draft in drafts:
+        row = supabase_client.insert_question(draft.model_dump(mode="json", exclude_none=True))
+        if row:
+            created.append(Question(**row))
+
+    if not created:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail="AI generated questions, but none were saved. Check Supabase configuration and questions table.",
+        )
+    return created

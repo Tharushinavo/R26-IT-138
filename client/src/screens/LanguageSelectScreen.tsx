@@ -4,30 +4,25 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../App';
 import PrimaryButton from '../components/PrimaryButton';
 import { useLanguage } from '../i18n/LanguageContext';
-import type { Language } from '../i18n/translations';
-import { colors, radius, spacing, typography, shadow } from '../theme';
+import { colors as lightColors, radius, spacing, typography, useAppTheme } from '../theme';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'LanguageSelect'>;
 
 export default function LanguageSelectScreen({ navigation }: Props) {
   const { lang, setLanguage, t } = useLanguage();
+  const { colors, isDark } = useAppTheme();
+  const styles = createStyles(colors);
 
   return (
     <View style={styles.container}>
-      {/* Decorative blobs */}
-      <View style={styles.blob1} />
-      <View style={styles.blob2} />
-
-      {/* Mascot header */}
       <View style={styles.header}>
         <View style={styles.mascotCircle}>
-          <Text style={{ fontSize: 44 }}>🦒</Text>
+          <Text style={styles.mascot}>🐒</Text>
         </View>
         <Text style={styles.title}>{t.langSelect.title}</Text>
         <Text style={styles.subtitle}>{t.langSelect.subtitle}</Text>
       </View>
 
-      {/* Language Options */}
       <View style={styles.options}>
         <LanguageOption
           flag="🇬🇧"
@@ -37,6 +32,7 @@ export default function LanguageSelectScreen({ navigation }: Props) {
           bgColor="#E8F4FF"
           accentColor={colors.blue}
           selected={lang === 'en'}
+          isDark={isDark}
           onPress={() => setLanguage('en')}
         />
         <LanguageOption
@@ -47,33 +43,24 @@ export default function LanguageSelectScreen({ navigation }: Props) {
           bgColor="#E8FFE8"
           accentColor={colors.green}
           selected={lang === 'si'}
+          isDark={isDark}
           onPress={() => setLanguage('si')}
         />
       </View>
 
-      {/* Preview speech bubble */}
       <View style={styles.previewBubble}>
         <View style={styles.bubbleTail} />
-        <Text style={styles.previewText}>
-          {lang === 'en'
-            ? '🎮 Play fun math activities and discover how your brain learns best!'
-            : '🎮 විනෝදජනක ගණිත ක්‍රියාකාරකම් කරමින් ඔබේ මොළය වඩාත් හොඳින් ඉගෙන ගන්නේ කෙසේදැයි සොයා ගන්න!'}
-        </Text>
+        <Text style={styles.previewText}>🎮 {t.splash.subtitle}</Text>
       </View>
 
-      {/* Progress dots */}
       <View style={styles.dotsRow}>
         <View style={styles.dot} />
         <View style={styles.dotActive} />
         <View style={styles.dot} />
       </View>
 
-      {/* Continue */}
       <View style={styles.cta}>
-        <PrimaryButton
-          title={`${t.langSelect.confirm}  →`}
-          onPress={() => navigation.replace('Login')}
-        />
+        <PrimaryButton title={`${t.langSelect.confirm}  →`} onPress={() => navigation.replace('Login')} />
       </View>
     </View>
   );
@@ -87,6 +74,7 @@ function LanguageOption({
   bgColor,
   accentColor,
   selected,
+  isDark,
   onPress,
 }: {
   flag: string;
@@ -96,25 +84,28 @@ function LanguageOption({
   bgColor: string;
   accentColor: string;
   selected: boolean;
+  isDark: boolean;
   onPress: () => void;
 }) {
+  const { colors } = useAppTheme();
+  const styles = createStyles(colors);
+  const selectedBg = isDark ? colors.surfaceSoft : bgColor;
+
   return (
     <TouchableOpacity
       activeOpacity={0.7}
       onPress={onPress}
       style={[
         styles.langCard,
-        { backgroundColor: selected ? bgColor : colors.surface },
+        { backgroundColor: selected ? selectedBg : colors.surface },
         selected && { borderColor: accentColor },
       ]}
     >
       <View style={[styles.langAnimal, { borderColor: selected ? accentColor : colors.border }]}>
-        <Text style={{ fontSize: 30 }}>{animal}</Text>
+        <Text style={styles.langAnimalText}>{animal}</Text>
       </View>
       <View style={styles.langTextWrap}>
-        <Text style={[styles.langName, selected && { color: accentColor }]}>
-          {name}
-        </Text>
+        <Text style={[styles.langName, selected && { color: accentColor }]}>{name}</Text>
         <Text style={styles.langNative}>{flag} {nativeName}</Text>
       </View>
       <View style={[styles.radio, selected && { borderColor: accentColor }]}>
@@ -124,31 +115,13 @@ function LanguageOption({
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (colors: typeof lightColors) => StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background,
     padding: spacing.lg,
     paddingTop: 60,
     justifyContent: 'center',
-  },
-  blob1: {
-    position: 'absolute',
-    width: 180,
-    height: 180,
-    borderRadius: 90,
-    backgroundColor: 'rgba(255, 217, 61, 0.15)',
-    top: -30,
-    left: -40,
-  },
-  blob2: {
-    position: 'absolute',
-    width: 140,
-    height: 140,
-    borderRadius: 70,
-    backgroundColor: 'rgba(174, 127, 250, 0.10)',
-    bottom: 60,
-    right: -30,
   },
   header: {
     alignItems: 'center',
@@ -163,13 +136,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginBottom: spacing.md,
     borderWidth: 3,
-    borderColor: '#FFE082',
-    shadowColor: 'rgba(255, 180, 0, 0.3)',
+    borderColor: colors.yellow,
+    shadowColor: colors.shadow,
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 1,
     shadowRadius: 8,
     elevation: 4,
   },
+  mascot: { fontSize: 44 },
   title: {
     ...typography.title,
     color: colors.textWarm,
@@ -209,6 +183,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderWidth: 2.5,
   },
+  langAnimalText: { fontSize: 30 },
   langTextWrap: { flex: 1, gap: 2 },
   langName: {
     ...typography.subtitle,
