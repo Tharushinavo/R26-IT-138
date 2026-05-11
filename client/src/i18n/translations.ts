@@ -153,6 +153,16 @@ const en = {
     hintCounting: 'Count carefully, one by one.',
     hintRecognition: 'Look at the shape of each number carefully.',
     hintDefault: 'Take a breath and read the question again.',
+    // Topic names
+    topics: {
+      counting: 'COUNTING',
+      addition: 'ADDITION',
+      subtraction: 'SUBTRACTION',
+      multiplication: 'MULTIPLICATION',
+      division: 'DIVISION',
+      comparison: 'NUMBER COMPARISON',
+      recognition: 'NUMBER RECOGNITION',
+    },
   },
 
   // ── Profile Result Screen ──
@@ -212,6 +222,24 @@ const en = {
     last: 'Last',
   },
 
+  // ── Bottom tabs ──
+  tabs: {
+    home: 'Home',
+    activity: 'Activity',
+    profile: 'Profile',
+    history: 'History',
+    students: 'Students',
+    questions: 'Questions',
+    settings: 'Settings',
+  },
+
+  // ── Session timeout ──
+  sessionTimeout: {
+    title: 'Time for a Break! ⏰',
+    message: 'Your play session has ended.\nLog in again to continue your math adventure!',
+    button: 'Log In Again 🦁',
+  },
+
   // ── Nav header titles ──
   nav: {
     signIn: 'Sign In',
@@ -220,7 +248,9 @@ const en = {
     mathActivity: 'Math Activity',
     cognitiveProfile: 'Cognitive Profile',
     profileHistory: 'Profile History',
+    teacherHome: 'Teacher Workspace',
     teacherDashboard: 'Teacher Dashboard',
+    cognitiveQuestions: 'Cognitive Questions',
   },
 };
 
@@ -364,6 +394,16 @@ const si: TranslationKeys = {
     hintCounting: 'ප්‍රවේශමෙන් එකින් එක ගණන් කරන්න.',
     hintRecognition: 'සෑම සංඛ්‍යාවකම හැඩය ප්‍රවේශමෙන් බලන්න.',
     hintDefault: 'හුස්ම ගන්න, ප්‍රශ්නය නැවත කියවන්න.',
+    // Topic names
+    topics: {
+      counting: 'ගණනය',
+      addition: 'එකතු කිරීම',
+      subtraction: 'අඩු කිරීම',
+      multiplication: 'ගුණ කිරීම',
+      division: 'බෙදීම',
+      comparison: 'සංඛ්‍යා සංසන්දනය',
+      recognition: 'සංඛ්‍යා හඳුනාගැනීම',
+    },
   },
 
   profileResult: {
@@ -419,6 +459,22 @@ const si: TranslationKeys = {
     last: 'අවසාන',
   },
 
+  tabs: {
+    home: 'මුල් පිටුව',
+    activity: 'ක්‍රියාකාරකම',
+    profile: 'පැතිකඩ',
+    history: 'ඉතිහාසය',
+    students: 'ශිෂ්‍යයන්',
+    questions: 'ප්‍රශ්න',
+    settings: 'සැකසුම්',
+  },
+
+  sessionTimeout: {
+    title: 'විවේකයට කාලයයි! ⏰',
+    message: 'ඔබේ ක්‍රීඩා සැසිය අවසන් විය.\nඔබේ ගණිත වික්‍රමය දිගටම කරගෙන යාමට නැවත ලොග් වන්න!',
+    button: 'නැවත ලොග් වන්න 🦁',
+  },
+
   nav: {
     signIn: 'පිවිසුම',
     signUp: 'ලියාපදිංචිය',
@@ -426,7 +482,9 @@ const si: TranslationKeys = {
     mathActivity: 'ගණිත ක්‍රියාකාරකම',
     cognitiveProfile: 'සංජානනීය පැතිකඩ',
     profileHistory: 'පැතිකඩ ඉතිහාසය',
+    teacherHome: 'ගුරු කාර්ය පුවරුව',
     teacherDashboard: 'ගුරු උපකරණ පුවරුව',
+    cognitiveQuestions: 'සංජානන ප්‍රශ්න',
   },
 };
 

@@ -11,32 +11,28 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../App';
 import Card from '../components/Card';
 import PrimaryButton from '../components/PrimaryButton';
-import LanguageToggle from '../components/LanguageToggle';
+import ProfileControls from '../components/ProfileControls';
 import { useLanguage } from '../i18n/LanguageContext';
-import { colors, radius, spacing, typography } from '../theme';
+import { useAuth } from '../context/AuthContext';
+import { radius, spacing, typography, useAppTheme } from '../theme';
 import { api, type CognitiveProfile, type Level, type SpeedLevel } from '../api/client';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'ProfileResult'>;
 
-const DIM_STYLE = {
-  memory_level: { emoji: '🧠', color: colors.purple, bgColor: '#EDE9FE' },
-  attention_level: { emoji: '🎯', color: colors.pink, bgColor: '#FCE7F3' },
-  number_sense_level: { emoji: '🔢', color: colors.primary, bgColor: '#DBEAFE' },
-  processing_speed_level: { emoji: '⚡', color: colors.teal, bgColor: '#D1FAE5' },
-};
-
-const LEVEL_STYLE: Record<string, { color: string; bgColor: string; emoji: string; width: string }> = {
-  high: { color: colors.success, bgColor: colors.successBg, emoji: '🌟', width: '100%' },
-  medium: { color: colors.primary, bgColor: '#DBEAFE', emoji: '👍', width: '60%' },
-  low: { color: colors.warning, bgColor: colors.warningBg, emoji: '💪', width: '30%' },
-  Fast: { color: colors.success, bgColor: colors.successBg, emoji: '🌟', width: '100%' },
-  Moderate: { color: colors.primary, bgColor: '#DBEAFE', emoji: '👍', width: '60%' },
-  Slow: { color: colors.warning, bgColor: colors.warningBg, emoji: '💪', width: '30%' },
-};
-
 export default function ProfileResultScreen({ route, navigation }: Props) {
   const { t } = useLanguage();
+  const { role, user } = useAuth();
+  const { colors } = useAppTheme();
+  const styles = createStyles(colors);
   const { studentId, sessionId } = route.params;
+  const isTeacherView = role === 'teacher' || role === 'admin';
+
+  const DIM_STYLE = {
+    memory_level: { emoji: '🧠', color: colors.purple, bgColor: colors.surfaceSoft },
+    attention_level: { emoji: '🎯', color: colors.pink, bgColor: colors.surfaceSoft },
+    number_sense_level: { emoji: '🔢', color: colors.primary, bgColor: colors.skyBlueSoft },
+    processing_speed_level: { emoji: '⚡', color: colors.teal, bgColor: colors.successBg },
+  };
 
   const DIM_META = {
     memory_level: { title: t.profileResult.memoryTitle, blurb: t.profileResult.memoryBlurb, ...DIM_STYLE.memory_level },
@@ -63,10 +59,18 @@ export default function ProfileResultScreen({ route, navigation }: Props) {
   const load = useCallback(async () => {
     setLoading(true);
     setError(null);
+    console.log('[profile] latest fetch start', { studentId, sessionId });
     try {
       const p = await api.getLatestProfile(studentId, sessionId);
+      console.log('[profile] latest fetch success', {
+        requestedStudentId: studentId,
+        storedStudentId: p.student_id,
+        sessionId: p.session_id,
+        totalQuestions: p.features.total_questions,
+      });
       setProfile(p);
     } catch (e: any) {
+      console.log('[profile] latest fetch failed', { studentId, sessionId, message: e?.message });
       setError(e?.message ?? 'Could not load profile');
     } finally {
       setLoading(false);
@@ -77,7 +81,7 @@ export default function ProfileResultScreen({ route, navigation }: Props) {
 
   if (loading) {
     return (
-      <View style={styles.center}>
+      <View style={[styles.center, { backgroundColor: colors.background }]}>
         <View style={styles.loadingCircle}>
           <ActivityIndicator size="large" color={colors.primary} />
         </View>
@@ -89,26 +93,36 @@ export default function ProfileResultScreen({ route, navigation }: Props) {
 
   if (error || !profile) {
     return (
-      <View style={styles.center}>
+      <View style={[styles.center, { backgroundColor: colors.background }]}>
         <Text style={{ fontSize: 64, marginBottom: spacing.md }}>🤔</Text>
         <Text style={styles.emptyTitle}>{t.profileResult.noProfileYet}</Text>
         <Text style={styles.emptySubtitle}>
-          {error ?? t.profileResult.playActivity}
+          {isTeacherView
+            ? 'No cognitive profile is available for this student yet.'
+            : error ?? t.profileResult.playActivity}
         </Text>
-        <PrimaryButton
-          title={t.profileResult.startActivity}
-          onPress={() => navigation.replace('MathActivity', { studentId })}
-        />
+        {isTeacherView ? (
+          <PrimaryButton
+            title="Back to Teacher Dashboard"
+            onPress={() => navigation.navigate('TeacherDashboard', { teacherId: user?.id || '' })}
+          />
+        ) : (
+          <PrimaryButton
+            title={t.profileResult.startActivity}
+            onPress={() => navigation.replace('MathActivity', { studentId })}
+          />
+        )}
       </View>
     );
   }
 
   return (
+    <View style={{ flex: 1, backgroundColor: colors.background }}>
     <ScrollView
       contentContainerStyle={styles.container}
       refreshControl={<RefreshControl refreshing={loading} onRefresh={load} />}
     >
-      <LanguageToggle />
+      <ProfileControls />
 
       {/* Header Card */}
       <Card style={styles.headerCard}>
@@ -193,22 +207,25 @@ export default function ProfileResultScreen({ route, navigation }: Props) {
 
       {/* Actions */}
       <View style={styles.actionGroup}>
-        <PrimaryButton
-          title={t.profileResult.playAgain}
-          onPress={() => navigation.replace('MathActivity', { studentId })}
-        />
+        {!isTeacherView && (
+          <PrimaryButton
+            title={t.profileResult.playAgain}
+            onPress={() => navigation.replace('MathActivity', { studentId })}
+          />
+        )}
         <PrimaryButton
           title={t.profileResult.viewHistory}
           onPress={() => navigation.navigate('ProfileHistory', { studentId })}
           variant="ghost"
         />
         <PrimaryButton
-          title={t.profileResult.backToDashboard}
+          title={isTeacherView ? 'Back to Teacher Dashboard' : t.profileResult.backToDashboard}
           variant="ghost"
-          onPress={() => navigation.navigate('StudentDashboard', { studentId })}
+          onPress={() => navigation.goBack()}
         />
       </View>
     </ScrollView>
+    </View>
   );
 }
 
@@ -218,6 +235,16 @@ function DimensionCard({
   title: string; emoji: string; blurb: string;
   dimColor: string; dimBgColor: string; level: string; levelLabel: string;
 }) {
+  const { colors } = useAppTheme();
+  const styles = createStyles(colors);
+  const LEVEL_STYLE: Record<string, { color: string; bgColor: string; emoji: string; width: string }> = {
+    high: { color: colors.success, bgColor: colors.successBg, emoji: '🌟', width: '100%' },
+    medium: { color: colors.primary, bgColor: colors.skyBlueSoft, emoji: '👍', width: '60%' },
+    low: { color: colors.warning, bgColor: colors.warningBg, emoji: '💪', width: '30%' },
+    Fast: { color: colors.success, bgColor: colors.successBg, emoji: '🌟', width: '100%' },
+    Moderate: { color: colors.primary, bgColor: colors.skyBlueSoft, emoji: '👍', width: '60%' },
+    Slow: { color: colors.warning, bgColor: colors.warningBg, emoji: '💪', width: '30%' },
+  };
   const levelConf = LEVEL_STYLE[level] ?? LEVEL_STYLE['medium'];
   return (
     <Card style={styles.dimCard}>
@@ -250,6 +277,8 @@ function DimensionCard({
 }
 
 function StatBox({ emoji, label, value }: { emoji: string; label: string; value: string }) {
+  const { colors } = useAppTheme();
+  const styles = createStyles(colors);
   return (
     <View style={styles.statBox}>
       <Text style={{ fontSize: 22 }}>{emoji}</Text>
@@ -263,7 +292,7 @@ function pct(v: number) {
   return `${Math.round(v * 100)}%`;
 }
 
-const styles = StyleSheet.create({
+const createStyles = (colors: ReturnType<typeof useAppTheme>['colors']) => StyleSheet.create({
   container: { padding: spacing.lg, paddingTop: spacing.md, gap: spacing.md, paddingBottom: spacing.xxl },
   center: {
     flex: 1,

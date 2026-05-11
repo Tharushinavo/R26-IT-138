@@ -7,39 +7,40 @@ import {
   RefreshControl,
   TouchableOpacity,
 } from 'react-native';
-import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import type { RootStackParamList } from '../../App';
+import { useNavigation } from '@react-navigation/native';
 import PrimaryButton from '../components/PrimaryButton';
 import Card from '../components/Card';
-import LanguageToggle from '../components/LanguageToggle';
 import { useLanguage } from '../i18n/LanguageContext';
 import { useAuth } from '../context/AuthContext';
-import { colors, radius, spacing, typography } from '../theme';
+import { colors as lightColors, radius, spacing, typography, useAppTheme } from '../theme';
 import { api, type CognitiveProfile } from '../api/client';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'StudentDashboard'>;
-
-export default function StudentDashboard({ route, navigation }: Props) {
+export default function StudentDashboard({ route }: any) {
   const { t } = useLanguage();
-  const { user, logout } = useAuth();
+  const { user } = useAuth();
+  const navigation = useNavigation<any>();
+  const { colors } = useAppTheme();
+  const styles = createStyles(colors);
   const { studentId } = route.params;
   const name = user?.full_name || '';
   const [profile, setProfile] = useState<CognitiveProfile | null>(null);
   const [refreshing, setRefreshing] = useState(false);
 
   const load = useCallback(async () => {
+    console.log('[dashboard] latest profile fetch start', { studentId });
     try {
       const p = await api.getLatestProfile(studentId);
+      console.log('[dashboard] latest profile fetch success', {
+        requestedStudentId: studentId,
+        storedStudentId: p.student_id,
+        totalQuestions: p.features.total_questions,
+      });
       setProfile(p);
-    } catch {
+    } catch (e: any) {
+      console.log('[dashboard] latest profile fetch empty', { studentId, message: e?.message });
       setProfile(null);
     }
   }, [studentId]);
-
-  const handleLogout = async () => {
-    await logout();
-    navigation.replace('Login');
-  };
 
   useEffect(() => { load(); }, [load]);
 
@@ -62,13 +63,11 @@ export default function StudentDashboard({ route, navigation }: Props) {
   };
 
   return (
+    <View style={{ flex: 1, backgroundColor: colors.background }}>
     <ScrollView
       contentContainerStyle={styles.container}
       refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
     >
-      {/* Language Toggle */}
-      <LanguageToggle />
-
       {/* Greeting */}
       <View style={styles.greeting}>
         <Text style={{ fontSize: 48 }}>👋</Text>
@@ -119,29 +118,26 @@ export default function StudentDashboard({ route, navigation }: Props) {
       <View style={styles.actions}>
         <PrimaryButton
           title={t.dashboard.startActivity}
-          onPress={() => navigation.navigate('MathActivity', { studentId })}
+          onPress={() => navigation.navigate('StudentActivity', { studentId })}
         />
         <PrimaryButton
           title={t.dashboard.viewProfileResult}
-          onPress={() => navigation.navigate('ProfileResult', { studentId })}
+          onPress={() => navigation.navigate('StudentProfile', { studentId })}
           variant="ghost"
         />
         <PrimaryButton
           title={t.dashboard.profileHistory}
-          onPress={() => navigation.navigate('ProfileHistory', { studentId })}
+          onPress={() => navigation.navigate('StudentHistory', { studentId })}
           variant="ghost"
         />
       </View>
 
-      {/* Logout */}
-      <TouchableOpacity style={styles.logoutRow} onPress={handleLogout} activeOpacity={0.7}>
-        <Text style={styles.logoutText}>Logout</Text>
-      </TouchableOpacity>
     </ScrollView>
+    </View>
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (colors: typeof lightColors) => StyleSheet.create({
   container: {
     padding: spacing.lg,
     paddingTop: spacing.md,
@@ -206,15 +202,5 @@ const styles = StyleSheet.create({
   actions: {
     gap: spacing.md,
     marginTop: spacing.sm,
-  },
-  logoutRow: {
-    alignItems: 'center',
-    marginTop: spacing.lg,
-    paddingVertical: spacing.sm,
-  },
-  logoutText: {
-    ...typography.caption,
-    color: colors.coral,
-    textDecorationLine: 'underline',
   },
 });

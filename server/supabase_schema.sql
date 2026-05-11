@@ -13,6 +13,21 @@ create table if not exists user_profiles (
     created_at  timestamptz default now()
 );
 
+-- Role-specific teacher metadata. Every teacher/admin also remains in
+-- user_profiles, which is the main users list used by the app.
+create table if not exists teachers (
+    id          uuid primary key references auth.users(id) on delete cascade,
+    full_name   text,
+    email       text,
+    created_at  timestamptz default now()
+);
+
+insert into teachers (id, full_name)
+select id, full_name
+from user_profiles
+where role in ('teacher', 'admin')
+on conflict (id) do update set full_name = excluded.full_name;
+
 -- ══════════════════════════════════════════════════════════
 -- Table 2: students
 -- ══════════════════════════════════════════════════════════
@@ -35,15 +50,19 @@ create index if not exists idx_students_teacher  on students(teacher_id);
 -- ══════════════════════════════════════════════════════════
 create table if not exists questions (
     id             uuid primary key default gen_random_uuid(),
-    question_code  text unique,
+    question_code  text,
     topic          text not null,
     difficulty     text not null check (difficulty in ('Easy', 'Medium', 'Hard')),
     question_text  text not null,
     correct_answer text not null,
     options        jsonb,
+    created_by     uuid references auth.users(id),
     created_at     timestamptz default now()
 );
 
+-- Unique only when question_code is actually provided (allows multiple NULLs safely)
+create unique index if not exists idx_questions_code_unique
+    on questions(question_code) where question_code is not null;
 create index if not exists idx_questions_topic      on questions(topic);
 create index if not exists idx_questions_difficulty  on questions(difficulty);
 

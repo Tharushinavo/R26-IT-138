@@ -22,13 +22,15 @@ import PrimaryButton from '../components/PrimaryButton';
 import { ANIMAL_IMAGES } from '../assets/animalImages';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../i18n/LanguageContext';
-import { colors, radius, spacing, typography } from '../theme';
+import { colors as lightColors, radius, spacing, typography, useAppTheme } from '../theme';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
 
 export default function LoginScreen({ navigation }: Props) {
   const { t } = useLanguage();
   const { login } = useAuth();
+  const { colors } = useAppTheme();
+  const styles = createStyles(colors);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -94,13 +96,15 @@ export default function LoginScreen({ navigation }: Props) {
 
     try {
       const user = await login({ email: email.trim(), password });
-      // Navigate based on role
+      console.log('[login] navigation after login', { userId: user.id, role: user.role });
+      // Reset stack completely to prevent back-button leaking into previous sessions
       if (user.role === 'teacher' || user.role === 'admin') {
-        navigation.replace('TeacherDashboard', { teacherId: user.id });
+        navigation.reset({ index: 0, routes: [{ name: 'TeacherTabs', params: { teacherId: user.id } }] });
       } else {
-        navigation.replace('StudentDashboard', { studentId: user.id, role: user.role });
+        navigation.reset({ index: 0, routes: [{ name: 'StudentTabs', params: { studentId: user.id, role: user.role } }] });
       }
     } catch (e: any) {
+      console.log('[login] login failed', { email: email.trim(), message: e?.message });
       setError(e?.message || 'Login failed. Please check your credentials.');
       setLoading(false);
     }
@@ -203,7 +207,7 @@ export default function LoginScreen({ navigation }: Props) {
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (colors: typeof lightColors) => StyleSheet.create({
   flex: { flex: 1 },
   container: {
     flexGrow: 1,

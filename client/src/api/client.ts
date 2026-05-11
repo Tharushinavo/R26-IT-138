@@ -1,10 +1,12 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const API_URL = process.env.EXPO_PUBLIC_API_BASE ?? 'http://localhost:8000';
+const DEBUG_API = true;
 
 // ── Storage Keys ──
 const TOKEN_KEY = 'mm.authToken';
 const USER_KEY = 'mm.authUser';
+const EXPIRY_KEY = 'mm.authExpiry';
 
 // ── Types matching backend schemas ──
 
@@ -19,6 +21,43 @@ export interface Question {
   question_text: string;
   correct_answer: string;
   options?: string[];
+}
+
+export interface QuestionInput {
+  question_code?: string;
+  topic: string;
+  difficulty: 'Easy' | 'Medium' | 'Hard';
+  question_text: string;
+  correct_answer: string;
+  options?: string[];
+}
+
+export type AIQuestionProvider = 'openai' | 'gemini' | 'deepseek';
+
+export interface AIQuestionGenerateRequest {
+  provider: AIQuestionProvider;
+  api_key: string;
+  topic: string;
+  difficulty: 'Easy' | 'Medium' | 'Hard';
+  count: number;
+  model?: string;
+  instructions?: string;
+}
+
+export interface AIQuestionGenerateSimpleRequest {
+  topic: string;
+  difficulty: 'Easy' | 'Medium' | 'Hard';
+  count: number;
+  instructions?: string;
+}
+
+export interface QuestionDraft {
+  topic: string;
+  difficulty: 'Easy' | 'Medium' | 'Hard';
+  question_text: string;
+  correct_answer: string;
+  options?: string[];
+  question_code?: string;
 }
 
 export interface InteractionEvent {
@@ -64,6 +103,27 @@ export interface CognitiveProfile {
   generated_at: string;
 }
 
+export interface TopicPerformance {
+  topic: string;
+  total_questions: number;
+  accuracy: number;
+  avg_response_time_sec: number;
+  retry_rate: number;
+  hint_rate: number;
+}
+
+export interface StudentPerformance {
+  total_questions: number;
+  completed_sessions: number;
+  accuracy: number;
+  avg_response_time_sec: number;
+  avg_attempts: number;
+  retry_rate: number;
+  hint_rate: number;
+  last_topic?: string;
+  topics: TopicPerformance[];
+}
+
 export interface StudentSummary {
   student_id: string;
   student_code?: string;
@@ -71,6 +131,22 @@ export interface StudentSummary {
   total_interactions: number;
   latest_profile?: CognitiveProfile;
   last_activity_date?: string;
+  grade?: string;
+  performance: StudentPerformance;
+}
+
+export interface TeacherDashboardStats {
+  total_students: number;
+  students_with_profiles: number;
+  total_interactions: number;
+  average_accuracy: number;
+  average_response_time_sec: number;
+  needs_support_count: number;
+}
+
+export interface TeacherDashboardResponse {
+  stats: TeacherDashboardStats;
+  students: StudentSummary[];
 }
 
 // ── Auth Types ──
@@ -83,7 +159,14 @@ export interface User {
   full_name?: string;
   role: UserRole;
   grade?: string;
+  avatar_url?: string;
   created_at?: string;
+}
+
+export interface ProfileUpdateRequest {
+  full_name?: string;
+  password?: string;
+  avatar_url?: string;
 }
 
 export interface AuthResponse {
@@ -91,6 +174,7 @@ export interface AuthResponse {
   user: User;
   access_token: string;
   token_type: 'bearer';
+  expires_in: number; // seconds until expiry
 }
 
 export interface LoginRequest {
@@ -133,12 +217,27 @@ export async function removeStoredUser(): Promise<void> {
 }
 
 export async function clearAuth(): Promise<void> {
-  await AsyncStorage.multiRemove([TOKEN_KEY, USER_KEY]);
+  await AsyncStorage.multiRemove([TOKEN_KEY, USER_KEY, EXPIRY_KEY]);
+}
+
+export async function getTokenExpiryMs(): Promise<number | null> {
+  const val = await AsyncStorage.getItem(EXPIRY_KEY);
+  return val ? Number(val) : null;
+}
+
+export async function isTokenExpired(): Promise<boolean> {
+  const expiryMs = await getTokenExpiryMs();
+  if (!expiryMs) return true;
+  return Date.now() >= expiryMs;
 }
 
 // ── HTTP helper ──
 
 async function request<T>(path: string, init: RequestInit = {}, auth: boolean = false): Promise<T> {
+  const method = init.method || 'GET';
+  if (DEBUG_API) {
+    console.log('[api] request start', { method, path, auth, baseUrl: API_URL });
+  }
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
     ...(init.headers as Record<string, string> || {}),
@@ -152,15 +251,34 @@ async function request<T>(path: string, init: RequestInit = {}, auth: boolean = 
     }
   }
   
-  const res = await fetch(`${API_URL}${path}`, {
-    ...init,
-    headers,
-  });
+  let res: Response;
+  try {
+    res = await fetch(`${API_URL}${path}`, {
+      ...init,
+      headers,
+    });
+  } catch (error: any) {
+    console.log('[api] request network error', { method, path, message: error?.message });
+    throw error;
+  }
   const text = await res.text();
-  const data = text ? JSON.parse(text) : null;
+  let data: any = null;
+  try {
+    data = text ? JSON.parse(text) : null;
+  } catch {
+    // Server returned non-JSON (e.g. HTML error page)
+    if (!res.ok) {
+      throw new Error(`Server error (${res.status}): ${text.slice(0, 100)}`);
+    }
+    throw new Error('Invalid server response');
+  }
   if (!res.ok) {
     const detail = (data && (data.detail || data.message)) || res.statusText;
+    console.log('[api] request failed', { method, path, status: res.status, detail });
     throw new Error(typeof detail === 'string' ? detail : 'Request failed');
+  }
+  if (DEBUG_API) {
+    console.log('[api] request success', { method, path, status: res.status });
   }
   return data as T;
 }
@@ -171,12 +289,49 @@ export const api = {
   baseUrl: API_URL,
 
   // Questions
-  getQuestions(topic?: string, difficulty?: string) {
+  getQuestions(topic?: string, difficulty?: string, limit = 20) {
     const params = new URLSearchParams();
     if (topic) params.set('topic', topic);
     if (difficulty) params.set('difficulty', difficulty);
+    if (limit) params.set('limit', String(limit));
     const qs = params.toString();
     return request<Question[]>(`/questions${qs ? `?${qs}` : ''}`);
+  },
+
+  createQuestion(question: QuestionInput) {
+    return request<Question>('/questions', {
+      method: 'POST',
+      body: JSON.stringify(question),
+    }, true);
+  },
+
+  updateQuestion(questionId: string, patch: Partial<QuestionInput>) {
+    return request<Question>(`/questions/${encodeURIComponent(questionId)}`, {
+      method: 'PUT',
+      body: JSON.stringify(patch),
+    }, true);
+  },
+
+  deleteQuestion(questionId: string) {
+    return request<{ message: string; id?: string }>(
+      `/questions/${encodeURIComponent(questionId)}`,
+      { method: 'DELETE' },
+      true,
+    );
+  },
+
+  generateQuestionsAI(params: AIQuestionGenerateRequest) {
+    return request<Question[]>('/questions/generate', {
+      method: 'POST',
+      body: JSON.stringify(params),
+    }, true);
+  },
+
+  generateQuestionsSimple(params: AIQuestionGenerateSimpleRequest) {
+    return request<QuestionDraft[]>('/questions/generate-simple', {
+      method: 'POST',
+      body: JSON.stringify(params),
+    }, true);
   },
 
   // Interactions
@@ -242,24 +397,45 @@ export const api = {
   // ── Auth ──
   
   async login(credentials: LoginRequest): Promise<AuthResponse> {
+    console.log('[auth] login start', { email: credentials.email });
     const res = await request<AuthResponse>('/auth/login', {
       method: 'POST',
       body: JSON.stringify(credentials),
     });
-    // Store token and user
+    // Store token, user, and expiry
     await setStoredToken(res.access_token);
     await setStoredUser(res.user);
+    const expiryMs = Date.now() + (res.expires_in ?? 3600) * 1000;
+    await AsyncStorage.setItem(EXPIRY_KEY, String(expiryMs));
+    console.log('[auth] login success', { userId: res.user.id, role: res.user.role, expiresIn: res.expires_in });
     return res;
   },
 
   async register(data: RegisterRequest): Promise<AuthResponse> {
+    console.log('[auth] register start', { email: data.email, role: data.role });
     const res = await request<AuthResponse>('/auth/register', {
       method: 'POST',
       body: JSON.stringify(data),
     });
-    // Store token and user
+    // Store token, user, and expiry
     await setStoredToken(res.access_token);
     await setStoredUser(res.user);
+    const expiryMs = Date.now() + (res.expires_in ?? 3600) * 1000;
+    await AsyncStorage.setItem(EXPIRY_KEY, String(expiryMs));
+    console.log('[auth] register success', { userId: res.user.id, role: res.user.role, expiresIn: res.expires_in });
+    return res;
+  },
+
+  async updateProfile(data: ProfileUpdateRequest): Promise<AuthResponse> {
+    const res = await request<AuthResponse>('/auth/profile', {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    }, true);
+    // Update stored token and user with fresh data
+    await setStoredToken(res.access_token);
+    await setStoredUser(res.user);
+    const expiryMs = Date.now() + (res.expires_in ?? 3600) * 1000;
+    await AsyncStorage.setItem(EXPIRY_KEY, String(expiryMs));
     return res;
   },
 
@@ -290,6 +466,10 @@ export const api = {
 
   getStudentsList() {
     return request<StudentSummary[]>('/teacher/students', {}, true);
+  },
+
+  getTeacherDashboard() {
+    return request<TeacherDashboardResponse>('/teacher/dashboard', {}, true);
   },
 
   // Health

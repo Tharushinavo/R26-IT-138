@@ -3,14 +3,16 @@ import { Animated, StyleSheet, View, Text, Image } from 'react-native';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../App';
 import { useLanguage } from '../i18n/LanguageContext';
-import { colors, typography, spacing } from '../theme';
+import { colors as lightColors, typography, spacing, useAppTheme } from '../theme';
 import { ANIMAL_IMAGES } from '../assets/animalImages';
-import { getStoredToken, getStoredUser } from '../api/client';
+import { api, getStoredToken, getStoredUser, isTokenExpired } from '../api/client';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Logo'>;
 
 export default function LogoScreen({ navigation }: Props) {
   const { t } = useLanguage();
+  const { colors } = useAppTheme();
+  const styles = createStyles(colors);
   const navigatedRef = useRef(false);
   const scaleAnim = useRef(new Animated.Value(0.3)).current;
   const opacityAnim = useRef(new Animated.Value(0)).current;
@@ -78,13 +80,17 @@ export default function LogoScreen({ navigation }: Props) {
         const token = await getStoredToken();
         const storedUser = await getStoredUser();
 
-        if (token && storedUser) {
+        if (token && storedUser && !(await isTokenExpired())) {
           if (storedUser.role === 'teacher' || storedUser.role === 'admin') {
-            navigation.replace('TeacherDashboard', { teacherId: storedUser.id });
+            navigation.reset({ index: 0, routes: [{ name: 'TeacherTabs', params: { teacherId: storedUser.id } }] });
           } else {
-            navigation.replace('StudentDashboard', { studentId: storedUser.id, role: storedUser.role });
+            navigation.reset({ index: 0, routes: [{ name: 'StudentTabs', params: { studentId: storedUser.id, role: storedUser.role } }] });
           }
         } else {
+          if (token || storedUser) {
+            console.log('[auth] stale splash session cleared');
+            await api.logout();
+          }
           navigation.replace('Splash');
         }
       } catch {
@@ -170,7 +176,7 @@ export default function LogoScreen({ navigation }: Props) {
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (colors: typeof lightColors) => StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background,

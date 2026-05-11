@@ -11,9 +11,10 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import type { RootStackParamList } from '../../App';
 import Card from '../components/Card';
 import PrimaryButton from '../components/PrimaryButton';
-import LanguageToggle from '../components/LanguageToggle';
+import ProfileControls from '../components/ProfileControls';
 import { useLanguage } from '../i18n/LanguageContext';
-import { colors, radius, spacing, typography } from '../theme';
+import { useAuth } from '../context/AuthContext';
+import { radius, spacing, typography, useAppTheme } from '../theme';
 import { api, type CognitiveProfile } from '../api/client';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'ProfileHistory'>;
@@ -27,7 +28,7 @@ const levelEmoji = (l: string) => {
   }
 };
 
-const levelColor = (l: string) => {
+const levelColor = (l: string, colors: ReturnType<typeof useAppTheme>['colors']) => {
   switch (l) {
     case 'high': case 'Fast': return colors.success;
     case 'medium': case 'Moderate': return colors.primary;
@@ -38,16 +39,23 @@ const levelColor = (l: string) => {
 
 export default function ProfileHistoryScreen({ route, navigation }: Props) {
   const { t } = useLanguage();
+  const { role, user } = useAuth();
+  const { colors } = useAppTheme();
+  const styles = createStyles(colors);
   const { studentId } = route.params;
+  const isTeacherView = role === 'teacher' || role === 'admin';
   const [profiles, setProfiles] = useState<CognitiveProfile[]>([]);
   const [loading, setLoading] = useState(true);
 
   const load = useCallback(async () => {
     setLoading(true);
+    console.log('[profile] history fetch start', { studentId });
     try {
       const data = await api.getProfileHistory(studentId);
+      console.log('[profile] history fetch success', { studentId, count: data.length });
       setProfiles(data);
-    } catch {
+    } catch (e: any) {
+      console.log('[profile] history fetch failed', { studentId, message: e?.message });
       setProfiles([]);
     } finally {
       setLoading(false);
@@ -58,7 +66,7 @@ export default function ProfileHistoryScreen({ route, navigation }: Props) {
 
   if (loading) {
     return (
-      <View style={styles.center}>
+      <View style={[styles.center, { backgroundColor: colors.background }]}>
         <ActivityIndicator size="large" color={colors.primary} />
         <Text style={styles.loadingText}>{t.history.loadingHistory}</Text>
       </View>
@@ -67,26 +75,36 @@ export default function ProfileHistoryScreen({ route, navigation }: Props) {
 
   if (profiles.length === 0) {
     return (
-      <View style={styles.center}>
+      <View style={[styles.center, { backgroundColor: colors.background }]}>
         <Text style={{ fontSize: 56 }}>📊</Text>
         <Text style={styles.emptyTitle}>{t.history.noHistoryYet}</Text>
         <Text style={styles.emptySubtitle}>
-          {t.history.completeActivities}
+          {isTeacherView
+            ? 'No profile history is available for this student yet.'
+            : t.history.completeActivities}
         </Text>
-        <PrimaryButton
-          title={t.history.startActivity}
-          onPress={() => navigation.navigate('MathActivity', { studentId })}
-        />
+        {isTeacherView ? (
+          <PrimaryButton
+            title="Back to Teacher Dashboard"
+            onPress={() => navigation.navigate('TeacherDashboard', { teacherId: user?.id || '' })}
+          />
+        ) : (
+          <PrimaryButton
+            title={t.history.startActivity}
+            onPress={() => navigation.navigate('MathActivity', { studentId })}
+          />
+        )}
       </View>
     );
   }
 
   return (
+    <View style={{ flex: 1, backgroundColor: colors.background }}>
     <ScrollView
       contentContainerStyle={styles.container}
       refreshControl={<RefreshControl refreshing={loading} onRefresh={load} />}
     >
-      <LanguageToggle />
+      <ProfileControls />
 
       <Text style={styles.heading}>{t.history.profileHistory}</Text>
       <Text style={styles.subheading}>
@@ -116,16 +134,16 @@ export default function ProfileHistoryScreen({ route, navigation }: Props) {
               style={[styles.tableRow, idx % 2 === 0 && styles.tableRowAlt]}
             >
               <Text style={[styles.cell, { flex: 1.5 }]}>{dateStr}</Text>
-              <Text style={[styles.cell, { color: levelColor(p.memory_level) }]}>
+              <Text style={[styles.cell, { color: levelColor(p.memory_level, colors) }]}>
                 {levelEmoji(p.memory_level)}
               </Text>
-              <Text style={[styles.cell, { color: levelColor(p.attention_level) }]}>
+              <Text style={[styles.cell, { color: levelColor(p.attention_level, colors) }]}>
                 {levelEmoji(p.attention_level)}
               </Text>
-              <Text style={[styles.cell, { color: levelColor(p.number_sense_level) }]}>
+              <Text style={[styles.cell, { color: levelColor(p.number_sense_level, colors) }]}>
                 {levelEmoji(p.number_sense_level)}
               </Text>
-              <Text style={[styles.cell, { color: levelColor(p.processing_speed_level) }]}>
+              <Text style={[styles.cell, { color: levelColor(p.processing_speed_level, colors) }]}>
                 {levelEmoji(p.processing_speed_level)}
               </Text>
             </View>
@@ -152,25 +170,25 @@ export default function ProfileHistoryScreen({ route, navigation }: Props) {
           </Text>
           <View style={styles.detailRow}>
             <Text style={styles.detailLabel}>{t.common.memory}</Text>
-            <Text style={[styles.detailValue, { color: levelColor(p.memory_level) }]}>
+            <Text style={[styles.detailValue, { color: levelColor(p.memory_level, colors) }]}>
               {levelEmoji(p.memory_level)} {p.memory_level}
             </Text>
           </View>
           <View style={styles.detailRow}>
             <Text style={styles.detailLabel}>{t.common.attention}</Text>
-            <Text style={[styles.detailValue, { color: levelColor(p.attention_level) }]}>
+            <Text style={[styles.detailValue, { color: levelColor(p.attention_level, colors) }]}>
               {levelEmoji(p.attention_level)} {p.attention_level}
             </Text>
           </View>
           <View style={styles.detailRow}>
             <Text style={styles.detailLabel}>{t.common.numberSense}</Text>
-            <Text style={[styles.detailValue, { color: levelColor(p.number_sense_level) }]}>
+            <Text style={[styles.detailValue, { color: levelColor(p.number_sense_level, colors) }]}>
               {levelEmoji(p.number_sense_level)} {p.number_sense_level}
             </Text>
           </View>
           <View style={styles.detailRow}>
             <Text style={styles.detailLabel}>{t.common.speed}</Text>
-            <Text style={[styles.detailValue, { color: levelColor(p.processing_speed_level) }]}>
+            <Text style={[styles.detailValue, { color: levelColor(p.processing_speed_level, colors) }]}>
               {levelEmoji(p.processing_speed_level)} {p.processing_speed_level}
             </Text>
           </View>
@@ -181,15 +199,16 @@ export default function ProfileHistoryScreen({ route, navigation }: Props) {
       ))}
 
       <PrimaryButton
-        title={t.history.backToDashboard}
+        title={isTeacherView ? 'Back to Teacher Dashboard' : t.history.backToDashboard}
         variant="ghost"
-        onPress={() => navigation.navigate('StudentDashboard', { studentId })}
+        onPress={() => navigation.goBack()}
       />
     </ScrollView>
+    </View>
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (colors: ReturnType<typeof useAppTheme>['colors']) => StyleSheet.create({
   center: {
     flex: 1, alignItems: 'center', justifyContent: 'center',
     padding: spacing.xl, gap: spacing.md,

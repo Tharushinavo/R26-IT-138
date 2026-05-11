@@ -38,6 +38,12 @@ class _ModelHolder:
     def get(self) -> Dict[str, Any] | None:
         settings = get_settings()
         path = settings.model_path
+        # Resolve relative paths from the server root directory
+        if path and not os.path.isabs(path):
+            # Try relative to CWD first, then relative to this file's parent
+            if not os.path.isfile(path):
+                server_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+                path = os.path.join(server_root, path)
         if self._artifact is not None and self._loaded_path == path:
             return self._artifact
         with self._lock:
@@ -88,6 +94,16 @@ def _rule_based_profile(features: CognitiveFeatures) -> Dict[str, str]:
         "number_sense_level": number_sense,
         "processing_speed_level": processing_speed,
     }
+
+
+def _normalize_speed(value: str) -> str:
+    """Normalize processing speed prediction to schema-expected values (Slow/Moderate/Fast)."""
+    v = value.strip().lower()
+    if v in ("slow",):
+        return "Slow"
+    if v in ("fast",):
+        return "Fast"
+    return "Moderate"
 
 
 def _predict_per_interaction(artifact: Dict[str, Any], df: pd.DataFrame) -> pd.DataFrame:
@@ -164,11 +180,12 @@ def predict_profile(
                 pred_df = _predict_per_interaction(artifact, df)
                 vote_profile = _majority_vote_profile(pred_df)
                 # Map from label_* to dimension names
+                # Model predicts title case (Low/Medium/High) but schema uses lowercase
                 labels = {
-                    "memory_level": vote_profile.get("label_memory", "Medium"),
-                    "attention_level": vote_profile.get("label_attention", "Medium"),
-                    "number_sense_level": vote_profile.get("label_number_sense", "Medium"),
-                    "processing_speed_level": vote_profile.get("label_processing_speed", "Moderate"),
+                    "memory_level": vote_profile.get("label_memory", "Medium").lower(),
+                    "attention_level": vote_profile.get("label_attention", "Medium").lower(),
+                    "number_sense_level": vote_profile.get("label_number_sense", "Medium").lower(),
+                    "processing_speed_level": _normalize_speed(vote_profile.get("label_processing_speed", "Moderate")),
                 }
                 model_version = "decision-tree-colab-v1"
         except Exception as e:
@@ -192,13 +209,15 @@ def predict_profile(
     accuracy = sum(1 for e in events if getattr(e, 'is_correct', False)) / max(q, 1)
     confidence = min(1.0, q / 10.0) * 0.7 + accuracy * 0.3
 
-    # Generate recommendation
-    from app.services.recommendation import generate_recommendation
-    recommendation = generate_recommendation(labels)
-
-    # Build CognitiveFeatures for the response (aggregated stats)
+    # Generate dynamic recommendation and insight based on predictions
+    from app.services.recommendation import generate_recommendation, generate_insight
     from app.services.features import compute_features
     agg_features = compute_features(events)
+    
+    # Combine recommendation with dynamic insight for richer output
+    rec_text = generate_recommendation(labels)
+    insight_text = generate_insight(labels, agg_features.model_dump())
+    recommendation = f"{insight_text}\n\n{rec_text}"
 
     return CognitiveProfile(
         student_id=student_id,

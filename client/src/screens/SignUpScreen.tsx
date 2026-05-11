@@ -23,7 +23,7 @@ import PrimaryButton from '../components/PrimaryButton';
 import { ANIMAL_IMAGES } from '../assets/animalImages';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../i18n/LanguageContext';
-import { colors, radius, spacing, typography } from '../theme';
+import { colors as lightColors, radius, spacing, typography, useAppTheme } from '../theme';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
 type UserRole = 'student' | 'teacher';
@@ -31,6 +31,8 @@ type UserRole = 'student' | 'teacher';
 export default function SignUpScreen({ navigation }: Props) {
   const { t } = useLanguage();
   const { register } = useAuth();
+  const { colors } = useAppTheme();
+  const styles = createStyles(colors);
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -96,7 +98,7 @@ export default function SignUpScreen({ navigation }: Props) {
   const isValid =
     fullName.trim().length > 0 &&
     email.trim().length > 0 &&
-    password.length >= 4;
+    password.length >= 6;
 
   async function handleSignUp() {
     if (!isValid) return;
@@ -110,11 +112,11 @@ export default function SignUpScreen({ navigation }: Props) {
         full_name: fullName.trim(),
         role,
       });
-      // Navigate based on role
+      // Reset stack completely to prevent back-button leaking into previous sessions
       if (user.role === 'teacher' || user.role === 'admin') {
-        navigation.replace('TeacherDashboard', { teacherId: user.id });
+        navigation.reset({ index: 0, routes: [{ name: 'TeacherTabs', params: { teacherId: user.id } }] });
       } else {
-        navigation.replace('StudentDashboard', { studentId: user.id, role: user.role });
+        navigation.reset({ index: 0, routes: [{ name: 'StudentTabs', params: { studentId: user.id, role: user.role } }] });
       }
     } catch (e: any) {
       setError(e?.message || 'Registration failed. Please try again.');
@@ -212,7 +214,6 @@ export default function SignUpScreen({ navigation }: Props) {
                   activeOpacity={0.7}
                 >
                   <Text style={styles.roleEmoji}>{getRoleIcon('student')}</Text>
-                  <Image source={ANIMAL_IMAGES[6]} style={styles.roleIcon} resizeMode="contain" />
                   <Text style={[styles.roleText, role === 'student' && styles.roleTextActiveStudent]}>
                     {t.signUp.studentLabel}
                   </Text>
@@ -223,7 +224,6 @@ export default function SignUpScreen({ navigation }: Props) {
                   activeOpacity={0.7}
                 >
                   <Text style={styles.roleEmoji}>{getRoleIcon('teacher')}</Text>
-                  <Image source={ANIMAL_IMAGES[10]} style={styles.roleIcon} resizeMode="contain" />
                   <Text style={[styles.roleText, role === 'teacher' && styles.roleTextActiveTeacher]}>
                     {t.signUp.teacherLabel}
                   </Text>
@@ -255,7 +255,7 @@ export default function SignUpScreen({ navigation }: Props) {
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (colors: typeof lightColors) => StyleSheet.create({
   flex: { flex: 1 },
   container: {
     flexGrow: 1,

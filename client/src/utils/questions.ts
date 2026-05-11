@@ -1,8 +1,8 @@
-import type { InteractionEvent } from '../api/client';
+export type QuestionType = 'addition' | 'subtraction' | 'multiplication' | 'number_sense';
 
 export interface Question {
   id: string;
-  type: InteractionEvent['question_type'];
+  type: QuestionType;
   difficulty: number;
   prompt: string;
   options: number[];

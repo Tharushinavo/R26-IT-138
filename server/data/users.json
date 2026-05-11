@@ -29,6 +29,7 @@
     "created_at": "2026-05-02T10:11:52.082931+00:00",
     "updated_at": "2026-05-02T10:11:52.082931+00:00"
   },
+<<<<<<< HEAD
   "c2a300cc-5772-4e74-8e73-887fdd395d88": {
     "id": "c2a300cc-5772-4e74-8e73-887fdd395d88",
     "email": "navodya@gmail.com",
@@ -38,5 +39,46 @@
     "grade": null,
     "created_at": "2026-05-09T08:33:40.316088+00:00",
     "updated_at": "2026-05-09T08:33:40.316088+00:00"
+=======
+  "8a478173-dc34-47e3-978e-cebadac40405": {
+    "id": "8a478173-dc34-47e3-978e-cebadac40405",
+    "email": "tharushi1@gmail.com",
+    "password_hash": "$2b$12$82aZOaDKSSR4ZMERO1/OOuhTVu1tMl4L8uw5Mkm2DlWdv.uf7Wola",
+    "full_name": "Tharushi",
+    "role": "student",
+    "grade": null,
+    "created_at": "2026-05-08T18:19:46.171880+00:00",
+    "updated_at": "2026-05-08T18:19:46.171880+00:00"
+  },
+  "00867cb6-51c0-4769-b7c3-acd81925cbd3": {
+    "id": "00867cb6-51c0-4769-b7c3-acd81925cbd3",
+    "email": "teacher@gmail.com",
+    "password_hash": "$2b$12$GJTR1iQJSaEW8AU8QE77lOktBB1S4u.KyTlRyqVYNa8eZWM3mbB6e",
+    "full_name": "Teacher",
+    "role": "student",
+    "grade": null,
+    "created_at": "2026-05-08T18:34:07.670199+00:00",
+    "updated_at": "2026-05-08T18:34:07.670199+00:00"
+  },
+  "2f2cd0f5-441a-4f77-b9e6-f763c297413f": {
+    "id": "2f2cd0f5-441a-4f77-b9e6-f763c297413f",
+    "email": "newuser@test.com",
+    "password_hash": "$2b$12$k/sKKcuJT6dV16mT45OvRu9V1Q3lrwsvwML/Wowld4zM61.3pMIC.",
+    "full_name": "Test User",
+    "role": "student",
+    "grade": null,
+    "created_at": "2026-05-09T19:37:24.663262+00:00",
+    "updated_at": "2026-05-09T19:37:24.663262+00:00"
+  },
+  "a2d47c6f-7641-4120-92dc-0a7644ba40fc": {
+    "id": "a2d47c6f-7641-4120-92dc-0a7644ba40fc",
+    "email": "testuser@fixed.com",
+    "password_hash": "$2b$12$rwnVy9Qyrmpw6QKJaekWduA3CfXksID3EtTusPlMgcTRySeDmCpeu",
+    "full_name": "Fixed Test User",
+    "role": "student",
+    "grade": null,
+    "created_at": "2026-05-09T19:37:49.553596+00:00",
+    "updated_at": "2026-05-09T19:37:49.553596+00:00"
+>>>>>>> 46d264d776b658712d0f52a38838471f14ef5981
   }
 }
