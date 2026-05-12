@@ -1,6 +1,6 @@
-# 🧠 Interactive Learning Platform for Dyscalculia Children
+#  Interactive Learning Platform for Dyscalculia Children -MathsMate
 
-## 📌 Project Overview
+##  Project Overview
 
 The **Interactive Learning Platform for Dyscalculia Children** is an AI-powered educational system designed to support Grade 2–3 learners who experience difficulties in mathematics due to dyscalculia. The platform combines adaptive learning, machine learning, behavioral analytics, and gamification to create a personalized and engaging learning environment.
 
@@ -10,15 +10,15 @@ The platform consists of four intelligent and interconnected components that wor
 
 ---
 
-# 🏗️ System Architecture & Components
+#  System Architecture & Components
 
-## 🔹 1. Cognitive Skill Profiling System
+##  1. Cognitive Skill Profiling System
 
-### 👨‍💻 Component Owner: IT22136206 – Navodya K.M.I.G.T
+###  Component Owner: IT22136206 – Navodya K.M.I.G.T
 
 The **Cognitive Skill Profiling System** is responsible for analyzing student learning behavior during mathematics activities and generating a detailed cognitive profile for each learner.
 
-### ✨ Key Functions
+###  Key Functions
 
 * Collects real-time interaction data:
 
@@ -36,15 +36,15 @@ The **Cognitive Skill Profiling System** is responsible for analyzing student le
 * Generates a multi-dimensional cognitive profile
 * Continuously updates learner profiles in real time
 
-### 🎯 Purpose
+###  Purpose
 
 To identify *how students think and learn*, rather than only evaluating correct answers.
 
-### 🚀 Innovation
+###  Innovation
 
 This component performs **real-time cognitive analysis** within the learning process itself, combining behavioral indicators with machine learning to provide deeper educational insights.
 
-### 📤 Output
+###  Output
 
 * Personalized cognitive profiles
 * Learning strengths and weaknesses
@@ -53,13 +53,13 @@ This component performs **real-time cognitive analysis** within the learning pro
 
 ---
 
-## 🔹 2. Personalized Math Learning Engine
+##  2. Personalized Math Learning Engine
 
-### 👨‍💻 Component Owner: IT22224316 – Dhananjani G.A.U
+###  Component Owner: IT22224316 – Dhananjani G.A.U
 
 The **Personalized Math Learning Engine** provides adaptive and individualized mathematics learning experiences based on each student’s real-time performance.
 
-### ✨ Key Functions
+###  Key Functions
 
 * Tracks:
 
@@ -75,11 +75,11 @@ The **Personalized Math Learning Engine** provides adaptive and individualized m
   * Personalized learning pathways
 * Integrates an API-based intelligent hint generation system
 
-### 🎯 Purpose
+###  Purpose
 
 To provide adaptive learning experiences tailored to each learner’s current understanding and skill level.
 
-### 🚀 Innovation
+###  Innovation
 
 Unlike traditional systems that rely on external learner models, this component independently models student knowledge progression using behavioral learning data.
 
@@ -92,13 +92,13 @@ Unlike traditional systems that rely on external learner models, this component 
 
 ---
 
-## 🔹 3. Adaptive Game-Based Learning Engine
+##  3. Adaptive Game-Based Learning Engine
 
-### 👨‍💻 Component Owner: IT22117878 – Alwis L.P.M
+###  Component Owner: IT22117878 – Alwis L.P.M
 
 The **Adaptive Game-Based Learning Engine** transforms mathematics learning into an engaging game experience that adapts dynamically to each child’s performance and engagement level.
 
-### ✨ Key Functions
+###  Key Functions
 
 * Monitors:
 
@@ -120,15 +120,15 @@ The **Adaptive Game-Based Learning Engine** transforms mathematics learning into
   * Badges
   * Story-based progression
 
-### 🎯 Purpose
+###  Purpose
 
 To increase student engagement while reducing learning anxiety through interactive and personalized game experiences.
 
-### 🚀 Innovation
+###  Innovation
 
 This component combines adaptive learning, gamification, and behavioral analysis in real time to create a highly engaging educational environment.
 
-### 📤 Output
+###  Output
 
 * Personalized game experiences
 * Adaptive learning flow
@@ -137,13 +137,13 @@ This component combines adaptive learning, gamification, and behavioral analysis
 
 ---
 
-## 🔹 4. Learning Insight & Early Warning System
+##  4. Learning Insight & Early Warning System
 
-### 👨‍💻 Component Owner: IT21275524 – Rakeesha M.G.N
+###  Component Owner: IT21275524 – Rakeesha M.G.N
 
 The **Learning Insight & Early Warning System** continuously monitors student learning progress and predicts which students are at risk of falling behind.
 
-### ✨ Key Functions
+###  Key Functions
 
 * Tracks longitudinal learning data:
 
@@ -164,15 +164,15 @@ The **Learning Insight & Early Warning System** continuously monitors student le
   * Parents
 * Sends early warning alerts when risk levels change
 
-### 🎯 Purpose
+###  Purpose
 
 To enable proactive educational intervention before learning difficulties become severe.
 
-### 🚀 Innovation
+###  Innovation
 
 This component shifts educational analytics from reactive reporting to proactive AI-driven prediction and intervention.
 
-### 📤 Output
+###  Output
 
 * Risk-level predictions
 * Personalized intervention recommendations
@@ -181,7 +181,7 @@ This component shifts educational analytics from reactive reporting to proactive
 
 ---
 
-# 🌟 Key Features of the Full System
+#  Key Features of the Full System
 
 ✅ AI-powered adaptive learning
 
@@ -205,11 +205,11 @@ This component shifts educational analytics from reactive reporting to proactive
 
 ---
 
-# 🧪 Technologies & Concepts Used
+#  Technologies & Concepts Used
 
 | Technology / Concept             | Purpose                           |
 | -------------------------------- | --------------------------------- |
-| Decision Tree Classification     | Cognitive skill analysis          |
+| Random Forest Classification       | Cognitive skill analysis          |
 | Bayesian Knowledge Tracing (BKT) | Student knowledge estimation      |
 | Reinforcement Learning (RL)      | Adaptive gameplay optimization    |
 | Random Forest Classification     | Risk prediction and early warning |
@@ -220,7 +220,7 @@ This component shifts educational analytics from reactive reporting to proactive
 
 ---
 
-# 🎯 Overall System Objective
+#  Overall System Objective
 
 The primary goal of this project is to create an intelligent, engaging, and supportive learning environment that helps children with dyscalculia improve their mathematical abilities through adaptive educational technology.
 
@@ -234,7 +234,7 @@ By combining machine learning, behavioral analysis, personalized learning, and g
 
 ---
 
-# 📚 Conclusion
+#  Conclusion
 
 The **Interactive Learning Platform for Dyscalculia Children** represents a modern AI-driven approach to inclusive education. Through its four intelligent components, the platform delivers adaptive, engaging, and data-driven learning experiences specifically designed to support children with mathematical learning difficulties.
 
