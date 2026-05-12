@@ -250,7 +250,7 @@ EXPO_PUBLIC_SUPABASE_ANON_KEY=eyJ...
 
 | Member | Component | Status |
 |--------|-----------|--------|
-| 1 | Cognitive Skill Profiling System | In progress |
+| 1 - IT22136206 | Cognitive Skill Profiling System | Completed till the Progress Presentation 1 |
 | 2 | Personalised Math Learning Engine | Pending integration |
 | 3 | Adaptive Game-Based Learning Engine | Pending integration |
 | 4 | Learning Insight and Early Warning System | Pending integration |
