@@ -1,4 +1,4 @@
-# MathsMate — Cognitive Skill Profiling System
+# MathsMates — Cognitive Skill Profiling System
 
 An AI-powered mobile learning platform that analyses student interaction
 behaviour during maths activities and generates a **4-dimension cognitive
