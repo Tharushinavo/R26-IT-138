@@ -1,259 +1,241 @@
-# MathsMates — Cognitive Skill Profiling System
+# 🧠 Interactive Learning Platform for Dyscalculia Children
 
-An AI-powered mobile learning platform that analyses student interaction
-behaviour during maths activities and generates a **4-dimension cognitive
-profile** (Memory, Attention, Number Sense, Processing Speed) — designed
-to support children with dyscalculia.
+## 📌 Project Overview
 
-> **Component 1 of 4** in the full MathsMate adaptive learning ecosystem.
-> The cognitive profile produced here feeds into the Personalised Learning
-> Engine, Adaptive Game Engine, and Early Warning System built by other
-> team members.
+The **Interactive Learning Platform for Dyscalculia Children** is an AI-powered educational system designed to support Grade 2–3 learners who experience difficulties in mathematics due to dyscalculia. The platform combines adaptive learning, machine learning, behavioral analytics, and gamification to create a personalized and engaging learning environment.
+
+Unlike traditional learning systems that only evaluate right or wrong answers, this platform focuses on understanding *how children learn*. By analyzing behavioral patterns, response times, learning progress, and engagement levels, the system delivers personalized learning experiences while also enabling early identification of learning difficulties.
+
+The platform consists of four intelligent and interconnected components that work together to improve mathematical learning outcomes, reduce math anxiety, and support teachers and parents with actionable learning insights.
 
 ---
 
-## Architecture
+# 🏗️ System Architecture & Components
 
-```
-┌───────────────────┐        ┌──────────────────────┐        ┌──────────────┐
-│   Expo Client     │  REST  │   FastAPI Server      │  SQL   │   Supabase   │
-│  (React Native)   │ ─────▶ │  + Decision Tree .pkl │ ─────▶ │  (Postgres)  │
-│  11 screens · i18n│        │  7 API endpoints      │        │  6 tables    │
-└───────────────────┘        └──────────────────────┘        └──────────────┘
-```
+## 🔹 1. Cognitive Skill Profiling System
 
-**Data flow:**
+### 👨‍💻 Component Owner: IT22136206 – Navodya K.M.I.G.T
 
-1. Student solves maths questions in the mobile app.
-2. The client captures behavioural signals per question (response time, attempts, accuracy, hints, clicks, error type).
-3. Interaction events are posted to the FastAPI backend.
-4. Backend extracts aggregated features and feeds them into a pre-trained Decision Tree model (`.pkl`) to predict 4 cognitive dimension labels.
-5. The resulting cognitive profile is stored in Supabase and displayed to the student/teacher.
+The **Cognitive Skill Profiling System** is responsible for analyzing student learning behavior during mathematics activities and generating a detailed cognitive profile for each learner.
 
-## Project structure
+### ✨ Key Functions
 
-```
-R26-IT-138/
-├── server/                         # Python FastAPI backend
-│   ├── run.py                      # Entry point: python run.py
-│   ├── start.ps1 / start.bat      # One-click start scripts
-│   ├── app/
-│   │   ├── main.py                 # FastAPI app, CORS, router registration
-│   │   ├── config.py               # pydantic-settings (.env loader)
-│   │   ├── schemas.py              # Pydantic request / response models
-│   │   ├── routers/
-│   │   │   ├── questions.py        # GET  /questions
-│   │   │   ├── interactions.py     # POST /interactions, /interactions/single
-│   │   │   ├── profile.py          # POST /profiles/predict, /profiles/generate
-│   │   │   │                       # GET  /profiles/{id}/latest, /history, /status
-│   │   │   └── teacher.py          # GET  /teacher/students, /teacher/students/{id}/summary
-│   │   ├── services/
-│   │   │   ├── features.py         # Feature engineering (raw events → aggregated vector)
-│   │   │   ├── model.py            # .pkl loader + rule-based fallback
-│   │   │   ├── recommendation.py   # Rule-based support messages
-│   │   │   ├── supabase_client.py  # Supabase CRUD wrapper
-│   │   │   └── validation.py       # Input validation
-│   │   └── ml/
-│   │       ├── cognitive_model.pkl # Trained Decision Tree model
-│   │       ├── train_model.py      # Local training script
-│   │       ├── evaluate_model.py   # Evaluation metrics
-│   │       └── model_columns.json  # Feature / encoder metadata
-│   ├── data/
-│   │   └── cognitive_dataset.csv   # Prototype dataset (76 rows)
-│   ├── supabase_schema.sql         # 6 tables — run once in Supabase SQL editor
-│   ├── requirements.txt
-│   ├── .env / .env.example
-│   └── README.md                   # Backend integration guide
-│
-├── client/                         # React Native Expo (Expo Go)
-│   ├── App.tsx                     # Navigation stack (11 screens)
-│   ├── app.json                    # Expo config
-│   ├── src/
-│   │   ├── theme.ts                # Cartoon-warm colour palette
-│   │   ├── api/client.ts           # Typed fetch wrapper for all endpoints
-│   │   ├── i18n/
-│   │   │   ├── LanguageContext.tsx  # React Context for language state
-│   │   │   └── translations.ts     # EN + SI translation strings
-│   │   ├── components/
-│   │   │   ├── PrimaryButton.tsx
-│   │   │   ├── Card.tsx
-│   │   │   └── LanguageToggle.tsx
-│   │   ├── screens/
-│   │   │   ├── LogoScreen.tsx
-│   │   │   ├── SplashScreen.tsx
-│   │   │   ├── LanguageSelectScreen.tsx
-│   │   │   ├── LoginScreen.tsx
-│   │   │   ├── SignUpScreen.tsx
-│   │   │   ├── WelcomeScreen.tsx
-│   │   │   ├── StudentDashboard.tsx
-│   │   │   ├── MathActivityScreen.tsx
-│   │   │   ├── ProfileResultScreen.tsx
-│   │   │   ├── ProfileHistoryScreen.tsx
-│   │   │   ├── TeacherDashboard.tsx
-│   │   │   └── README.md           # Screen folder guide for 4-member integration
-│   │   ├── screens/onboarding/     # Reserved: shared onboarding screens
-│   │   ├── screens/auth/           # Reserved: shared auth screens
-│   │   ├── screens/cognitive-profile/ # Member 1 (your) screens
-│   │   ├── screens/shared/         # Cross-module screens
-│   │   ├── components/ui/          # Reserved: shared UI components
-│   │   ├── components/layout/      # Reserved: layout components
-│   │   ├── navigation/             # Reserved: navigation config
-│   │   ├── types/                  # Reserved: shared TypeScript types
-│   │   └── constants/              # Reserved: app constants
-│   ├── assets/images/              # Reference UI images
-│   ├── .env / .env.example
-│   └── package.json
-│
-├── Cognitive_Skill_Profiling_System_Full_Implementation_Plan.md
-└── README.md                       # ← You are here
-```
+* Collects real-time interaction data:
 
-> **4-member integration:** The folder structure includes reserved directories
-> for each team member's module. See `client/src/screens/README.md` and
-> `server/app/README.md` for the integration guide.
+  * Response accuracy
+  * Response time
+  * Number of attempts
+  * Interaction behavior
+* Extracts meaningful learning features
+* Uses a **Decision Tree Machine Learning Model** to classify:
+
+  * Memory skills
+  * Attention levels
+  * Number sense
+  * Processing speed
+* Generates a multi-dimensional cognitive profile
+* Continuously updates learner profiles in real time
+
+### 🎯 Purpose
+
+To identify *how students think and learn*, rather than only evaluating correct answers.
+
+### 🚀 Innovation
+
+This component performs **real-time cognitive analysis** within the learning process itself, combining behavioral indicators with machine learning to provide deeper educational insights.
+
+### 📤 Output
+
+* Personalized cognitive profiles
+* Learning strengths and weaknesses
+* Support for adaptive learning paths
+* Early dyscalculia detection support
 
 ---
 
-## Quick start
+## 🔹 2. Personalized Math Learning Engine
 
-### 1. Backend (Server)
+### 👨‍💻 Component Owner: IT22224316 – Dhananjani G.A.U
 
-```powershell
-cd R26-IT-138/server
+The **Personalized Math Learning Engine** provides adaptive and individualized mathematics learning experiences based on each student’s real-time performance.
 
-# First-time setup
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
-copy .env.example .env          # then fill in your Supabase keys
+### ✨ Key Functions
 
-# Start the server
-python run.py
-```
+* Tracks:
 
-Server runs on **port 8000**.
-Swagger UI → http://localhost:8000/docs
+  * Accuracy
+  * Response time
+  * Attempts
+  * Error patterns
+* Uses **Bayesian Knowledge Tracing (BKT)** to estimate student mastery levels
+* Dynamically adjusts:
 
-> Alternative: `.\start.ps1` (Windows) or `start.bat` — creates venv automatically.
+  * Learning difficulty
+  * Activity sequence
+  * Personalized learning pathways
+* Integrates an API-based intelligent hint generation system
 
-### 2. Frontend (Client)
+### 🎯 Purpose
 
-In a **new, separate terminal**:
+To provide adaptive learning experiences tailored to each learner’s current understanding and skill level.
 
-```powershell
-cd R26-IT-138/client
-npm install
-npx expo start -c
-```
+### 🚀 Innovation
 
-Scan the QR code with **Expo Go** on your phone.
+Unlike traditional systems that rely on external learner models, this component independently models student knowledge progression using behavioral learning data.
 
-> **API URL** — Each developer sets their own LAN IP in `client/.env`:
-> ```
-> EXPO_PUBLIC_API_BASE=http://YOUR_LAN_IP:8000
-> EXPO_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-> EXPO_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
-> ```
-> Find your IP: `ipconfig` (Windows) or `ifconfig` (Mac/Linux).
-> Phone and computer must be on the same WiFi.
+### 📤 Output
 
-### 3. Database (Supabase)
-
-1. Create a [Supabase](https://supabase.com) project.
-2. Run `server/supabase_schema.sql` in the Supabase SQL editor — creates 6 tables:
-   - `user_profiles`, `students`, `questions`, `interactions`, `extracted_features`, `cognitive_profiles`
-3. Fill in `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, and `SUPABASE_ANON_KEY` in `server/.env`.
-
-### 4. ML Model
-
-The server loads a trained Decision Tree `.pkl` from `server/app/ml/cognitive_model.pkl`.
-
-- **If model exists** → uses `MultiOutputClassifier(DecisionTreeClassifier)` predictions.
-- **If model is absent** → uses a deterministic rule-based fallback (API still works).
-
-To re-train locally:
-```powershell
-cd R26-IT-138/server
-python -m app.ml.train_model
-```
-
-For production-quality training, use Google Colab with a larger synthetic dataset (3000+ rows).
+* Personalized learning pathways
+* Adaptive difficulty levels
+* Real-time intelligent hints and feedback
+* Improved concept mastery
 
 ---
 
-## API endpoints
+## 🔹 3. Adaptive Game-Based Learning Engine
 
-| Method | Path | Description |
-|--------|------|-------------|
-| GET | `/health` | Server health check |
-| GET | `/` | Service info |
-| GET | `/questions` | List maths questions (optional `?topic=&difficulty=`) |
-| POST | `/interactions` | Save batch of interaction events |
-| POST | `/interactions/single` | Save a single interaction |
-| POST | `/profiles/predict` | Predict cognitive profile from single interaction |
-| POST | `/profiles/generate` | Generate profile from batch of events |
-| GET | `/profiles/{student_id}/latest` | Latest cognitive profile |
-| GET | `/profiles/{student_id}/history` | Profile history |
-| GET | `/profiles/status` | ML model status |
-| GET | `/teacher/students` | List all students (teacher view) |
-| GET | `/teacher/students/{student_id}/summary` | Student summary for teacher |
+### 👨‍💻 Component Owner: IT22117878 – Alwis L.P.M
 
----
+The **Adaptive Game-Based Learning Engine** transforms mathematics learning into an engaging game experience that adapts dynamically to each child’s performance and engagement level.
 
-## ML model details
+### ✨ Key Functions
 
-- **Algorithm**: `MultiOutputClassifier(DecisionTreeClassifier)` — scikit-learn
-- **Input features** (10): topic, difficulty, response_time_sec, attempts, is_correct, hint_used, click_count, session_time_sec, time_between_actions, error_type
-- **Output labels** (4): label_memory, label_attention, label_number_sense, label_processing_speed
-- **Label values**: Low / Medium / High (processing_speed: Slow / Moderate / Fast)
-- **Evaluation**: accuracy, precision, recall, F1, confusion matrix, exact match accuracy
+* Monitors:
 
----
+  * Accuracy
+  * Attempts
+  * Response speed
+  * Engagement behavior
+* Applies **Reinforcement Learning (RL)** for adaptive gameplay
+* Adjusts:
 
-## Tech stack
+  * Game difficulty
+  * Game type
+  * Learning pace
+  * Rewards and progression
+* Includes gamification elements:
 
-| Layer | Technology |
-|-------|------------|
-| **Frontend** | React Native, Expo SDK 54, React 19, React Navigation 7, AsyncStorage |
-| **Backend** | Python 3.12, FastAPI 0.115, Pydantic 2.9, uvicorn |
-| **Database** | Supabase (PostgreSQL) with Row-Level Security |
-| **ML** | scikit-learn 1.5, Decision Tree classifier, joblib |
-| **i18n** | Custom React Context (English + Sinhala) |
-| **UI** | Cartoon kid-friendly theme with animal mascots |
+  * Levels
+  * Points
+  * Badges
+  * Story-based progression
 
----
+### 🎯 Purpose
 
-## Environment variables
+To increase student engagement while reducing learning anxiety through interactive and personalized game experiences.
 
-### Server (`server/.env`)
-```
-APP_ENV=development
-APP_HOST=0.0.0.0
-APP_PORT=8000
-CORS_ORIGINS=*
-SUPABASE_URL=https://xxx.supabase.co
-SUPABASE_SERVICE_ROLE_KEY=eyJ...
-SUPABASE_ANON_KEY=eyJ...
-MODEL_PATH=./app/ml/cognitive_model.pkl
+### 🚀 Innovation
 
-```
+This component combines adaptive learning, gamification, and behavioral analysis in real time to create a highly engaging educational environment.
 
-### Client (`client/.env`)
-```
-EXPO_PUBLIC_API_BASE=http://YOUR_LAN_IP:8000
-EXPO_PUBLIC_SUPABASE_URL=https://xxx.supabase.co
-EXPO_PUBLIC_SUPABASE_ANON_KEY=eyJ...
+### 📤 Output
 
-
-```
+* Personalized game experiences
+* Adaptive learning flow
+* Increased motivation and engagement
+* Reduced math anxiety
 
 ---
 
-## Team members
+## 🔹 4. Learning Insight & Early Warning System
 
-| Member | Component | Status |
-|--------|-----------|--------|
-| 1 - IT22136206 | Cognitive Skill Profiling System | Completed till the Progress Presentation 1 |
-| 2 | Personalised Math Learning Engine | Pending integration |
-| 3 | Adaptive Game-Based Learning Engine | Pending integration |
-| 4 | Learning Insight and Early Warning System | Pending integration |
+### 👨‍💻 Component Owner: IT21275524 – Rakeesha M.G.N
+
+The **Learning Insight & Early Warning System** continuously monitors student learning progress and predicts which students are at risk of falling behind.
+
+### ✨ Key Functions
+
+* Tracks longitudinal learning data:
+
+  * Session scores
+  * Completion rates
+  * Response times
+  * Attempts
+  * Error frequencies
+* Uses a **Random Forest Classification Model** to identify:
+
+  * Low Risk
+  * Moderate Risk
+  * High Risk learners
+* Generates intervention recommendations automatically
+* Provides dashboards for:
+
+  * Teachers
+  * Parents
+* Sends early warning alerts when risk levels change
+
+### 🎯 Purpose
+
+To enable proactive educational intervention before learning difficulties become severe.
+
+### 🚀 Innovation
+
+This component shifts educational analytics from reactive reporting to proactive AI-driven prediction and intervention.
+
+### 📤 Output
+
+* Risk-level predictions
+* Personalized intervention recommendations
+* Teacher and parent dashboards
+* Early warning alerts
+
+---
+
+# 🌟 Key Features of the Full System
+
+✅ AI-powered adaptive learning
+
+✅ Real-time cognitive and behavioral analysis
+
+✅ Personalized learning pathways
+
+✅ Intelligent game-based education
+
+✅ Early detection of dyscalculia-related difficulties
+
+✅ Machine learning–based risk prediction
+
+✅ Real-time feedback and hint generation
+
+✅ Teacher and parent insight dashboards
+
+✅ Adaptive learning difficulty adjustment
+
+✅ Student engagement and motivation tracking
+
+---
+
+# 🧪 Technologies & Concepts Used
+
+| Technology / Concept             | Purpose                           |
+| -------------------------------- | --------------------------------- |
+| Decision Tree Classification     | Cognitive skill analysis          |
+| Bayesian Knowledge Tracing (BKT) | Student knowledge estimation      |
+| Reinforcement Learning (RL)      | Adaptive gameplay optimization    |
+| Random Forest Classification     | Risk prediction and early warning |
+| Behavioral Analytics             | Learning behavior analysis        |
+| Gamification                     | Student motivation and engagement |
+| Adaptive Learning                | Personalized education delivery   |
+| Real-Time Data Processing        | Continuous learning adaptation    |
+
+---
+
+# 🎯 Overall System Objective
+
+The primary goal of this project is to create an intelligent, engaging, and supportive learning environment that helps children with dyscalculia improve their mathematical abilities through adaptive educational technology.
+
+By combining machine learning, behavioral analysis, personalized learning, and gamification, the system aims to:
+
+* Improve learning outcomes
+* Increase student confidence
+* Reduce math anxiety
+* Enable early intervention
+* Support teachers and parents with meaningful insights
+
+---
+
+# 📚 Conclusion
+
+The **Interactive Learning Platform for Dyscalculia Children** represents a modern AI-driven approach to inclusive education. Through its four intelligent components, the platform delivers adaptive, engaging, and data-driven learning experiences specifically designed to support children with mathematical learning difficulties.
+
+This system demonstrates how educational technology and machine learning can work together to create personalized learning environments that are both effective and enjoyable for young learners.
