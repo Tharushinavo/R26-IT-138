@@ -227,30 +227,22 @@ For production-quality training, use Google Colab with a larger synthetic datase
 
 ### Server (`server/.env`)
 ```
-# FastAPI
 APP_ENV=development
 APP_HOST=0.0.0.0
 APP_PORT=8000
 CORS_ORIGINS=*
-
-# Supabase (same project as client)
-EXPO_PUBLIC_API_BASE=http://YOUR_LAN_IP:8000
-EXPO_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-EXPO_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
-
-# Model
-MODEL_PATH=..
-
-# Gemini AI (for teacher question generation and generate Hints for students)
-GEMINI_API_KEY=..
+SUPABASE_URL=https://xxx.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=eyJ...
+SUPABASE_ANON_KEY=eyJ...
+MODEL_PATH=./app/ml/cognitive_model.pkl
 
 ```
 
 ### Client (`client/.env`)
 ```
 EXPO_PUBLIC_API_BASE=http://YOUR_LAN_IP:8000
-EXPO_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-EXPO_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
+EXPO_PUBLIC_SUPABASE_URL=https://xxx.supabase.co
+EXPO_PUBLIC_SUPABASE_ANON_KEY=eyJ...
 
 
 ```
