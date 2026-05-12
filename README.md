@@ -22,15 +22,14 @@ to provide adaptive learning support and intervention recommendations.
 
 ## Architecture
 
+Architecture
 
-┌───────────────────┐        ┌──────────────────────┐        ┌──────────────┐
-│   Expo Client     │  REST  │   FastAPI Server      │  SQL  │   Supabase   │
-│  (React Native) 
-                     │ ─────▶│  +Bayesian KT Engine │ ─────▶│  (Postgres)  │  Adaptive Learning
-│  12 screens · i18n│        │ Adaptive Learning Logic 
-                                 8 API endpoints      │      │  Learner Data
-                                                                6 tables    │
-└───────────────────┘        └──────────────────────┘        └──────────────┘
+┌────────────────────┐        ┌──────────────────────────┐        ┌──────────────────┐
+│    Expo Client     │  REST  │      FastAPI Server      │  SQL   │    Supabase      │
+│   (React Native)   │ ─────▶ │ + Bayesian KT Engine     │ ─────▶ │    (Postgres)    │
+│ Adaptive Learning  │        │  Adaptive Learning Logic │        │   Learner Data   │
+│  12 screens · i18n │        │  8 API endpoints         │        │    6 tables      │
+└────────────────────┘        └──────────────────────────┘        └──────────────────┘
 `
 
 **Data flow:**
