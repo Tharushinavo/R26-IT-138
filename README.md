@@ -227,21 +227,38 @@ For production-quality training, use Google Colab with a larger synthetic datase
 
 ### Server (`server/.env`)
 ```
+# FastAPI
 APP_ENV=development
 APP_HOST=0.0.0.0
 APP_PORT=8000
 CORS_ORIGINS=*
-SUPABASE_URL=https://xxx.supabase.co
-SUPABASE_SERVICE_ROLE_KEY=eyJ...
-SUPABASE_ANON_KEY=eyJ...
-MODEL_PATH=./app/ml/cognitive_model.pkl
+
+# Supabase (same project as client)
+SUPABASE_URL=https://wrovptyerhwpaogvxgci.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indyb3ZwdHllcmh3cGFvZ3Z4Z2NpIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3Njc1MTgxNSwiZXhwIjoyMDkyMzI3ODE1fQ.bsyNtAODha95VVHYmVp6qRsCSa70TbOeQJ1aJVAfPyQ
+SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indyb3ZwdHllcmh3cGFvZ3Z4Z2NpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3NTE4MTUsImV4cCI6MjA5MjMyNzgxNX0.wqHm0z0wQwWHbg3yud6-IEGL1HiqdIvVR68nh6ZnCcQ
+
+# JWT Auth (CHANGE THIS SECRET IN PRODUCTION!)
+JWT_SECRET_KEY=1367ac125d00995fef0af0e47b3ecb161842db908e768833b4673716784eadb5
+JWT_ALGORITHM=HS256
+ACCESS_TOKEN_EXPIRE_MINUTES=60
+
+# Model
+MODEL_PATH=./app/cognitive_model_files/cognitive_model.pkl
+
+# Gemini AI (for teacher question generation and generate Hints for students)
+GEMINI_API_KEY=AIzaSyCgRRpetxyAb83ble8yQkNCva7TIx2vozo
+
 ```
 
 ### Client (`client/.env`)
 ```
-EXPO_PUBLIC_API_BASE=http://YOUR_LAN_IP:8000
-EXPO_PUBLIC_SUPABASE_URL=https://xxx.supabase.co
-EXPO_PUBLIC_SUPABASE_ANON_KEY=eyJ...
+EXPO_PUBLIC_SUPABASE_URL=https://wrovptyerhwpaogvxgci.supabase.co
+EXPO_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indyb3ZwdHllcmh3cGFvZ3Z4Z2NpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY3NTE4MTUsImV4cCI6MjA5MjMyNzgxNX0.wqHm0z0wQwWHbg3yud6-IEGL1HiqdIvVR68nh6ZnCcQ
+
+EXPO_PUBLIC_API_BASE=http://10.172.251.141:8000
+
+
 ```
 
 ---
