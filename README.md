@@ -1,4 +1,4 @@
-# EduInsight — Learning Insight & Early Warning System
+# Learning Insight & Early Warning System
 
 An AI-powered learning analytics platform that identifies mathematical difficulty profiles and predicts learning risk for children with dyscalculia. The system aggregates session-level data from peer learning engines, applies longitudinal feature engineering, and surfaces interpretable early warning indicators through teacher and parent dashboards.
 
