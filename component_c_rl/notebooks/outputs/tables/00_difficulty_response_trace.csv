@@ -1,0 +1,11 @@
+quantity,class,producer -> consumer trace (file:line),note
+P(correct) per attempt,direct,"session.py:216-230 / selector -> task_instance.difficulty_level; attempt_loop.py:178-187 passes it to outcome_model.py:43-48 (combined: -beta_gap*max(0, d_norm - mastery)) or outcome_model.py:68 (c_only: base_probability_by_difficulty[d-1]); sampled at attempt_loop.py:266",Combined: only when d_norm > mastery. c_only: every level.
+number of attempts,indirect-via-errors,"p fixed per task (attempt_loop.py:178-187); loop attempt_loop.py:193-303 repeats until a correct answer (L279-281) or cap (L285-291, max_attempts=10)",Geometric in P(correct); difficulty acts only through P(correct).
+latency,direct,latency.py:43 difficulty_shift = 0.06*(d-3) -> L47-54 log_latency; called at attempt_loop.py:253-256; clock advanced L262,Weak: +-0.12 log-units across levels 1..5.
+timeout (no response),direct,latency.py:57-58 raw_sec >= 90 s -> attempt_loop.py:257-260 quit(timeout_no_response),Direct through latency but vanishingly small (see timeout table below).
+quit_after_error,indirect-via-errors,"decisions.py:28-37 takes (consecutive_error_max, persistence) only - no difficulty argument; called attempt_loop.py:296-300","Rises with the error streak, which is driven by P(correct)."
+quit_without_recent_error,none,"attempt_loop.py:203-206, constant config.quit.quit_without_recent_error_probability (0.01), first attempt only","Independent of difficulty, mastery, errors."
+skip,none,"attempt_loop.py:198-201, constant config.quit.skip_probability (0.02), first attempt only",Independent of everything.
+technical issue,none,"attempt_loop.py:209-213, constant 0.01 per attempt",Per-attempt: more attempts -> more exposure (second order).
+pauses (learner / technical),none,"attempt_loop.py:215-233, constants 0.08 / 0.02 per attempt",Independent of difficulty.
+scaffold request / level,indirect-via-errors,request: attempt_loop.py:246-250 constant 0.10; level decided attempt_loop.py:239-245 from consecutive_errors,Level follows the error streak.

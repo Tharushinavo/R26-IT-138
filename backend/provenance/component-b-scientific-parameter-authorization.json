@@ -1,0 +1,332 @@
+{
+  "schema_version": "1.0",
+  "record_type": "SCIENTIFIC_PARAMETER_AUTHORIZATION_DRAFT",
+  "component": "B",
+  "recorded_at_utc": "2026-07-25T00:00:00Z",
+  "purpose": "Transcribe, WITH EXACT SOURCE CITATIONS AND UNMODIFIED STATUS TAGS, the scientific-gate parameter values the Yass Component B spec proposes, so that named human owners can later record real, dated sign-off. This record approves nothing by itself. It converts the scattered gate items into one auditable slate of PROPOSED values + open decisions + placeholder approver slots. It authorizes no scientific behavior, no session start, no BE4, no pilot, and no production use.",
+  "governing_documents": [
+    "Dev/backend/buildLog.md (source-authority ladder)",
+    "Dev/backend/provenance/component-b-closure-decisions.json",
+    "Dev/backend/provenance/runtime-bundle.schema.json",
+    "Dev/backend/provenance/component-b-live-engine-reuse-map.json",
+    "Dev/backend/provenance/component-b-profile-classroom-ratification.json",
+    "../../Yass/Component_B_v1.0/R26-IT-138_Component_B_Empirical_Statistical_Parameters_v1.0.md",
+    "../../Yass/Component_B_v1.0/R26-IT-138_Component_B_Item_and_Task_Set_Catalogue_v1.0.md",
+    "../../Yass/Implementation_v1.0/component_b_generator/bkt/config.py",
+    "../../Yass/Implementation_v1.0/component_b_generator/bkt/certification.py",
+    "../../Yass/Implementation_v1.0/component_b_generator/bkt/guess_guard.py",
+    "../../Yass/Implementation_v1.0/component_b_generator/sequencing/config.py"
+  ],
+  "source_authority_note": "Per Dev/backend/buildLog.md's source-authority ladder, governance decisions and provenance records outrank the generator spec, which outranks the generator implementation. This record outranks neither existing governance records (component-b-closure-decisions.json, component-b-live-engine-reuse-map.json, component-b-profile-classroom-ratification.json) nor the frozen consts in runtime-bundle.schema.json. Where this record and the schema both speak to a value, the schema's const is authoritative and is reproduced here as FROZEN, not reopened.",
+  "gate_items": [
+    {
+      "gate_item": "catalogue approval",
+      "spec_source": "Yass/Component_B_v1.0/R26-IT-138_Component_B_Item_and_Task_Set_Catalogue_v1.0.md (whole document; status line, header block); 36 curriculum-node/item-set coverage table §5",
+      "proposed_value": {
+        "catalogue_file": "Component_B_v1.0/R26-IT-138_Component_B_Item_and_Task_Set_Catalogue_v1.0.md",
+        "catalogue_version": "1.0",
+        "catalogue_sha256": "eaf073da8af155bdb935b7c2abfba04f892bbfecf44522f20f044aeec4b579ac",
+        "total_curriculum_nodes": 36,
+        "total_item_sets": 36,
+        "node_coverage": "100% (36/36)",
+        "schema_frozen_const_note": "runtime-bundle.schema.json compatibility.required_catalogue_template_count is a FROZEN const of 36; the catalogue's own item-set count (36, §5) is consistent with this frozen schema value, cited for cross-reference only, not as an approval of catalogue content."
+      },
+      "spec_status_tag": "PROPOSED_FOR_APPROVAL",
+      "authorization_status": "UNRESOLVED",
+      "required_approver": "Component B owner and academic/research approver",
+      "open_questions": [
+        "The catalogue's own header states status PROPOSED_FOR_APPROVAL; component-b-closure-decisions.json governance_register lists current_status PROVISIONAL. Neither is an approval.",
+        "The four response-format mappings below must be resolved before the catalogue can be considered contract-complete (see next item)."
+      ],
+      "notes": "This record only computes and states the SHA-256 of the catalogue markdown as it exists on disk today for provenance purposes. Computing a checksum is not an approval of the checksummed content."
+    },
+    {
+      "gate_item": "response-format mapping: B-ADD02-COUNT-ON",
+      "spec_source": "Dev/backend/provenance/component-b-closure-decisions.json response_format_mapping_review.mappings[0]; Yass catalogue §4.4 B-ADD02-COUNT-ON row (catalogue_response_format single_integer_or_mark)",
+      "proposed_value": {
+        "template_id": "B-ADD02-COUNT-ON",
+        "catalogue_response_format": "single_integer_or_mark",
+        "generator_response_format": "single_integer_or_choice",
+        "frontend_renderer_contract": "NOT_FOUND",
+        "decision_request": "Choose whether B-ADD02 is rendered as numeric/choice input or a number-line mark, then approve the existing generator label or require a separately governed contract correction."
+      },
+      "spec_status_tag": "UNRESOLVED",
+      "authorization_status": "UNRESOLVED",
+      "required_approver": "Component B owner and academic/research approver (per catalogue approval item, component-b-closure-decisions.json)",
+      "open_questions": [
+        "Numeric endpoint equivalence between catalogue and generator format does not prove mark-selection or renderer compatibility (carried verbatim from closure-decisions.json)."
+      ],
+      "notes": "Carried forward unresolved from component-b-closure-decisions.json; not resolved by this record."
+    },
+    {
+      "gate_item": "response-format mapping: B-CNT06-SKIP-COUNT",
+      "spec_source": "Dev/backend/provenance/component-b-closure-decisions.json response_format_mapping_review.mappings[1]; Yass catalogue §4.1 B-CNT06-SKIP-COUNT row (catalogue_response_format ordered_integer_sequence)",
+      "proposed_value": {
+        "template_id": "B-CNT06-SKIP-COUNT",
+        "catalogue_response_format": "ordered_integer_sequence",
+        "generator_response_format": "single_integer",
+        "frontend_renderer_contract": "NOT_FOUND",
+        "decision_request": "Confirm that CNT06 v1 intentionally collects only the terminal next integer, or require the generator to collect an ordered sequence in separately approved work."
+      },
+      "spec_status_tag": "UNRESOLVED",
+      "authorization_status": "UNRESOLVED",
+      "required_approver": "Component B owner and academic/research approver (per catalogue approval item, component-b-closure-decisions.json)",
+      "open_questions": [
+        "The concrete generated task asks for one terminal value, narrower than a general ordered-sequence response; compatibility cannot be approved without confirming intended catalogue semantics and renderer (carried verbatim from closure-decisions.json)."
+      ],
+      "notes": "Carried forward unresolved from component-b-closure-decisions.json; not resolved by this record."
+    },
+    {
+      "gate_item": "response-format mapping: B-PV02-DECOMPOSE-2D",
+      "spec_source": "Dev/backend/provenance/component-b-closure-decisions.json response_format_mapping_review.mappings[2]; Yass catalogue §4.3 B-PV02-DECOMPOSE-2D row (catalogue_response_format structured_pair)",
+      "proposed_value": {
+        "template_id": "B-PV02-DECOMPOSE-2D",
+        "catalogue_response_format": "structured_pair",
+        "generator_response_format": "expanded_form",
+        "frontend_renderer_contract": "NOT_FOUND",
+        "decision_request": "Approve expanded-form multi-equivalence input for PV02 or require a structured tens/ones pair contract in separately approved work."
+      },
+      "spec_status_tag": "UNRESOLVED",
+      "authorization_status": "UNRESOLVED",
+      "required_approver": "Component B owner and academic/research approver (per catalogue approval item, component-b-closure-decisions.json)",
+      "open_questions": [
+        "Expanded-form text may encode the catalogue pair, but the runtime accepts multiple equivalent representations; that is not an exact structured-pair contract and parsing/rendering support is unproven (carried verbatim from closure-decisions.json)."
+      ],
+      "notes": "Carried forward unresolved from component-b-closure-decisions.json; not resolved by this record."
+    },
+    {
+      "gate_item": "response-format mapping: B-PV04-DECOMPOSE-3D",
+      "spec_source": "Dev/backend/provenance/component-b-closure-decisions.json response_format_mapping_review.mappings[3]; Yass catalogue §4.3 B-PV04-DECOMPOSE-3D row (catalogue_response_format structured_triple_or_expression)",
+      "proposed_value": {
+        "template_id": "B-PV04-DECOMPOSE-3D",
+        "catalogue_response_format": "structured_triple_or_expression",
+        "generator_response_format": "expanded_form",
+        "frontend_renderer_contract": "NOT_FOUND",
+        "decision_request": "Approve expanded-form input as the governed PV04 expression representation, including accepted equivalences, or require an explicit triple-capable contract."
+      },
+      "spec_status_tag": "UNRESOLVED",
+      "authorization_status": "UNRESOLVED",
+      "required_approver": "Component B owner and academic/research approver (per catalogue approval item, component-b-closure-decisions.json)",
+      "open_questions": [
+        "Expanded form plausibly covers the expression branch but does not explicitly guarantee the structured-triple branch or any renderer/parser behavior (carried verbatim from closure-decisions.json)."
+      ],
+      "notes": "Carried forward unresolved from component-b-closure-decisions.json; not resolved by this record."
+    },
+    {
+      "gate_item": "BKT parameter approval",
+      "spec_source": "Yass/Component_B_v1.0/R26-IT-138_Component_B_Empirical_Statistical_Parameters_v1.0.md §6.2.1 (21-row table), §6.2.2 (sensitivity ranges), §6.1 (constraints), §8.2/§14A (SF-039 clarification, 2026-07-13 note); Yass/Implementation_v1.0/component_b_generator/bkt/config.py",
+      "special_handling": "BKT_POPULATION_GAP — see dedicated section below; this gate_item entry intentionally does not collapse the 21 rows into 7 live values.",
+      "spec_reference_table_label": "per-population research priors, non-executable as direct TD/MLD/DD rules",
+      "spec_reference_table": [
+        {"row": 1, "population": "TD", "skill": "counting", "P_L0": 0.60, "P_T": 0.30, "P_G": 0.20, "P_S": 0.06},
+        {"row": 2, "population": "TD", "skill": "number_sense", "P_L0": 0.55, "P_T": 0.28, "P_G": 0.20, "P_S": 0.06},
+        {"row": 3, "population": "TD", "skill": "place_value", "P_L0": 0.50, "P_T": 0.26, "P_G": 0.18, "P_S": 0.07},
+        {"row": 4, "population": "TD", "skill": "addition", "P_L0": 0.48, "P_T": 0.24, "P_G": 0.18, "P_S": 0.07},
+        {"row": 5, "population": "TD", "skill": "subtraction", "P_L0": 0.45, "P_T": 0.22, "P_G": 0.16, "P_S": 0.08},
+        {"row": 6, "population": "TD", "skill": "multiplication", "P_L0": 0.40, "P_T": 0.18, "P_G": 0.15, "P_S": 0.09},
+        {"row": 7, "population": "TD", "skill": "division", "P_L0": 0.35, "P_T": 0.15, "P_G": 0.15, "P_S": 0.10},
+        {"row": 8, "population": "MLD", "skill": "counting", "P_L0": 0.40, "P_T": 0.22, "P_G": 0.22, "P_S": 0.09},
+        {"row": 9, "population": "MLD", "skill": "number_sense", "P_L0": 0.36, "P_T": 0.20, "P_G": 0.22, "P_S": 0.09},
+        {"row": 10, "population": "MLD", "skill": "place_value", "P_L0": 0.32, "P_T": 0.18, "P_G": 0.20, "P_S": 0.10},
+        {"row": 11, "population": "MLD", "skill": "addition", "P_L0": 0.30, "P_T": 0.16, "P_G": 0.20, "P_S": 0.10},
+        {"row": 12, "population": "MLD", "skill": "subtraction", "P_L0": 0.28, "P_T": 0.15, "P_G": 0.18, "P_S": 0.11},
+        {"row": 13, "population": "MLD", "skill": "multiplication", "P_L0": 0.24, "P_T": 0.12, "P_G": 0.16, "P_S": 0.13},
+        {"row": 14, "population": "MLD", "skill": "division", "P_L0": 0.20, "P_T": 0.10, "P_G": 0.16, "P_S": 0.15},
+        {"row": 15, "population": "DD", "skill": "counting", "P_L0": 0.25, "P_T": 0.15, "P_G": 0.25, "P_S": 0.12},
+        {"row": 16, "population": "DD", "skill": "number_sense", "P_L0": 0.22, "P_T": 0.13, "P_G": 0.25, "P_S": 0.12},
+        {"row": 17, "population": "DD", "skill": "place_value", "P_L0": 0.18, "P_T": 0.12, "P_G": 0.22, "P_S": 0.13},
+        {"row": 18, "population": "DD", "skill": "addition", "P_L0": 0.16, "P_T": 0.10, "P_G": 0.22, "P_S": 0.14},
+        {"row": 19, "population": "DD", "skill": "subtraction", "P_L0": 0.14, "P_T": 0.09, "P_G": 0.20, "P_S": 0.15},
+        {"row": 20, "population": "DD", "skill": "multiplication", "P_L0": 0.11, "P_T": 0.07, "P_G": 0.18, "P_S": 0.17},
+        {"row": 21, "population": "DD", "skill": "division", "P_L0": 0.08, "P_T": 0.05, "P_G": 0.18, "P_S": 0.20}
+      ],
+      "proposed_value": "See spec_reference_table (21 rows, 7 skills x 3 populations) above; NOT a proposed set of 7 live population-neutral values.",
+      "spec_status_tag": "ENGINEERING_ASSUMPTION · CALIBRATION_PENDING (every one of the 21 rows, per spec §6.2.1)",
+      "authorization_status": "UNRESOLVED",
+      "required_approver": "Academic/research calibration owner",
+      "live_engine_requirement": "Yass/Implementation_v1.0/component_b_generator/bkt/config.py (BBKTConfig) requires exactly 7 population-neutral, skill-keyed SkillBKTParams (P(L0)/P(T)/P(G)/P(S)) with NO production default; skill_params must cover exactly the 7 frozen skills. It has no population axis and rejects any 'population'/'dd_subtype' field (extra=\"forbid\").",
+      "structural_constraint_note": "bkt/config.py's SkillBKTParams enforces P(G)+P(S) < 1 and P(G) <= 0.5 in code (model_validator _structural_constraints); any future population-neutral values must pass these checks, matching spec §6.1 FROZEN rules.",
+      "open_questions": [
+        "How the 7 population-neutral live BKT parameterizations are derived is UNRESOLVED and requires the named academic/calibration owner. This record does not pick a rule (not TD-row adoption, not averaging, not any other derivation) — no population-neutral BKT values are approved and the engine remains fail-closed until they are.",
+        "The 2026-07-13 clarification (spec, top-of-document note) declares the per-population priors NON-EXECUTABLE as direct TD/MLD/DD rules in the deployable baseline (SF-039); population is LATENT_GENERATOR_ONLY (spec §2/§4) and never exported, and is also a prohibited synthetic latent per component-b-live-engine-reuse-map.json's explicitly_prohibited_from_application list (hidden learner truth / synthetic learner traits).",
+        "EM-refit and pilot-refit on real data (spec §6.1 'Fit source' row, B-008) have not occurred for any candidate live values."
+      ],
+      "notes": "This entry deliberately does not collapse the 21 rows into 7 live values. It records the table for provenance, records the live 7-row requirement from bkt/config.py, and records the derivation method as an open decision for the named owner."
+    },
+    {
+      "gate_item": "certification threshold theta_B",
+      "spec_source": "Yass/Component_B_v1.0/R26-IT-138_Component_B_Empirical_Statistical_Parameters_v1.0.md §6.3; §14A row 'Sequencing weights' table is unrelated — see §14A theta_B is not a separate row but stated in §6.3 and §14B guess_guard.theta_B: 0.95",
+      "proposed_value": 0.95,
+      "spec_status_tag": "LITERATURE_SUPPORTED (convention, Corbett & Anderson) · CALIBRATION_PENDING",
+      "authorization_status": "UNRESOLVED",
+      "required_approver": "Academic/research calibration owner",
+      "open_questions": [
+        "theta_B is a sweep candidate per spec (B-Q5); no sensitivity sweep or pilot refit has occurred.",
+        "certification.py's certify_skill() takes theta_B as a caller-supplied parameter with no hard-coded default, consistent with this value remaining unresolved at the code level."
+      ],
+      "notes": "Spec value transcribed exactly; not approved by this record."
+    },
+    {
+      "gate_item": "Guess-Guard numeric configuration",
+      "spec_source": "Yass/Component_B_v1.0/R26-IT-138_Component_B_Empirical_Statistical_Parameters_v1.0.md §6.4 (plausibility_floor[k]), §14A 'Plausibility-floor quantile' and 'Min prior observations' rows, §6.1 (P(G)+P(S)<1, P(G)<=0.5); Yass/Implementation_v1.0/component_b_generator/bkt/guess_guard.py",
+      "proposed_value": {
+        "floor_quantile_q": 0.10,
+        "floor_min_obs_n_min": 5,
+        "implementation_value_label": "Frozen v1 §14A",
+        "structural_constraints": {
+          "P_G_plus_P_S_lt_1": "FROZEN (spec §6.1)",
+          "P_G_lte_0_5": "FROZEN (spec §6.1)"
+        }
+      },
+      "spec_status_tag": "q and n_min: implementation value frozen v1 (§14A) · research status CALIBRATION_PENDING (B-Q6). Structural constraints P(G)+P(S)<1 and P(G)<=0.5: FROZEN.",
+      "authorization_status": "UNRESOLVED",
+      "required_approver": "Academic/research calibration owner",
+      "open_questions": [
+        "q=0.10 and n_min=5 are frozen v1 defaults for determinism, not empirically validated values (spec §14A framing); history-length study (B-Q6) unblocks them.",
+        "guess_guard.py's evaluate_guess_guard() takes q, n_min, and theta_B as caller-supplied parameters with no hard-coded defaults, so the live engine remains fail-closed on this configuration until supplied."
+      ],
+      "notes": "The FROZEN structural constraints (P(G)+P(S)<1, P(G)<=0.5) are distinct from the CALIBRATION_PENDING numeric q/n_min values; both are recorded here without conflating status."
+    },
+    {
+      "gate_item": "sequencing weights",
+      "spec_source": "Dev/backend/provenance/runtime-bundle.schema.json properties.sequencing_configuration.weights (const 0.5/0.3/0.2); Yass/Component_B_v1.0/R26-IT-138_Component_B_Empirical_Statistical_Parameters_v1.0.md §5.1 and §14A (weighted sum, RESOLVED 2026-07-12, B-022); Yass/Implementation_v1.0/component_b_generator/sequencing/config.py (W_MASTERY_GAP/W_PREREQ/W_SPACING)",
+      "proposed_value": {
+        "mastery_gap": 0.5,
+        "prerequisite_readiness": 0.3,
+        "spacing_due": 0.2,
+        "formula": "score(item) = 0.50*mastery_gap + 0.30*prerequisite_readiness + 0.20*spacing_due"
+      },
+      "spec_status_tag": "RESOLVED (owner decision 2026-07-12, B-022) at the spec level; FROZEN as a schema const in runtime-bundle.schema.json",
+      "authorization_status": "FROZEN",
+      "required_approver": "N/A — already frozen by runtime-bundle.schema.json; not reopened by this record",
+      "open_questions": [
+        "The exact unlock threshold for prerequisite-readiness eligibility remains CALIBRATION_PENDING per the catalogue (§10); this does not affect the three frozen weight values themselves."
+      ],
+      "notes": "Treated as already-frozen contract per instruction; schema is the cited source, not the spec, though the spec's B-022 resolution is consistent with the schema const."
+    },
+    {
+      "gate_item": "attempt limits",
+      "spec_source": "Dev/backend/provenance/component-b-closure-decisions.json governance_register item 'attempt limits'",
+      "proposed_value": null,
+      "spec_status_tag": "UNRESOLVED",
+      "authorization_status": "UNRESOLVED",
+      "required_approver": "Product owner with academic/research approval",
+      "open_questions": [
+        "The spec has no approved live value for attempt limits; generator experiment fixtures (e.g. attempt-distribution NB parameterizations in spec §5.5) are non-authoritative synthetic fixture bounds and must not be promoted to a live attempt-limit policy."
+      ],
+      "notes": "No live value is recorded here. Do not confuse the NB(n,p) attempt-count distribution in spec §5.5 (a generator behavior-model parameter) with a live attempt-limit policy — they are different concepts and neither is approved."
+    },
+    {
+      "gate_item": "timeout policy",
+      "spec_source": "Dev/backend/provenance/component-b-closure-decisions.json governance_register item 'timeout policy'",
+      "proposed_value": null,
+      "spec_status_tag": "SEMANTICS_PROVISIONAL_NUMERIC_THRESHOLD_UNRESOLVED",
+      "authorization_status": "UNRESOLVED",
+      "required_approver": "Product owner with academic/research approval",
+      "governed_statement": "Infrastructure failure is never learner failure; numeric server timeout is not approved.",
+      "open_questions": [
+        "A numeric server-enforced timeout value has not been approved; only the qualitative governed statement above is recorded."
+      ],
+      "notes": "Carried verbatim from component-b-closure-decisions.json. No numeric threshold is recorded or implied."
+    },
+    {
+      "gate_item": "completion policy",
+      "spec_source": "Dev/backend/provenance/component-b-closure-decisions.json governance_register item 'completion policy'",
+      "proposed_value": null,
+      "spec_status_tag": "UNRESOLVED",
+      "authorization_status": "UNRESOLVED",
+      "required_approver": "Product owner and academic/research approver",
+      "open_questions": [
+        "Session completion conditions have not been defined or approved."
+      ],
+      "notes": "No value proposed by the spec; recorded as UNRESOLVED per the governance register."
+    },
+    {
+      "gate_item": "safe-progress policy",
+      "spec_source": "Dev/backend/provenance/component-b-closure-decisions.json governance_register item 'safe-progress policy'; Dev/backend/provenance/runtime-bundle.schema.json properties.safe_progress_policy (versionedArtifact, no default value)",
+      "proposed_value": null,
+      "spec_status_tag": "UNRESOLVED",
+      "authorization_status": "UNRESOLVED",
+      "required_approver": "Product owner and academic/research approver",
+      "open_questions": [
+        "A versioned fail-safe progress rule has not been defined before session orchestration."
+      ],
+      "notes": "No value proposed by the spec; recorded as UNRESOLVED per the governance register."
+    },
+    {
+      "gate_item": "cold-start policy",
+      "spec_source": "Dev/backend/provenance/component-b-closure-decisions.json governance_register item 'cold-start policy'; Dev/backend/provenance/runtime-bundle.schema.json properties.cold_start_policy.status (const DISABLED)",
+      "proposed_value": "DISABLED (no cold-start override; fail closed)",
+      "spec_status_tag": "Governed deferral: no cold-start override; fail closed.",
+      "authorization_status": "FROZEN",
+      "required_approver": "Academic/research owner for any future enablement",
+      "open_questions": [
+        "Any future enablement of a cold-start policy requires separate calibration and approval; this record does not propose or authorize any such change."
+      ],
+      "notes": "Recorded as a FROZEN governed deferral (schema const DISABLED), not as an open decision to be resolved by ordinary calibration."
+    },
+    {
+      "gate_item": "owner/academic approval",
+      "spec_source": "Dev/backend/provenance/component-b-closure-decisions.json governance_register item 'owner/academic approval'; Yass/Component_B_v1.0/R26-IT-138_Component_B_Empirical_Statistical_Parameters_v1.0.md §17 (Approval block)",
+      "proposed_value": null,
+      "spec_status_tag": "APPROVED_FOR_PROVISIONAL_V1_IMPLEMENTATION (spec document status, §0 header and §17 — technical implementation approval only, explicitly NOT formal academic/clinical sign-off per spec §17: 'Formal academic sign-off: PENDING REAL APPROVER COMPLETION')",
+      "authorization_status": "UNRESOLVED",
+      "required_approver": "Named Component B owner and academic/research approver",
+      "open_questions": [
+        "Spec §17 signature table (Component B owner / Supervisor / Co-supervisor) is blank — no signatures, dates, or approval evidence exist.",
+        "A dated named sign-off covering catalogue, mappings, packaging, and governed deferrals has not been recorded anywhere in this project's provenance chain."
+      ],
+      "notes": "The spec's own APPROVED_FOR_PROVISIONAL_V1_IMPLEMENTATION tag is quoted here verbatim as the spec_status_tag because that is literally what the source document states; it is NOT upgraded, and this record's own authorization_status for this item remains UNRESOLVED, matching component-b-closure-decisions.json."
+    }
+  ],
+  "named_approver_slots": [
+    {
+      "role": "component_b_owner_and_academic_research_approver",
+      "name": "UNRESOLVED_PLACEHOLDER",
+      "decision": "UNRESOLVED",
+      "decision_date": null,
+      "approved_scope": null,
+      "conditions": [],
+      "unresolved_concerns": [
+        "No named Component B owner / academic-research approver has reviewed or decided on the catalogue or the four response-format mappings through this session or any recorded channel."
+      ],
+      "note": "This slot cannot be completed by an AI assistant. It requires an actual named Component B owner / academic-research approver to record a real decision."
+    },
+    {
+      "role": "academic_research_calibration_owner",
+      "name": "UNRESOLVED_PLACEHOLDER",
+      "decision": "UNRESOLVED",
+      "decision_date": null,
+      "approved_scope": null,
+      "conditions": [],
+      "unresolved_concerns": [
+        "No named academic/research calibration owner has reviewed or decided on the BKT parameters, certification threshold theta_B, or Guess-Guard numeric configuration through this session or any recorded channel.",
+        "The BKT population-gap open decision (how 7 population-neutral live values are derived) specifically requires this owner and has not been decided."
+      ],
+      "note": "This slot cannot be completed by an AI assistant. It requires an actual named academic/research calibration owner to record a real decision."
+    },
+    {
+      "role": "product_owner_with_academic_research_approval",
+      "name": "UNRESOLVED_PLACEHOLDER",
+      "decision": "UNRESOLVED",
+      "decision_date": null,
+      "approved_scope": null,
+      "conditions": [],
+      "unresolved_concerns": [
+        "No named product owner (with academic/research approval) has reviewed or decided on attempt limits, timeout policy, completion policy, or safe-progress policy through this session or any recorded channel."
+      ],
+      "note": "This slot cannot be completed by an AI assistant. It requires an actual named product owner (with academic/research approval) to record a real decision."
+    }
+  ],
+  "does_not_authorize": [
+    "Any session API (start, submit-answer, hint-request, or lifecycle transition)",
+    "BE4 live learning flow implementation or activation",
+    "Any BKT posterior update, certification, guess-guard, or sequencing behavior against a real learner",
+    "A controlled pilot of any kind",
+    "Production use of any kind",
+    "Real-child onboarding or real-child use",
+    "Research export or synthetic dataset generation",
+    "A change to any prior governance or provenance record's approved_scope"
+  ],
+  "unblocks_when": "A real APPROVED runtime bundle (per runtime-bundle.schema.json) can be built only after every UNRESOLVED item in this record's gate_items array carries a real, dated, named sign-off recorded by the actual named approver in their role, replacing the UNRESOLVED_PLACEHOLDER entries above with genuine decisions. This record itself performs none of that sign-off."
+}

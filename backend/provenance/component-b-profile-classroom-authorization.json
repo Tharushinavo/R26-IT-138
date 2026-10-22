@@ -1,0 +1,708 @@
+{
+  "schema_version": "1.0",
+  "authorization_version": "1.0",
+  "component": "B",
+  "review": "TEACHER_LEARNER_CLASSROOM_QR_MEMBERSHIP_GOVERNANCE_AUTHORIZATION",
+  "recorded_at_utc": "2026-07-22T07:38:14.039Z",
+  "supersedes_for_this_scope": "backend/provenance/component-b-be2-next-scope-authorization.json",
+  "preserves_prior_decision_history": true,
+  "decision": "BE2_PROFILE_CLASSROOM_SCOPE_LIMITED_AUTHORIZED",
+  "decision_summary": "Profile and teacher-owned classroom foundations are authorized. Invite and membership persistence contracts are authorized, but invite issuance/resolution and membership mutation endpoints remain policy-gated until invite reuse/expiry and learner multi-classroom rules are approved. Learning sessions and all scientific behavior remain prohibited.",
+  "reviewed_documents": [
+    "backend/provenance/component-b-be2-next-scope-authorization.json",
+    "backend/provenance/component-b-be2-governance-authorization.json",
+    "backend/buildLog.md",
+    "backend.md",
+    "frontend.md",
+    "../Component_B_Backend_Frontend_Software_Architecture_v1.0.md",
+    "../componantBArchi.md",
+    "backend/app/core/errors.py",
+    "backend/app/infrastructure/persistence_models.py",
+    "backend/app/application/repositories.py",
+    "backend/app/infrastructure/repositories.py",
+    "backend/migrations/versions/20260722_0001_empty_infrastructure_baseline.py",
+    "backend/migrations/versions/20260722_0002_be2_neutral_persistence.py",
+    "backend/migrations/versions/20260722_0003_bundle_integrity_guards.py",
+    "Yass/Component_B_Generator_v1.0/SPEC.md",
+    "Yass/Component_B_Generator_v1.0/R26-IT-138_Component_B_Phase_B2B_Learner_Response_and_Attempt_Spec_v1.0.md",
+    "Yass/Registers_v0.3/R26-IT-138_Component_B_Variable_Register_v0.3.md",
+    "Yass/Registers_v0.3/R26-IT-138_Shared_Foundation_Decision_Register_v0.3.md"
+  ],
+  "approved_profile_roles": [
+    "LEARNER",
+    "TEACHER"
+  ],
+  "prohibited_roles": [
+    "PARENT",
+    "GUARDIAN",
+    "ADMINISTRATOR",
+    "SCHOOL_ADMINISTRATOR",
+    "SUPERVISOR",
+    "OPERATOR",
+    "RESEARCHER",
+    "any_other_role"
+  ],
+  "authentication_contract": {
+    "provider": "Supabase Auth",
+    "subject_mapping": "A verified Supabase subject maps uniquely to app_users.supabase_subject.",
+    "password_storage": "PROHIBITED",
+    "raw_jwt_storage": "PROHIBITED",
+    "email_storage": "Do not duplicate authenticated email in profile tables; return it only from a verified current token contract when required.",
+    "profile_cardinality": "One app_users row may select exactly one immutable profile_type after onboarding: LEARNER or TEACHER. It may not hold both profiles."
+  },
+  "ownership_rules": [
+    "One teacher may own multiple classrooms.",
+    "Each classroom belongs to exactly one teacher profile.",
+    "Each classroom has exactly one grade.",
+    "Each classroom may have multiple approved learners.",
+    "A learner enters a classroom only through a classroom membership record.",
+    "A learner controls only their own learner profile and membership view.",
+    "A teacher controls only their own teacher profile and owned classrooms.",
+    "A teacher may view or decide membership only for classrooms they own.",
+    "A teacher may view learner identity only through an APPROVED membership in an owned classroom.",
+    "A learner may not access another learner's profile, membership, session, or progress data.",
+    "Possession of an opaque UUID or invite token is never sufficient authorization."
+  ],
+  "membership_states": [
+    "PENDING",
+    "APPROVED",
+    "REJECTED"
+  ],
+  "classroom_grade_rules": {
+    "allowed": [
+      "GRADE_2",
+      "GRADE_3"
+    ],
+    "selected_by": "The owning teacher selects grade during classroom creation.",
+    "learner_context": "An approved membership inherits its learning context from classroom.grade.",
+    "learner_override": "PROHIBITED",
+    "other_grades": "PROHIBITED",
+    "change_after_membership_exists": "UNRESOLVED_FAIL_CLOSED",
+    "existing_b_learners_grade": "Not client-writable and not authoritative for classroom context in this scope; do not synchronize or overwrite it until grade-change semantics are approved."
+  },
+  "standard_provenance_fields": [
+    "created_at_utc",
+    "updated_at_utc",
+    "actor_user_id",
+    "system_actor",
+    "request_id",
+    "operation_or_event_type",
+    "reason_code",
+    "resource_type",
+    "resource_id",
+    "before_reference_or_version",
+    "after_reference_or_version",
+    "source_class",
+    "source_system",
+    "source_record_id",
+    "environment",
+    "schema_revision",
+    "approval_evidence_reference"
+  ],
+  "table_strategy": {
+    "app_users": {
+      "strategy": "EXTEND",
+      "purpose": "Unique verified Supabase-subject account root and immutable profile-type discriminator.",
+      "ownership": "Self account, controlled by verified subject; no password or token ownership.",
+      "permitted_new_fields": [
+        "profile_type nullable until first profile creation, then LEARNER or TEACHER and immutable"
+      ],
+      "required_constraints": [
+        "supabase_subject remains unique and nonblank",
+        "profile_type is null, LEARNER, or TEACHER",
+        "profile_type cannot change once non-null"
+      ],
+      "prohibited_fields": [
+        "password",
+        "password_hash",
+        "raw_jwt",
+        "refresh_token",
+        "service_role_key",
+        "editable_role_claims"
+      ],
+      "privacy": "Store the Supabase subject and minimum operational account state only."
+    },
+    "b_learners": {
+      "strategy": "REUSE_AND_EXTEND",
+      "replaces_proposed_table": "learner_profiles",
+      "purpose": "The single operational LEARNER profile; no duplicate learner_profiles table is authorized.",
+      "ownership": "Exactly one LEARNER app user through app_user_learner_links in this limited scope.",
+      "permitted_new_fields": [
+        "name"
+      ],
+      "existing_fields_retained": [
+        "learner_id",
+        "grade",
+        "status"
+      ],
+      "required_constraints": [
+        "learner_id remains opaque UUID",
+        "name is nonblank after trimming and bounded in length",
+        "grade remains nullable and, if present, 2 or 3",
+        "profile create does not accept grade"
+      ],
+      "prohibited_fields": [
+        "email copy",
+        "password",
+        "date_of_birth",
+        "address",
+        "phone",
+        "diagnosis",
+        "population",
+        "subtype",
+        "research_group",
+        "hidden_truth",
+        "mastery",
+        "synthetic_traits"
+      ],
+      "lifecycle_limits": "Create and read own profile only; update and deactivate are not authorized."
+    },
+    "app_user_learner_links": {
+      "strategy": "REUSE_AND_CONSTRAIN",
+      "purpose": "Maps a LEARNER app user to their own b_learners profile; teacher visibility uses classroom_memberships instead.",
+      "ownership": "The linked LEARNER account only.",
+      "permitted_fields": [
+        "existing link_id",
+        "existing user_id",
+        "existing learner_id",
+        "standard provenance fields"
+      ],
+      "required_constraints": [
+        "user_id references app_users",
+        "learner_id references b_learners",
+        "pair remains unique",
+        "one learner profile per LEARNER account in this scope",
+        "one owning LEARNER account per learner profile in this scope",
+        "TEACHER accounts cannot have this link"
+      ],
+      "prohibited_use": "Must not encode classroom membership or teacher access."
+    },
+    "teacher_profiles": {
+      "strategy": "CREATE",
+      "purpose": "Minimum TEACHER profile distinct from learner and authentication records.",
+      "ownership": "Exactly one TEACHER app user owns the row.",
+      "permitted_fields": [
+        "teacher_profile_id",
+        "user_id",
+        "name",
+        "standard provenance fields"
+      ],
+      "required_foreign_keys": [
+        "user_id -> app_users.user_id RESTRICT"
+      ],
+      "required_unique_constraints": [
+        "user_id"
+      ],
+      "audit_requirements": [
+        "profile creation audit event"
+      ],
+      "privacy": "No email copy; email is obtained only from the verified current authentication contract.",
+      "prohibited_fields": [
+        "password",
+        "raw_jwt",
+        "service credentials",
+        "administrator flags",
+        "research attributes"
+      ],
+      "lifecycle_limits": "Create and read own profile only; update and deactivate are not authorized."
+    },
+    "classrooms": {
+      "strategy": "CREATE",
+      "purpose": "Teacher-owned classroom and its single Grade 2 or Grade 3 context.",
+      "ownership": "Exactly one teacher profile.",
+      "permitted_fields": [
+        "classroom_id",
+        "teacher_profile_id",
+        "name nullable",
+        "grade",
+        "row_version",
+        "standard provenance fields"
+      ],
+      "required_foreign_keys": [
+        "teacher_profile_id -> teacher_profiles.teacher_profile_id RESTRICT"
+      ],
+      "required_unique_constraints": [
+        "teacher_profile_id plus normalized non-null name"
+      ],
+      "audit_requirements": [
+        "classroom creation audit event"
+      ],
+      "privacy": "Classroom responses expose no teacher email or learner data.",
+      "prohibited_fields": [
+        "raw invite token",
+        "learner list embedded in row",
+        "scientific configuration",
+        "session state"
+      ],
+      "lifecycle_limits": "Create and read only; grade change, transfer, archive, and delete are not authorized."
+    },
+    "classroom_invites": {
+      "strategy": "CREATE_SCHEMA_ONLY_POLICY_GATED",
+      "purpose": "Revocable secure invitation reference for QR presentation; never a classroom identifier grant.",
+      "ownership": "The classroom's owning teacher.",
+      "permitted_fields": [
+        "classroom_invite_id",
+        "classroom_id",
+        "token_hash",
+        "expires_at_utc nullable",
+        "revoked_at_utc nullable",
+        "created_by_user_id",
+        "row_version",
+        "standard provenance fields"
+      ],
+      "required_foreign_keys": [
+        "classroom_id -> classrooms.classroom_id RESTRICT",
+        "created_by_user_id -> app_users.user_id RESTRICT"
+      ],
+      "required_unique_constraints": [
+        "token_hash"
+      ],
+      "audit_requirements": [
+        "invite creation and revocation audit events"
+      ],
+      "privacy": "Persist only a one-way token hash; raw token is returned once for QR construction and never logged.",
+      "prohibited_fields": [
+        "raw_token",
+        "teacher_email",
+        "learner_data",
+        "database credentials",
+        "classroom_id encoded as the sole QR secret"
+      ],
+      "lifecycle_limits": "Schema may be implemented, but invite creation and resolution remain disabled until expiry-duration and cross-learner reuse policy are approved."
+    },
+    "classroom_memberships": {
+      "strategy": "CREATE_SCHEMA_ONLY_POLICY_GATED",
+      "purpose": "Learner request and teacher decision for one classroom.",
+      "ownership": "Learner owns request visibility; classroom owner controls approval or rejection.",
+      "permitted_fields": [
+        "classroom_membership_id",
+        "classroom_id",
+        "learner_id",
+        "classroom_invite_id",
+        "state",
+        "requested_at_utc",
+        "decided_at_utc nullable",
+        "decided_by_user_id nullable",
+        "row_version",
+        "standard provenance fields"
+      ],
+      "required_foreign_keys": [
+        "classroom_id -> classrooms.classroom_id RESTRICT",
+        "learner_id -> b_learners.learner_id RESTRICT",
+        "classroom_invite_id -> classroom_invites.classroom_invite_id RESTRICT",
+        "decided_by_user_id -> app_users.user_id RESTRICT when present"
+      ],
+      "required_unique_constraints": [
+        "classroom_id plus learner_id"
+      ],
+      "required_checks": [
+        "state is PENDING, APPROVED, or REJECTED",
+        "PENDING has no decision timestamp or decider",
+        "APPROVED and REJECTED require decision timestamp and owning-teacher decider"
+      ],
+      "audit_requirements": [
+        "request, approval, and rejection audit events"
+      ],
+      "privacy": "Teacher lists expose only minimum learner ID and name for memberships in an owned classroom.",
+      "prohibited_fields": [
+        "learner email",
+        "raw invite token",
+        "progress",
+        "mastery",
+        "answers",
+        "research identifiers"
+      ],
+      "lifecycle_limits": "Only PENDING to APPROVED or PENDING to REJECTED is contemplated; mutation endpoints remain disabled until learner multi-classroom behavior and invite reuse policy are approved."
+    },
+    "rename_decisions": []
+  },
+  "qr_invite_rules": [
+    "The QR payload contains a random unguessable invite token, never a raw classroom database ID.",
+    "Persist only a safely derived token hash; never persist or log the raw token.",
+    "The token format, entropy construction, and cryptographic implementation are not selected by this authorization.",
+    "Invites must support revocation and may support expiry; expired or revoked invitations fail closed.",
+    "The payload exposes no teacher email, learner data, database identifier, credential, or secret other than the opaque invite capability.",
+    "Resolving or scanning an invite never grants APPROVED membership.",
+    "A scan may create only a PENDING request after authenticated learner ownership checks.",
+    "Duplicate request commands require idempotent replay.",
+    "Cross-learner invite reuse and expiry duration remain unresolved; live invite issuance and resolution fail closed until approved."
+  ],
+  "endpoint_common_contract": {
+    "authentication": "Valid verified Supabase Bearer token required.",
+    "unknown_fields": "Rejected.",
+    "success_fields_always_include": [
+      "request_id"
+    ],
+    "state_changing_commands": "Require Idempotency-Key and atomic idempotency persistence.",
+    "stable_error_cases": [
+      "AUTHENTICATION_REQUIRED",
+      "FORBIDDEN",
+      "RESOURCE_NOT_FOUND",
+      "CONFLICT",
+      "REQUEST_VALIDATION_FAILED",
+      "SERVICE_UNAVAILABLE"
+    ],
+    "privacy": "No password, token, raw JWT claim set, direct auth subject, research identifier, or scientific field is returned."
+  },
+  "authorized_endpoint_candidates": [
+    {
+      "method": "POST",
+      "path": "/api/v1/teacher/profile",
+      "status": "AUTHORIZED",
+      "role": "authenticated account with no profile_type",
+      "ownership_check": "Verified subject maps to the app_users row being profiled.",
+      "request_fields": ["name"],
+      "response_fields": ["teacher_profile_id", "user_id", "profile_type", "name", "email", "created_at_utc", "request_id"],
+      "idempotency": "Required; replay returns the same profile.",
+      "audit": "Profile creation with REAL provenance.",
+      "errors": ["CONFLICT when any profile already exists", "REQUEST_VALIDATION_FAILED for invalid name"],
+      "prohibited_side_effects": ["No classroom creation", "No role other than TEACHER", "No password or token storage"]
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/teacher/profile",
+      "status": "AUTHORIZED",
+      "role": "TEACHER",
+      "ownership_check": "Return only the profile mapped to the verified subject.",
+      "request_fields": [],
+      "response_fields": ["teacher_profile_id", "user_id", "profile_type", "name", "email", "created_at_utc", "request_id"],
+      "idempotency": "Not required for read.",
+      "audit": "No audit event required for own minimum profile read; structured access log remains privacy-safe.",
+      "errors": ["RESOURCE_NOT_FOUND when profile does not exist", "FORBIDDEN for LEARNER"],
+      "prohibited_side_effects": ["No mutation", "No classroom or learner expansion"]
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/learner/profile",
+      "status": "AUTHORIZED",
+      "role": "authenticated account with no profile_type",
+      "ownership_check": "Verified subject owns the new b_learners profile through one app_user_learner_links row.",
+      "request_fields": ["name"],
+      "response_fields": ["learner_id", "user_id", "profile_type", "name", "email", "created_at_utc", "request_id"],
+      "idempotency": "Required; learner and owning link commit atomically and replay returns the same profile.",
+      "audit": "Profile and owning-link creation with REAL provenance.",
+      "errors": ["CONFLICT when any profile already exists", "REQUEST_VALIDATION_FAILED for invalid name"],
+      "prohibited_side_effects": ["No grade assignment", "No classroom membership", "No session creation", "No password or token storage"]
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/learner/profile",
+      "status": "AUTHORIZED",
+      "role": "LEARNER",
+      "ownership_check": "Resolve only through the verified subject's owning app_user_learner_links row.",
+      "request_fields": [],
+      "response_fields": ["learner_id", "user_id", "profile_type", "name", "email", "created_at_utc", "request_id"],
+      "idempotency": "Not required for read.",
+      "audit": "No audit event required for own minimum profile read; structured access log remains privacy-safe.",
+      "errors": ["RESOURCE_NOT_FOUND when profile does not exist", "FORBIDDEN for TEACHER"],
+      "prohibited_side_effects": ["No mutation", "No grade or scientific fields"]
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/classrooms",
+      "status": "AUTHORIZED",
+      "role": "TEACHER",
+      "ownership_check": "teacher_profile_id is derived from the verified subject and never accepted from the request.",
+      "request_fields": ["name nullable", "grade"],
+      "response_fields": ["classroom_id", "name", "grade", "teacher_profile_id", "created_at_utc", "row_version", "request_id"],
+      "idempotency": "Required; identical replay returns the original classroom.",
+      "audit": "Classroom creation with REAL provenance.",
+      "errors": ["REQUEST_VALIDATION_FAILED outside GRADE_2 or GRADE_3", "CONFLICT for duplicate normalized name under the same teacher"],
+      "prohibited_side_effects": ["No invite creation", "No learner membership", "No session creation"]
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/classrooms",
+      "status": "AUTHORIZED",
+      "role": "TEACHER",
+      "ownership_check": "Filter exclusively by the verified teacher_profile_id.",
+      "request_fields": [],
+      "response_fields": ["classrooms[].classroom_id", "classrooms[].name", "classrooms[].grade", "classrooms[].created_at_utc", "classrooms[].row_version", "request_id"],
+      "idempotency": "Not required for read.",
+      "audit": "No privileged audit event for own classroom list.",
+      "errors": ["FORBIDDEN for LEARNER"],
+      "prohibited_side_effects": ["No other teacher's classroom", "No embedded learner list"]
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/classrooms/{classroom_id}",
+      "status": "AUTHORIZED",
+      "role": "TEACHER",
+      "ownership_check": "The classroom must belong to the verified teacher; non-owned IDs return RESOURCE_NOT_FOUND.",
+      "request_fields": ["classroom_id path"],
+      "response_fields": ["classroom_id", "name", "grade", "teacher_profile_id", "created_at_utc", "row_version", "request_id"],
+      "idempotency": "Not required for read.",
+      "audit": "No privileged audit event for own classroom read.",
+      "errors": ["RESOURCE_NOT_FOUND for absent or non-owned classroom", "FORBIDDEN for LEARNER"],
+      "prohibited_side_effects": ["No mutation", "No learner data"]
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/classrooms/{classroom_id}/invites",
+      "status": "POLICY_GATED_NOT_EXECUTABLE",
+      "role": "TEACHER",
+      "ownership_check": "Classroom must belong to the verified teacher.",
+      "request_fields": [],
+      "response_fields": ["classroom_invite_id", "qr_payload", "expires_at_utc", "created_at_utc", "request_id"],
+      "idempotency": "Required.",
+      "audit": "Invite creation, without raw token.",
+      "errors": ["SERVICE_UNAVAILABLE until expiry and reuse policy is approved", "RESOURCE_NOT_FOUND for non-owned classroom"],
+      "prohibited_side_effects": ["No membership creation", "No raw token persistence or logging"]
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/classroom-invites/resolve",
+      "status": "POLICY_GATED_NOT_EXECUTABLE",
+      "role": "LEARNER",
+      "ownership_check": "Resolve for the verified learner profile only; validate hash, revocation, and expiry server-side.",
+      "request_fields": ["invite_token"],
+      "response_fields": ["invite_resolution_id", "classroom_name", "grade", "request_id"],
+      "idempotency": "Required; raw token excluded from fingerprint logs.",
+      "audit": "Resolution result without token or teacher email.",
+      "errors": ["SERVICE_UNAVAILABLE until reuse policy is approved", "RESOURCE_NOT_FOUND for invalid token", "CONFLICT for revoked or expired token"],
+      "prohibited_side_effects": ["No membership state change", "No APPROVED grant", "No raw token logging"]
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/classroom-memberships/requests",
+      "status": "POLICY_GATED_NOT_EXECUTABLE",
+      "role": "LEARNER",
+      "ownership_check": "Learner is derived from verified subject; resolved invite determines classroom.",
+      "request_fields": ["invite_token"],
+      "response_fields": ["classroom_membership_id", "classroom_id", "classroom_name", "grade", "state", "requested_at_utc", "request_id"],
+      "idempotency": "Required; duplicate join request returns the canonical existing PENDING request.",
+      "audit": "PENDING request creation without token.",
+      "errors": ["SERVICE_UNAVAILABLE until invite reuse and multi-classroom policy is approved", "CONFLICT for existing APPROVED or REJECTED membership"],
+      "prohibited_side_effects": ["No APPROVED grant", "No learner grade mutation", "No session creation"]
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/classrooms/{classroom_id}/membership-requests",
+      "status": "POLICY_GATED_NOT_EXECUTABLE",
+      "role": "TEACHER",
+      "ownership_check": "Classroom must belong to verified teacher.",
+      "request_fields": ["classroom_id path"],
+      "response_fields": ["requests[].classroom_membership_id", "requests[].learner_id", "requests[].learner_name", "requests[].state", "requests[].requested_at_utc", "request_id"],
+      "idempotency": "Not required for read.",
+      "audit": "Privacy-safe owned-classroom access log.",
+      "errors": ["RESOURCE_NOT_FOUND for absent or non-owned classroom"],
+      "prohibited_side_effects": ["No learner email", "No non-owned learner", "No mutation"]
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/classroom-memberships/{membership_id}/approve",
+      "status": "POLICY_GATED_NOT_EXECUTABLE",
+      "role": "TEACHER",
+      "ownership_check": "Membership classroom must belong to verified teacher and current state must be PENDING.",
+      "request_fields": ["membership_id path"],
+      "response_fields": ["classroom_membership_id", "classroom_id", "learner_id", "state", "decided_at_utc", "row_version", "request_id"],
+      "idempotency": "Required; replay returns the original APPROVED decision.",
+      "audit": "Approval with actor, before/after state, and REAL provenance.",
+      "errors": ["SERVICE_UNAVAILABLE until multi-classroom policy is approved", "RESOURCE_NOT_FOUND for non-owned membership", "CONFLICT when not PENDING"],
+      "prohibited_side_effects": ["No grade-row overwrite", "No session or progress creation"]
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/classroom-memberships/{membership_id}/reject",
+      "status": "POLICY_GATED_NOT_EXECUTABLE",
+      "role": "TEACHER",
+      "ownership_check": "Membership classroom must belong to verified teacher and current state must be PENDING.",
+      "request_fields": ["membership_id path"],
+      "response_fields": ["classroom_membership_id", "classroom_id", "learner_id", "state", "decided_at_utc", "row_version", "request_id"],
+      "idempotency": "Required; replay returns the original REJECTED decision.",
+      "audit": "Rejection with actor, before/after state, and REAL provenance; no free-text reason authorized.",
+      "errors": ["SERVICE_UNAVAILABLE until multi-classroom policy is approved", "RESOURCE_NOT_FOUND for non-owned membership", "CONFLICT when not PENDING"],
+      "prohibited_side_effects": ["No learner deactivation", "No session or progress mutation"]
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/classrooms/{classroom_id}/learners",
+      "status": "POLICY_GATED_NOT_EXECUTABLE",
+      "role": "TEACHER",
+      "ownership_check": "Owned classroom only; return APPROVED memberships only.",
+      "request_fields": ["classroom_id path"],
+      "response_fields": ["learners[].learner_id", "learners[].name", "learners[].membership_id", "learners[].membership_state", "request_id"],
+      "idempotency": "Not required for read.",
+      "audit": "Owned-classroom learner-list access is auditable without PII in logs.",
+      "errors": ["RESOURCE_NOT_FOUND for absent or non-owned classroom"],
+      "prohibited_side_effects": ["No learner email", "No session/progress/scientific data", "No mutation"]
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/learner/classrooms",
+      "status": "POLICY_GATED_NOT_EXECUTABLE",
+      "role": "LEARNER",
+      "ownership_check": "Return memberships only for learner mapped to verified subject.",
+      "request_fields": [],
+      "response_fields": ["memberships[].membership_id", "memberships[].classroom_id", "memberships[].classroom_name", "memberships[].grade", "memberships[].state", "request_id"],
+      "idempotency": "Not required for read.",
+      "audit": "No privileged audit event for own membership read.",
+      "errors": ["RESOURCE_NOT_FOUND when learner profile does not exist"],
+      "prohibited_side_effects": ["No other learner membership", "No teacher email", "No mutation"]
+    }
+  ],
+  "idempotency_requirements": [
+    "Every authorized or future-unblocked POST requires an opaque Idempotency-Key.",
+    "Scope by verified actor_user_id, HTTP method, route operation identifier, and key.",
+    "Persist canonical request fingerprint and committed response atomically with mutation.",
+    "Identical replay returns the original response; different-body reuse returns stable CONFLICT.",
+    "Concurrent replay cannot execute twice.",
+    "Raw invite token must not appear in logs, audit payloads, canonical response storage beyond the one-time response, or diagnostic details."
+  ],
+  "audit_requirements": [
+    "Append audit events for profile creation, classroom creation, invite creation/revocation, membership request, approval, and rejection.",
+    "Record verified actor, request ID, operation, reason code, resource, before/after references or versions, timestamp, environment, schema revision, and approval evidence when applicable.",
+    "Teacher learner-list access must be attributable without logging names, emails, tokens, or learner data.",
+    "Audit events are append-only and never contain raw JWT, Authorization header, raw invite token, password, scientific fields, or research identifiers."
+  ],
+  "provenance_rules": {
+    "live_mutations": "Server assigns source_class REAL; clients cannot submit or override provenance.",
+    "actor": "actor_user_id comes only from verified Supabase subject mapping.",
+    "required": ["request_id", "operation_or_event_type", "reason_code", "resource_type", "resource_id", "source_system", "environment", "schema_revision", "server timestamps"],
+    "test_isolation": "TEST and SYNTHETIC are allowed only in isolated test environments with visibly non-real identities.",
+    "live_rejections": ["TEST", "SYNTHETIC", "IMPORTED"]
+  },
+  "privacy_constraints": [
+    "Store only minimum teacher and learner names plus authentication and ownership references needed for this flow.",
+    "Authenticated email may be returned from the verified token contract but is not duplicated in teacher_profiles or b_learners.",
+    "Backend stores no passwords, raw JWTs, refresh tokens, or Supabase service credentials.",
+    "Raw invite tokens are never logged or persisted.",
+    "Teacher access is limited to owned classrooms and learners with APPROVED membership in those classrooms.",
+    "Learner access is limited to their own profile and membership records.",
+    "No research export or operational-to-research identity join is authorized.",
+    "No synthetic data may enter live profile or classroom endpoints.",
+    "Deletion, retention, withdrawal, and account deactivation remain unresolved and fail closed."
+  ],
+  "unresolved_decisions": [
+    {
+      "name": "learner_multi_classroom_membership",
+      "status": "UNRESOLVED",
+      "fail_closed": "Do not execute membership request, approval, rejection, or retrieval endpoints until exact cardinality and cross-grade conflict behavior are approved."
+    },
+    {
+      "name": "invite_cross_learner_reuse_policy",
+      "status": "UNRESOLVED",
+      "fail_closed": "Do not issue or resolve live invites. Duplicate same-command replay remains idempotent but does not decide cross-learner reuse."
+    },
+    {
+      "name": "invite_expiry_duration",
+      "status": "UNRESOLVED",
+      "fail_closed": "Do not invent a duration or allow clients to choose policy."
+    },
+    {
+      "name": "classroom_grade_change_after_membership",
+      "status": "UNRESOLVED",
+      "fail_closed": "No classroom update endpoint and no grade mutation after creation."
+    },
+    {
+      "name": "profile_and_account_update_deactivation",
+      "status": "UNRESOLVED",
+      "fail_closed": "No update, deactivate, transfer, unlink, archive, or delete endpoint."
+    },
+    {
+      "name": "retention_withdrawal_and_deletion",
+      "status": "UNRESOLVED",
+      "fail_closed": "No deletion automation, research export, pilot, or production authorization."
+    },
+    {
+      "name": "invite_token_cryptographic_contract",
+      "status": "SECURITY_DESIGN_REQUIRED",
+      "fail_closed": "Do not invent token format, entropy, hash/KDF, QR encoding, or secret handling implementation in governance."
+    }
+  ],
+  "fail_closed_behavior": [
+    "Only profile create/read and teacher-owned classroom create/read endpoints are executable in this limited scope.",
+    "Invite and membership tables may be implemented as neutral foundations, but their endpoints remain disabled with SERVICE_UNAVAILABLE until their named blockers are approved.",
+    "Reject all roles except LEARNER and TEACHER.",
+    "Reject profile-type changes and second-profile creation.",
+    "Reject Grade 1, Grade 4, and every grade other than GRADE_2 or GRADE_3.",
+    "Do not expose non-owned resources; use RESOURCE_NOT_FOUND where needed to prevent enumeration.",
+    "Do not infer multi-classroom, invite reuse, expiry, grade-change, deactivation, retention, or deletion behavior.",
+    "Do not create any learning session or scientific record."
+  ],
+  "prohibited_behavior": [
+    "Learning-session creation",
+    "Session start, prepare, resume, pause, abandon, expire, or complete",
+    "Question generation",
+    "Item opportunities",
+    "Answer submission",
+    "Retries",
+    "Hints",
+    "Response-time interpretation",
+    "BKT",
+    "Mastery",
+    "Guess-Guard",
+    "Certification",
+    "Sequencing",
+    "Progress",
+    "Completion",
+    "Component B live-engine integration",
+    "Component C",
+    "Component 3",
+    "Pilot",
+    "Production rollout",
+    "Research export",
+    "Synthetic dataset generation",
+    "Yass source, research wheel, or generator dependency"
+  ],
+  "implementation_boundaries": {
+    "authorized_next_batch": [
+      "Extend app_users only with immutable nullable-onboarding profile_type.",
+      "Reuse and minimally extend b_learners with name; do not create learner_profiles.",
+      "Reuse and constrain app_user_learner_links for one self-owned learner profile.",
+      "Create teacher_profiles and classrooms.",
+      "Create policy-gated classroom_invites and classroom_memberships persistence foundations.",
+      "Implement only the seven AUTHORIZED profile and classroom create/read endpoints.",
+      "Use existing authentication, stable error envelope, request IDs, idempotency, unit of work, audit, and REAL provenance foundations."
+    ],
+    "not_authorized_in_next_batch": [
+      "Any endpoint marked POLICY_GATED_NOT_EXECUTABLE",
+      "Profile or classroom update/deactivate/delete",
+      "Invite revocation endpoint",
+      "Any learning or scientific behavior"
+    ],
+    "no_implementation_in_this_review": true
+  },
+  "required_tests": [
+    "Only LEARNER and TEACHER profile types are accepted; second profile and profile-type change fail.",
+    "Supabase subject maps uniquely to app_users; passwords, JWTs, and email copies are absent from persistence.",
+    "Learner profile atomically creates b_learners and exactly one owning app_user_learner_links row.",
+    "Teacher can create multiple classrooms; each classroom has exactly one owner and one allowed grade.",
+    "Learner cannot create classrooms; teacher cannot read another teacher's classroom; UUID possession does not authorize access.",
+    "Grade values outside GRADE_2 and GRADE_3 fail and learner profile creation cannot set grade.",
+    "All POST commands pass identical replay, body mismatch, concurrency, and rollback tests.",
+    "REAL provenance and audit fields are server-assigned; live TEST, SYNTHETIC, and IMPORTED provenance fails.",
+    "PII field allow-lists, token/password/log leakage, and response minimization tests pass.",
+    "Invite and membership schema constraints pass, while every policy-gated route is absent or returns fail-closed SERVICE_UNAVAILABLE without mutation.",
+    "Architecture guards prove no session, question, attempt, hint, progress, scientific, Yass, Component C, or Component 3 behavior was added.",
+    "Migration upgrade, downgrade, re-upgrade, no-drift, Docker non-root, no-source-mount, and PostgreSQL isolation checks pass."
+  ],
+  "exit_criteria": [
+    "Only the authorized reuse/extensions and four new tables exist; no learner_profiles duplicate exists.",
+    "Only the seven AUTHORIZED endpoints are added and policy-gated endpoints remain non-executable.",
+    "All ownership, cross-account, grade, idempotency, audit, provenance, privacy, and isolation tests pass.",
+    "No password, raw JWT, raw invite token, research identifier, scientific field, or synthetic record enters live persistence, responses, or logs.",
+    "All prohibited learning and scientific behavior remains absent.",
+    "A separate closure review verifies implementation against this file before any invite or membership behavior is considered."
+  ],
+  "required_approvers": {
+    "this_limited_scope": [
+      "product owner",
+      "backend security owner",
+      "privacy and child-safety owner"
+    ],
+    "before_invite_or_membership_endpoints": [
+      "product owner for learner multi-classroom and invite reuse",
+      "backend security owner for token and expiry contract",
+      "privacy and child-safety owner"
+    ],
+    "before_pilot_or_production": [
+      "ethics or project governance",
+      "privacy and child-safety owner",
+      "Component B owner",
+      "academic or research approver",
+      "operations and security owner"
+    ]
+  },
+  "exact_next_task": "Implement one governance-bound BE2 profile and classroom foundation batch against this authorization: schema reuse/extensions, teacher_profiles, classrooms, policy-gated invite/membership tables, and only the seven AUTHORIZED profile/classroom create/read endpoints. Do not implement invite or membership endpoints, learning sessions, or scientific behavior."
+}

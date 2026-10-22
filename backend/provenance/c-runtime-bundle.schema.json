@@ -1,0 +1,469 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://upadya.local/schemas/component-c-runtime-bundle-v1.0.schema.json",
+  "title": "Component C Runtime Bundle (Phase 2, minimal)",
+  "description": "Manifest for the Component C runtime artefacts a session would pin to. Deliberately minimal: Phase 2 needs only the generator wheel pin, the catalogue artefact pin, the bundle's own approval status, and compatibility metadata. Every Component B-only block (bkt_configuration, certification_configuration, guess_guard_configuration, safe_progress_policy, attempt_policy, timeout_policy, completion_policy, cold_start_policy) is intentionally absent -- none of those are Component C concepts, and copying their structure (or B's frozen sequencing weights) here would record meaning that does not exist for C. Later phases (policy/safety/scaffold config pins) extend this schema when they actually need to, under their own authorization -- this file is not a forward-looking template. schema_version 1.1 (Phase 4b) added selection_configuration as a single, BLOCK-LEVEL approval_status. schema_version 1.2 (Phase 6b) does two things at once, of DIFFERENT character, both covered by this one version number: (1) ADDITIVE -- adds the wholly new, optional safety_configuration block (a 1.1 bundle with no such block still validates under 1.2); (2) BREAKING -- converts selection_configuration's five real parameter fields from one block-level approval_status to PER-FIELD {source, status, value} objects, because a single block-level status cannot truthfully represent a config where some fields are SPEC-cited and others are pure engineering placeholders (the same reasoning that makes safety_configuration per-field from the start). A 1.1 bundle whose selection_configuration still carries the old flat approval_status DOES NOT validate under 1.2 -- it must be republished in the new per-field shape. That republish re-attests the generator wheel pin and the catalogue pin in the same act (the bundle is republished whole, never edited in isolation), an accepted, disclosed cost of this correction, not a footnote. schema_version 1.3 (SEVENTH-FAMILY GATE batch) is PURELY ADDITIVE -- adds the wholly new, optional evidence_window_configuration block, per-field {source, status, value} from the start (never a block-level status to migrate away from, same discipline safety_configuration used at 1.2). A 1.2 bundle with no such block still validates under 1.3, exactly as a 1.1 bundle with no safety_configuration still validated under 1.2. SCHEMA-OPTIONAL IS NOT THE SAME AS GATE-OPTIONAL, STATED HERE SO NEITHER READS AS THE OTHER: this schema makes evidence_window_configuration (like selection_configuration and safety_configuration before it) OPTIONAL to validate -- but the backend's own session-creation gate (app.application.live_engine_c.session_lifecycle.create_session) treats an ABSENT block as UNUSABLE, not as skippable, because an absent block means that family's usability is unknown and unknown is not usable. A bundle may validate without the block; it cannot start a session without it. THE GATE THIS SCHEMA FEEDS IS A WHITELIST, NOT A DENY-LIST: usable = {APPROVED} and nothing else -- every other status value, including the newly added PROPOSED_UNSIGNED and any value this schema does not yet name, is unusable by construction. No const anywhere in any configuration block on a CALIBRATION_PENDING/PROPOSED_UNSIGNED field -- a const would be exactly the 'value that could be read as a resolution' this schema must never contain; every number is structurally bounded only (matching the package's own Field(ge=.., le=..) bounds). schema_version 1.4 (CONNECT Step 2/3) is PURELY ADDITIVE -- adds one wholly new, optional string field, versionedArtifact.source_status_note, used so far only by the catalogue block: when a cited source's own literal status string has no exact match in this schema's approvalStatus enum, approval_status records the nearest true enum member and source_status_note preserves what the source actually said, verbatim, so the mapping is visible rather than inferred. A 1.3 bundle with no such field still validates under 1.4, exactly as a 1.2 bundle with no evidence_window_configuration still validated under 1.3 -- this field carries no gate-required/schema-optional split of its own (unlike evidence_window_configuration), because nothing in the session-creation gate reads it at all; it is documentation, not usability data.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "bundle_version",
+    "publication_state",
+    "immutable_after_publication",
+    "backend_code_version",
+    "database_schema_revision",
+    "generator",
+    "catalogue",
+    "approval_status",
+    "activation_date",
+    "compatibility"
+  ],
+  "properties": {
+    "schema_version": {
+      "enum": ["1.0", "1.1", "1.2", "1.3", "1.4"],
+      "description": "1.1 added the OPTIONAL selection_configuration block (block-level status). 1.2 (Phase 6b) adds the OPTIONAL safety_configuration block and converts selection_configuration's five real fields to per-field {source, status, value} -- see this schema's own top-level description for the additive/breaking split. A bundle need not declare 1.2 to omit safety_configuration; a bundle DOES need selection_configuration in the new per-field shape to be schema_version 1.2. 1.3 (SEVENTH-FAMILY GATE batch) adds the OPTIONAL evidence_window_configuration block, per-field {source, status, value} from the start -- purely additive, unlike 1.2's own breaking half; a bundle need not declare 1.3 to omit evidence_window_configuration. See this schema's own top-level description for the schema-optional/gate-required distinction that block's own absence carries at session creation. 1.4 (CONNECT Step 2/3) adds the OPTIONAL versionedArtifact.source_status_note field -- purely additive, like 1.3; a bundle need not declare 1.4 to omit it, and unlike evidence_window_configuration this field carries no gate-required meaning at all (nothing in the session-creation gate reads it). See this schema's own top-level description for what it records and why."
+    },
+    "bundle_version": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
+    },
+    "publication_state": {
+      "type": "string",
+      "enum": [
+        "DRAFT",
+        "PUBLISHED",
+        "RETIRED"
+      ]
+    },
+    "immutable_after_publication": {
+      "const": true,
+      "description": "The persistence and promotion layers must reject mutation after publication. JSON Schema records but cannot itself enforce storage immutability."
+    },
+    "backend_code_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "database_schema_revision": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Alembic revision when available; an explicit unresolved placeholder is permitted only while the bundle remains DRAFT."
+    },
+    "generator": {
+      "$ref": "#/$defs/sourceArtifact"
+    },
+    "catalogue": {
+      "$ref": "#/$defs/versionedArtifact"
+    },
+    "approval_status": {
+      "$ref": "#/$defs/approvalStatus"
+    },
+    "selection_configuration": {
+      "$ref": "#/$defs/selectionConfiguration",
+      "description": "OPTIONAL (schema_version 1.1+). Absent on every 1.0 bundle and on any bundle not yet republished with it. C-internal only (owner condition 5) -- never serialised into any client-visible response. Phase 6b (schema_version 1.2): per-field {source, status, value}, replacing the 1.1 block-level approval_status -- see this schema's top-level description."
+    },
+    "safety_configuration": {
+      "$ref": "#/$defs/safetyConfiguration",
+      "description": "OPTIONAL (schema_version 1.2, Phase 6b). Absent on every bundle not yet republished with it. C-internal only -- never serialised into any client-visible response. Per-field {source, status, value} from the start (S3's own finding: this family is provably mixed -- prior_overloaded_disengaged_cap is SPEC-cited, the other eight fields are pure engineering placeholders with no SPEC citation anywhere)."
+    },
+    "evidence_window_configuration": {
+      "$ref": "#/$defs/evidenceWindowConfiguration",
+      "description": "OPTIONAL (schema_version 1.3, SEVENTH-FAMILY GATE batch). Absent on every bundle not yet republished with it. C-internal only -- never serialised into any client-visible response. Per-field {source, status, value} from the start, same discipline safety_configuration used: recent_window_task_count IS SPEC-cited (C Parameters §14), which is what makes this family bundle-classified rather than injection-only -- but the citation's own source (the SPEC) is itself unapproved, so the field carries no const and its status is never assumed APPROVED by this schema. SCHEMA-OPTIONAL BUT GATE-REQUIRED: this schema validates a bundle with no such block; the backend's session-creation gate does not treat that absence as usable -- see this schema's own top-level description."
+    },
+    "activation_date": {
+      "description": "Null while a bundle is an unapproved draft; a published active bundle requires an externally enforced non-null date-time.",
+      "oneOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "compatibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "backend_api_major",
+        "generator_interface_version",
+        "python_specifier",
+        "database_schema_minimum",
+        "supported_grades",
+        "skills",
+        "required_catalogue_template_count"
+      ],
+      "properties": {
+        "backend_api_major": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "generator_interface_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "python_specifier": {
+          "type": "string",
+          "minLength": 1
+        },
+        "database_schema_minimum": {
+          "type": "string",
+          "minLength": 1
+        },
+        "supported_grades": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "const": 2
+            },
+            {
+              "const": 3
+            }
+          ],
+          "items": false,
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "skills": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "const": "counting"
+            },
+            {
+              "const": "number_sense"
+            },
+            {
+              "const": "place_value"
+            },
+            {
+              "const": "addition"
+            },
+            {
+              "const": "subtraction"
+            },
+            {
+              "const": "multiplication"
+            },
+            {
+              "const": "division"
+            }
+          ],
+          "items": false,
+          "minItems": 7,
+          "maxItems": 7
+        },
+        "required_catalogue_template_count": {
+          "const": 30,
+          "description": "Component C's own EXPECTED_TEMPLATE_COUNT (component_c_generator.catalogue.loader), not B's 36 -- the two catalogues are unrelated artefacts."
+        }
+      }
+    }
+  },
+  "$defs": {
+    "approvalStatus": {
+      "type": "string",
+      "enum": [
+        "APPROVED",
+        "APPROVED_FOR_PROVISIONAL_IMPLEMENTATION",
+        "PROVISIONAL",
+        "ENGINEERING_ASSUMPTION",
+        "CALIBRATION_PENDING",
+        "DISABLED",
+        "UNRESOLVED",
+        "PROPOSED_UNSIGNED"
+      ],
+      "description": "PROPOSED_UNSIGNED (Phase 6b, added this batch): a cited source specifies this exact value, but that source's own approval/sign-off process has not completed (e.g. a SPEC document whose own status line withholds implementation authorization, or an approval memo whose checkboxes and signature blocks are blank). Distinct from CALIBRATION_PENDING, which this codebase already uses to mean no source has proposed a value at all -- collapsing the two would misclassify a cited-but-unsigned value as though no value had ever been proposed. THE GATE THAT CONSUMES THIS ENUM IS A WHITELIST: usable = {APPROVED} only. PROPOSED_UNSIGNED is NOT usable -- a value cited from a document that itself withholds implementation authorization cannot be sufficient to open a gate on that document's authority. PROVISIONAL and APPROVED_FOR_PROVISIONAL_IMPLEMENTATION are given NO meaning by this batch (deferred) -- under the whitelist, an unruled status fails closed on arrival, which is what makes the deferral costless; the eventual ruling on either has two parts, not one -- whether it opens the gate, and (APPROVED_FOR_PROVISIONAL_IMPLEMENTATION specifically asserts an approval) what approval it records and on whose authority."
+    },
+    "checksum": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "algorithm",
+        "value"
+      ],
+      "properties": {
+        "algorithm": {
+          "const": "sha256"
+        },
+        "value": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "sourceArtifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_identifier",
+        "source_path",
+        "checksum",
+        "interface_version"
+      ],
+      "properties": {
+        "source_identifier": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "checksum": {
+          "$ref": "#/$defs/checksum"
+        },
+        "interface_version": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "versionedArtifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "checksum",
+        "approval_status"
+      ],
+      "properties": {
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "checksum": {
+          "$ref": "#/$defs/checksum"
+        },
+        "approval_status": {
+          "$ref": "#/$defs/approvalStatus"
+        },
+        "source_status_note": {
+          "type": "string",
+          "minLength": 1,
+          "description": "OPTIONAL, purely additive (CONNECT Step 2/3). The artifact's OWN literal status string, verbatim, when approval_status is a mapped value rather than a direct transcription -- e.g. a source document's status line reads a phrase with no exact match in the approvalStatus enum, and the nearest enum member is recorded in approval_status while this field preserves what the source actually said, so the mapping is visible rather than inferred. Never required, never a substitute for approval_status itself."
+        }
+      }
+    },
+    "sourcedInteger": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "status", "value"],
+      "properties": {
+        "source": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Citation for this field's value, BY PATH (C-6 citation discipline): e.g. 'Component_C_Generator_v1.0/SPEC.md §10 (no commit hash -- see C-6)'. Never a bare claim with no locatable source."
+        },
+        "status": {
+          "$ref": "#/$defs/approvalStatus"
+        },
+        "value": {
+          "type": "integer"
+        }
+      }
+    },
+    "sourcedNumber": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "status", "value"],
+      "properties": {
+        "source": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "$ref": "#/$defs/approvalStatus"
+        },
+        "value": {
+          "type": "number"
+        }
+      }
+    },
+    "selectionConfiguration": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Phase 6b, schema_version 1.2 (BREAKING -- see top-level description): the five real CSelectionConfig fields are now PER-FIELD {source, status, value}, replacing the 1.1 block-level approval_status. version/checksum remain the block's own governance envelope (an artifact-level identity/re-attestation pin, distinct from any single field's own status). config_version/parameter_source_status remain their own independent fields, mapping 1:1 to CSelectionConfig, never coerced into the approvalStatus vocabulary (unchanged reasoning from 1.1).",
+      "required": [
+        "version",
+        "checksum",
+        "config_version",
+        "parameter_source_status",
+        "familiarization_window_by_grade",
+        "familiarization_difficulty_level",
+        "fallback_difficulty_level",
+        "familiarization_session_difficulty_cap",
+        "fallback_difficulty_cap"
+      ],
+      "properties": {
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "checksum": {
+          "$ref": "#/$defs/checksum"
+        },
+        "config_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "parameter_source_status": {
+          "type": "string",
+          "minLength": 1
+        },
+        "familiarization_window_by_grade": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["source", "status", "value"],
+          "properties": {
+            "source": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Not named anywhere in SPEC §8/§9/§10 -- no SPEC citation exists for this field; source records that absence explicitly rather than leaving it implicit."
+            },
+            "status": {
+              "$ref": "#/$defs/approvalStatus"
+            },
+            "value": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["2", "3"],
+              "properties": {
+                "2": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "3": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            }
+          }
+        },
+        "familiarization_difficulty_level": {
+          "$ref": "#/$defs/sourcedInteger"
+        },
+        "fallback_difficulty_level": {
+          "$ref": "#/$defs/sourcedInteger",
+          "description": "SPEC §8.2 and §10 both state 'C-only fallback -> initial 1' -- cited twice, consistently. Value stays 1 (status-only correction, W3-1/X3-d)."
+        },
+        "familiarization_session_difficulty_cap": {
+          "$ref": "#/$defs/sourcedInteger"
+        },
+        "fallback_difficulty_cap": {
+          "$ref": "#/$defs/sourcedInteger",
+          "description": "SPEC §8.2 ('fallback_difficulty_cap = 2') and §10 ('session cap 2') both state this -- cited twice, consistently. Value stays 2 (status-only correction, W3-1/X3-d)."
+        }
+      }
+    },
+    "safetyConfiguration": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Phase 6b, schema_version 1.2, NEW. Per-field {source, status, value} from the start (S3/W2): this family is provably mixed. version/checksum are the block's own governance envelope, structurally mirroring selectionConfiguration. config_version/parameter_source_status map 1:1 to CSafetyConfig's own two envelope fields.",
+      "required": [
+        "version",
+        "checksum",
+        "config_version",
+        "parameter_source_status",
+        "consecutive_error_trigger",
+        "strain_trigger",
+        "increase_block_window",
+        "prior_overloaded_disengaged_cap",
+        "safe_termination_error_threshold",
+        "strain_bucket_low_max",
+        "strain_bucket_moderate_max",
+        "strain_bucket_high_max"
+      ],
+      "properties": {
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "checksum": {
+          "$ref": "#/$defs/checksum"
+        },
+        "config_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "parameter_source_status": {
+          "type": "string",
+          "minLength": 1
+        },
+        "consecutive_error_trigger": {
+          "$ref": "#/$defs/sourcedInteger",
+          "description": "SPEC §17 names the safety controller's six qualitative actions but gives no numeric threshold for this field -- no SPEC citation exists."
+        },
+        "strain_trigger": {
+          "$ref": "#/$defs/sourcedNumber",
+          "description": "No SPEC citation exists (§17 is qualitative only)."
+        },
+        "increase_block_window": {
+          "$ref": "#/$defs/sourcedInteger",
+          "description": "SPEC §17 says 'block future increases for a bounded window' but does not fix the window's length -- no numeric SPEC citation exists."
+        },
+        "prior_overloaded_disengaged_cap": {
+          "$ref": "#/$defs/sourcedInteger",
+          "description": "SPEC §10: 'prior overloaded/disengaged complete state -> <=2' -- SPEC-cited, unsigned (PROPOSED_UNSIGNED, not APPROVED and not CALIBRATION_PENDING -- see approvalStatus's own description)."
+        },
+        "safe_termination_error_threshold": {
+          "$ref": "#/$defs/sourcedInteger",
+          "description": "No SPEC citation exists (§17 names 'request safe session termination' qualitatively only)."
+        },
+        "strain_bucket_low_max": {
+          "$ref": "#/$defs/sourcedNumber",
+          "description": "No SPEC citation exists."
+        },
+        "strain_bucket_moderate_max": {
+          "$ref": "#/$defs/sourcedNumber",
+          "description": "No SPEC citation exists."
+        },
+        "strain_bucket_high_max": {
+          "$ref": "#/$defs/sourcedNumber",
+          "description": "No SPEC citation exists."
+        }
+      }
+    },
+    "evidenceWindowConfiguration": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "SEVENTH-FAMILY GATE batch, schema_version 1.3, NEW. Per-field {source, status, value} from the start, mirroring safetyConfiguration's own discipline even though this family has only one real parameter field -- SUPERVISOR RULING 2/4: the per-field shape is not a function of field count. version/checksum are the block's own governance envelope, structurally mirroring selectionConfiguration/safetyConfiguration. config_version/parameter_source_status map 1:1 to CEvidenceWindowConfig's own two envelope fields.",
+      "required": [
+        "version",
+        "checksum",
+        "config_version",
+        "parameter_source_status",
+        "recent_window_task_count"
+      ],
+      "properties": {
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "checksum": {
+          "$ref": "#/$defs/checksum"
+        },
+        "config_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "parameter_source_status": {
+          "type": "string",
+          "minLength": 1
+        },
+        "recent_window_task_count": {
+          "$ref": "#/$defs/sourcedInteger",
+          "description": "C Parameters §14: 'recent_success_rate_bucket: over last N=5 completed tasks' -- SPEC-cited, unsigned (PROPOSED_UNSIGNED, not APPROVED and not CALIBRATION_PENDING -- see approvalStatus's own description), the same treatment prior_overloaded_disengaged_cap received. No const: the SPEC itself is unapproved, so this field's value is structurally bounded only, never recorded as a resolution."
+        }
+      }
+    }
+  },
+  "x-runtime-invariants": [
+    "Published bundles are immutable",
+    "Existing sessions remain pinned to their original bundle",
+    "Activating a new bundle affects only new sessions",
+    "Missing or incompatible required artefacts fail readiness closed"
+  ]
+}

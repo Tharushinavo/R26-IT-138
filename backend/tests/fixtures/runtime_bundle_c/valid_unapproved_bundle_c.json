@@ -1,0 +1,147 @@
+{
+  "schema_version": "1.3",
+  "bundle_version": "c2-test-fixture-1.0",
+  "publication_state": "DRAFT",
+  "immutable_after_publication": true,
+  "backend_code_version": "0.1.0-c2-test-fixture",
+  "database_schema_revision": "UNRESOLVED_PLACEHOLDER_C2_TEST_FIXTURE",
+  "generator": {
+    "source_identifier": "prabathi-component-c-live-engine",
+    "source_path": "provenance/wheels/prabathi_component_c_live_engine-0.1.0+c3.09267ab-py3-none-any.whl",
+    "checksum": {
+      "algorithm": "sha256",
+      "value": "44ce33511f03a91582f0ade6730ed600ce710ea833cdc3714f7b91f366b298a4"
+    },
+    "interface_version": "c2-test-fixture-1.0"
+  },
+  "catalogue": {
+    "version": "TEST-FIXTURE-1.0",
+    "checksum": {
+      "algorithm": "sha256",
+      "value": "55709112756fed913ed24d44a21b9b54c7fd25976db8de884fbe47526082f661"
+    },
+    "approval_status": "CALIBRATION_PENDING"
+  },
+  "approval_status": "CALIBRATION_PENDING",
+  "selection_configuration": {
+    "version": "c4.0-selection-1.0.0",
+    "checksum": {
+      "algorithm": "sha256",
+      "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "config_version": "c4.0-selection-1.0.0",
+    "parameter_source_status": "TEST_FIXTURE_ONLY",
+    "familiarization_window_by_grade": {
+      "source": "Not named in Component_C_Generator_v1.0/SPEC.md §8/§9/§10 (no commit hash -- see C-6) -- no SPEC citation exists",
+      "status": "CALIBRATION_PENDING",
+      "value": {
+        "2": 2,
+        "3": 3
+      }
+    },
+    "familiarization_difficulty_level": {
+      "source": "Not named in Component_C_Generator_v1.0/SPEC.md §8/§9/§10 (no commit hash -- see C-6) -- no SPEC citation exists",
+      "status": "CALIBRATION_PENDING",
+      "value": 1
+    },
+    "fallback_difficulty_level": {
+      "source": "Component_C_Generator_v1.0/SPEC.md §8.2 and §10 (no commit hash -- see C-6): 'C-only fallback -> initial 1' -- cited twice, consistently",
+      "status": "PROPOSED_UNSIGNED",
+      "value": 1
+    },
+    "familiarization_session_difficulty_cap": {
+      "source": "Not named in Component_C_Generator_v1.0/SPEC.md §8/§9/§10 (no commit hash -- see C-6) -- no SPEC citation exists",
+      "status": "CALIBRATION_PENDING",
+      "value": 2
+    },
+    "fallback_difficulty_cap": {
+      "source": "Component_C_Generator_v1.0/SPEC.md §8.2 ('fallback_difficulty_cap = 2') and §10 ('session cap 2') (no commit hash -- see C-6) -- cited twice, consistently",
+      "status": "PROPOSED_UNSIGNED",
+      "value": 2
+    }
+  },
+  "safety_configuration": {
+    "version": "c4.1-safety-1.0.0",
+    "checksum": {
+      "algorithm": "sha256",
+      "value": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    },
+    "config_version": "c4.1-safety-1.0.0",
+    "parameter_source_status": "TEST_FIXTURE_ONLY",
+    "consecutive_error_trigger": {
+      "source": "Not numerically named in Component_C_Generator_v1.0/SPEC.md §17 (no commit hash -- see C-6) -- qualitative only",
+      "status": "CALIBRATION_PENDING",
+      "value": 5
+    },
+    "strain_trigger": {
+      "source": "Not numerically named in Component_C_Generator_v1.0/SPEC.md §17 (no commit hash -- see C-6) -- qualitative only",
+      "status": "CALIBRATION_PENDING",
+      "value": 0.85
+    },
+    "increase_block_window": {
+      "source": "Component_C_Generator_v1.0/SPEC.md §17 (no commit hash -- see C-6): 'block future increases for a bounded window' -- qualitative, no numeric window length cited",
+      "status": "CALIBRATION_PENDING",
+      "value": 3
+    },
+    "prior_overloaded_disengaged_cap": {
+      "source": "Component_C_Generator_v1.0/SPEC.md §10 (no commit hash -- see C-6): 'prior overloaded/disengaged complete state -> <=2'",
+      "status": "PROPOSED_UNSIGNED",
+      "value": 2
+    },
+    "safe_termination_error_threshold": {
+      "source": "Not numerically named in Component_C_Generator_v1.0/SPEC.md §17 (no commit hash -- see C-6) -- qualitative only",
+      "status": "CALIBRATION_PENDING",
+      "value": 7
+    },
+    "strain_bucket_low_max": {
+      "source": "Not named in Component_C_Generator_v1.0/SPEC.md §17 (no commit hash -- see C-6) -- no SPEC citation exists",
+      "status": "CALIBRATION_PENDING",
+      "value": 0.25
+    },
+    "strain_bucket_moderate_max": {
+      "source": "Not named in Component_C_Generator_v1.0/SPEC.md §17 (no commit hash -- see C-6) -- no SPEC citation exists",
+      "status": "CALIBRATION_PENDING",
+      "value": 0.50
+    },
+    "strain_bucket_high_max": {
+      "source": "Not named in Component_C_Generator_v1.0/SPEC.md §17 (no commit hash -- see C-6) -- no SPEC citation exists",
+      "status": "CALIBRATION_PENDING",
+      "value": 0.85
+    }
+  },
+  "evidence_window_configuration": {
+    "version": "c-evidence-window-1.0.0",
+    "checksum": {
+      "algorithm": "sha256",
+      "value": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    },
+    "config_version": "c-evidence-window-1.0.0",
+    "parameter_source_status": "TEST_FIXTURE_ONLY",
+    "recent_window_task_count": {
+      "source": "C Parameters §14: 'recent_success_rate_bucket: over last N=5 completed tasks'",
+      "status": "PROPOSED_UNSIGNED",
+      "value": 5
+    }
+  },
+  "activation_date": null,
+  "compatibility": {
+    "backend_api_major": 1,
+    "generator_interface_version": "c2-test-fixture-1.0",
+    "python_specifier": ">=3.11,<3.12",
+    "database_schema_minimum": "UNRESOLVED_PLACEHOLDER_C2_TEST_FIXTURE",
+    "supported_grades": [
+      2,
+      3
+    ],
+    "skills": [
+      "counting",
+      "number_sense",
+      "place_value",
+      "addition",
+      "subtraction",
+      "multiplication",
+      "division"
+    ],
+    "required_catalogue_template_count": 30
+  }
+}

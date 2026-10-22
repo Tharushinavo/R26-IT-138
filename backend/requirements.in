@@ -1,0 +1,24 @@
+alembic==1.18.4
+asyncpg==0.31.0
+fastapi==0.137.1
+httpx==0.28.1
+jsonschema==4.25.1
+pytest==9.1.1
+pyjwt[crypto]==2.13.0
+sqlalchemy[asyncio]==2.0.46
+uvicorn[standard]==0.49.0
+# Component D trained model (owner, 2026-10-21): provenance/d_model/cognitive_model.pkl was pickled
+# under scikit-learn 1.6.1, so that exact version is pinned. numpy matches the research lock.
+scikit-learn==1.6.1
+numpy==2.2.6
+scipy==1.15.3
+joblib==1.5.3
+threadpoolctl==3.6.0
+# BE3b — vendored live-engine adapter + runtime-bundle validation (see backend/provenance/component-b-live-engine-manifest.json).
+# VALIDATORS BATCH: bf4 -> bf5 (validators/ added at the same 09267ab pin; see
+# validators_widened_closure in that manifest).
+./provenance/wheels/upadya_component_b_live_engine-0.1.0+bf5.09267ab-py3-none-any.whl
+# Phase 1 batch 1a — Component C packaging only, no adapter wiring yet (see backend/provenance/component-c-live-engine-manifest.json).
+# VALIDATORS BATCH: c1 -> c2 (B dependency pin bumped to 0.1.0+bf5.09267ab; C's own file
+# inventory is unchanged).
+./provenance/wheels/prabathi_component_c_live_engine-0.1.0+c3.09267ab-py3-none-any.whl

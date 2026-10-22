@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools==80.10.2", "wheel==0.46.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "prabathi-component-c-live-engine"
+version = "0.1.0+c3.09267ab"
+description = "Minimal live-safe Component C engine closure for the Upadya backend (Phase 1 batch 1a packaging; no adapter wiring)"
+requires-python = ">=3.11,<3.12"
+dependencies = [
+  "upadya-component-b-live-engine==0.1.0+bf5.09267ab",
+  "pydantic==2.13.4",
+  "PyYAML==6.0.3",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["component_c_generator*"]
+namespaces = false

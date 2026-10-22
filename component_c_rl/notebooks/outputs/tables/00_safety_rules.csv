@@ -1,0 +1,12 @@
+rule,source,condition,affects proposals
+technical neutralisation,controller.py:58-60,decrease -> hold when technical_issue_current_task,decrease
+severe error-run trigger,"controller.py:64,67-68,71-72",recent_consecutive_error_max >= 5: force decrease + recovery flag,"hold, increase"
+severe strain trigger,"controller.py:65,69-72",rolling_strain_score >= 0.85: force decrease + recovery flag,"hold, increase"
+increase block,controller.py:74-83,after a trigger the next 3 decisions veto increase (-> hold); veto also applies on the trigger decision,increase
+recovery cap,controller.py:87-89,is_recovery_context: ceiling = floor = 1 (difficulty_after = 1),"any (increase, hold if d>1)"
+familiarization cap,controller.py:91-93,session_phase == familiarization: ceiling 2,"increase (at/above cap), hold above cap"
+c_only (fallback) cap,controller.py:94-96,session_mode == c_only: ceiling 2,"increase (at/above cap), hold above cap"
+prior-state cap,controller.py:97-99,"prior_session_end_state in (overloaded, disengaged): ceiling 2","increase (at/above cap), hold above cap"
+floor/ceiling clamp,controller.py:102-108,"target = d +/- 1 clamped to [floor, ceiling]; applied_action derived from the NUMERIC outcome","decrease at d=1, increase at d=5"
+safe termination,controller.py:123-125,recent_consecutive_error_max >= 7: request_safe_termination (does not change the action),n/a (stops session)
+override definition,controller.py:127,action_overridden = applied_action != selected_action,-

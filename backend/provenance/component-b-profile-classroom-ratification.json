@@ -1,0 +1,161 @@
+{
+  "schema_version": "1.0",
+  "record_type": "NAMED_APPROVER_RATIFICATION",
+  "component": "B",
+  "review": "BE2_PROFILE_CLASSROOM_LIMITED_BATCH_NAMED_APPROVER_RATIFICATION",
+  "recorded_at_utc": "2026-07-23T00:00:00Z",
+  "governing_authorization": "backend/provenance/component-b-profile-classroom-authorization.json",
+  "closure_review_source": "backend/buildLog.md#BE2-Profile-Classroom-Limited-Batch-Closure-Re-Review",
+  "closure_decision_under_ratification": "BE2_PROFILE_CLASSROOM_BATCH_CLOSED",
+  "implementation_commit": "aa037400aca212e24a4b681c9bef768b23f99fce",
+  "corrective_commit": "2fc9a350840bc51cd70fcb01f59f9994ce352704",
+  "closure_documentation_commit": "e579d6cf07d3badde3a984a1a5b4db3bf090464a",
+  "schema_revision": "20260722_0004",
+  "branch": "B_frontend",
+  "verified_at_ratification_review": {
+    "local_matches_origin": true,
+    "working_tree_clean": true,
+    "full_docker_suite": "52 passed, 1 warning",
+    "focused_corrective_and_guard_suite": "18 passed, 1 warning",
+    "known_warning": "upstream FastAPI/Starlette TestClient httpx deprecation",
+    "migration_head": "20260722_0004",
+    "migration_downgrade_reupgrade": "20260722_0004 -> 20260722_0003 -> 20260722_0004, passed",
+    "alembic_drift_check": "No new upgrade operations detected",
+    "application_table_count": 12,
+    "application_tables": [
+      "app_users", "b_learners", "app_user_learner_links", "b_runtime_bundle_records",
+      "b_sessions", "b_session_events", "b_idempotency_records", "b_audit_events",
+      "teacher_profiles", "classrooms", "classroom_invites", "classroom_memberships"
+    ],
+    "authorized_endpoint_count": 7,
+    "authorized_endpoints": [
+      "POST /api/v1/teacher/profile", "GET /api/v1/teacher/profile",
+      "POST /api/v1/learner/profile", "GET /api/v1/learner/profile",
+      "POST /api/v1/classrooms", "GET /api/v1/classrooms", "GET /api/v1/classrooms/{classroom_id}"
+    ],
+    "roles_present": ["LEARNER", "TEACHER"],
+    "prohibited_roles_present": false,
+    "api_container_identity": "10001:10001",
+    "postgresql_host_port_exposed": false,
+    "source_mounts_present": false,
+    "secret_or_token_leakage_found": false,
+    "yass_or_generator_import_found": false,
+    "research_wheel_dependency_found": false
+  },
+  "review_checklist": {
+    "exactly_two_roles_learner_teacher": "VERIFIED",
+    "authenticated_subject_ownership": "VERIFIED",
+    "teacher_profile_ownership": "VERIFIED",
+    "learner_profile_ownership": "VERIFIED",
+    "grade_2_and_grade_3_classroom_restriction": "VERIFIED",
+    "server_controlled_real_provenance": "VERIFIED",
+    "classroom_ownership_isolation": "VERIFIED",
+    "idempotent_replay_and_mismatch_handling": "VERIFIED",
+    "concurrency_safe_provisioning": "VERIFIED",
+    "rollback_integrity": "VERIFIED",
+    "audit_and_privacy_boundaries": "VERIFIED",
+    "prohibition_of_invite_membership_session_scientific_behavior": "VERIFIED",
+    "verification_method": "Automated technical verification only (Docker test execution, migration cycle, static architecture guards, git provenance). These checklist items confirm engineering/technical conformance to the authorization. They are not a substitute for the named human governance decisions recorded below."
+  },
+  "approver_records": [
+    {
+      "role": "product_owner",
+      "name": "UNRESOLVED_PLACEHOLDER",
+      "decision": "UNRESOLVED",
+      "decision_date": null,
+      "approved_scope": null,
+      "conditions": [],
+      "unresolved_concerns": [
+        "No named product owner has reviewed or decided on this batch through this session or any recorded channel."
+      ],
+      "authorizes_closed_batch_as_foundation_for_later_governance_work": null,
+      "note": "This slot cannot be completed by an AI assistant. It requires an actual named product owner to record a real decision."
+    },
+    {
+      "role": "backend_security_owner",
+      "name": "UNRESOLVED_PLACEHOLDER",
+      "decision": "UNRESOLVED",
+      "decision_date": null,
+      "approved_scope": null,
+      "conditions": [],
+      "unresolved_concerns": [
+        "No named backend security owner has reviewed or decided on this batch through this session or any recorded channel.",
+        "Independent security review (penetration testing, dependency/CVE audit, secrets-management review) beyond the automated leakage/isolation scans in this build log has not been performed by a named security reviewer."
+      ],
+      "authorizes_closed_batch_as_foundation_for_later_governance_work": null,
+      "note": "This slot cannot be completed by an AI assistant. It requires an actual named backend security owner to record a real decision."
+    },
+    {
+      "role": "privacy_and_child_safety_owner",
+      "name": "UNRESOLVED_PLACEHOLDER",
+      "decision": "UNRESOLVED",
+      "decision_date": null,
+      "approved_scope": null,
+      "conditions": [],
+      "unresolved_concerns": [
+        "No named privacy and child-safety owner has reviewed or decided on this batch through this session or any recorded channel.",
+        "Retention, withdrawal, and deletion policy remain UNRESOLVED per the governing authorization and have not been reviewed by a named privacy owner.",
+        "This component processes data about children (Grade 2/3 learners); a privacy/child-safety sign-off carries higher stakes than routine engineering review and must not be inferred from automated tests alone."
+      ],
+      "authorizes_closed_batch_as_foundation_for_later_governance_work": null,
+      "note": "This slot cannot be completed by an AI assistant. It requires an actual named privacy and child-safety owner to record a real decision."
+    }
+  ],
+  "approved_scope": {
+    "status": "NOT_YET_RATIFIED",
+    "description": "No scope is ratified by this record. The scope previously authorized for implementation (profile create/read and teacher-owned classroom create/read only, per component-b-profile-classroom-authorization.json) remains implemented and closed at the engineering level, but named-approver ratification of that closure has not occurred."
+  },
+  "conditions": [
+    "This ratification record does not itself constitute approval. It documents that ratification has not yet been obtained from any of the three required named owners.",
+    "Real ratification requires each named owner to independently record a decision, date, approved scope, and any conditions; an AI assistant cannot originate or stand in for that decision."
+  ],
+  "unresolved_decisions_carried_forward": [
+    "learner_multi_classroom_membership",
+    "invite_cross_learner_reuse_policy",
+    "invite_expiry_duration",
+    "classroom_grade_change_after_membership",
+    "profile_and_account_update_deactivation",
+    "retention_withdrawal_and_deletion",
+    "invite_token_cryptographic_contract"
+  ],
+  "prohibited_behavior": [
+    "Invite issuance or resolution",
+    "QR generation or scanning",
+    "Membership request, approval, or rejection",
+    "Learning-session creation or any session lifecycle transition",
+    "Question generation, item opportunities, answer submission, retries, hints",
+    "BKT, mastery, Guess-Guard, certification, sequencing, progress, completion",
+    "Component B live-engine integration",
+    "Component C",
+    "Component 3",
+    "Pilot or production rollout",
+    "Research export",
+    "Synthetic dataset generation",
+    "Yass source, research wheel, or generator dependency"
+  ],
+  "does_not_authorize": [
+    "Any invite, QR, membership, session, attempt, progress, scientific-engine, pilot, or production implementation",
+    "The next implementation batch of any kind",
+    "A change to the approved_scope in component-b-profile-classroom-authorization.json"
+  ],
+  "final_ratification_decision": "BE2_PROFILE_CLASSROOM_NOT_RATIFIED",
+  "final_ratification_decision_reason": "All engineering, test, and architecture-boundary evidence required for closure is verified and reproducible. However, ratification specifically requires decisions from three named human owners (product owner, backend security owner, privacy and child-safety owner). No such named individual has reviewed or recorded a decision through this session or any other recorded channel. An AI assistant cannot originate, infer, or fabricate those decisions on their behalf without producing a false governance record. The batch therefore remains BE2_PROFILE_CLASSROOM_BATCH_CLOSED at the engineering level but BE2_PROFILE_CLASSROOM_NOT_RATIFIED at the governance level until real named approvers record their decisions.",
+  "exact_next_task": "Obtain actual decisions from the three named owners identified in component-b-profile-classroom-authorization.json (required_approvers.this_limited_scope). Each decision must be recorded by or on explicit documented instruction from that named person, including their name, role, decision, decision date, approved scope, conditions, and unresolved concerns. Update this record with real entries once obtained, then re-issue the ratification decision. Do not begin invite, QR, membership, session, attempt, progress, scientific-engine, pilot, or production implementation before that ratification is granted.",
+  "engineering_continuation": {
+    "status": "ENGINEERING_CONTINUATION_ALLOWED_RATIFICATION_DEFERRED_TO_BE6",
+    "recorded_at_utc": "2026-07-23T00:00:00Z",
+    "relationship_to_final_ratification_decision": "This status does not change, retract, or substitute for final_ratification_decision above (BE2_PROFILE_CLASSROOM_NOT_RATIFIED), which remains the accurate record that no named product owner, backend security owner, or privacy and child-safety owner has ratified this batch. It layers a narrower, explicitly scoped permission on top of that unresolved state.",
+    "authority": "An explicit project-governance instruction issued directly in this session by the person directing this project. It is not a decision by, or attributed to, any of the three named approver roles, and is recorded as a project-governance instruction rather than as a named-approver ratification.",
+    "permits": [
+      "Continued Version 1 engineering, implementation, and testing of subsequent bounded Component B application-layer batches (for example, the classroom invitation and membership workflow), following the same authorization-then-implementation-then-closure discipline already used for the profile/classroom batch."
+    ],
+    "does_not_permit": [
+      "Real-child onboarding",
+      "Research exports",
+      "Pilot deployment",
+      "Production use"
+    ],
+    "final_sign_off_requirement": "Product owner, backend security owner, and privacy and child-safety owner ratification remains required before any pilot use. It is deferred to the BE6 pre-pilot review gate, not waived, reduced, or made optional by this status.",
+    "review_gate": "BE6 pre-pilot review"
+  }
+}

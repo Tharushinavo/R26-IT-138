@@ -1,0 +1,272 @@
+{
+  "schema_version": "1.0",
+  "component": "B",
+  "phase": "BE0_CLOSURE",
+  "recorded_at_utc": "2026-07-21T19:40:00Z",
+  "response_format_mapping_review": {
+    "frontend_contract_search": {
+      "scope": "backend and frontend tracked source files",
+      "terms": [
+        "response_format",
+        "responseFormat",
+        "single_integer",
+        "single_integer_or_choice",
+        "expanded_form",
+        "ordered_integer_sequence",
+        "structured_pair",
+        "structured_triple_or_expression"
+      ],
+      "result": "NOT_FOUND",
+      "consequence": "No mapping can be approved as exact or compatible until an owner-approved frontend renderer/input contract exists."
+    },
+    "mappings": [
+      {
+        "template_id": "B-ADD02-COUNT-ON",
+        "catalogue_source": "Component_B_v1.0/R26-IT-138_Component_B_Item_and_Task_Set_Catalogue_v1.0.md:166",
+        "catalogue_response_format": "single_integer_or_mark",
+        "generator_source": "Implementation_v1.0/component_b_generator/samplers/addition.py::_ADD02",
+        "generator_response_format": "single_integer_or_choice",
+        "generator_output": "operands start/jumps; prompt start/jumps/stem; numeric correct endpoint; generated distractor choices",
+        "frontend_renderer_contract": "NOT_FOUND",
+        "classification": "UNRESOLVED",
+        "reasoning": "The catalogue permits a number-line mark while the generator advertises integer-or-choice. Numeric endpoint equivalence does not prove mark selection or renderer compatibility.",
+        "owner_approval_required": true,
+        "decision_request": "Choose whether B-ADD02 is rendered as numeric/choice input or a number-line mark, then approve the existing generator label or require a separately governed contract correction."
+      },
+      {
+        "template_id": "B-CNT06-SKIP-COUNT",
+        "catalogue_source": "Component_B_v1.0/R26-IT-138_Component_B_Item_and_Task_Set_Catalogue_v1.0.md:136",
+        "catalogue_response_format": "ordered_integer_sequence",
+        "generator_source": "Implementation_v1.0/component_b_generator/samplers/counting.py::_CNT06",
+        "generator_response_format": "single_integer",
+        "generator_output": "a displayed anchor sequence with one terminal blank; the answer is one next integer",
+        "frontend_renderer_contract": "NOT_FOUND",
+        "classification": "UNRESOLVED",
+        "reasoning": "The concrete generated task asks for one terminal value, which is narrower than a general ordered-sequence response, but compatibility cannot be approved without confirming the intended catalogue semantics and renderer.",
+        "owner_approval_required": true,
+        "decision_request": "Confirm that CNT06 v1 intentionally collects only the terminal next integer, or require the generator to collect an ordered sequence in separately approved work."
+      },
+      {
+        "template_id": "B-PV02-DECOMPOSE-2D",
+        "catalogue_source": "Component_B_v1.0/R26-IT-138_Component_B_Item_and_Task_Set_Catalogue_v1.0.md:155",
+        "catalogue_response_format": "structured_pair",
+        "generator_source": "Implementation_v1.0/component_b_generator/samplers/place_value.py::_PV02",
+        "generator_response_format": "expanded_form",
+        "generator_output": "n/tens/ones operands and an expanded-form prompt; accepted equivalences include expression and tens/ones forms",
+        "frontend_renderer_contract": "NOT_FOUND",
+        "classification": "UNRESOLVED",
+        "reasoning": "Expanded-form text may encode the catalogue pair, but the runtime accepts multiple equivalent representations. That is not an exact structured-pair contract and parsing/rendering support is unproven.",
+        "owner_approval_required": true,
+        "decision_request": "Approve expanded-form multi-equivalence input for PV02 or require a structured tens/ones pair contract in separately approved work."
+      },
+      {
+        "template_id": "B-PV04-DECOMPOSE-3D",
+        "catalogue_source": "Component_B_v1.0/R26-IT-138_Component_B_Item_and_Task_Set_Catalogue_v1.0.md:157",
+        "catalogue_response_format": "structured_triple_or_expression",
+        "generator_source": "Implementation_v1.0/component_b_generator/samplers/place_value.py::_PV04",
+        "generator_response_format": "expanded_form",
+        "generator_output": "n/hundreds/tens/ones operands and an expanded-form prompt; accepted equivalences include expressions and place-value forms",
+        "frontend_renderer_contract": "NOT_FOUND",
+        "classification": "UNRESOLVED",
+        "reasoning": "Expanded form plausibly covers the expression branch but does not explicitly guarantee the structured-triple branch or any renderer/parser behavior.",
+        "owner_approval_required": true,
+        "decision_request": "Approve expanded-form input as the governed PV04 expression representation, including accepted equivalences, or require an explicit triple-capable contract."
+      }
+    ]
+  },
+  "generator_packaging_decision": {
+    "selected_strategy": "MINIMAL_UPADYA_COMPONENT_B_LIVE_ENGINE_AT_BE3",
+    "decision_status": "ARCHITECTURE_CORRECTED_LIVE_ENGINE_NOT_BUILT",
+    "full_wheel_classification": "BE0_RESEARCH_REPRODUCIBILITY_ARTIFACT_ONLY",
+    "full_wheel_application_runtime_use": "PROHIBITED",
+    "full_wheel_artifact": {
+      "filename": "upadya_component_b_generator-0.1.0+be0.0e86fdc-py3-none-any.whl",
+      "sha256": "12b5ba5b7e8a70785a3e2b49e5c07bc8f89cc677c268ea509907f8f6d517e750",
+      "source_commit": "0e86fdcbc0ffcdbda3d37c742e83b1d532910e2b",
+      "source_manifest_sha256": "fd4f052e41539434ad4ff6bbb72fa01815ef750ceeb0a6d8ebc6fbc481e07e2c",
+      "python_version": "3.11.15",
+      "installed_wheel_test": {
+        "status": "FAILED_ONE_OFFLINE_PILOT_PROVENANCE_ASSERTION",
+        "passed": 884,
+        "failed": 1,
+        "skipped": 0,
+        "warnings": 0,
+        "duration_seconds": 213.14,
+        "output_sha256": "03514e92481b4458cc775d9c1f0ca359ec63eeed97bea4c0680815888895c41c",
+        "failure": "test_pilot_report_git_provenance_is_present_and_honest expected the unavailable-Git provenance note to contain the literal word 'not'; the isolated non-Git wheel environment reported 'git provenance unavailable'.",
+        "rerun_or_fix_performed": false
+      }
+    },
+    "comparison": {
+      "full_research_generator_wheel": "Built and retained only for BE0 research reproduction; rejected as an application dependency because it contains synthetic/offline execution code.",
+      "minimal_live_engine_package": "Preferred for BE3: immutable package containing only the reviewed live-safe dependency closure and shared contracts.",
+      "immutable_source_artefact": "Acceptable BE3 fallback only with an equivalent manifest, checksum, import boundary, and architecture tests.",
+      "repository_relative_source_import": "REJECTED because it relies on a mutable checkout and repository layout."
+    },
+    "required_future_live_engine_contents": [
+      "only the live-safe dependency closure in component-b-live-engine-reuse-map.json",
+      "only required shared models and validators",
+      "package metadata identifying the pinned Yass source objects",
+      "no synthetic/offline modules or entry points"
+    ],
+    "versioning_method": "At BE3, assign the minimal live engine a PEP 440 version bound to its reviewed source manifest and record its wheel SHA-256; do not reuse the research-generator distribution identity.",
+    "source_commit": "0e86fdcbc0ffcdbda3d37c742e83b1d532910e2b",
+    "effective_source_verified_at_later_head": "848742c1a453648478c6b2ef02d91ca996ea566b",
+    "generator_git_tree_sha1": "73acb113bbb179f5946333c27b0142c43f3063f3",
+    "source_manifest_sha256": "fd4f052e41539434ad4ff6bbb72fa01815ef750ceeb0a6d8ebc6fbc481e07e2c",
+    "proposed_build_command": "BE3 only: python -m build --wheel --no-isolation <reviewed minimal live-engine source closure>",
+    "proposed_verification_command": "BE3 only: isolated install, architecture-test prohibited imports, live-safe characterization, and deterministic digest verification",
+    "limitations": [
+      "The full research wheel contains prohibited synthetic/offline modules and is never an application dependency.",
+      "The minimal live-engine package does not exist and belongs to BE3.",
+      "The catalogue must remain an explicit checksummed runtime-bundle asset.",
+      "Architecture tests must prove prohibited modules are unreachable from live adapters."
+    ],
+    "wheel_construction_complete": true,
+    "wheel_approved_for_application_container": false,
+    "future_live_engine_package": "upadya-component-b-live-engine",
+    "future_live_engine_build_phase": "BE3",
+    "future_live_engine_built": false,
+    "live_engine_reuse_map": "backend/provenance/component-b-live-engine-reuse-map.json",
+    "separately_approved_work_required": true,
+    "mutable_checkout_runtime_import_allowed": false
+  },
+  "governance_register": [
+    {
+      "item": "catalogue approval",
+      "current_status": "PROVISIONAL",
+      "source_document": "Component_B_v1.0/R26-IT-138_Component_B_Item_and_Task_Set_Catalogue_v1.0.md",
+      "blocks_be1_engineering": false,
+      "blocks_session_apis": true,
+      "blocks_pilot_or_production": true,
+      "required_approver": "Component B owner and academic/research approver",
+      "approved_value_or_deferral": null,
+      "next_action": "Approve catalogue v1.0 checksum and resolve the four response mappings, or record an explicit governed deferral."
+    },
+    {
+      "item": "BKT parameter approval",
+      "current_status": "CALIBRATION_PENDING",
+      "source_document": "Component_B_v1.0/R26-IT-138_Component_B_Empirical_Statistical_Parameters_v1.0.md; Implementation_v1.0/component_b_generator/bkt/config.py",
+      "blocks_be1_engineering": false,
+      "blocks_session_apis": true,
+      "blocks_pilot_or_production": true,
+      "required_approver": "Academic/research calibration owner",
+      "approved_value_or_deferral": null,
+      "next_action": "Approve per-skill P(L0), P(T), P(G), P(S), or explicitly defer live adaptive sessions."
+    },
+    {
+      "item": "certification threshold",
+      "current_status": "CALIBRATION_PENDING",
+      "source_document": "Implementation_v1.0/component_b_generator/bkt/config.py",
+      "blocks_be1_engineering": false,
+      "blocks_session_apis": true,
+      "blocks_pilot_or_production": true,
+      "required_approver": "Academic/research calibration owner",
+      "approved_value_or_deferral": null,
+      "next_action": "Approve theta_B or explicitly defer certification endpoints."
+    },
+    {
+      "item": "Guess-Guard numeric configuration",
+      "current_status": "CALIBRATION_PENDING",
+      "source_document": "Implementation_v1.0/component_b_generator/bkt/guess_guard.py; certification.py",
+      "blocks_be1_engineering": false,
+      "blocks_session_apis": true,
+      "blocks_pilot_or_production": true,
+      "required_approver": "Academic/research calibration owner",
+      "approved_value_or_deferral": null,
+      "next_action": "Approve floor quantile and minimum observations; retain fail-closed certification until then."
+    },
+    {
+      "item": "attempt limits",
+      "current_status": "UNRESOLVED",
+      "source_document": "BE0 baseline; generator experiment fixtures are non-authoritative",
+      "blocks_be1_engineering": false,
+      "blocks_session_apis": true,
+      "blocks_pilot_or_production": true,
+      "required_approver": "Product owner with academic/research approval",
+      "approved_value_or_deferral": null,
+      "next_action": "Approve live attempt limits; do not promote synthetic fixture bounds."
+    },
+    {
+      "item": "timeout policy",
+      "current_status": "SEMANTICS_PROVISIONAL_NUMERIC_THRESHOLD_UNRESOLVED",
+      "source_document": "BE0 baseline and generator timeout tests",
+      "blocks_be1_engineering": false,
+      "blocks_session_apis": true,
+      "blocks_pilot_or_production": true,
+      "required_approver": "Product owner with academic/research approval",
+      "approved_value_or_deferral": "Infrastructure failure is never learner failure; numeric server timeout is not approved.",
+      "next_action": "Approve a numeric server-enforced timeout or explicitly defer learner timeout classification."
+    },
+    {
+      "item": "completion policy",
+      "current_status": "UNRESOLVED",
+      "source_document": "BE0 baseline",
+      "blocks_be1_engineering": false,
+      "blocks_session_apis": true,
+      "blocks_pilot_or_production": true,
+      "required_approver": "Product owner and academic/research approver",
+      "approved_value_or_deferral": null,
+      "next_action": "Define and approve session completion conditions."
+    },
+    {
+      "item": "safe-progress policy",
+      "current_status": "UNRESOLVED",
+      "source_document": "BE0 baseline; runtime-bundle.schema.json",
+      "blocks_be1_engineering": false,
+      "blocks_session_apis": true,
+      "blocks_pilot_or_production": true,
+      "required_approver": "Product owner and academic/research approver",
+      "approved_value_or_deferral": null,
+      "next_action": "Define a versioned fail-safe progress rule before session orchestration."
+    },
+    {
+      "item": "cold-start policy",
+      "current_status": "DISABLED",
+      "source_document": "BE0 baseline",
+      "blocks_be1_engineering": false,
+      "blocks_session_apis": false,
+      "blocks_pilot_or_production": false,
+      "required_approver": "Academic/research owner for any future enablement",
+      "approved_value_or_deferral": "Governed deferral: no cold-start override; fail closed.",
+      "next_action": "Keep disabled unless separately calibrated and approved."
+    },
+    {
+      "item": "owner/academic approval",
+      "current_status": "UNRESOLVED",
+      "source_document": "BE0 baseline and this closure register",
+      "blocks_be1_engineering": false,
+      "blocks_session_apis": true,
+      "blocks_pilot_or_production": true,
+      "required_approver": "Named Component B owner and academic/research approver",
+      "approved_value_or_deferral": null,
+      "next_action": "Record dated named sign-off covering catalogue, mappings, packaging, and governed deferrals."
+    }
+  ],
+  "exit_gate": {
+    "technical_characterization": "PASSED",
+    "reproducibility": "PASSED",
+    "python_3_11_compatibility": "PASSED_WINDOWS_X64",
+    "packaging": "FULL_WHEEL_RESEARCH_ONLY_MINIMAL_LIVE_ENGINE_DEFERRED_TO_BE3",
+    "response_mappings": "UNRESOLVED_4_OF_4",
+    "governance_approvals": "UNRESOLVED",
+    "permission_to_begin_be1_engineering": "INFRASTRUCTURE_ONLY_BE1_AUTHORIZED",
+    "be1_authorized_scope": [
+      "Dockerfile and .dockerignore",
+      "Docker Compose with pinned Python 3.11 API and official PostgreSQL 16",
+      "settings, stable errors, request IDs, structured logging, CORS and health foundations",
+      "database connectivity plus SQLAlchemy and Alembic foundations",
+      "authentication foundation, Supabase JWT verification and GET /api/v1/me"
+    ],
+    "blocked_scope": [
+      "BE2 session behavior and persistence semantics",
+      "BE3 live-engine package and adapter integration",
+      "BE4 live learning flow",
+      "BE5 unresolved response-renderer integration",
+      "controlled pilot",
+      "production"
+    ],
+    "application_full_research_wheel_installation": "PROHIBITED",
+    "pilot_or_production_readiness": "NOT_READY"
+  }
+}

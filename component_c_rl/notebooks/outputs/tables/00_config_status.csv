@@ -1,0 +1,10 @@
+config,class_name,config_version,parameter_source_status
+gameplay,C3GameplayConfig,c3-gameplay-1.0.0,TEST_FIXTURE_ONLY
+generation,CGenerationConfig,c2.1-generation-1.0.0,TEST_FIXTURE_ONLY
+selection,CSelectionConfig,c4.0-selection-1.0.0,TEST_FIXTURE_ONLY
+policy,CPolicyConfig,c4.1-policy-1.0.0,TEST_FIXTURE_ONLY
+safety,CSafetyConfig,c4.1-safety-1.0.0,TEST_FIXTURE_ONLY
+scaffold,CScaffoldConfig,c4.2-scaffold-1.0.0,TEST_FIXTURE_ONLY
+recovery,CRecoveryConfig,c4.2-recovery-1.0.0,TEST_FIXTURE_ONLY
+evidence_window,CEvidenceWindowConfig,c6.0-evidence-window-1.0.0,TEST_FIXTURE_ONLY
+aggregation,CAggregationConfig,c5.0-aggregation-1.0.0,TEST_FIXTURE_ONLY

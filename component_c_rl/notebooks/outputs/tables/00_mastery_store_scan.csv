@@ -1,0 +1,27 @@
+file,line,kind,target,statement
+component_c_generator/gameplay_config.py,40,name,beta_mastery,beta_mastery: float = Field(allow_inf_nan=False)
+component_c_generator/models/session.py,73,name,b_mastery_payload,b_mastery_payload: BToCMasteryPayload | None
+component_c_generator/pipeline/evidence.py,32,name,_MASTERY_FIELD_BY_SKILL,"_MASTERY_FIELD_BY_SKILL = {'counting': 'mastery_counting', 'number_sense': 'mastery_number_sense', 'place_valu"
+component_c_generator/pipeline/pilot.py,378,name,mastery_payload,"mastery_payload = fresh_mastery_payload(global_seed=cfg.global_seed, student_id=learner.student_id, session_in"
+component_c_generator/pipeline/pilot_cohort.py,60,name,MASTERY_LEVEL_PROFILES,"MASTERY_LEVEL_PROFILES: Tuple[float, ...] = (0.05, 0.2, 0.4, 0.6, 0.8, 0.95)"
+component_c_generator/pipeline/pilot_cohort.py,93,name,mastery_level,mastery_level: Optional[float]
+component_c_generator/pipeline/pilot_cohort.py,175,name,mastery_level,mastery_level = learner_mastery_level if session_mode == 'combined' else None
+component_c_generator/pipeline/pilot_cohort.py,212,name,mastery_level,"mastery_level = _mastery_level_for(global_seed, student_id)"
+component_c_generator/pipeline/session.py,236,name,selected_skill_mastery,selected_skill_mastery: Optional[float] = None
+component_c_generator/pipeline/session.py,238,name,selected_skill_mastery,"selected_skill_mastery = mastery_value_for_skill(mastery_payload, selected_skill)"
+component_c_generator/scaffolds/recovery.py,42,name,MasteryBucket,"MasteryBucket = Literal['low', 'medium', 'high']"
+component_c_generator/scaffolds/recovery.py,54,name,prerequisite_mastery_bucket,prerequisite_mastery_bucket: MasteryBucket
+component_c_generator/selection/selector.py,40,name,MasteryContextMode,"MasteryContextMode = Literal['same_session_fresh', 'unavailable_fallback']"
+component_c_generator/selection/selector.py,56,name,mastery_context_mode,mastery_context_mode: MasteryContextMode
+component_c_generator/selection/selector.py,57,name,mastery_selected_skill,mastery_selected_skill: Optional[float] = None
+component_c_generator/selection/selector.py,132,name,mastery,mastery = _mastery_by_skill(mastery_payload)
+component_c_generator/selection/selector.py,228,name,mastery_context_mode,mastery_context_mode: MasteryContextMode = 'same_session_fresh'
+component_c_generator/selection/selector.py,229,name,mastery_selected_skill,mastery_selected_skill = None
+component_c_generator/selection/selector.py,235,name,mastery_selected_skill,mastery_selected_skill = _mastery_by_skill(mastery_payload)[selected_skill]
+component_c_generator/selection/selector.py,237,name,mastery_context_mode,mastery_context_mode = 'same_session_fresh'
+component_c_generator/selection/selector.py,242,name,mastery_context_mode,mastery_context_mode = 'unavailable_fallback'
+component_c_generator/selection/selector.py,243,name,mastery_selected_skill,mastery_selected_skill = None
+shared_orchestrator/app_shaped_writer.py,243,name,mastery_context_mode,mastery_context_mode = _mastery_context_mode(session_phase)
+shared_orchestrator/app_shaped_writer.py,248,name,mastery_selected_skill,mastery_selected_skill: Optional[float] = None
+shared_orchestrator/app_shaped_writer.py,250,name,mastery_selected_skill,"mastery_selected_skill = mastery_value_for_skill(record.b_to_c_payload, task_instance.skill_id)"
+shared_orchestrator/session_loop.py,129,name,mastery_payload_consumed_by_c,mastery_payload_consumed_by_c: BToCMasteryPayload

@@ -1,0 +1,4165 @@
+{
+  "components": {
+    "schemas": {
+      "ActiveSessionResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "request_id": {
+            "title": "Request Id",
+            "type": "string"
+          },
+          "session": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SessionFields"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "session",
+          "request_id"
+        ],
+        "title": "ActiveSessionResponse",
+        "type": "object"
+      },
+      "AttemptResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "attempt_index": {
+            "title": "Attempt Index",
+            "type": "integer"
+          },
+          "event_kind": {
+            "enum": [
+              "RESPONSE",
+              "TIMEOUT"
+            ],
+            "title": "Event Kind",
+            "type": "string"
+          },
+          "item_opportunity_id": {
+            "format": "uuid",
+            "title": "Item Opportunity Id",
+            "type": "string"
+          },
+          "request_id": {
+            "title": "Request Id",
+            "type": "string"
+          },
+          "response_matched": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Response Matched"
+          },
+          "server_submitted_at_utc": {
+            "format": "date-time",
+            "title": "Server Submitted At Utc",
+            "type": "string"
+          }
+        },
+        "required": [
+          "item_opportunity_id",
+          "attempt_index",
+          "event_kind",
+          "response_matched",
+          "server_submitted_at_utc",
+          "request_id"
+        ],
+        "title": "AttemptResponse",
+        "type": "object"
+      },
+      "AuthenticatedPrincipal": {
+        "additionalProperties": false,
+        "properties": {
+          "email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email"
+          },
+          "user_id": {
+            "title": "User Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "user_id"
+        ],
+        "title": "AuthenticatedPrincipal",
+        "type": "object"
+      },
+      "CActiveSessionResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "request_id": {
+            "title": "Request Id",
+            "type": "string"
+          },
+          "session": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CSessionFields"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "session",
+          "request_id"
+        ],
+        "title": "CActiveSessionResponse",
+        "type": "object"
+      },
+      "CNextTaskResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "blanks": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Blanks"
+          },
+          "c_task_instance_id": {
+            "format": "uuid",
+            "title": "C Task Instance Id",
+            "type": "string"
+          },
+          "difficulty_level": {
+            "title": "Difficulty Level",
+            "type": "integer"
+          },
+          "game_family_id": {
+            "title": "Game Family Id",
+            "type": "string"
+          },
+          "game_task_template_id": {
+            "title": "Game Task Template Id",
+            "type": "string"
+          },
+          "interactive_assets": {
+            "additionalProperties": true,
+            "title": "Interactive Assets",
+            "type": "object"
+          },
+          "prompt_payload": {
+            "additionalProperties": true,
+            "title": "Prompt Payload",
+            "type": "object"
+          },
+          "prompt_text": {
+            "title": "Prompt Text",
+            "type": "string"
+          },
+          "representation_mode": {
+            "title": "Representation Mode",
+            "type": "string"
+          },
+          "request_id": {
+            "title": "Request Id",
+            "type": "string"
+          },
+          "scaffold_state": {
+            "title": "Scaffold State",
+            "type": "string"
+          },
+          "skill_id": {
+            "title": "Skill Id",
+            "type": "string"
+          },
+          "task_index": {
+            "title": "Task Index",
+            "type": "integer"
+          },
+          "technical_status": {
+            "title": "Technical Status",
+            "type": "string"
+          },
+          "valid_action_space": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Valid Action Space",
+            "type": "object"
+          }
+        },
+        "required": [
+          "c_task_instance_id",
+          "game_family_id",
+          "game_task_template_id",
+          "task_index",
+          "skill_id",
+          "difficulty_level",
+          "representation_mode",
+          "prompt_payload",
+          "interactive_assets",
+          "valid_action_space",
+          "scaffold_state",
+          "technical_status",
+          "blanks",
+          "prompt_text",
+          "request_id"
+        ],
+        "title": "CNextTaskResponse",
+        "type": "object"
+      },
+      "CSessionCommandResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "c_session_id": {
+            "format": "uuid",
+            "title": "C Session Id",
+            "type": "string"
+          },
+          "grade": {
+            "title": "Grade",
+            "type": "integer"
+          },
+          "request_id": {
+            "title": "Request Id",
+            "type": "string"
+          },
+          "row_version": {
+            "title": "Row Version",
+            "type": "integer"
+          },
+          "session_mode": {
+            "title": "Session Mode",
+            "type": "string"
+          },
+          "session_phase": {
+            "title": "Session Phase",
+            "type": "string"
+          },
+          "started_at_utc": {
+            "format": "date-time",
+            "title": "Started At Utc",
+            "type": "string"
+          },
+          "state": {
+            "title": "State",
+            "type": "string"
+          }
+        },
+        "required": [
+          "c_session_id",
+          "state",
+          "session_mode",
+          "session_phase",
+          "grade",
+          "started_at_utc",
+          "row_version",
+          "request_id"
+        ],
+        "title": "CSessionCommandResponse",
+        "type": "object"
+      },
+      "CSessionFields": {
+        "additionalProperties": false,
+        "properties": {
+          "c_session_id": {
+            "format": "uuid",
+            "title": "C Session Id",
+            "type": "string"
+          },
+          "grade": {
+            "title": "Grade",
+            "type": "integer"
+          },
+          "row_version": {
+            "title": "Row Version",
+            "type": "integer"
+          },
+          "session_mode": {
+            "title": "Session Mode",
+            "type": "string"
+          },
+          "session_phase": {
+            "title": "Session Phase",
+            "type": "string"
+          },
+          "started_at_utc": {
+            "format": "date-time",
+            "title": "Started At Utc",
+            "type": "string"
+          },
+          "state": {
+            "title": "State",
+            "type": "string"
+          }
+        },
+        "required": [
+          "c_session_id",
+          "state",
+          "session_mode",
+          "session_phase",
+          "grade",
+          "started_at_utc",
+          "row_version"
+        ],
+        "title": "CSessionFields",
+        "type": "object"
+      },
+      "CSubmitActionRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "action_payload": {
+            "additionalProperties": true,
+            "title": "Action Payload",
+            "type": "object"
+          }
+        },
+        "required": [
+          "action_payload"
+        ],
+        "title": "CSubmitActionRequest",
+        "type": "object"
+      },
+      "CSubmitActionResult": {
+        "additionalProperties": false,
+        "properties": {
+          "c_task_instance_id": {
+            "format": "uuid",
+            "title": "C Task Instance Id",
+            "type": "string"
+          },
+          "request_id": {
+            "title": "Request Id",
+            "type": "string"
+          },
+          "response_matched": {
+            "title": "Response Matched",
+            "type": "boolean"
+          },
+          "scaffold_level": {
+            "title": "Scaffold Level",
+            "type": "string"
+          }
+        },
+        "required": [
+          "c_task_instance_id",
+          "response_matched",
+          "scaffold_level",
+          "request_id"
+        ],
+        "title": "CSubmitActionResult",
+        "type": "object"
+      },
+      "ClassroomCreateRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "grade": {
+            "enum": [
+              "GRADE_2",
+              "GRADE_3"
+            ],
+            "title": "Grade",
+            "type": "string"
+          },
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          }
+        },
+        "required": [
+          "grade"
+        ],
+        "title": "ClassroomCreateRequest",
+        "type": "object"
+      },
+      "ClassroomDeleteRequest": {
+        "additionalProperties": false,
+        "description": "The classroom name, typed by the teacher, as the confirmation for deleting it.",
+        "properties": {
+          "confirmation_name": {
+            "title": "Confirmation Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "confirmation_name"
+        ],
+        "title": "ClassroomDeleteRequest",
+        "type": "object"
+      },
+      "ClassroomDeleteResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "classroom_id": {
+            "format": "uuid",
+            "title": "Classroom Id",
+            "type": "string"
+          },
+          "deleted_at_utc": {
+            "format": "date-time",
+            "title": "Deleted At Utc",
+            "type": "string"
+          },
+          "removed_membership_count": {
+            "title": "Removed Membership Count",
+            "type": "integer"
+          },
+          "request_id": {
+            "title": "Request Id",
+            "type": "string"
+          },
+          "row_version": {
+            "title": "Row Version",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "classroom_id",
+          "deleted_at_utc",
+          "removed_membership_count",
+          "row_version",
+          "request_id"
+        ],
+        "title": "ClassroomDeleteResponse",
+        "type": "object"
+      },
+      "ClassroomLearnerListItem": {
+        "additionalProperties": false,
+        "properties": {
+          "learner_id": {
+            "format": "uuid",
+            "title": "Learner Id",
+            "type": "string"
+          },
+          "membership_id": {
+            "format": "uuid",
+            "title": "Membership Id",
+            "type": "string"
+          },
+          "membership_state": {
+            "enum": [
+              "PENDING",
+              "APPROVED",
+              "REJECTED",
+              "REMOVED"
+            ],
+            "title": "Membership State",
+            "type": "string"
+          },
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          }
+        },
+        "required": [
+          "learner_id",
+          "name",
+          "membership_id",
+          "membership_state"
+        ],
+        "title": "ClassroomLearnerListItem",
+        "type": "object"
+      },
+      "ClassroomLearnerListResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "learners": {
+            "items": {
+              "$ref": "#/components/schemas/ClassroomLearnerListItem"
+            },
+            "title": "Learners",
+            "type": "array"
+          },
+          "request_id": {
+            "title": "Request Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "learners",
+          "request_id"
+        ],
+        "title": "ClassroomLearnerListResponse",
+        "type": "object"
+      },
+      "ClassroomListItem": {
+        "additionalProperties": false,
+        "properties": {
+          "classroom_id": {
+            "format": "uuid",
+            "title": "Classroom Id",
+            "type": "string"
+          },
+          "created_at_utc": {
+            "format": "date-time",
+            "title": "Created At Utc",
+            "type": "string"
+          },
+          "grade": {
+            "enum": [
+              "GRADE_2",
+              "GRADE_3"
+            ],
+            "title": "Grade",
+            "type": "string"
+          },
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          },
+          "row_version": {
+            "title": "Row Version",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "classroom_id",
+          "name",
+          "grade",
+          "created_at_utc",
+          "row_version"
+        ],
+        "title": "ClassroomListItem",
+        "type": "object"
+      },
+      "ClassroomListResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "classrooms": {
+            "items": {
+              "$ref": "#/components/schemas/ClassroomListItem"
+            },
+            "title": "Classrooms",
+            "type": "array"
+          },
+          "request_id": {
+            "title": "Request Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "classrooms",
+          "request_id"
+        ],
+        "title": "ClassroomListResponse",
+        "type": "object"
+      },
+      "ClassroomResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "classroom_id": {
+            "format": "uuid",
+            "title": "Classroom Id",
+            "type": "string"
+          },
+          "created_at_utc": {
+            "format": "date-time",
+            "title": "Created At Utc",
+            "type": "string"
+          },
+          "grade": {
+            "enum": [
+              "GRADE_2",
+              "GRADE_3"
+            ],
+            "title": "Grade",
+            "type": "string"
+          },
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          },
+          "request_id": {
+            "title": "Request Id",
+            "type": "string"
+          },
+          "row_version": {
+            "title": "Row Version",
+            "type": "integer"
+          },
+          "teacher_profile_id": {
+            "format": "uuid",
+            "title": "Teacher Profile Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "classroom_id",
+          "name",
+          "grade",
+          "teacher_profile_id",
+          "created_at_utc",
+          "row_version",
+          "request_id"
+        ],
+        "title": "ClassroomResponse",
+        "type": "object"
+      },
+      "CompleteCSessionRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "attendance_status": {
+            "enum": [
+              "attended",
+              "partial",
+              "missed"
+            ],
+            "title": "Attendance Status",
+            "type": "string"
+          },
+          "technical_blocked_bootstrap": {
+            "default": false,
+            "title": "Technical Blocked Bootstrap",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "attendance_status"
+        ],
+        "title": "CompleteCSessionRequest",
+        "type": "object"
+      },
+      "CreateCSessionRequest": {
+        "additionalProperties": false,
+        "description": "R-5 (Phase 4b continuation, supervisor ruling): carries grade and session_mode ONLY. B's\nidentity fields (mastery_source_student_id etc.) were removed from here -- accepting them from\nan HTTP client let an untrusted caller assert B provenance it never produced (strictly worse\nthan the C-manufactures-its-own-provenance failure R1 was written to prevent). See\napp/application/live_engine_c/mastery_fixture.py's module docstring for the fixture that now\nsupplies all of it, for every combined-mode session, server-side only.",
+        "properties": {
+          "grade": {
+            "title": "Grade",
+            "type": "integer"
+          },
+          "session_mode": {
+            "enum": [
+              "combined",
+              "c_only"
+            ],
+            "title": "Session Mode",
+            "type": "string"
+          }
+        },
+        "required": [
+          "grade",
+          "session_mode"
+        ],
+        "title": "CreateCSessionRequest",
+        "type": "object"
+      },
+      "DCognitiveProfile": {
+        "additionalProperties": false,
+        "description": "The raw levels are carried as the engine produced them.\n\nOwner decision **D-010** keeps compD's own labels (for example \"Memory: low\") on the\nchild-facing page, as a research prototype that needs much more development and data\ncollection. How that is worded for a child is the frontend's to render and is not a contract\nconcern -- this shape stays descriptive.\n\n``model_version`` is a rule-based version until a trained model exists -- ``\"rule-based-v2\"``\ntoday, after the speed heuristic was corrected (``d_features.capped_mean_response_time_ms``).\nIt is on the public\nshape so a reader can always tell which generation produced a profile; a history list can\nhold both.",
+        "properties": {
+          "attention_level": {
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ],
+            "title": "Attention Level",
+            "type": "string"
+          },
+          "confidence_score": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Confidence Score",
+            "type": "number"
+          },
+          "features": {
+            "$ref": "#/components/schemas/DCognitiveProfileFeatures"
+          },
+          "generated_at": {
+            "format": "date-time",
+            "title": "Generated At",
+            "type": "string"
+          },
+          "memory_level": {
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ],
+            "title": "Memory Level",
+            "type": "string"
+          },
+          "model_version": {
+            "title": "Model Version",
+            "type": "string"
+          },
+          "number_sense_level": {
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ],
+            "title": "Number Sense Level",
+            "type": "string"
+          },
+          "processing_speed_level": {
+            "enum": [
+              "Slow",
+              "Moderate",
+              "Fast"
+            ],
+            "title": "Processing Speed Level",
+            "type": "string"
+          },
+          "recommendation": {
+            "title": "Recommendation",
+            "type": "string"
+          },
+          "session_id": {
+            "format": "uuid",
+            "title": "Session Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "session_id",
+          "memory_level",
+          "attention_level",
+          "number_sense_level",
+          "processing_speed_level",
+          "confidence_score",
+          "recommendation",
+          "model_version",
+          "features",
+          "generated_at"
+        ],
+        "title": "DCognitiveProfile",
+        "type": "object"
+      },
+      "DCognitiveProfileFeatures": {
+        "additionalProperties": false,
+        "description": "The feature vector, returned as a unit because that is how it is computed and consumed.\n\n``total_questions`` is an int; everything else is a ratio or a duration. ``hint_rate`` keeps\nits name -- see this module's docstring for why that is clean at the public layer.",
+        "properties": {
+          "accuracy": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Accuracy",
+            "type": "number"
+          },
+          "avg_attempts": {
+            "minimum": 0.0,
+            "title": "Avg Attempts",
+            "type": "number"
+          },
+          "avg_response_time_ms": {
+            "minimum": 0.0,
+            "title": "Avg Response Time Ms",
+            "type": "number"
+          },
+          "hint_rate": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Hint Rate",
+            "type": "number"
+          },
+          "mean_clicks_per_question": {
+            "minimum": 0.0,
+            "title": "Mean Clicks Per Question",
+            "type": "number"
+          },
+          "response_time_std_ms": {
+            "minimum": 0.0,
+            "title": "Response Time Std Ms",
+            "type": "number"
+          },
+          "retry_rate": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Retry Rate",
+            "type": "number"
+          },
+          "total_questions": {
+            "minimum": 0.0,
+            "title": "Total Questions",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "accuracy",
+          "avg_response_time_ms",
+          "response_time_std_ms",
+          "avg_attempts",
+          "retry_rate",
+          "hint_rate",
+          "mean_clicks_per_question",
+          "total_questions"
+        ],
+        "title": "DCognitiveProfileFeatures",
+        "type": "object"
+      },
+      "DCognitiveProfileResponse": {
+        "additionalProperties": false,
+        "description": "The single-profile response, for both the ``POST`` and the by-session ``GET``.\n\nThe ``POST`` returns the same 200 for a newly stored profile and for a repeat of one already\nstored (contract v4) -- a client that retries cannot tell the two apart, which is the point.",
+        "properties": {
+          "profile": {
+            "$ref": "#/components/schemas/DCognitiveProfile"
+          },
+          "request_id": {
+            "title": "Request Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "profile",
+          "request_id"
+        ],
+        "title": "DCognitiveProfileResponse",
+        "type": "object"
+      },
+      "DInteractionEvent": {
+        "additionalProperties": false,
+        "description": "One question answered in a profiling run -- the raw evidence a feature vector is computed\nfrom, and the row shape ``d_interactions`` stores.\n\nThe numeric bounds here are the same ones the table's CHECK constraints enforce\n(migration ``20261021_0010``), stated in both places on purpose: the API refuses a bad body\nwith a 422 naming the field, and the database refuses it again if anything ever reaches it by\nanother path.",
+        "properties": {
+          "assist_used": {
+            "title": "Assist Used",
+            "type": "boolean"
+          },
+          "attempts": {
+            "minimum": 1.0,
+            "title": "Attempts",
+            "type": "integer"
+          },
+          "click_count": {
+            "minimum": 0.0,
+            "title": "Click Count",
+            "type": "integer"
+          },
+          "difficulty": {
+            "enum": [
+              "Easy",
+              "Medium",
+              "Hard"
+            ],
+            "title": "Difficulty",
+            "type": "string"
+          },
+          "error_type": {
+            "enum": [
+              "none",
+              "calculation",
+              "conceptual",
+              "careless",
+              "unknown"
+            ],
+            "title": "Error Type",
+            "type": "string"
+          },
+          "question_id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Question Id",
+            "type": "string"
+          },
+          "response_matched": {
+            "title": "Response Matched",
+            "type": "boolean"
+          },
+          "response_time_sec": {
+            "minimum": 0.0,
+            "title": "Response Time Sec",
+            "type": "number"
+          },
+          "session_time_sec": {
+            "minimum": 0.0,
+            "title": "Session Time Sec",
+            "type": "number"
+          },
+          "time_between_actions": {
+            "minimum": 0.0,
+            "title": "Time Between Actions",
+            "type": "number"
+          },
+          "topic": {
+            "enum": [
+              "Counting",
+              "Addition",
+              "Subtraction",
+              "Division"
+            ],
+            "title": "Topic",
+            "type": "string"
+          }
+        },
+        "required": [
+          "question_id",
+          "topic",
+          "difficulty",
+          "response_time_sec",
+          "attempts",
+          "response_matched",
+          "assist_used",
+          "click_count",
+          "session_time_sec",
+          "time_between_actions",
+          "error_type"
+        ],
+        "title": "DInteractionEvent",
+        "type": "object"
+      },
+      "DLatestProfileResponse": {
+        "additionalProperties": false,
+        "description": "``profile: null`` rather than a 404 when the learner has none.\n\nA learner who has never done a profiling run is in a normal, expected state, and the home\nscreen's empty state is a render of that -- not an error to recover from.",
+        "properties": {
+          "profile": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DCognitiveProfile"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "request_id": {
+            "title": "Request Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "profile",
+          "request_id"
+        ],
+        "title": "DLatestProfileResponse",
+        "type": "object"
+      },
+      "DLearnerStateResponse": {
+        "additionalProperties": false,
+        "description": "``intro_completed`` is derived from ``d_learner_state.intro_completed_at IS NOT NULL``.\n\nA learner with no row reads as ``{intro_completed: false, language: \"en\"}`` and nothing is\ncreated -- the default belongs to the read, not to the table, so the table never holds a\nlanguage the learner did not pick.",
+        "properties": {
+          "intro_completed": {
+            "title": "Intro Completed",
+            "type": "boolean"
+          },
+          "language": {
+            "enum": [
+              "en",
+              "si"
+            ],
+            "title": "Language",
+            "type": "string"
+          },
+          "request_id": {
+            "title": "Request Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "intro_completed",
+          "language",
+          "request_id"
+        ],
+        "title": "DLearnerStateResponse",
+        "type": "object"
+      },
+      "DLearnerStateUpdateRequest": {
+        "additionalProperties": false,
+        "description": "At least one field is required; ``{}`` is a 422.\n\n``intro_completed`` is ``Literal[True]``, so ``false`` is a 422 too. The intro is a one-way\ndoor: a learner who has seen it cannot un-see it, and accepting ``false`` would let a client\nreset the first-run flow for a child who had already been through it.",
+        "properties": {
+          "intro_completed": {
+            "anyOf": [
+              {
+                "const": true,
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Intro Completed"
+          },
+          "language": {
+            "anyOf": [
+              {
+                "enum": [
+                  "en",
+                  "si"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Language"
+          }
+        },
+        "title": "DLearnerStateUpdateRequest",
+        "type": "object"
+      },
+      "DProfileCreateRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "events": {
+            "items": {
+              "$ref": "#/components/schemas/DInteractionEvent"
+            },
+            "maxItems": 50,
+            "minItems": 1,
+            "title": "Events",
+            "type": "array"
+          },
+          "language": {
+            "enum": [
+              "en",
+              "si"
+            ],
+            "title": "Language",
+            "type": "string"
+          }
+        },
+        "required": [
+          "language",
+          "events"
+        ],
+        "title": "DProfileCreateRequest",
+        "type": "object"
+      },
+      "DProfileListResponse": {
+        "additionalProperties": false,
+        "description": "Newest first.",
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/DCognitiveProfile"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "request_id": {
+            "title": "Request Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "items",
+          "request_id"
+        ],
+        "title": "DProfileListResponse",
+        "type": "object"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "title": "Detail",
+            "type": "array"
+          }
+        },
+        "title": "HTTPValidationError",
+        "type": "object"
+      },
+      "HealthResponse": {
+        "additionalProperties": false,
+        "description": "Public health-check response.",
+        "properties": {
+          "request_id": {
+            "title": "Request Id",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "alive",
+              "ready"
+            ],
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "request_id"
+        ],
+        "title": "HealthResponse",
+        "type": "object"
+      },
+      "HintRequestResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "catalogue_checksum": {
+            "title": "Catalogue Checksum",
+            "type": "string"
+          },
+          "catalogue_version": {
+            "title": "Catalogue Version",
+            "type": "string"
+          },
+          "content": {
+            "title": "Content",
+            "type": "string"
+          },
+          "content_id": {
+            "title": "Content Id",
+            "type": "string"
+          },
+          "hint_level": {
+            "title": "Hint Level",
+            "type": "integer"
+          },
+          "item_opportunity_id": {
+            "format": "uuid",
+            "title": "Item Opportunity Id",
+            "type": "string"
+          },
+          "request_id": {
+            "title": "Request Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "item_opportunity_id",
+          "hint_level",
+          "content",
+          "content_id",
+          "catalogue_version",
+          "catalogue_checksum",
+          "request_id"
+        ],
+        "title": "HintRequestResponse",
+        "type": "object"
+      },
+      "InviteCreateResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "classroom_invite_id": {
+            "format": "uuid",
+            "title": "Classroom Invite Id",
+            "type": "string"
+          },
+          "created_at_utc": {
+            "format": "date-time",
+            "title": "Created At Utc",
+            "type": "string"
+          },
+          "expires_at_utc": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "When the code stops resolving. NULL for a classroom join code, which does not expire: a teacher reads it aloud to a room and children write it down, so it stays valid until the classroom is deleted.",
+            "title": "Expires At Utc"
+          },
+          "invite_token": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Plaintext classroom join code (e.g. 'M7KP-4X9D'). Present only in the first successful response for a given invite; never re-exposed on replay.",
+            "title": "Invite Token"
+          },
+          "request_id": {
+            "title": "Request Id",
+            "type": "string"
+          },
+          "token_already_issued": {
+            "description": "True when this response is a replay of an already-committed invite creation.",
+            "title": "Token Already Issued",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "classroom_invite_id",
+          "invite_token",
+          "token_already_issued",
+          "created_at_utc",
+          "request_id"
+        ],
+        "title": "InviteCreateResponse",
+        "type": "object"
+      },
+      "InviteResolveResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "classroom_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Classroom Name"
+          },
+          "grade": {
+            "enum": [
+              "GRADE_2",
+              "GRADE_3"
+            ],
+            "title": "Grade",
+            "type": "string"
+          },
+          "invite_resolution_id": {
+            "format": "uuid",
+            "title": "Invite Resolution Id",
+            "type": "string"
+          },
+          "request_id": {
+            "title": "Request Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "invite_resolution_id",
+          "classroom_name",
+          "grade",
+          "request_id"
+        ],
+        "title": "InviteResolveResponse",
+        "type": "object"
+      },
+      "InviteRevokeResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "classroom_id": {
+            "format": "uuid",
+            "title": "Classroom Id",
+            "type": "string"
+          },
+          "classroom_invite_id": {
+            "format": "uuid",
+            "title": "Classroom Invite Id",
+            "type": "string"
+          },
+          "request_id": {
+            "title": "Request Id",
+            "type": "string"
+          },
+          "revoked_at_utc": {
+            "format": "date-time",
+            "title": "Revoked At Utc",
+            "type": "string"
+          },
+          "row_version": {
+            "title": "Row Version",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "classroom_invite_id",
+          "classroom_id",
+          "revoked_at_utc",
+          "row_version",
+          "request_id"
+        ],
+        "title": "InviteRevokeResponse",
+        "type": "object"
+      },
+      "InviteTokenRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "invite_token": {
+            "description": "Classroom join code as displayed to the teacher. Matching is case-insensitive and ignores optional display separators such as hyphens or spaces.",
+            "title": "Invite Token",
+            "type": "string"
+          }
+        },
+        "required": [
+          "invite_token"
+        ],
+        "title": "InviteTokenRequest",
+        "type": "object"
+      },
+      "LearnerMembershipListItem": {
+        "additionalProperties": false,
+        "properties": {
+          "classroom_id": {
+            "format": "uuid",
+            "title": "Classroom Id",
+            "type": "string"
+          },
+          "classroom_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Classroom Name"
+          },
+          "decided_at_utc": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Decided At Utc"
+          },
+          "grade": {
+            "enum": [
+              "GRADE_2",
+              "GRADE_3"
+            ],
+            "title": "Grade",
+            "type": "string"
+          },
+          "membership_id": {
+            "format": "uuid",
+            "title": "Membership Id",
+            "type": "string"
+          },
+          "requested_at_utc": {
+            "format": "date-time",
+            "title": "Requested At Utc",
+            "type": "string"
+          },
+          "state": {
+            "enum": [
+              "PENDING",
+              "APPROVED",
+              "REJECTED",
+              "REMOVED"
+            ],
+            "title": "State",
+            "type": "string"
+          }
+        },
+        "required": [
+          "membership_id",
+          "classroom_id",
+          "classroom_name",
+          "grade",
+          "state",
+          "requested_at_utc",
+          "decided_at_utc"
+        ],
+        "title": "LearnerMembershipListItem",
+        "type": "object"
+      },
+      "LearnerMembershipListResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "memberships": {
+            "items": {
+              "$ref": "#/components/schemas/LearnerMembershipListItem"
+            },
+            "title": "Memberships",
+            "type": "array"
+          },
+          "request_id": {
+            "title": "Request Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "memberships",
+          "request_id"
+        ],
+        "title": "LearnerMembershipListResponse",
+        "type": "object"
+      },
+      "LearnerProfileResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "created_at_utc": {
+            "format": "date-time",
+            "title": "Created At Utc",
+            "type": "string"
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email"
+          },
+          "learner_id": {
+            "format": "uuid",
+            "title": "Learner Id",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "profile_type": {
+            "const": "LEARNER",
+            "title": "Profile Type",
+            "type": "string"
+          },
+          "request_id": {
+            "title": "Request Id",
+            "type": "string"
+          },
+          "user_id": {
+            "format": "uuid",
+            "title": "User Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "learner_id",
+          "user_id",
+          "profile_type",
+          "name",
+          "email",
+          "created_at_utc",
+          "request_id"
+        ],
+        "title": "LearnerProfileResponse",
+        "type": "object"
+      },
+      "LearnerSkillStateItem": {
+        "additionalProperties": false,
+        "properties": {
+          "observation_count": {
+            "minimum": 0.0,
+            "title": "Observation Count",
+            "type": "integer"
+          },
+          "p_l": {
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "P L",
+            "type": "number"
+          },
+          "skill_id": {
+            "title": "Skill Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "skill_id",
+          "p_l",
+          "observation_count"
+        ],
+        "title": "LearnerSkillStateItem",
+        "type": "object"
+      },
+      "LearnerSkillStatesResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "request_id": {
+            "title": "Request Id",
+            "type": "string"
+          },
+          "skill_states": {
+            "items": {
+              "$ref": "#/components/schemas/LearnerSkillStateItem"
+            },
+            "title": "Skill States",
+            "type": "array"
+          }
+        },
+        "required": [
+          "skill_states",
+          "request_id"
+        ],
+        "title": "LearnerSkillStatesResponse",
+        "type": "object"
+      },
+      "MembershipDecisionResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "classroom_id": {
+            "format": "uuid",
+            "title": "Classroom Id",
+            "type": "string"
+          },
+          "classroom_membership_id": {
+            "format": "uuid",
+            "title": "Classroom Membership Id",
+            "type": "string"
+          },
+          "decided_at_utc": {
+            "format": "date-time",
+            "title": "Decided At Utc",
+            "type": "string"
+          },
+          "learner_id": {
+            "format": "uuid",
+            "title": "Learner Id",
+            "type": "string"
+          },
+          "request_id": {
+            "title": "Request Id",
+            "type": "string"
+          },
+          "row_version": {
+            "title": "Row Version",
+            "type": "integer"
+          },
+          "state": {
+            "enum": [
+              "PENDING",
+              "APPROVED",
+              "REJECTED",
+              "REMOVED"
+            ],
+            "title": "State",
+            "type": "string"
+          }
+        },
+        "required": [
+          "classroom_membership_id",
+          "classroom_id",
+          "learner_id",
+          "state",
+          "decided_at_utc",
+          "row_version",
+          "request_id"
+        ],
+        "title": "MembershipDecisionResponse",
+        "type": "object"
+      },
+      "MembershipRequestListItem": {
+        "additionalProperties": false,
+        "properties": {
+          "classroom_membership_id": {
+            "format": "uuid",
+            "title": "Classroom Membership Id",
+            "type": "string"
+          },
+          "decided_at_utc": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Decided At Utc"
+          },
+          "learner_id": {
+            "format": "uuid",
+            "title": "Learner Id",
+            "type": "string"
+          },
+          "learner_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Learner Name"
+          },
+          "requested_at_utc": {
+            "format": "date-time",
+            "title": "Requested At Utc",
+            "type": "string"
+          },
+          "state": {
+            "enum": [
+              "PENDING",
+              "APPROVED",
+              "REJECTED",
+              "REMOVED"
+            ],
+            "title": "State",
+            "type": "string"
+          }
+        },
+        "required": [
+          "classroom_membership_id",
+          "learner_id",
+          "learner_name",
+          "state",
+          "requested_at_utc",
+          "decided_at_utc"
+        ],
+        "title": "MembershipRequestListItem",
+        "type": "object"
+      },
+      "MembershipRequestListResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "request_id": {
+            "title": "Request Id",
+            "type": "string"
+          },
+          "requests": {
+            "items": {
+              "$ref": "#/components/schemas/MembershipRequestListItem"
+            },
+            "title": "Requests",
+            "type": "array"
+          }
+        },
+        "required": [
+          "requests",
+          "request_id"
+        ],
+        "title": "MembershipRequestListResponse",
+        "type": "object"
+      },
+      "MembershipRequestResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "classroom_id": {
+            "format": "uuid",
+            "title": "Classroom Id",
+            "type": "string"
+          },
+          "classroom_membership_id": {
+            "format": "uuid",
+            "title": "Classroom Membership Id",
+            "type": "string"
+          },
+          "classroom_name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Classroom Name"
+          },
+          "grade": {
+            "enum": [
+              "GRADE_2",
+              "GRADE_3"
+            ],
+            "title": "Grade",
+            "type": "string"
+          },
+          "request_id": {
+            "title": "Request Id",
+            "type": "string"
+          },
+          "requested_at_utc": {
+            "format": "date-time",
+            "title": "Requested At Utc",
+            "type": "string"
+          },
+          "state": {
+            "enum": [
+              "PENDING",
+              "APPROVED",
+              "REJECTED",
+              "REMOVED"
+            ],
+            "title": "State",
+            "type": "string"
+          }
+        },
+        "required": [
+          "classroom_membership_id",
+          "classroom_id",
+          "classroom_name",
+          "grade",
+          "state",
+          "requested_at_utc",
+          "request_id"
+        ],
+        "title": "MembershipRequestResponse",
+        "type": "object"
+      },
+      "OpportunityAdvanceResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "item_opportunity_id": {
+            "format": "uuid",
+            "title": "Item Opportunity Id",
+            "type": "string"
+          },
+          "next_opportunity": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/OpportunityPresentationFields"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "opportunities_completed": {
+            "title": "Opportunities Completed",
+            "type": "integer"
+          },
+          "opportunities_total_bound": {
+            "title": "Opportunities Total Bound",
+            "type": "integer"
+          },
+          "request_id": {
+            "title": "Request Id",
+            "type": "string"
+          },
+          "session_state": {
+            "enum": [
+              "active",
+              "completed"
+            ],
+            "title": "Session State",
+            "type": "string"
+          }
+        },
+        "required": [
+          "item_opportunity_id",
+          "session_state",
+          "opportunities_completed",
+          "opportunities_total_bound",
+          "next_opportunity",
+          "request_id"
+        ],
+        "title": "OpportunityAdvanceResponse",
+        "type": "object"
+      },
+      "OpportunityPresentationFields": {
+        "additionalProperties": false,
+        "description": "BE4b (BEplan \u00a79 BE4.2) public response shape \u2014 an explicit, field-by-field mirror of\n``PresentedOpportunity`` (never ``**PresentedOpportunity.to_public_dict()``), so the FastAPI\nresponse schema and the safe-DTO allow-list are two independently-written descriptions of the\nsame safe field set rather than one generated from the other.",
+        "properties": {
+          "difficulty_level": {
+            "title": "Difficulty Level",
+            "type": "string"
+          },
+          "grade": {
+            "title": "Grade",
+            "type": "integer"
+          },
+          "item_instance_id": {
+            "title": "Item Instance Id",
+            "type": "string"
+          },
+          "item_opportunity_id": {
+            "title": "Item Opportunity Id",
+            "type": "string"
+          },
+          "presentation_token": {
+            "title": "Presentation Token",
+            "type": "string"
+          },
+          "presented_choices": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Presented Choices",
+            "type": "array"
+          },
+          "prompt": {
+            "additionalProperties": true,
+            "title": "Prompt",
+            "type": "object"
+          },
+          "representation_type": {
+            "title": "Representation Type",
+            "type": "string"
+          },
+          "response_format": {
+            "title": "Response Format",
+            "type": "string"
+          },
+          "server_timeout_deadline_utc": {
+            "format": "date-time",
+            "title": "Server Timeout Deadline Utc",
+            "type": "string"
+          },
+          "skill_id": {
+            "title": "Skill Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "item_opportunity_id",
+          "item_instance_id",
+          "skill_id",
+          "grade",
+          "difficulty_level",
+          "representation_type",
+          "response_format",
+          "prompt",
+          "presented_choices",
+          "presentation_token",
+          "server_timeout_deadline_utc"
+        ],
+        "title": "OpportunityPresentationFields",
+        "type": "object"
+      },
+      "OpportunityPresentationResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "difficulty_level": {
+            "title": "Difficulty Level",
+            "type": "string"
+          },
+          "grade": {
+            "title": "Grade",
+            "type": "integer"
+          },
+          "item_instance_id": {
+            "title": "Item Instance Id",
+            "type": "string"
+          },
+          "item_opportunity_id": {
+            "title": "Item Opportunity Id",
+            "type": "string"
+          },
+          "presentation_token": {
+            "title": "Presentation Token",
+            "type": "string"
+          },
+          "presented_choices": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Presented Choices",
+            "type": "array"
+          },
+          "prompt": {
+            "additionalProperties": true,
+            "title": "Prompt",
+            "type": "object"
+          },
+          "representation_type": {
+            "title": "Representation Type",
+            "type": "string"
+          },
+          "request_id": {
+            "title": "Request Id",
+            "type": "string"
+          },
+          "response_format": {
+            "title": "Response Format",
+            "type": "string"
+          },
+          "server_timeout_deadline_utc": {
+            "format": "date-time",
+            "title": "Server Timeout Deadline Utc",
+            "type": "string"
+          },
+          "skill_id": {
+            "title": "Skill Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "item_opportunity_id",
+          "item_instance_id",
+          "skill_id",
+          "grade",
+          "difficulty_level",
+          "representation_type",
+          "response_format",
+          "prompt",
+          "presented_choices",
+          "presentation_token",
+          "server_timeout_deadline_utc",
+          "request_id"
+        ],
+        "title": "OpportunityPresentationResponse",
+        "type": "object"
+      },
+      "PresentationAckResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "anchored": {
+            "title": "Anchored",
+            "type": "boolean"
+          },
+          "item_opportunity_id": {
+            "title": "Item Opportunity Id",
+            "type": "string"
+          },
+          "request_id": {
+            "title": "Request Id",
+            "type": "string"
+          },
+          "server_timeout_deadline_utc": {
+            "format": "date-time",
+            "title": "Server Timeout Deadline Utc",
+            "type": "string"
+          }
+        },
+        "required": [
+          "item_opportunity_id",
+          "server_timeout_deadline_utc",
+          "anchored",
+          "request_id"
+        ],
+        "title": "PresentationAckResponse",
+        "type": "object"
+      },
+      "ProfileCreateRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "title": "Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "title": "ProfileCreateRequest",
+        "type": "object"
+      },
+      "ReadinessResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "checks": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "Checks",
+            "type": "object"
+          },
+          "request_id": {
+            "title": "Request Id",
+            "type": "string"
+          },
+          "stage": {
+            "const": "infrastructure",
+            "title": "Stage",
+            "type": "string"
+          },
+          "status": {
+            "const": "ready",
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "stage",
+          "request_id",
+          "checks"
+        ],
+        "title": "ReadinessResponse",
+        "type": "object"
+      },
+      "SessionCommandResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "created_at_utc": {
+            "format": "date-time",
+            "title": "Created At Utc",
+            "type": "string"
+          },
+          "request_id": {
+            "title": "Request Id",
+            "type": "string"
+          },
+          "row_version": {
+            "title": "Row Version",
+            "type": "integer"
+          },
+          "runtime_bundle_version": {
+            "title": "Runtime Bundle Version",
+            "type": "string"
+          },
+          "session_id": {
+            "format": "uuid",
+            "title": "Session Id",
+            "type": "string"
+          },
+          "state": {
+            "enum": [
+              "active",
+              "completed",
+              "abandoned"
+            ],
+            "title": "State",
+            "type": "string"
+          }
+        },
+        "required": [
+          "session_id",
+          "state",
+          "runtime_bundle_version",
+          "created_at_utc",
+          "row_version",
+          "request_id"
+        ],
+        "title": "SessionCommandResponse",
+        "type": "object"
+      },
+      "SessionFields": {
+        "additionalProperties": false,
+        "properties": {
+          "created_at_utc": {
+            "format": "date-time",
+            "title": "Created At Utc",
+            "type": "string"
+          },
+          "row_version": {
+            "title": "Row Version",
+            "type": "integer"
+          },
+          "runtime_bundle_version": {
+            "title": "Runtime Bundle Version",
+            "type": "string"
+          },
+          "session_id": {
+            "format": "uuid",
+            "title": "Session Id",
+            "type": "string"
+          },
+          "state": {
+            "enum": [
+              "active",
+              "completed",
+              "abandoned"
+            ],
+            "title": "State",
+            "type": "string"
+          }
+        },
+        "required": [
+          "session_id",
+          "state",
+          "runtime_bundle_version",
+          "created_at_utc",
+          "row_version"
+        ],
+        "title": "SessionFields",
+        "type": "object"
+      },
+      "SessionStandingResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "opportunities_completed": {
+            "title": "Opportunities Completed",
+            "type": "integer"
+          },
+          "opportunities_total_bound": {
+            "title": "Opportunities Total Bound",
+            "type": "integer"
+          },
+          "request_id": {
+            "title": "Request Id",
+            "type": "string"
+          },
+          "session_id": {
+            "format": "uuid",
+            "title": "Session Id",
+            "type": "string"
+          },
+          "session_state": {
+            "enum": [
+              "active",
+              "completed"
+            ],
+            "title": "Session State",
+            "type": "string"
+          }
+        },
+        "required": [
+          "session_id",
+          "session_state",
+          "opportunities_completed",
+          "opportunities_total_bound",
+          "request_id"
+        ],
+        "title": "SessionStandingResponse",
+        "type": "object"
+      },
+      "SubmitResponseRequest": {
+        "additionalProperties": false,
+        "description": "Strict, size-capped request shape. ``client_elapsed_ms`` is TELEMETRY ONLY \u2014 never read\nfor correctness or BKT; server timestamps are authoritative.",
+        "properties": {
+          "client_elapsed_ms": {
+            "anyOf": [
+              {
+                "maximum": 3600000.0,
+                "minimum": 0.0,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Client Elapsed Ms"
+          },
+          "submitted_value": {
+            "maxLength": 255,
+            "minLength": 1,
+            "title": "Submitted Value",
+            "type": "string"
+          }
+        },
+        "required": [
+          "submitted_value"
+        ],
+        "title": "SubmitResponseRequest",
+        "type": "object"
+      },
+      "TeacherProfileResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "created_at_utc": {
+            "format": "date-time",
+            "title": "Created At Utc",
+            "type": "string"
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "profile_type": {
+            "const": "TEACHER",
+            "title": "Profile Type",
+            "type": "string"
+          },
+          "request_id": {
+            "title": "Request Id",
+            "type": "string"
+          },
+          "teacher_profile_id": {
+            "format": "uuid",
+            "title": "Teacher Profile Id",
+            "type": "string"
+          },
+          "user_id": {
+            "format": "uuid",
+            "title": "User Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "teacher_profile_id",
+          "user_id",
+          "profile_type",
+          "name",
+          "email",
+          "created_at_utc",
+          "request_id"
+        ],
+        "title": "TeacherProfileResponse",
+        "type": "object"
+      },
+      "ValidationError": {
+        "properties": {
+          "ctx": {
+            "title": "Context",
+            "type": "object"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location",
+            "type": "array"
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError",
+        "type": "object"
+      }
+    }
+  },
+  "info": {
+    "title": "Adaptive Math Platform - Component B API",
+    "version": "0.1.0-be1.3"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/api/v1/b/learner/skill-states": {
+      "get": {
+        "operationId": "get_learner_skill_states_api_v1_b_learner_skill_states_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LearnerSkillStatesResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Learner Skill States",
+        "tags": [
+          "b-learner"
+        ]
+      }
+    },
+    "/api/v1/b/sessions": {
+      "post": {
+        "operationId": "start_session_api_v1_b_sessions_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "maxLength": 255,
+              "minLength": 1,
+              "title": "Idempotency-Key",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessionCommandResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Start Session",
+        "tags": [
+          "b-session-lifecycle"
+        ]
+      }
+    },
+    "/api/v1/b/sessions/active": {
+      "get": {
+        "operationId": "get_active_session_api_v1_b_sessions_active_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActiveSessionResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Active Session",
+        "tags": [
+          "b-session-lifecycle"
+        ]
+      }
+    },
+    "/api/v1/b/sessions/{session_id}/abandon": {
+      "post": {
+        "operationId": "abandon_session_api_v1_b_sessions__session_id__abandon_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "session_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Session Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "maxLength": 255,
+              "minLength": 1,
+              "title": "Idempotency-Key",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessionCommandResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Abandon Session",
+        "tags": [
+          "b-session-lifecycle"
+        ]
+      }
+    },
+    "/api/v1/b/sessions/{session_id}/complete": {
+      "post": {
+        "operationId": "complete_session_api_v1_b_sessions__session_id__complete_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "session_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Session Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "maxLength": 255,
+              "minLength": 1,
+              "title": "Idempotency-Key",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessionCommandResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Complete Session",
+        "tags": [
+          "b-session-lifecycle"
+        ]
+      }
+    },
+    "/api/v1/b/sessions/{session_id}/opportunities": {
+      "post": {
+        "description": "The question the child answers next, in the language they read.\n\n``Accept-Language`` rather than a new field or a stored profile column: it is the standard way\nto say this, it is a CORS-safelisted request header so the browser sends it without a preflight\nchange, and it needs no migration. An absent or unrecognised value resolves to English\n(``locales.DEFAULT_LOCALE``), so this is additive -- an older client that sends nothing keeps\nexactly the behaviour it has now.",
+        "operationId": "select_opportunity_api_v1_b_sessions__session_id__opportunities_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "session_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Session Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Accept-Language",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Accept-Language"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OpportunityPresentationResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Select Opportunity",
+        "tags": [
+          "b-session-lifecycle"
+        ]
+      }
+    },
+    "/api/v1/b/sessions/{session_id}/opportunities/{item_opportunity_id}/assists": {
+      "post": {
+        "operationId": "request_assist_api_v1_b_sessions__session_id__opportunities__item_opportunity_id__assists_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "session_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Session Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "item_opportunity_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Item Opportunity Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "maxLength": 255,
+              "minLength": 1,
+              "title": "Idempotency-Key",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HintRequestResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Request Assist",
+        "tags": [
+          "b-session-lifecycle"
+        ]
+      }
+    },
+    "/api/v1/b/sessions/{session_id}/opportunities/{item_opportunity_id}/complete": {
+      "post": {
+        "operationId": "complete_opportunity_api_v1_b_sessions__session_id__opportunities__item_opportunity_id__complete_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "session_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Session Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "item_opportunity_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Item Opportunity Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "maxLength": 255,
+              "minLength": 1,
+              "title": "Idempotency-Key",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OpportunityAdvanceResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Complete Opportunity",
+        "tags": [
+          "b-session-lifecycle"
+        ]
+      }
+    },
+    "/api/v1/b/sessions/{session_id}/opportunities/{item_opportunity_id}/presented": {
+      "post": {
+        "description": "The learner is now looking at this question -- start its answering clock here.\n\nNo idempotency key and no body, for the same reason `select_opportunity` has neither: the\noperation is intrinsically once-only (the first acknowledgement anchors, every later one is a\nno-op returning the same deadline), so a key would add a token to manage without adding a\nguarantee. 200 rather than 201: nothing is created, an existing row is anchored.",
+        "operationId": "acknowledge_presentation_api_v1_b_sessions__session_id__opportunities__item_opportunity_id__presented_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "session_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Session Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "item_opportunity_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Item Opportunity Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PresentationAckResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Acknowledge Presentation",
+        "tags": [
+          "b-session-lifecycle"
+        ]
+      }
+    },
+    "/api/v1/b/sessions/{session_id}/opportunities/{item_opportunity_id}/responses": {
+      "post": {
+        "operationId": "submit_response_api_v1_b_sessions__session_id__opportunities__item_opportunity_id__responses_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "session_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Session Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "item_opportunity_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Item Opportunity Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "maxLength": 255,
+              "minLength": 1,
+              "title": "Idempotency-Key",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubmitResponseRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttemptResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Submit Response",
+        "tags": [
+          "b-session-lifecycle"
+        ]
+      }
+    },
+    "/api/v1/b/sessions/{session_id}/summary": {
+      "get": {
+        "operationId": "get_session_summary_api_v1_b_sessions__session_id__summary_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "session_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Session Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessionStandingResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Session Summary",
+        "tags": [
+          "b-session-lifecycle"
+        ]
+      }
+    },
+    "/api/v1/c/sessions": {
+      "post": {
+        "operationId": "create_session_api_v1_c_sessions_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCSessionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CSessionCommandResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Create Session",
+        "tags": [
+          "c-session-lifecycle"
+        ]
+      }
+    },
+    "/api/v1/c/sessions/active": {
+      "get": {
+        "operationId": "get_active_session_api_v1_c_sessions_active_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CActiveSessionResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Active Session",
+        "tags": [
+          "c-session-lifecycle"
+        ]
+      }
+    },
+    "/api/v1/c/sessions/{c_session_id}/abandon": {
+      "post": {
+        "operationId": "abandon_session_api_v1_c_sessions__c_session_id__abandon_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "c_session_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "C Session Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CSessionCommandResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Abandon Session",
+        "tags": [
+          "c-session-lifecycle"
+        ]
+      }
+    },
+    "/api/v1/c/sessions/{c_session_id}/complete": {
+      "post": {
+        "operationId": "complete_session_api_v1_c_sessions__c_session_id__complete_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "c_session_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "C Session Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompleteCSessionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CSessionCommandResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Complete Session",
+        "tags": [
+          "c-session-lifecycle"
+        ]
+      }
+    },
+    "/api/v1/c/sessions/{c_session_id}/tasks/next": {
+      "post": {
+        "operationId": "next_task_api_v1_c_sessions__c_session_id__tasks_next_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "c_session_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "C Session Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CNextTaskResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Next Task",
+        "tags": [
+          "c-task-serving"
+        ]
+      }
+    },
+    "/api/v1/c/sessions/{c_session_id}/tasks/{c_task_instance_id}/actions": {
+      "post": {
+        "operationId": "submit_action_api_v1_c_sessions__c_session_id__tasks__c_task_instance_id__actions_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "c_session_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "C Session Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "c_task_instance_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "C Task Instance Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CSubmitActionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CSubmitActionResult"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Submit Action",
+        "tags": [
+          "c-task-serving"
+        ]
+      }
+    },
+    "/api/v1/classroom-invites/resolve": {
+      "post": {
+        "operationId": "resolve_invite_api_v1_classroom_invites_resolve_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "maxLength": 255,
+              "minLength": 1,
+              "title": "Idempotency-Key",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InviteTokenRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InviteResolveResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Resolve Invite",
+        "tags": [
+          "classroom-invites-and-memberships"
+        ]
+      }
+    },
+    "/api/v1/classroom-invites/{classroom_invite_id}/revoke": {
+      "post": {
+        "operationId": "revoke_invite_api_v1_classroom_invites__classroom_invite_id__revoke_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "classroom_invite_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Classroom Invite Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "maxLength": 255,
+              "minLength": 1,
+              "title": "Idempotency-Key",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InviteRevokeResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Revoke Invite",
+        "tags": [
+          "classroom-invites-and-memberships"
+        ]
+      }
+    },
+    "/api/v1/classroom-memberships/requests": {
+      "post": {
+        "operationId": "request_membership_api_v1_classroom_memberships_requests_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "maxLength": 255,
+              "minLength": 1,
+              "title": "Idempotency-Key",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InviteTokenRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MembershipRequestResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Request Membership",
+        "tags": [
+          "classroom-invites-and-memberships"
+        ]
+      }
+    },
+    "/api/v1/classroom-memberships/{membership_id}/approve": {
+      "post": {
+        "operationId": "approve_membership_api_v1_classroom_memberships__membership_id__approve_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "membership_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Membership Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "maxLength": 255,
+              "minLength": 1,
+              "title": "Idempotency-Key",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MembershipDecisionResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Approve Membership",
+        "tags": [
+          "classroom-invites-and-memberships"
+        ]
+      }
+    },
+    "/api/v1/classroom-memberships/{membership_id}/reject": {
+      "post": {
+        "operationId": "reject_membership_api_v1_classroom_memberships__membership_id__reject_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "membership_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Membership Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "maxLength": 255,
+              "minLength": 1,
+              "title": "Idempotency-Key",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MembershipDecisionResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Reject Membership",
+        "tags": [
+          "classroom-invites-and-memberships"
+        ]
+      }
+    },
+    "/api/v1/classrooms": {
+      "get": {
+        "operationId": "list_classrooms_api_v1_classrooms_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClassroomListResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "List Classrooms",
+        "tags": [
+          "profiles-and-classrooms"
+        ]
+      },
+      "post": {
+        "operationId": "create_classroom_api_v1_classrooms_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "maxLength": 255,
+              "minLength": 1,
+              "title": "Idempotency-Key",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClassroomCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClassroomResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Create Classroom",
+        "tags": [
+          "profiles-and-classrooms"
+        ]
+      }
+    },
+    "/api/v1/classrooms/{classroom_id}": {
+      "get": {
+        "operationId": "get_classroom_api_v1_classrooms__classroom_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "classroom_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Classroom Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClassroomResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Classroom",
+        "tags": [
+          "profiles-and-classrooms"
+        ]
+      }
+    },
+    "/api/v1/classrooms/{classroom_id}/delete": {
+      "post": {
+        "operationId": "delete_classroom_api_v1_classrooms__classroom_id__delete_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "classroom_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Classroom Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "maxLength": 255,
+              "minLength": 1,
+              "title": "Idempotency-Key",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClassroomDeleteRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClassroomDeleteResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Delete Classroom",
+        "tags": [
+          "profiles-and-classrooms"
+        ]
+      }
+    },
+    "/api/v1/classrooms/{classroom_id}/invites": {
+      "post": {
+        "operationId": "create_invite_api_v1_classrooms__classroom_id__invites_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "classroom_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Classroom Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "maxLength": 255,
+              "minLength": 1,
+              "title": "Idempotency-Key",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InviteCreateResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Create Invite",
+        "tags": [
+          "classroom-invites-and-memberships"
+        ]
+      }
+    },
+    "/api/v1/classrooms/{classroom_id}/learners": {
+      "get": {
+        "operationId": "list_classroom_learners_api_v1_classrooms__classroom_id__learners_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "classroom_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Classroom Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClassroomLearnerListResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "List Classroom Learners",
+        "tags": [
+          "classroom-invites-and-memberships"
+        ]
+      }
+    },
+    "/api/v1/classrooms/{classroom_id}/membership-requests": {
+      "get": {
+        "operationId": "list_membership_requests_api_v1_classrooms__classroom_id__membership_requests_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "classroom_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Classroom Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MembershipRequestListResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "List Membership Requests",
+        "tags": [
+          "classroom-invites-and-memberships"
+        ]
+      }
+    },
+    "/api/v1/d/learner/profiles": {
+      "get": {
+        "operationId": "list_profiles_api_v1_d_learner_profiles_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 20,
+              "maximum": 100,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "language",
+            "required": false,
+            "schema": {
+              "default": "en",
+              "enum": [
+                "en",
+                "si"
+              ],
+              "title": "Language",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DProfileListResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "List Profiles",
+        "tags": [
+          "d-cognitive-profiling"
+        ]
+      }
+    },
+    "/api/v1/d/learner/profiles/latest": {
+      "get": {
+        "operationId": "get_latest_profile_api_v1_d_learner_profiles_latest_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "language",
+            "required": false,
+            "schema": {
+              "default": "en",
+              "enum": [
+                "en",
+                "si"
+              ],
+              "title": "Language",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DLatestProfileResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Latest Profile",
+        "tags": [
+          "d-cognitive-profiling"
+        ]
+      }
+    },
+    "/api/v1/d/learner/state": {
+      "get": {
+        "operationId": "get_learner_state_api_v1_d_learner_state_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DLearnerStateResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Learner State",
+        "tags": [
+          "d-cognitive-profiling"
+        ]
+      },
+      "post": {
+        "operationId": "update_learner_state_api_v1_d_learner_state_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DLearnerStateUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DLearnerStateResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Update Learner State",
+        "tags": [
+          "d-cognitive-profiling"
+        ]
+      }
+    },
+    "/api/v1/d/sessions/{session_id}/profile": {
+      "get": {
+        "operationId": "get_profile_api_v1_d_sessions__session_id__profile_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "session_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Session Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "language",
+            "required": false,
+            "schema": {
+              "default": "en",
+              "enum": [
+                "en",
+                "si"
+              ],
+              "title": "Language",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DCognitiveProfileResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Get Profile",
+        "tags": [
+          "d-cognitive-profiling"
+        ]
+      },
+      "post": {
+        "description": "200, not 201, for both a new profile and a repeat.\n\nThe contract fixes this: a client that retries cannot tell whether its first attempt landed,\nand a 201-then-200 pair would tell it -- which is exactly the information an idempotent\nendpoint is supposed to make irrelevant.",
+        "operationId": "create_profile_api_v1_d_sessions__session_id__profile_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "session_id",
+            "required": true,
+            "schema": {
+              "format": "uuid",
+              "title": "Session Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DProfileCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DCognitiveProfileResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Create Profile",
+        "tags": [
+          "d-cognitive-profiling"
+        ]
+      }
+    },
+    "/api/v1/learner/classrooms": {
+      "get": {
+        "operationId": "list_learner_classrooms_api_v1_learner_classrooms_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LearnerMembershipListResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "List Learner Classrooms",
+        "tags": [
+          "classroom-invites-and-memberships"
+        ]
+      }
+    },
+    "/api/v1/learner/profile": {
+      "get": {
+        "operationId": "get_learner_profile_api_v1_learner_profile_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LearnerProfileResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Learner Profile",
+        "tags": [
+          "profiles-and-classrooms"
+        ]
+      },
+      "post": {
+        "operationId": "create_learner_profile_api_v1_learner_profile_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "maxLength": 255,
+              "minLength": 1,
+              "title": "Idempotency-Key",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProfileCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LearnerProfileResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Create Learner Profile",
+        "tags": [
+          "profiles-and-classrooms"
+        ]
+      }
+    },
+    "/api/v1/me": {
+      "get": {
+        "operationId": "current_identity_api_v1_me_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticatedPrincipal"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Current Identity",
+        "tags": [
+          "identity"
+        ]
+      }
+    },
+    "/api/v1/teacher/profile": {
+      "get": {
+        "operationId": "get_teacher_profile_api_v1_teacher_profile_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TeacherProfileResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Teacher Profile",
+        "tags": [
+          "profiles-and-classrooms"
+        ]
+      },
+      "post": {
+        "operationId": "create_teacher_profile_api_v1_teacher_profile_post",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "maxLength": 255,
+              "minLength": 1,
+              "title": "Idempotency-Key",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProfileCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TeacherProfileResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Create Teacher Profile",
+        "tags": [
+          "profiles-and-classrooms"
+        ]
+      }
+    },
+    "/health/live": {
+      "get": {
+        "description": "Report that the API process is running.",
+        "operationId": "liveness_health_live_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Liveness",
+        "tags": [
+          "health"
+        ]
+      }
+    },
+    "/health/ready": {
+      "get": {
+        "description": "Verify the implemented SQLAlchemy-to-PostgreSQL dependency.",
+        "operationId": "readiness_health_ready_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReadinessResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Readiness",
+        "tags": [
+          "health"
+        ]
+      }
+    }
+  }
+}

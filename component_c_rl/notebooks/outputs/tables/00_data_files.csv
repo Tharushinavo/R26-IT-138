@@ -1,0 +1,23 @@
+name,exists,kind,size_bytes,note,path,size_MB
+C3_ROOT,True,dir,,18 entries,C:\Users\Yasindu\Desktop\ResearchProject\Componant 3 -Teachers Dashboard,
+C3_DATASET_DIR,True,dir,,7 entries,C:\Users\Yasindu\Desktop\ResearchProject\Componant 3 -Teachers Dashboard\dataset,
+C3_JOINED_PATH,True,file,26164810.0,,C:\Users\Yasindu\Desktop\ResearchProject\Componant 3 -Teachers Dashboard\dataset\source\so2_joined_dataset_seed20260828_n300.jsonl,26.165
+C3_FEATURE_MATRIX_PATH,True,file,3166274.0,,C:\Users\Yasindu\Desktop\ResearchProject\Componant 3 -Teachers Dashboard\dataset\features\feature_matrix_at_t_seed20260828_n300.csv,3.166
+C3_FEATURE_REGISTER_PATH,True,file,8009.0,,C:\Users\Yasindu\Desktop\ResearchProject\Componant 3 -Teachers Dashboard\dataset\features\feature_register.csv,0.008
+C3_TRAINING_TABLE_PATH,True,file,1606774.0,,C:\Users\Yasindu\Desktop\ResearchProject\Componant 3 -Teachers Dashboard\dataset\training\training_table_seed20260828_n300_h5_sweepn4.csv,1.607
+C3_DATASET_CARD_PATH,True,file,8825.0,,C:\Users\Yasindu\Desktop\ResearchProject\Componant 3 -Teachers Dashboard\dataset\DATASET_CARD.md,0.009
+C3_AUDIT_LABELS_PATH,True,file,5483.0,,C:\Users\Yasindu\Desktop\ResearchProject\Componant 3 -Teachers Dashboard\dataset\audit\t3_audit_labels_seed20260828_n300.csv,0.005
+C3_NOTEBOOK_TABLES_DIR,True,dir,,83 entries,C:\Users\Yasindu\Desktop\ResearchProject\Componant 3 -Teachers Dashboard\Learning-Insight-Early-Warning-System\notebooks\outputs\tables,
+YASS_IMPL_ROOT,True,dir,,14 entries,C:\Users\Yasindu\Desktop\ResearchProject\Yass\Implementation_v1.0,
+YASS_OUTPUT_DIR,True,dir,,59 entries,C:\Users\Yasindu\Desktop\ResearchProject\Yass\Implementation_v1.0\output,
+N300_TABLES[gameplay_events],True,file,461799945.0,,C:\Users\Yasindu\Desktop\ResearchProject\Yass\Implementation_v1.0\output\so3_app_shaped_c_gameplay_events_seed20260828_n300.jsonl,461.8
+N300_TABLES[learner_local_state],True,file,97490.0,,C:\Users\Yasindu\Desktop\ResearchProject\Yass\Implementation_v1.0\output\so3_app_shaped_c_learner_local_state_seed20260828_n300.jsonl,0.097
+N300_TABLES[policy_decisions],True,file,53918476.0,,C:\Users\Yasindu\Desktop\ResearchProject\Yass\Implementation_v1.0\output\so3_app_shaped_c_policy_decisions_seed20260828_n300.jsonl,53.918
+N300_TABLES[safety_events],True,file,6375818.0,,C:\Users\Yasindu\Desktop\ResearchProject\Yass\Implementation_v1.0\output\so3_app_shaped_c_safety_events_seed20260828_n300.jsonl,6.376
+N300_TABLES[scaffold_events],True,file,2448400.0,,C:\Users\Yasindu\Desktop\ResearchProject\Yass\Implementation_v1.0\output\so3_app_shaped_c_scaffold_events_seed20260828_n300.jsonl,2.448
+N300_TABLES[session_aggregate_results],True,file,10248140.0,,C:\Users\Yasindu\Desktop\ResearchProject\Yass\Implementation_v1.0\output\so3_app_shaped_c_session_aggregate_results_seed20260828_n300.jsonl,10.248
+N300_TABLES[sessions],True,file,3855744.0,,C:\Users\Yasindu\Desktop\ResearchProject\Yass\Implementation_v1.0\output\so3_app_shaped_c_sessions_seed20260828_n300.jsonl,3.856
+N300_TABLES[task_instances],True,file,76413817.0,,C:\Users\Yasindu\Desktop\ResearchProject\Yass\Implementation_v1.0\output\so3_app_shaped_c_task_instances_seed20260828_n300.jsonl,76.414
+N300_TABLES[task_opportunities],True,file,23911114.0,,C:\Users\Yasindu\Desktop\ResearchProject\Yass\Implementation_v1.0\output\so3_app_shaped_c_task_opportunities_seed20260828_n300.jsonl,23.911
+N300_TABLES[task_opportunity_summaries],True,file,43329484.0,,C:\Users\Yasindu\Desktop\ResearchProject\Yass\Implementation_v1.0\output\so3_app_shaped_c_task_opportunity_summaries_seed20260828_n300.jsonl,43.329
+N300_TABLES[task_opportunity_verdicts],True,file,0.0,,C:\Users\Yasindu\Desktop\ResearchProject\Yass\Implementation_v1.0\output\so3_app_shaped_c_task_opportunity_verdicts_seed20260828_n300.jsonl,0.0

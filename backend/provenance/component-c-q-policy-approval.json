@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "record_type": "OWNER_APPROVAL_AS_REPORTED",
+  "component": "C",
+  "recorded_at_utc": "2026-10-20T00:00:00Z",
+  "approval": {
+    "who": "Prabathi",
+    "role": "Component C owner",
+    "reported_by": "Yasindu",
+    "date": "2026-10-20",
+    "scope": "replace rule-based difficulty policy with frozen Q-learning policy; safety controller unchanged",
+    "evidence_reference": "TO BE SUPPLIED BY YASINDU"
+  },
+  "decisions_recorded_with_this_change": [
+    "frozen policy only; no per-child learning in the live app",
+    "no silent fallback to the rule policy: a missing or hash-mismatched Q table refuses adaptation (fail closed)",
+    "c_only difficulty cap of 2 (approved runtime bundle) unchanged"
+  ],
+  "artifacts": "backend/provenance/c_policy/MANIFEST.json",
+  "disclosure": "Literature-informed synthetic data — not clinical evidence. Simulation-only training; the live policy has not been approved for use with children beyond the scope above."
+}

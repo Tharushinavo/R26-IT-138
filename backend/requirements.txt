@@ -1,0 +1,5 @@
+fastapi==0.137.1
+uvicorn[standard]==0.49.0
+jsonschema==4.25.1
+# BE3b — vendored live-engine adapter + runtime-bundle validation (see backend/provenance/component-b-live-engine-manifest.json).
+./provenance/wheels/upadya_component_b_live_engine-0.1.0+be3.0e86fdc-py3-none-any.whl

@@ -1,0 +1,3 @@
+index,share_at_level_2,share_decrease,share_hold,share_increase
+rule,0.819,0.092,0.447,0.461
+greedy Q,0.482,0.471,0.043,0.487

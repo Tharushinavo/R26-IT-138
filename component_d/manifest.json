@@ -1,0 +1,90 @@
+{
+  "name": "component_d",
+  "description": "Cognitive skill profiling research material for Component D (R26-IT-138) - the seed dataset, its generation guide, and a notebooks placeholder. Contains NO training code and NO trained model; the profile that runs in production is a rule-based heuristic in the host backend.",
+  "version": "0.1.0",
+  "date": "2026-10-21",
+  "status": "RESEARCH_MATERIAL_ONLY",
+  "disclosure": "Synthetic, literature-informed material - not clinical evidence. The live profile is a rule-based heuristic, not a trained model. Nothing here is approved for use with children.",
+  "authorization": {
+    "decision": "D-011",
+    "date": "2026-10-21",
+    "document": "Upadya\\component-d-authorization-DRAFT.md",
+    "api_contract": "compD\\R26-IT-138-main\\plan\\03-api-contract.md (v5, LIVE)"
+  },
+  "model": {
+    "live_model_version": "rule-based-v1",
+    "trained_model_exists": false,
+    "trained_model_note": "compD's MODEL_PATH pointed at ./app/ml/cognitive_model.pkl. That directory does not exist anywhere in the handover and no .pkl, .joblib or .parquet artefact was delivered. Every profile compD produced came from its rule-based fallback.",
+    "training_code_exists": false,
+    "training_code_note": "Forbidden until a trained model exists (plan v5): no scikit-learn, pandas, numpy or joblib. The ML path was not ported, stubbed or feature-switched - it is absent."
+  },
+  "live_code": {
+    "note": "Component D code runs ONLY in the host backend. This folder is material, not a service. Tests live in the host suite, where the code runs.",
+    "features": "backend\\app\\application\\d_features.py",
+    "rule_profile": "backend\\app\\application\\d_rule_profile.py",
+    "recommendation": "backend\\app\\application\\d_recommendation.py",
+    "routes": "backend\\app\\api\\routes\\d_profile.py",
+    "migration": "backend\\migrations\\versions\\20261021_0010_component_d_tables.py",
+    "tests": [
+      "backend\\tests\\test_d1_component_d_tables.py",
+      "backend\\tests\\test_d2_component_d_api.py"
+    ],
+    "live_feature_vector": [
+      "accuracy",
+      "avg_response_time_ms",
+      "response_time_std_ms",
+      "avg_attempts",
+      "retry_rate",
+      "hint_rate",
+      "mean_clicks_per_question",
+      "total_questions"
+    ]
+  },
+  "data": {
+    "cognitive_dataset.csv": {
+      "sha256": "0fa37abb9c2bad1d56f9a9edbad80aba504eaada8eb364419002f89a36f526bc",
+      "bytes": 6444,
+      "data_rows": 75,
+      "unique_students": 15,
+      "columns": 16,
+      "source": "compD\\R26-IT-138-main\\server\\data\\cognitive_dataset.csv",
+      "copied": "byte-for-byte, verified with cmp",
+      "source_class": "SYNTHETIC"
+    },
+    "DATASET_GUIDE.md": {
+      "sha256": "1e9b506dda2528ca0423f866d56f165c48f804c4938e9c4da66b2d0317d0f071",
+      "bytes": 7491,
+      "source": "compD\\R26-IT-138-main\\server\\data\\DATASET_GUIDE.md",
+      "copied": "byte-for-byte, verified with cmp; NOT corrected - see known_defects"
+    }
+  },
+  "known_defects": {
+    "note": "Measured against the file in this folder, not inherited from the guide's own claims. Recorded rather than fixed: the dataset and guide are received material, and the record of what was handed over is more useful than a tidied version.",
+    "size": "75 rows / 15 students, against the guide's own target of 3,000-5,000 rows / 150-200 students - short by roughly fortyfold. A shape example, not a training set.",
+    "topic_vocabulary_disagrees_with_the_app": {
+      "dataset": ["Addition", "Counting", "Number Comparison", "Subtraction"],
+      "compd_question_bank": ["Addition", "Counting", "Division", "Subtraction"],
+      "host_check_constraint": ["Counting", "Addition", "Subtraction", "Division"],
+      "consequence": "A model trained on this file would have learned a topic the app never serves (Number Comparison) and never seen the one it does (Division). The dataset must be regenerated before it can train anything for this app. The host adopted compD's question-bank vocabulary exactly, so this is an inconsistency inside compD's own material, not a host disagreement."
+    },
+    "label_case_disagrees_with_the_api": "The dataset writes High/Medium/Low; the API and database use low/medium/high. label_processing_speed already agrees (Slow/Moderate/Fast). Three of the four targets need case folding.",
+    "column_names_predate_the_authorization": "The header carries is_correct and hint_used. D-011 A4 renamed these to response_matched and assist_used for the host's database and public API. Left as-is here because this is a received data file and the host guards read database column names and public schema field names, not CSV headers. A training pipeline must map them and must emit the host's names.",
+    "shape_mismatch_unresolved": "The dataset is per-interaction (one row per question, ten feature columns, the four labels repeated on every row). The live profile is per-run over eight aggregated features. compD had both shapes in its code and never settled which was authoritative. Whoever picks up B2 decides this; it is not decided here."
+  },
+  "known_weaknesses_in_the_live_heuristic": {
+    "note": "The authorization approved STORING WHAT THE HEURISTIC PRODUCES. It did not approve the heuristic.",
+    "attention_depends_on_click_volume": "attention_level is derived partly from click count, so a child on a touch screen that registers stray taps, or one who likes tapping, scores lower on attention for reasons unrelated to attending.",
+    "unexplained_normaliser": "compD divided mean clicks per question by the number of questions in the run. The division is load-bearing - without it the term saturates and nearly every child scores low attention - but nothing documents why run length is the right scale. Preserved exactly as compD had it.",
+    "sinhala_text_unreviewed": "The Sinhala recommendation strings were extracted from compD's source by script rather than retyped, so they are faithful to what was handed over. Nobody who reads Sinhala has reviewed them."
+  },
+  "host": {
+    "branch": "final",
+    "commit_at_creation": "6a753481c05488afb46100181613139937f8ce33",
+    "uncommitted": "Everything Component D added is uncommitted on `final` per owner decision D-014 (no commit until the integration is fully done)."
+  },
+  "standing_rules": [
+    "Nothing here runs with real children.",
+    "backend\\ is the only place Component D code executes; this folder is material, not a service.",
+    "BUILDLOG.md is append-only."
+  ]
+}

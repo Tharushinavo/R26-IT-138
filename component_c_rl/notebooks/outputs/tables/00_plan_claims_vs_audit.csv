@@ -1,0 +1,21 @@
+master-plan / work-order claim,status,evidence
+§6 'P(correct) falls with difficulty above mastery',CONFIRMED,"flat while d_norm<=mastery, then non-increasing (sec 2)"
+§6 c_only P(correct) depends on difficulty only,CONFIRMED,fallback has no mastery argument (sec 2)
+§6 'Quits depend on error streaks and persistence',CONFIRMED (with nuance),"only quit_after_error does; skip, quit_without_recent_error, technical, pauses are constants - identical across levels: True (sec 3)"
+§6 'Nothing penalises tasks that are too easy',CONFIRMED,levels 1-4 identical at mastery 0.9; c_engagement_propensity has no consumer (sec 4)
+§6 'Mastery is static within a C session',CONFIRMED,(sec 5)
+§2.3(2) 'C never writes back to B mastery',CONFIRMED,no attribute/payload store; B sessions generated before C loop (session_loop.py:264 vs 269) (sec 5)
+work order: 'C reads B mastery once per session',NUANCE,"payload handed once per session, but READ per task (session.py:198-213, 238) - same session-start value each time"
+"§1 rule thresholds / §5 hook at session.py:295, evidence at 284-293",CONFIRMED,"matches policy/config.py defaults and the source lines printed in secs 6, 8"
+"§6.4 W = {2:2, 3:3}",CONFIRMED,"{2: 2, 3: 3}"
+§7 reward uses a 'rolling_success' derived from policy-visible recent_correctness,CONTRADICTED (as a signal),"recent_correctness_rate counts correct_task, which retries drive to ~1: 1.000 of completed tasks correct; = 1.0 at 100% (combined) / 99% (c_only) of decisions"
+§6.2 'session dropout hazard needs adding',CONFIRMED,"no dropout in run_c_session; only safe-termination (session.py:333-336); quits end a TASK, never the session"
+§10 'time-in-band' metric,NEEDS OWN DEFINITION,time_in_target_band_sec is a caller-supplied placeholder (session_loop.py:226)
+§5 'policy hook is the only one',CONFIRMED,"propose_action(policy_mode, evidence, policy_config) at session.py:295; policy_mode Literal has 3 values"
+§9 research-mode readiness,CONTRADICTS 'configs are final',every config is TEST_FIXTURE_ONLY: True; validator has 0 callers outside tests
+§8 ColdStartTS / LinTS RNG,AVAILABLE,"SeedManager.substream(...,'policy_exploration') exists but is unused by run_c_session (sec 8)"
+sim fidelity: nominal P(correct) == realized first-attempt rate,SMALL POSITIVE BIAS (realized > nominal),"realized - nominal = +0.0148 (combined m=0.5, pooled z 3.5, overstated: levels share seeds); +0.0146 (c_only, z 3.0); action_provider can emit 'wrong' answers that evaluate correct (sec 3)"
+§5 'allowed = not overridden; fallback = hold',CONFIRMED WITH CAVEAT,"hold itself is overridden at 0% (combined) / 0% (c_only) of simulated decisions; allowed-set size 1/2/3 = 5%/55%/41% (combined), 2%/98%/0% (c_only); empty sets: 0%/0%"
+action_overridden == safety event?,NO,90% (combined) / 99% (c_only) of overrides are caps / bound clamps only; real safety trigger rate (recovery flag per decision) = 0.025 / 0.003
+one technical issue voids the session's composites,OBSERVED,telemetry complete in 66% (combined) / 65% (c_only) of 12-task sessions; flagged by technical PAUSES (aggregation/derive.py:152-153) as well as technical issues; otherwise engagement/frustration/learner_state are None
+Evidence replay (our understanding of the loop),CONFIRMED,rule+safety replay reproduces all recorded decisions (sec 10)

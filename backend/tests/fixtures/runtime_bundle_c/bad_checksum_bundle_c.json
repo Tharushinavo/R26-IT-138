@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "bundle_version": "c2-test-fixture-1.0",
+  "publication_state": "DRAFT",
+  "immutable_after_publication": true,
+  "backend_code_version": "0.1.0-c2-test-fixture",
+  "database_schema_revision": "UNRESOLVED_PLACEHOLDER_C2_TEST_FIXTURE",
+  "generator": {
+    "source_identifier": "prabathi-component-c-live-engine",
+    "source_path": "provenance/wheels/prabathi_component_c_live_engine-0.1.0+c3.09267ab-py3-none-any.whl",
+    "checksum": {
+      "algorithm": "sha256",
+      "value": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    },
+    "interface_version": "c2-test-fixture-1.0"
+  },
+  "catalogue": {
+    "version": "TEST-FIXTURE-1.0",
+    "checksum": {
+      "algorithm": "sha256",
+      "value": "aa0469b8d5e068d95bf80344ac5e26a9b573fc9f6123f7557f03465d8f77cbce"
+    },
+    "approval_status": "CALIBRATION_PENDING"
+  },
+  "approval_status": "CALIBRATION_PENDING",
+  "activation_date": null,
+  "compatibility": {
+    "backend_api_major": 1,
+    "generator_interface_version": "c2-test-fixture-1.0",
+    "python_specifier": ">=3.11,<3.12",
+    "database_schema_minimum": "UNRESOLVED_PLACEHOLDER_C2_TEST_FIXTURE",
+    "supported_grades": [
+      2,
+      3
+    ],
+    "skills": [
+      "counting",
+      "number_sense",
+      "place_value",
+      "addition",
+      "subtraction",
+      "multiplication",
+      "division"
+    ],
+    "required_catalogue_template_count": 30
+  }
+}

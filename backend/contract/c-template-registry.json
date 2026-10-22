@@ -1,0 +1,194 @@
+[
+  {
+    "template_id": "C-BT-01",
+    "valid_action_space": {
+      "ones": "int",
+      "tens": "int"
+    }
+  },
+  {
+    "template_id": "C-BT-02",
+    "valid_action_space": {
+      "hundreds": "int",
+      "ones": "int",
+      "tens": "int"
+    }
+  },
+  {
+    "template_id": "C-BT-03",
+    "valid_action_space": {
+      "post_ones": "int",
+      "post_tens": "int"
+    }
+  },
+  {
+    "template_id": "C-BT-04",
+    "valid_action_space": {
+      "post_ones": "int",
+      "post_tens": "int"
+    }
+  },
+  {
+    "template_id": "C-CC-01",
+    "valid_action_space": {
+      "selected_object_ids": "list[str]",
+      "submitted_total": "int"
+    }
+  },
+  {
+    "template_id": "C-CC-02",
+    "valid_action_space": {
+      "placed_object_ids": "list[str]"
+    }
+  },
+  {
+    "template_id": "C-CC-03",
+    "valid_action_space": {
+      "selected_numeral": "int"
+    }
+  },
+  {
+    "template_id": "C-CC-04",
+    "valid_action_space": {
+      "judgment": "same|changed"
+    }
+  },
+  {
+    "template_id": "C-EG-01",
+    "valid_action_space": {
+      "groups": "list[int]"
+    }
+  },
+  {
+    "template_id": "C-EG-02",
+    "valid_action_space": {
+      "cols": "int",
+      "rows": "int",
+      "submitted_product": "int"
+    }
+  },
+  {
+    "template_id": "C-EG-03",
+    "valid_action_space": {
+      "submitted_product": "int"
+    }
+  },
+  {
+    "template_id": "C-JB-01",
+    "valid_action_space": {
+      "submitted_total": "int"
+    }
+  },
+  {
+    "template_id": "C-JB-02",
+    "valid_action_space": {
+      "final_position": "int",
+      "jumps": "list[int]"
+    }
+  },
+  {
+    "template_id": "C-JB-03",
+    "valid_action_space": {
+      "submitted_sum": "int"
+    }
+  },
+  {
+    "template_id": "C-JB-04",
+    "valid_action_space": {
+      "exchange_performed": "bool",
+      "submitted_sum": "int"
+    }
+  },
+  {
+    "template_id": "C-MCL-01",
+    "valid_action_space": {
+      "selected_value": "int"
+    }
+  },
+  {
+    "template_id": "C-MCL-02",
+    "valid_action_space": {
+      "selection": "left|right|equal"
+    }
+  },
+  {
+    "template_id": "C-MCL-03",
+    "valid_action_space": {
+      "comparison_sign": "<|>|="
+    }
+  },
+  {
+    "template_id": "C-MCL-04",
+    "valid_action_space": {
+      "marker_position": "number"
+    }
+  },
+  {
+    "template_id": "C-NP-01",
+    "valid_action_space": {
+      "entered_values": "list[int]"
+    }
+  },
+  {
+    "template_id": "C-NP-02",
+    "valid_action_space": {
+      "entered_values": "list[int]"
+    }
+  },
+  {
+    "template_id": "C-NP-03",
+    "valid_action_space": {
+      "entered_values": "list[int]"
+    }
+  },
+  {
+    "template_id": "C-NP-04",
+    "valid_action_space": {
+      "arranged_values": "list[int]"
+    }
+  },
+  {
+    "template_id": "C-SF-01",
+    "valid_action_space": {
+      "allocations": "list[int]"
+    }
+  },
+  {
+    "template_id": "C-SF-02",
+    "valid_action_space": {
+      "groups": "list[int]",
+      "submitted_group_count": "int"
+    }
+  },
+  {
+    "template_id": "C-SF-03",
+    "valid_action_space": {
+      "submitted_quotient": "int"
+    }
+  },
+  {
+    "template_id": "C-TC-01",
+    "valid_action_space": {
+      "submitted_remainder": "int"
+    }
+  },
+  {
+    "template_id": "C-TC-02",
+    "valid_action_space": {
+      "submitted_difference": "int"
+    }
+  },
+  {
+    "template_id": "C-TC-03",
+    "valid_action_space": {
+      "submitted_difference": "int"
+    }
+  },
+  {
+    "template_id": "C-TC-04",
+    "valid_action_space": {
+      "exchange_performed": "bool",
+      "submitted_difference": "int"
+    }
+  }
+]

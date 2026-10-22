@@ -1,0 +1,51 @@
+column,meaning,range/values,source field
+student_id,Anonymous learner id (synthetic),STU-0001 ... STU-0300,student_id
+session,Intervention session number for this learner (1 = first),1 - 25,intervention_session_number
+session_date,Calendar date of the session,2026-01-05 onward,mapping.intervention_session_date
+grade,School grade of the learner,2 - 3,Yass sessions table: grade
+b_mastery_counting,Mastery estimate (0-1) of counting after this session,0.1699 - 0.7581,b_to_3.mastery_counting
+b_mastery_number_sense,Mastery estimate (0-1) of number sense after this session,0.15 - 0.773,b_to_3.mastery_number_sense
+b_mastery_place_value,Mastery estimate (0-1) of place value after this session,0.15 - 0.6872,b_to_3.mastery_place_value
+b_mastery_addition,Mastery estimate (0-1) of addition after this session,0.15 - 0.7504,b_to_3.mastery_addition
+b_mastery_subtraction,Mastery estimate (0-1) of subtraction after this session,0.15 - 0.6927,b_to_3.mastery_subtraction
+b_mastery_multiplication,Mastery estimate (0-1) of multiplication after this session,0.15 - 0.7641,b_to_3.mastery_multiplication
+b_mastery_division,Mastery estimate (0-1) of division after this session,0.15 - 0.753,b_to_3.mastery_division
+b_mastery_mean,Average of the seven skill mastery values,0.1557 - 0.5466,mean of the 7 b_to_3.mastery_*
+b_total_questions,Questions asked in this Component B session,2 - 4,b_to_3.total_questions
+b_correct_responses,Questions answered correctly,0 - 4,b_to_3.correct_responses
+b_accuracy_rate,Share answered correctly in Component B,0 - 1,b_to_3.accuracy_rate
+b_hint_requests,Hints requested,0 - 4,b_to_3.hint_requests
+b_mean_item_response_time_sec,Mean time per question (seconds),0.2 - 7.455,b_to_3.b_mean_item_response_time_sec
+b_skills_certified,Number of skills flagged mastered (0-7),true / false,count of true in b_to_3.mastery_certified
+b_guess_guard_triggered,Number of times the guessing guard fired,true / false,b_to_3.guess_guard_triggered
+c_difficulty_level,Difficulty level of the Component C session at its end (1 easiest - 5 hardest),1 - 5,c_to_3.current_difficulty_level
+c_difficulty_trend,Direction difficulty moved during the session,decreasing | increasing | stable,c_to_3.difficulty_trend
+c_accuracy_rate,Share of Component C tasks answered correctly,0.8 - 1,c_to_3.accuracy_rate
+c_avg_attempts_per_task,Mean number of attempts per task,1 - 11,c_to_3.avg_attempts_per_task
+c_task_completion_rate,Share of offered tasks completed,0 - 1,c_to_3.task_completion_rate
+c_task_opportunity_count,Tasks offered,2 - 8,c_to_3.task_opportunity_count
+c_completed_task_count,Tasks completed,0 - 8,c_to_3.completed_task_count
+c_correct_task_count,Tasks completed correctly,0 - 8,c_to_3.correct_task_count
+c_total_attempt_count,Answer attempts in total,5 - 26,c_to_3.total_attempt_count
+c_inactivity_periods,Number of idle periods,0 - 6,c_to_3.inactivity_periods
+c_session_duration_sec,Session length (seconds),31.12 - 402.4,c_to_3.session_duration_sec
+c_consecutive_error_max,Longest run of wrong answers,0 - 10,c_to_3.consecutive_error_max
+c_difficulty_floor_hits,Tasks served at the lowest level after a drop,0 - 8,c_to_3.difficulty_floor_hits
+c_quit_after_error,Child quit right after an error,true / false,c_to_3.quit_after_error
+c_safety_override_count,Times the safety layer overrode the difficulty choice,0 - 7,c_to_3.safety_override_count
+c_session_technical_issue_flag,A technical problem was recorded,true / false,c_to_3.session_technical_issue_flag
+c_frustration_index,Frustration score 0-1 (weighted sum of the six frust_ components),0 - 0.9441,c_to_3.frustration_index
+c_engagement_score,Engagement score 0-1 (weighted sum of the four eng_ components),0.5112 - 0.75,c_to_3.engagement_score
+c_learner_state,Learner state label derived from engagement and frustration,engaged | overloaded | productive_struggle,c_to_3.learner_state
+c_state_reason,Rule that produced the learner state,high_engagement_low_friction | insufficient_session_evidence | quit_after_error | safety_override_with_error_burst | sustained_participation_under_challenge | technical_issue,c_to_3.state_reason
+c_telemetry_quality_status,Whether the session telemetry was complete enough to score,complete | insufficient_evidence | technical_issue,c_to_3.telemetry_quality_status
+c_frust_error_run,Frustration component: wrong-answer run length / 5 (each capped to 0-1),0 - 1,c_to_3.frustration_components.error_run_component
+c_frust_excess_attempt,Frustration component: (mean attempts - 1) / 3 (each capped to 0-1),0 - 1,c_to_3.frustration_components.excess_attempt_component
+c_frust_inactivity_burden,Frustration component: idle time share / 0.30 (each capped to 0-1),0 - 1,c_to_3.frustration_components.inactivity_burden_component
+c_frust_floor_hit,Frustration component: floor hits / 3 (each capped to 0-1),0 - 1,c_to_3.frustration_components.floor_hit_component
+c_frust_quit_after_error,Frustration component: 1 if the child quit after an error (each capped to 0-1),true / false,c_to_3.frustration_components.quit_after_error_component
+c_frust_safety_override,Frustration component: safety overrides / 2 (each capped to 0-1),0 - 1,c_to_3.frustration_components.safety_override_component
+c_eng_completion,Engagement component: task completion (0-1),0.375 - 1,c_to_3.engagement_components.completion_component
+c_eng_activity,Engagement component: activity (0-1),0.5987 - 1,c_to_3.engagement_components.activity_component
+c_eng_target_band,Engagement component: time in the target band (0-1),true / false,c_to_3.engagement_components.target_band_component
+c_eng_accuracy,Engagement component: accuracy (0-1),0.8 - 1,c_to_3.engagement_components.accuracy_component

@@ -1,0 +1,153 @@
+{
+  "schema_version": "1.0",
+  "component": "B",
+  "purpose": "Define the immutable source-level reuse boundary between the Yass research generator and the Upadya live application.",
+  "architecture_status": "APPROVED_FOR_BE3_DESIGN_NOT_BUILT",
+  "preferred_future_package": {
+    "name": "upadya-component-b-live-engine",
+    "build_phase": "BE3",
+    "status": "NOT_BUILT",
+    "rule": "Contain only the reviewed live-safe source dependency closure and required shared models/validators; do not copy or rewrite mathematical formulas."
+  },
+  "research_artifact": {
+    "distribution": "upadya-component-b-generator",
+    "classification": "BE0_RESEARCH_REPRODUCIBILITY_ARTIFACT_ONLY",
+    "application_container_installation": "PROHIBITED"
+  },
+  "capabilities": [
+    {
+      "capability_name": "catalogue loading and validation",
+      "existing_yass_module": "component_b_generator.catalogue.loader",
+      "exact_function_or_class": ["load_catalogue", "catalogue_file_checksum", "normalize_grade_scope", "CatalogueValidationError"],
+      "required_dependencies": ["PyYAML", "component_b_generator.models.catalogue", "models.contracts"],
+      "safe_for_live_use": true,
+      "depends_on_any_synthetic_module": false,
+      "adapter_required": true,
+      "runtime_role": "PRIVATE_ENGINE_INTERNAL"
+    },
+    {
+      "capability_name": "activation and grade eligibility",
+      "existing_yass_module": "component_b_generator.generation.activation",
+      "exact_function_or_class": ["decide_activation"],
+      "required_dependencies": ["component_b_generator.models.catalogue", "component_b_generator.models.task_instance"],
+      "safe_for_live_use": true,
+      "depends_on_any_synthetic_module": false,
+      "adapter_required": true,
+      "runtime_role": "PRIVATE_ENGINE_INTERNAL"
+    },
+    {
+      "capability_name": "sequencing features and scoring",
+      "existing_yass_module": "component_b_generator.sequencing.features; component_b_generator.sequencing.score",
+      "exact_function_or_class": ["compute_features", "SequencingFeatures", "score_candidate", "rank_candidates", "select_target"],
+      "required_dependencies": ["pydantic", "models.contracts", "component_b_generator.bkt.config", "component_b_generator.bkt.state", "component_b_generator.models.catalogue", "component_b_generator.sequencing.config", "component_b_generator.sequencing.models"],
+      "safe_for_live_use": true,
+      "depends_on_any_synthetic_module": false,
+      "adapter_required": true,
+      "runtime_role": "PRIVATE_ENGINE_INTERNAL"
+    },
+    {
+      "capability_name": "deterministic task construction",
+      "existing_yass_module": "component_b_generator.generation.task_instances",
+      "exact_function_or_class": ["build_task_instance", "generate_task_instances"],
+      "required_dependencies": ["pydantic", "answers registry/rules", "catalogue loader", "distractor registry", "sampler registry", "seeds", "generation guards/models"],
+      "safe_for_live_use": true,
+      "depends_on_any_synthetic_module": true,
+      "synthetic_dependency_note": "The current module has module-level imports of config defaults and runner.run_phase_b1. BE3 must package only a reviewed dependency closure or provide a narrow immutable adapter so live imports cannot reach cohort/runner paths.",
+      "adapter_required": true,
+      "runtime_role": "PRIVATE_ENGINE_INTERNAL"
+    },
+    {
+      "capability_name": "answer normalization and equivalence",
+      "existing_yass_module": "component_b_generator.answers.rules; component_b_generator.answers.registry; component_b_generator.answers.structured",
+      "exact_function_or_class": ["normalize_answer", "answers_equivalent", "correct_answer_raw", "allowed_equivalent_answers", "parse_place_value_expression", "structured_forms_equivalent"],
+      "required_dependencies": ["Python standard library", "template answer rule registry"],
+      "safe_for_live_use": true,
+      "depends_on_any_synthetic_module": false,
+      "adapter_required": true,
+      "runtime_role": "PRIVATE_ENGINE_INTERNAL"
+    },
+    {
+      "capability_name": "distractor construction",
+      "existing_yass_module": "component_b_generator.distractors.registry; component_b_generator.distractors.rules",
+      "exact_function_or_class": ["generate_distractors", "required_distractor_count", "supported_distractor_template_ids"],
+      "required_dependencies": ["answers registry/rules", "generation errors", "distractor rules"],
+      "safe_for_live_use": true,
+      "depends_on_any_synthetic_module": false,
+      "adapter_required": true,
+      "runtime_role": "PRIVATE_ENGINE_INTERNAL"
+    },
+    {
+      "capability_name": "exact catalogue hint lookup",
+      "existing_yass_module": "component_b_generator.behaviour.hints",
+      "exact_function_or_class": ["get_catalogue_hint", "CatalogueHintReference", "HintContentError"],
+      "required_dependencies": ["pydantic", "component_b_generator.models.behaviour.HINT_LEVELS", "component_b_generator.models.catalogue"],
+      "safe_for_live_use": true,
+      "depends_on_any_synthetic_module": false,
+      "adapter_required": true,
+      "runtime_role": "PRIVATE_ENGINE_INTERNAL"
+    },
+    {
+      "capability_name": "BKT prediction, posterior, and update",
+      "existing_yass_module": "component_b_generator.bkt.update",
+      "exact_function_or_class": ["bkt_predict", "bkt_posterior", "bkt_update"],
+      "required_dependencies": ["Python standard library"],
+      "safe_for_live_use": true,
+      "depends_on_any_synthetic_module": false,
+      "adapter_required": true,
+      "runtime_role": "PRIVATE_ENGINE_INTERNAL"
+    },
+    {
+      "capability_name": "Guess-Guard",
+      "existing_yass_module": "component_b_generator.bkt.guess_guard",
+      "exact_function_or_class": ["GuessGuardStatus", "plausibility_floor", "evaluate_guess_guard", "guess_guard_triggered_count"],
+      "required_dependencies": ["Python standard library"],
+      "safe_for_live_use": true,
+      "depends_on_any_synthetic_module": false,
+      "adapter_required": true,
+      "runtime_role": "PRIVATE_ENGINE_INTERNAL"
+    },
+    {
+      "capability_name": "certification",
+      "existing_yass_module": "component_b_generator.bkt.certification",
+      "exact_function_or_class": ["certify_skill"],
+      "required_dependencies": ["component_b_generator.bkt.guess_guard.GuessGuardStatus"],
+      "safe_for_live_use": true,
+      "depends_on_any_synthetic_module": false,
+      "adapter_required": true,
+      "runtime_role": "PRIVATE_ENGINE_INTERNAL"
+    },
+    {
+      "capability_name": "session aggregation",
+      "existing_yass_module": "component_b_generator.aggregation.session",
+      "exact_function_or_class": ["aggregate_session", "SessionIdentity", "SkillSessionRollup", "SessionAggregateStats", "SessionAggregationResult"],
+      "required_dependencies": ["pydantic", "models.contracts", "BKT certification/Guess-Guard", "component_b_generator.models.behaviour", "component_b_generator.models.enums", "component_b_generator.models.opportunity"],
+      "safe_for_live_use": true,
+      "depends_on_any_synthetic_module": true,
+      "synthetic_dependency_note": "The aggregation function is live-relevant, but its current input model closure includes research behaviour models. BE3 requires real-attempt DTO adapters and a reviewed minimal closure.",
+      "adapter_required": true,
+      "runtime_role": "PRIVATE_ENGINE_INTERNAL"
+    }
+  ],
+  "explicitly_prohibited_from_application": [
+    "component_b_generator.cohort and cohort/*",
+    "hidden learner truth",
+    "synthetic learner traits",
+    "component_b_generator.behaviour.first_attempt",
+    "component_b_generator.behaviour.latency",
+    "component_b_generator.behaviour.attempt_loop",
+    "component_b_generator.pipeline",
+    "component_b_generator.pilot",
+    "synthetic audits",
+    "dataset-generation entry points",
+    "experiment runners",
+    "simulated answers",
+    "simulated timing or latency"
+  ],
+  "boundary_rules": [
+    "Yass remains the research codebase for synthetic datasets and offline experiments.",
+    "Upadya owns real learner identity, attempts, server timing, persistence, BKT state, hints, sequencing, and progress.",
+    "Upadya may reuse existing deterministic live-safe functions only through a BE3 adapter and immutable reviewed source closure.",
+    "No mathematical formula is copied or rewritten during this inventory.",
+    "The full research-generator wheel must never be installed in the application container."
+  ]
+}

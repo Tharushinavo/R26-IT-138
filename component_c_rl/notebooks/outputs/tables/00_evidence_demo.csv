@@ -1,0 +1,5 @@
+case,recent_correctness_rate,recent_avg_attempts,recent_inactivity_periods,recent_scaffold_use_count,recent_consecutive_error_max,rolling_strain_score,rule_proposes
+only a QUIT (no task completed),0.5,2.0,0,0,2,0.0,hold
+one clean completed task,1.0,1.0,0,0,0,0.0,increase_difficulty
+"quit, then clean task",1.0,1.5,0,0,2,0.2,hold
+8 clean tasks (window = last 5),1.0,1.0,0,0,0,0.0,increase_difficulty

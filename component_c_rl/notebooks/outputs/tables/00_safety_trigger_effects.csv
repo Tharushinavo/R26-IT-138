@@ -1,0 +1,13 @@
+err,strain,decrease_difficulty,hold,increase_difficulty
+0,0.0,decrease_difficulty,hold,increase_difficulty
+0,0.5,decrease_difficulty,hold,increase_difficulty
+0,0.9,decrease_difficulty,decrease_difficulty,decrease_difficulty
+3,0.0,decrease_difficulty,hold,increase_difficulty
+3,0.5,decrease_difficulty,hold,increase_difficulty
+3,0.9,decrease_difficulty,decrease_difficulty,decrease_difficulty
+5,0.0,decrease_difficulty,decrease_difficulty,decrease_difficulty
+5,0.5,decrease_difficulty,decrease_difficulty,decrease_difficulty
+5,0.9,decrease_difficulty,decrease_difficulty,decrease_difficulty
+7,0.0,decrease_difficulty,decrease_difficulty,decrease_difficulty
+7,0.5,decrease_difficulty,decrease_difficulty,decrease_difficulty
+7,0.9,decrease_difficulty,decrease_difficulty,decrease_difficulty

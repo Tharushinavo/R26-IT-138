@@ -1,0 +1,148 @@
+{
+  "schema_version": "1.4",
+  "bundle_version": "c-approved-1.0",
+  "publication_state": "PUBLISHED",
+  "immutable_after_publication": true,
+  "backend_code_version": "0.1.0-be1.3",
+  "database_schema_revision": "20260816_0008",
+  "generator": {
+    "source_identifier": "prabathi-component-c-live-engine",
+    "source_path": "provenance/wheels/prabathi_component_c_live_engine-0.1.0+c3.09267ab-py3-none-any.whl",
+    "checksum": {
+      "algorithm": "sha256",
+      "value": "44ce33511f03a91582f0ade6730ed600ce710ea833cdc3714f7b91f366b298a4"
+    },
+    "interface_version": "c2-test-fixture-1.0"
+  },
+  "catalogue": {
+    "version": "1.0",
+    "checksum": {
+      "algorithm": "sha256",
+      "value": "82004a5fef94528ea1e4187473420453bdfb7e1d3b5ade48ce2bc03486630851"
+    },
+    "approval_status": "PROPOSED_UNSIGNED",
+    "source_status_note": "The catalogue's own literal status, verbatim: 'PROPOSED FOR APPROVAL' (R26-IT-138_Component_C_Game_Task_Catalogue_v1.0.md line 8, prose header) / 'PROPOSED_FOR_APPROVAL' (same file, line 1313, machine-readable YAML status field). No exact match exists in this schema's approvalStatus enum; PROPOSED_UNSIGNED is the nearest true match (see that enum member's own description: 'a cited source specifies this exact value, but that source's own approval/sign-off process has not completed'). The owner's ruling in APPROVAL-2026-08-26-seven-families.md covers the seven parameter families only -- it does not approve this catalogue."
+  },
+  "approval_status": "APPROVED",
+  "selection_configuration": {
+    "version": "c4.0-selection-1.0.0",
+    "checksum": {
+      "algorithm": "sha256",
+      "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "config_version": "c4.0-selection-1.0.0",
+    "parameter_source_status": "APPROVED_FOR_PROVISIONAL_IMPLEMENTATION",
+    "familiarization_window_by_grade": {
+      "source": "APPROVAL-2026-08-26-seven-families.md, Family 1 (Selection) -- approved unconditionally. Field itself not named in Component_C_Generator_v1.0/SPEC.md §8/§9/§10 (no commit hash -- see C-6) -- no SPEC citation exists for the value.",
+      "status": "APPROVED",
+      "value": {
+        "2": 2,
+        "3": 3
+      }
+    },
+    "familiarization_difficulty_level": {
+      "source": "APPROVAL-2026-08-26-seven-families.md, Family 1 (Selection) -- approved unconditionally. Field itself not named in Component_C_Generator_v1.0/SPEC.md §8/§9/§10 (no commit hash -- see C-6) -- no SPEC citation exists for the value.",
+      "status": "APPROVED",
+      "value": 1
+    },
+    "fallback_difficulty_level": {
+      "source": "APPROVAL-2026-08-26-seven-families.md, Family 1 (Selection) -- approved unconditionally. Component_C_Generator_v1.0/SPEC.md §8.2 and §10 (no commit hash -- see C-6): 'C-only fallback -> initial 1' -- cited twice, consistently.",
+      "status": "APPROVED",
+      "value": 1
+    },
+    "familiarization_session_difficulty_cap": {
+      "source": "APPROVAL-2026-08-26-seven-families.md, Family 1 (Selection) -- approved unconditionally. Field itself not named in Component_C_Generator_v1.0/SPEC.md §8/§9/§10 (no commit hash -- see C-6) -- no SPEC citation exists for the value.",
+      "status": "APPROVED",
+      "value": 2
+    },
+    "fallback_difficulty_cap": {
+      "source": "APPROVAL-2026-08-26-seven-families.md, Family 1 (Selection) -- approved unconditionally. Component_C_Generator_v1.0/SPEC.md §8.2 ('fallback_difficulty_cap = 2') and §10 ('session cap 2') (no commit hash -- see C-6) -- cited twice, consistently.",
+      "status": "APPROVED",
+      "value": 2
+    }
+  },
+  "safety_configuration": {
+    "version": "c4.1-safety-1.0.0",
+    "checksum": {
+      "algorithm": "sha256",
+      "value": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    },
+    "config_version": "c4.1-safety-1.0.0",
+    "parameter_source_status": "APPROVED_FOR_PROVISIONAL_IMPLEMENTATION",
+    "consecutive_error_trigger": {
+      "source": "APPROVAL-2026-08-26-seven-families.md, Family 2 (Safety) -- approved unconditionally. Field itself not numerically named in Component_C_Generator_v1.0/SPEC.md §17 (no commit hash -- see C-6) -- qualitative only.",
+      "status": "APPROVED",
+      "value": 5
+    },
+    "strain_trigger": {
+      "source": "APPROVAL-2026-08-26-seven-families.md, Family 2 (Safety) -- approved unconditionally. Field itself not numerically named in Component_C_Generator_v1.0/SPEC.md §17 (no commit hash -- see C-6) -- qualitative only.",
+      "status": "APPROVED",
+      "value": 0.85
+    },
+    "increase_block_window": {
+      "source": "APPROVAL-2026-08-26-seven-families.md, Family 2 (Safety) -- approved unconditionally. Component_C_Generator_v1.0/SPEC.md §17 (no commit hash -- see C-6): 'block future increases for a bounded window' -- qualitative, no numeric window length cited.",
+      "status": "APPROVED",
+      "value": 3
+    },
+    "prior_overloaded_disengaged_cap": {
+      "source": "APPROVAL-2026-08-26-seven-families.md, Family 2 (Safety) -- approved unconditionally. Component_C_Generator_v1.0/SPEC.md §10 (no commit hash -- see C-6): 'prior overloaded/disengaged complete state -> <=2'.",
+      "status": "APPROVED",
+      "value": 2
+    },
+    "safe_termination_error_threshold": {
+      "source": "APPROVAL-2026-08-26-seven-families.md, Family 2 (Safety) -- approved unconditionally. Field itself not numerically named in Component_C_Generator_v1.0/SPEC.md §17 (no commit hash -- see C-6) -- qualitative only.",
+      "status": "APPROVED",
+      "value": 7
+    },
+    "strain_bucket_low_max": {
+      "source": "APPROVAL-2026-08-26-seven-families.md, Family 2 (Safety) -- approved unconditionally. Field itself not named in Component_C_Generator_v1.0/SPEC.md §17 (no commit hash -- see C-6) -- no SPEC citation exists for the value.",
+      "status": "APPROVED",
+      "value": 0.25
+    },
+    "strain_bucket_moderate_max": {
+      "source": "APPROVAL-2026-08-26-seven-families.md, Family 2 (Safety) -- approved unconditionally. Field itself not named in Component_C_Generator_v1.0/SPEC.md §17 (no commit hash -- see C-6) -- no SPEC citation exists for the value.",
+      "status": "APPROVED",
+      "value": 0.50
+    },
+    "strain_bucket_high_max": {
+      "source": "APPROVAL-2026-08-26-seven-families.md, Family 2 (Safety) -- approved unconditionally. Field itself not named in Component_C_Generator_v1.0/SPEC.md §17 (no commit hash -- see C-6) -- no SPEC citation exists for the value.",
+      "status": "APPROVED",
+      "value": 0.85
+    }
+  },
+  "evidence_window_configuration": {
+    "version": "c-evidence-window-1.0.0",
+    "checksum": {
+      "algorithm": "sha256",
+      "value": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    },
+    "config_version": "c-evidence-window-1.0.0",
+    "parameter_source_status": "APPROVED_FOR_PROVISIONAL_IMPLEMENTATION",
+    "recent_window_task_count": {
+      "source": "APPROVAL-2026-08-26-seven-families.md, Family 3 (Evidence Window) -- approved with condition (each retry gets an incrementing attempt_number; see CONNECT Step 5). C Parameters §14: 'recent_success_rate_bucket: over last N=5 completed tasks'.",
+      "status": "APPROVED",
+      "value": 5
+    }
+  },
+  "activation_date": "2026-08-26T00:00:00Z",
+  "compatibility": {
+    "backend_api_major": 1,
+    "generator_interface_version": "c2-test-fixture-1.0",
+    "python_specifier": ">=3.11,<3.12",
+    "database_schema_minimum": "20260816_0008",
+    "supported_grades": [
+      2,
+      3
+    ],
+    "skills": [
+      "counting",
+      "number_sense",
+      "place_value",
+      "addition",
+      "subtraction",
+      "multiplication",
+      "division"
+    ],
+    "required_catalogue_template_count": 30
+  }
+}

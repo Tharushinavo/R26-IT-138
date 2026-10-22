@@ -1,0 +1,9 @@
+evidence field,computation,default when no completed task,source
+recent_correctness_rate,"last N=5 tasks, completed only: share with correct_task",0.5,evidence.py:95-103; N: pipeline/config.py:48
+recent_avg_attempts,last 5 tasks with >=1 attempt: mean total_attempts,1.0,evidence.py:105-109
+recent_inactivity_periods,sum over last 5 tasks,0,evidence.py:111
+recent_scaffold_use_count,sum over last 5 tasks,0,evidence.py:112
+recent_consecutive_error_max,max consecutive_error_max_within_task over last 5 tasks,0,evidence.py:113
+rolling_strain_score,"clamp01(0.5*err/5 + 0.3*excess_attempts/3 + 0.2*quit), err & attempts over last w=3 COMPLETED tasks, quit over last 3 tasks of any kind","0.0 (returns early if none completed, even if a quit occurred)",evidence.py:59-74; w=3 hard-coded L25
+technical_issue_current_task,technical_issue flag of the latest task,from latest task,evidence.py:131
+is_recovery_context / safety_increase_block_remaining / prior_session_end_state,supplied by run_c_session (session.py:283-293),n/a,session.py:284-293

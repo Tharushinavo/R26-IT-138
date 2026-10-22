@@ -1,0 +1,36 @@
+# Local environment and caches -- never committed from anywhere in this tree.
+.venv/
+__pycache__/
+.ipynb_checkpoints/
+.pytest_cache/
+
+# ONLY THE DELIVERABLES ARE TRACKED, and the pattern is deny-then-allow for the same reason
+# `component_c_rl/.gitignore` gives: a deny list has to be extended by hand every time a new
+# directory appears, and the thing that gets forgotten is exactly the thing that should not be
+# published.
+#
+# WHY THIS FILE HAS TO EXIST AT ALL. The repository root's .gitignore ignores `*.md` wholesale and
+# re-includes an allow-list of named files ("Markdown documentation is local-only except the three
+# approved README files"). Without a nested .gitignore here, `README.md`, `BUILDLOG.md` and
+# `DATASET_GUIDE.md` would all be silently untracked -- and `cognitive_dataset.csv` is not matched
+# by any root allow-list either. `component_c_rl` solved this the same way, with its own nested
+# file rather than by extending the root's allow-list; this follows that precedent.
+/*
+!.gitignore
+!README.md
+!BUILDLOG.md
+!DATASET_GUIDE.md
+!manifest.json
+!cognitive_dataset.csv
+!notebooks/
+notebooks/*
+!notebooks/README.md
+!notebooks/*.ipynb
+!notebooks/outputs/
+
+# Model artefacts are NOT tracked. None exists today (see README, "What does not exist"); if B2
+# ever produces one, publishing it is a separate decision with its own approval, not a side effect
+# of dropping a file in this folder.
+*.pkl
+*.joblib
+*.onnx

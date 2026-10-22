@@ -1,0 +1,197 @@
+{
+  "entries": [
+    {
+      "game_task_template_id": "C-BT-01",
+      "prompt_text": "How many tens and how many ones?",
+      "variant_key": null,
+      "variant_value": null
+    },
+    {
+      "game_task_template_id": "C-BT-02",
+      "prompt_text": "How many hundreds, tens and ones?",
+      "variant_key": null,
+      "variant_value": null
+    },
+    {
+      "game_task_template_id": "C-BT-03",
+      "prompt_text": "Change ten ones into one ten. Now how many tens and ones?",
+      "variant_key": null,
+      "variant_value": null
+    },
+    {
+      "game_task_template_id": "C-BT-04",
+      "prompt_text": "Change one ten into ten ones. Now how many tens and ones?",
+      "variant_key": null,
+      "variant_value": null
+    },
+    {
+      "game_task_template_id": "C-CC-01",
+      "prompt_text": "Tap each one time. Then write how many there are.",
+      "variant_key": null,
+      "variant_value": null
+    },
+    {
+      "game_task_template_id": "C-CC-02",
+      "prompt_text": "Tap to put this many in the box.",
+      "variant_key": null,
+      "variant_value": null
+    },
+    {
+      "game_task_template_id": "C-CC-03",
+      "prompt_text": "How many are there? Tap the number.",
+      "variant_key": null,
+      "variant_value": null
+    },
+    {
+      "game_task_template_id": "C-CC-04",
+      "prompt_text": "Look at both pictures. Is the number the same or different?",
+      "variant_key": null,
+      "variant_value": null
+    },
+    {
+      "game_task_template_id": "C-EG-01",
+      "prompt_text": "Make the groups. Put the same number in each group.",
+      "variant_key": null,
+      "variant_value": null
+    },
+    {
+      "game_task_template_id": "C-EG-02",
+      "prompt_text": "Make the rows of squares shown.",
+      "variant_key": "direction",
+      "variant_value": "build"
+    },
+    {
+      "game_task_template_id": "C-EG-02",
+      "prompt_text": "Write a number in each box.",
+      "variant_key": "direction",
+      "variant_value": "read"
+    },
+    {
+      "game_task_template_id": "C-EG-03",
+      "prompt_text": "How many are there in all the groups?",
+      "variant_key": null,
+      "variant_value": null
+    },
+    {
+      "game_task_template_id": "C-JB-01",
+      "prompt_text": "How many are there in both groups?",
+      "variant_key": null,
+      "variant_value": null
+    },
+    {
+      "game_task_template_id": "C-JB-02",
+      "prompt_text": "Use the jump buttons to add. What number do you stop at?",
+      "variant_key": null,
+      "variant_value": null
+    },
+    {
+      "game_task_template_id": "C-JB-03",
+      "prompt_text": "Add the two numbers.",
+      "variant_key": null,
+      "variant_value": null
+    },
+    {
+      "game_task_template_id": "C-JB-04",
+      "prompt_text": "Add the two numbers. Did you change ten ones into a ten?",
+      "variant_key": null,
+      "variant_value": null
+    },
+    {
+      "game_task_template_id": "C-MCL-01",
+      "prompt_text": "How many are there? Tap the number.",
+      "variant_key": null,
+      "variant_value": null
+    },
+    {
+      "game_task_template_id": "C-MCL-02",
+      "prompt_text": "Which side has more? Or are they the same?",
+      "variant_key": null,
+      "variant_value": null
+    },
+    {
+      "game_task_template_id": "C-MCL-03",
+      "prompt_text": "Less than, more than, or the same?",
+      "variant_key": null,
+      "variant_value": null
+    },
+    {
+      "game_task_template_id": "C-MCL-04",
+      "prompt_text": "Tap the buttons to go to the number.",
+      "variant_key": null,
+      "variant_value": null
+    },
+    {
+      "game_task_template_id": "C-NP-01",
+      "prompt_text": "What number comes next?",
+      "variant_key": null,
+      "variant_value": null
+    },
+    {
+      "game_task_template_id": "C-NP-02",
+      "prompt_text": "What number comes just before this one?",
+      "variant_key": null,
+      "variant_value": null
+    },
+    {
+      "game_task_template_id": "C-NP-03",
+      "prompt_text": "Keep counting the same way. What number comes next?",
+      "variant_key": null,
+      "variant_value": null
+    },
+    {
+      "game_task_template_id": "C-NP-04",
+      "prompt_text": "Put these in order. Small to big.",
+      "variant_key": "direction",
+      "variant_value": "ascending"
+    },
+    {
+      "game_task_template_id": "C-NP-04",
+      "prompt_text": "Put these in order. Big to small.",
+      "variant_key": "direction",
+      "variant_value": "descending"
+    },
+    {
+      "game_task_template_id": "C-SF-01",
+      "prompt_text": "Share them equally. How many does each get?",
+      "variant_key": null,
+      "variant_value": null
+    },
+    {
+      "game_task_template_id": "C-SF-02",
+      "prompt_text": "Make equal groups of this size. Show the groups you made.",
+      "variant_key": null,
+      "variant_value": null
+    },
+    {
+      "game_task_template_id": "C-SF-03",
+      "prompt_text": "What is half of this number?",
+      "variant_key": null,
+      "variant_value": null
+    },
+    {
+      "game_task_template_id": "C-TC-01",
+      "prompt_text": "Take away this many. How many are left?",
+      "variant_key": null,
+      "variant_value": null
+    },
+    {
+      "game_task_template_id": "C-TC-02",
+      "prompt_text": "How many more? Or how many fewer?",
+      "variant_key": null,
+      "variant_value": null
+    },
+    {
+      "game_task_template_id": "C-TC-03",
+      "prompt_text": "Take the second number away from the first.",
+      "variant_key": null,
+      "variant_value": null
+    },
+    {
+      "game_task_template_id": "C-TC-04",
+      "prompt_text": "Take the second number away from the first. Did you change a ten into ones?",
+      "variant_key": null,
+      "variant_value": null
+    }
+  ],
+  "label": "TEST_FIXTURE_ONLY"
+}

@@ -1,0 +1,6 @@
+{
+  "checksum_sha256": "c4bd909a624d4b3e1583873790f2f1f97a5a22e3758a2ce12cf834d48897d3be",
+  "contract_version": "v1",
+  "source": "component_c_generator.tasks.registry (installed wheel) via scripts/generate_c_template_registry.py",
+  "wheel_version": "0.1.0+c3.09267ab"
+}

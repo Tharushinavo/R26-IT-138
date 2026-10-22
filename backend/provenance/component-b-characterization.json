@@ -1,0 +1,182 @@
+{
+  "schema_version": "1.0",
+  "component": "B",
+  "generator_git_tree_sha1": "73acb113bbb179f5946333c27b0142c43f3063f3",
+  "dependency_locks": {
+    "windows_python_3_10": {
+      "path": "backend/provenance/requirements-generator-win-py310.lock",
+      "sha256": "27c04928c42688e45d7c82e44d07623c0f7d9c3cee8dd2ab3650532d32d6b04a"
+    },
+    "windows_python_3_11": {
+      "path": "backend/provenance/requirements-generator-win-py311.lock",
+      "sha256": "27c04928c42688e45d7c82e44d07623c0f7d9c3cee8dd2ab3650532d32d6b04a",
+      "byte_identical_to_python_3_10_lock": true,
+      "reason": "The exact-version input and uv-generated complete distribution hash sets are compatible with both Windows CPython targets."
+    }
+  },
+  "full_locked_suite": {
+    "status": "PASSED",
+    "environment": "clean temporary venv created from the hash lock",
+    "python_version": "3.10.20",
+    "started_at_utc": "2026-07-21T19:03:30.4054736Z",
+    "finished_at_utc": "2026-07-21T19:08:23.1680282Z",
+    "wall_duration_seconds": 292.763,
+    "pytest_reported_duration_seconds": 292.09,
+    "collected": 885,
+    "passed": 885,
+    "failed": 0,
+    "skipped": 0,
+    "warnings": 0,
+    "errors": 0,
+    "exit_code": 0
+  },
+  "deterministic_generation": {
+    "status": "PASSED",
+    "config_version": "b1-smoke-0.1.0",
+    "config_hash": "715b2a4200771e8ccea63e88a32884d3f660922ec37abfcc72519c9542974d0b",
+    "global_seed": 20260716,
+    "item_instance_count": 54,
+    "private_output_sha256": "b1d8cb3388ac7e47dd353af68210b24debf3d49791f40a6447ad57f74641926c",
+    "repeated_output_byte_identical": true
+  },
+  "explicit_gate_verification": {
+    "status": "PASSED",
+    "catalogue_total": 36,
+    "implemented": 29,
+    "deferred": 7,
+    "all_seven_deferred_fail_closed": true,
+    "generic_fallback_generated": false,
+    "grade_2_excludes_multiplication_and_division": true,
+    "grade_3_has_all_seven_eligible_skills": true
+  },
+  "focused_behavior_suite": {
+    "status": "PASSED",
+    "started_at_utc": "2026-07-21T19:01:09.2662680Z",
+    "finished_at_utc": "2026-07-21T19:01:11.2943621Z",
+    "wall_duration_seconds": 2.028,
+    "collected": 20,
+    "passed": 20,
+    "failed": 0,
+    "exit_code": 0
+  },
+  "behavior_assertions": {
+    "first_attempt_only_bkt_observation": {
+      "status": "PASSED",
+      "evidence": [
+        "test_orchestrator_first_attempt_only_incorrect_attempt_with_later_retry_success",
+        "test_end_to_end_first_attempt_only_across_multi_opportunity_sweep"
+      ]
+    },
+    "independent_skill_state_no_cross_skill_transfer": {
+      "status": "PASSED",
+      "evidence": "test_orchestrator_single_skill_no_cross_skill_transfer"
+    },
+    "bkt_formulas_reused": {
+      "status": "PASSED",
+      "evidence": "test_orchestrator_fields_equal_direct_bkt_calls"
+    },
+    "sequencing": {
+      "status": "PASSED",
+      "weights": {
+        "mastery_gap": 0.5,
+        "prerequisite_readiness": 0.3,
+        "spacing_due": 0.2
+      },
+      "deterministic_canonical_tie_break": true,
+      "prerequisites_soft": true,
+      "grade_implementation_and_availability_hard": true
+    },
+    "hints": {
+      "status": "PASSED",
+      "all_29_implemented_templates_have_nonblank_l1_l2_l3": true,
+      "missing_or_blank_fails_closed": true,
+      "llm_network_or_paraphrase_fallback": false,
+      "reconstruction_key_includes_catalogue_checksum": true
+    },
+    "guess_guard_and_certification": {
+      "status": "PASSED",
+      "insufficient_evidence_effect": "prevents certification even when mastery is above theta_B",
+      "triggered_effect": "prevents certification",
+      "not_triggered_effect": "permits certification only when mastery is above theta_B",
+      "certification_sticky": false,
+      "recomputed_each_time": true,
+      "evidence": [
+        "test_insufficient_evidence_never_certifies_even_when_mastered",
+        "test_decert_on_contradiction_mastery_drops"
+      ]
+    },
+    "aggregation": {
+      "status": "PASSED",
+      "first_attempt_accuracy": true,
+      "retry_identity": true,
+      "hint_event_and_hint_bearing_opportunity_distinction": true,
+      "non_timeout_response_time_statistics": true,
+      "error_class_distribution": true,
+      "per_skill_mastery_uses_latest_estimate_not_truth": true,
+      "deterministic": true
+    }
+  },
+  "python_3_11_reproduction": {
+    "status": "PASSED",
+    "intended_docker_ci_runtime_baseline": true,
+    "environment": "clean Conda prefix installed from the Python 3.11 hash lock with pip --require-hashes",
+    "environment_path": "C:\\tmp\\component-b-be0-py311-20260722",
+    "python_implementation": "CPython",
+    "python_version": "3.11.15",
+    "operating_system": "Microsoft Windows NT 10.0.26200.0",
+    "architecture": "x64",
+    "pip_version": "26.1.2",
+    "scientific_logic_changed": false,
+    "full_locked_suite": {
+      "status": "PASSED",
+      "started_at_utc": "2026-07-21T19:31:11.0250619Z",
+      "finished_at_utc": "2026-07-21T19:34:18.3879378Z",
+      "pytest_reported_duration_seconds": 192.97,
+      "captured_output_interval_seconds": 187.363,
+      "collected": 885,
+      "passed": 885,
+      "failed": 0,
+      "skipped": 0,
+      "warnings": 0,
+      "errors": 0,
+      "exit_code": 0,
+      "result_summary": "885 passed in 192.97s (0:03:12)",
+      "captured_output_sha256": "e3c7a35695b240b99c957d4f228ff99cf662726a2f5732a38a7489883c45b6eb"
+    },
+    "focused_behavior_suite": {
+      "status": "PASSED",
+      "started_at_utc": "2026-07-21T19:34:45.0324485Z",
+      "finished_at_utc": "2026-07-21T19:34:45.0334473Z",
+      "pytest_reported_duration_seconds": 1.59,
+      "collected": 20,
+      "passed": 20,
+      "failed": 0,
+      "skipped": 0,
+      "warnings": 0,
+      "errors": 0,
+      "exit_code": 0,
+      "captured_output_sha256": "7c5450e4934e30b8485d5cc1b4876c144bae83874402b6094af813a7ce776ed1"
+    },
+    "deterministic_generation": {
+      "status": "PASSED",
+      "config_version": "b1-smoke-0.1.0",
+      "config_hash": "715b2a4200771e8ccea63e88a32884d3f660922ec37abfcc72519c9542974d0b",
+      "global_seed": 20260716,
+      "item_instance_count": 54,
+      "canonical_serialization": "JSON of item_instances model_dump(mode='json'), sort_keys=true, separators=(',', ':')",
+      "private_output_sha256": "b1d8cb3388ac7e47dd353af68210b24debf3d49791f40a6447ad57f74641926c",
+      "repeated_output_byte_identical": true,
+      "matches_python_3_10_private_output": true
+    },
+    "comparison_with_python_3_10": {
+      "same_exact_dependency_versions": true,
+      "same_full_test_count": true,
+      "same_full_pass_fail_skip_warning_counts": true,
+      "same_focused_test_count_and_result": true,
+      "same_config_hash": true,
+      "same_item_instance_count": true,
+      "same_private_output_sha256": true,
+      "compatibility_result": "EQUIVALENT_FOR_CHARACTERIZED_SCOPE"
+    }
+  }
+}

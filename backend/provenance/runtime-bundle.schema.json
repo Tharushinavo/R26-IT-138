@@ -1,0 +1,329 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://upadya.local/schemas/component-b-runtime-bundle-v1.0.schema.json",
+  "title": "Component B Immutable Runtime Bundle",
+  "description": "Manifest for the complete governed Component B runtime selected when a new session starts. Publication makes the record immutable. Existing sessions retain their original bundle; alias activation applies only to new sessions.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "bundle_version",
+    "publication_state",
+    "immutable_after_publication",
+    "backend_code_version",
+    "database_schema_revision",
+    "generator",
+    "catalogue",
+    "bkt_configuration",
+    "certification_configuration",
+    "guess_guard_configuration",
+    "sequencing_configuration",
+    "safe_progress_policy",
+    "attempt_policy",
+    "timeout_policy",
+    "completion_policy",
+    "cold_start_policy",
+    "approval_status",
+    "activation_date",
+    "compatibility"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0"
+    },
+    "bundle_version": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$"
+    },
+    "publication_state": {
+      "type": "string",
+      "enum": [
+        "DRAFT",
+        "PUBLISHED",
+        "RETIRED"
+      ]
+    },
+    "immutable_after_publication": {
+      "const": true,
+      "description": "The persistence and promotion layers must reject mutation after publication. JSON Schema records but cannot itself enforce storage immutability."
+    },
+    "backend_code_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "database_schema_revision": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Alembic revision when available; an explicit unresolved placeholder is permitted only while the bundle remains DRAFT in BE0."
+    },
+    "generator": {
+      "$ref": "#/$defs/sourceArtifact"
+    },
+    "catalogue": {
+      "$ref": "#/$defs/versionedArtifact"
+    },
+    "bkt_configuration": {
+      "$ref": "#/$defs/versionedArtifact"
+    },
+    "certification_configuration": {
+      "$ref": "#/$defs/versionedArtifact"
+    },
+    "guess_guard_configuration": {
+      "$ref": "#/$defs/versionedArtifact"
+    },
+    "sequencing_configuration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "checksum",
+        "approval_status",
+        "weights"
+      ],
+      "properties": {
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "checksum": {
+          "$ref": "#/$defs/checksum"
+        },
+        "approval_status": {
+          "$ref": "#/$defs/approvalStatus"
+        },
+        "weights": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "mastery_gap",
+            "prerequisite_readiness",
+            "spacing_due"
+          ],
+          "properties": {
+            "mastery_gap": {
+              "const": 0.5
+            },
+            "prerequisite_readiness": {
+              "const": 0.3
+            },
+            "spacing_due": {
+              "const": 0.2
+            }
+          }
+        }
+      }
+    },
+    "safe_progress_policy": {
+      "$ref": "#/$defs/versionedArtifact"
+    },
+    "attempt_policy": {
+      "$ref": "#/$defs/versionedArtifact"
+    },
+    "timeout_policy": {
+      "$ref": "#/$defs/versionedArtifact"
+    },
+    "completion_policy": {
+      "$ref": "#/$defs/versionedArtifact"
+    },
+    "cold_start_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "version",
+        "checksum"
+      ],
+      "properties": {
+        "status": {
+          "const": "DISABLED"
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "checksum": {
+          "$ref": "#/$defs/checksum"
+        }
+      }
+    },
+    "approval_status": {
+      "$ref": "#/$defs/approvalStatus"
+    },
+    "activation_date": {
+      "description": "Null while a bundle is an unapproved draft; a published active bundle requires an externally enforced non-null date-time.",
+      "oneOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "compatibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "backend_api_major",
+        "generator_interface_version",
+        "python_specifier",
+        "database_schema_minimum",
+        "supported_grades",
+        "skills",
+        "required_catalogue_template_count"
+      ],
+      "properties": {
+        "backend_api_major": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "generator_interface_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "python_specifier": {
+          "type": "string",
+          "minLength": 1
+        },
+        "database_schema_minimum": {
+          "type": "string",
+          "minLength": 1
+        },
+        "supported_grades": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "const": 2
+            },
+            {
+              "const": 3
+            }
+          ],
+          "items": false,
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "skills": {
+          "type": "array",
+          "prefixItems": [
+            {
+              "const": "counting"
+            },
+            {
+              "const": "number_sense"
+            },
+            {
+              "const": "place_value"
+            },
+            {
+              "const": "addition"
+            },
+            {
+              "const": "subtraction"
+            },
+            {
+              "const": "multiplication"
+            },
+            {
+              "const": "division"
+            }
+          ],
+          "items": false,
+          "minItems": 7,
+          "maxItems": 7
+        },
+        "required_catalogue_template_count": {
+          "const": 36
+        }
+      }
+    }
+  },
+  "$defs": {
+    "approvalStatus": {
+      "type": "string",
+      "enum": [
+        "APPROVED",
+        "APPROVED_FOR_PROVISIONAL_IMPLEMENTATION",
+        "PROVISIONAL",
+        "ENGINEERING_ASSUMPTION",
+        "CALIBRATION_PENDING",
+        "DISABLED",
+        "UNRESOLVED"
+      ]
+    },
+    "checksum": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "algorithm",
+        "value"
+      ],
+      "properties": {
+        "algorithm": {
+          "const": "sha256"
+        },
+        "value": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "sourceArtifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_identifier",
+        "source_path",
+        "checksum",
+        "interface_version"
+      ],
+      "properties": {
+        "source_identifier": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "checksum": {
+          "$ref": "#/$defs/checksum"
+        },
+        "interface_version": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "versionedArtifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "checksum",
+        "approval_status"
+      ],
+      "properties": {
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "checksum": {
+          "$ref": "#/$defs/checksum"
+        },
+        "approval_status": {
+          "$ref": "#/$defs/approvalStatus"
+        }
+      }
+    }
+  },
+  "x-runtime-invariants": [
+    "Published bundles are immutable",
+    "Existing sessions remain pinned to their original bundle",
+    "Activating a new bundle affects only new sessions",
+    "Missing or incompatible required artefacts fail readiness closed",
+    "Cold-start override remains disabled unless separately approved"
+  ]
+}

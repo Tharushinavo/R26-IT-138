@@ -1,0 +1,13 @@
+task,skill,template,difficulty,recovery,scaffold_start,correct,first_try,attempts,terminal,selected,applied,overridden,safety_reason,d_after,strain_bucket,block_left
+1,place_value,C-BT-01,1,False,C0,True,False,2,completed_correct,hold,hold,False,fallback_session_cap,1,low,0
+2,number_sense,C-CC-04,1,False,C0,True,True,1,completed_correct,hold,hold,False,fallback_session_cap,1,low,0
+3,place_value,C-BT-01,1,False,C0,True,False,2,completed_correct,hold,hold,False,fallback_session_cap,1,low,0
+4,subtraction,C-TC-01,1,False,C0,True,True,1,completed_correct,hold,hold,False,fallback_session_cap,1,low,0
+5,addition,C-JB-02,1,False,C0,True,False,2,completed_correct,hold,hold,False,fallback_session_cap,1,low,0
+6,addition,C-JB-02,1,False,C0,True,False,2,completed_correct,hold,hold,False,fallback_session_cap,1,low,0
+7,counting,C-CC-03,1,False,C0,True,True,1,completed_correct,hold,hold,False,fallback_session_cap,1,low,0
+8,subtraction,C-TC-03,1,False,C0,True,True,1,completed_correct,hold,hold,False,fallback_session_cap,1,low,0
+9,counting,C-NP-02,1,False,C0,,,0,technical_issue,hold,hold,False,fallback_session_cap,1,moderate,0
+10,subtraction,C-TC-01,1,False,C0,True,False,2,completed_correct,hold,hold,False,fallback_session_cap,1,moderate,0
+11,counting,C-CC-03,1,False,C0,True,True,1,completed_correct,hold,hold,False,fallback_session_cap,1,moderate,0
+12,place_value,C-BT-01,1,False,C0,True,True,1,completed_correct,increase_difficulty,increase_difficulty,False,fallback_session_cap,2,low,0

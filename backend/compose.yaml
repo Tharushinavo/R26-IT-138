@@ -1,0 +1,130 @@
+name: studentapp
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: studentapp-backend:be1-batch3
+    command: ["uvicorn", "app.main:app", "--host", "${API_HOST:-0.0.0.0}", "--port", "${API_PORT:-8000}", "--workers", "${API_WORKERS:-1}", "--no-access-log"]
+    environment:
+      APP_ENV: ${APP_ENV:-development}
+      BACKEND_CODE_VERSION: ${BACKEND_CODE_VERSION:-0.1.0-be1.3}
+      API_HOST: ${API_HOST:-0.0.0.0}
+      API_PORT: ${API_PORT:-8000}
+      API_WORKERS: ${API_WORKERS:-1}
+      DATABASE_URL: ${DATABASE_URL:-postgresql://studentapp:local-development-only@db:5432/studentapp}
+      # 2026-10-10: ON by default here, overriding the code default of `false`.
+      #
+      # The code default was set to `false` during the backend performance audit, which is correct
+      # for a LOCAL Postgres on the same Docker network -- pre-ping costs a round trip on every
+      # checkout and buys nothing when the server never drops an idle connection.
+      #
+      # It is the wrong default against the SUPABASE POOLER, which this service actually points at.
+      # Supavisor reaps idle connections server-side; without pre-ping SQLAlchemy then hands a
+      # dead connection to a request and the result is a 500 (`ConnectionDoesNotExistError` /
+      # `ConnectionResetError`), not a transparent reconnect. Observed exactly that on
+      # `/api/v1/learner/profile` and `/api/v1/learner/classrooms` immediately after a restart,
+      # where it surfaced in the browser as a CORS error -- a 500 carries no
+      # `Access-Control-Allow-Origin` header, so the real cause is easy to misread.
+      #
+      # `pool_recycle` alone cannot fix this: it bounds how long WE keep a connection, and cannot
+      # detect one the server has already closed. Set to `false` only when pointed at a local
+      # database.
+      DB_POOL_PRE_PING: ${DB_POOL_PRE_PING:-true}
+      DB_POOL_SIZE: ${DB_POOL_SIZE:-5}
+      DB_MAX_OVERFLOW: ${DB_MAX_OVERFLOW:-2}
+      # Below Supavisor's own idle timeout, so a connection is retired by us before it can be
+      # reaped by them. Belt-and-braces with pre-ping above, not a replacement for it.
+      DB_POOL_RECYCLE_SECONDS: ${DB_POOL_RECYCLE_SECONDS:-240}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-http://localhost:3000,http://localhost:8081}
+      SUPABASE_URL: ${SUPABASE_URL:-}
+      SUPABASE_JWT_ISSUER: ${SUPABASE_JWT_ISSUER:-}
+      SUPABASE_JWT_AUDIENCE: ${SUPABASE_JWT_AUDIENCE:-}
+      SUPABASE_JWKS_URL: ${SUPABASE_JWKS_URL:-}
+      SUPABASE_JWKS_CACHE_TTL_SECONDS: ${SUPABASE_JWKS_CACHE_TTL_SECONDS:-300}
+    ports:
+      - "127.0.0.1:${API_PORT:-8000}:${API_PORT:-8000}"
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      # 2026-10-10: widened from 3s/4s. `/health/ready` pings the database, and against the remote
+      # Supabase pooler that round trip legitimately takes several seconds on a degraded link --
+      # measured at 6.2s. The old budget marked a container UNHEALTHY that was serving 200s
+      # correctly, which is a false alarm that also blocks anything gated on `service_healthy`.
+      # The interval is widened too so a slow probe cannot overlap the next one.
+      test: ["CMD", "python", "-c", "import os,urllib.request; urllib.request.urlopen('http://127.0.0.1:'+os.getenv('API_PORT','8000')+'/health/ready', timeout=20)"]
+      interval: 15s
+      timeout: 25s
+      retries: 6
+      start_period: 20s
+    restart: unless-stopped
+    init: true
+    security_opt: ["no-new-privileges:true"]
+
+  # 2026-08-27, cross-cutting test-isolation fix (buildLog2.md, "the entire test suite shares the
+  # dev database" entry). Every `isolated_database()` test helper and Alembic's own env.py read
+  # `get_settings().database_url` -- the SAME connection string `api` uses. Six migration-
+  # reversibility tests (one per backend phase) downgrade the schema and re-upgrade it, which
+  # against a shared database means every real account, classroom, and Component B/C row gets
+  # dropped and recreated empty on every full suite run. `api-test` is `api` with nothing changed
+  # except `DATABASE_URL`, pointed at `studentapp_test` -- a distinct database on the SAME Postgres
+  # server (created once via `CREATE DATABASE studentapp_test OWNER studentapp;`; Alembic will migrate it
+  # to head on first use, the same way 22 test files already call `alembic upgrade head` ad hoc).
+  # `profiles: ["test"]` keeps it from ever starting under a plain `docker compose up` -- it exists
+  # to be `docker compose run --rm --no-deps api-test <command>`, never a long-running service, so
+  # it carries no ports/healthcheck/restart policy of its own.
+  #
+  # THE CANONICAL TEST INVOCATION IS NOW:
+  #   docker compose build api
+  #   docker compose run --rm --no-deps api-test python -m pytest -q
+  # `docker compose run --rm --no-deps api python -m pytest -q` (the old form, still written in
+  # several historical documents) now runs the suite against the DEV database again -- it will
+  # work, and it will silently destroy real dev data exactly as before. Do not use it.
+  api-test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: studentapp-backend:be1-batch3
+    profiles: ["test"]
+    environment:
+      APP_ENV: ${APP_ENV:-development}
+      BACKEND_CODE_VERSION: ${BACKEND_CODE_VERSION:-0.1.0-be1.3}
+      DATABASE_URL: postgresql://studentapp:local-development-only@db:5432/studentapp_test
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      SUPABASE_URL: ${SUPABASE_URL:-}
+      SUPABASE_JWT_ISSUER: ${SUPABASE_JWT_ISSUER:-}
+      SUPABASE_JWT_AUDIENCE: ${SUPABASE_JWT_AUDIENCE:-}
+      SUPABASE_JWKS_URL: ${SUPABASE_JWKS_URL:-}
+      SUPABASE_JWKS_CACHE_TTL_SECONDS: ${SUPABASE_JWKS_CACHE_TTL_SECONDS:-300}
+    depends_on:
+      db:
+        condition: service_healthy
+    security_opt: ["no-new-privileges:true"]
+
+  db:
+    image: postgres:16.10-bookworm@sha256:38471f330eb885e04de130b768d6db4e10469e2311879c7e5c699f6d2d8a1c74
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-studentapp}
+      POSTGRES_USER: ${POSTGRES_USER:-studentapp}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-local-development-only}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      # Runs only when the data directory is empty, so a fresh volume reproduces the full expected
+      # state -- including the isolated `<db>_test` database the suite needs. Previously that
+      # database existed only because someone had typed the CREATE by hand once; removing the
+      # volume silently took it away. See initdb/01-create-test-database.sh.
+      - ./initdb:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 5s
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+    name: studentapp-postgres-data

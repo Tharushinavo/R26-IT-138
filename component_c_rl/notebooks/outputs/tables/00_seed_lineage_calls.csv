@@ -1,0 +1,21 @@
+site,caller,fn,level,key,n_calls,first_args,in_run_c_session
+component_c_generator/behaviour/seeds.py:59,attempt_lineage,derive_child_lineage,attempt,1,14,"(parent, ""attempt"", ""1"")",False
+component_c_generator/behaviour/seeds.py:59,attempt_lineage,derive_child_lineage,attempt,2,7,"(parent, ""attempt"", ""2"")",False
+component_c_generator/behaviour/seeds.py:59,attempt_lineage,derive_child_lineage,attempt,3,3,"(parent, ""attempt"", ""3"")",False
+component_c_generator/behaviour/seeds.py:59,attempt_lineage,derive_child_lineage,attempt,4,3,"(parent, ""attempt"", ""4"")",False
+component_c_generator/behaviour/seeds.py:59,attempt_lineage,derive_child_lineage,attempt,5,3,"(parent, ""attempt"", ""5"")",False
+component_c_generator/behaviour/seeds.py:63,_decision,derive_child_lineage,action_choice,1,30,"(parent, ""action_choice"", ""1"")",False
+component_c_generator/behaviour/seeds.py:63,_decision,derive_child_lineage,latency,1,30,"(parent, ""latency"", ""1"")",False
+component_c_generator/behaviour/seeds.py:63,_decision,derive_child_lineage,pause,1,30,"(parent, ""pause"", ""1"")",False
+component_c_generator/behaviour/seeds.py:63,_decision,derive_child_lineage,quit,1,30,"(parent, ""quit"", ""1"")",False
+component_c_generator/behaviour/seeds.py:63,_decision,derive_child_lineage,scaffold_request,1,30,"(parent, ""scaffold_request"", ""1"")",False
+component_c_generator/behaviour/seeds.py:63,_decision,derive_child_lineage,skip,1,14,"(parent, ""skip"", ""1"")",False
+component_c_generator/behaviour/seeds.py:63,_decision,derive_child_lineage,technical_issue,1,30,"(parent, ""technical_issue"", ""1"")",False
+component_c_generator/generation.py:76,build_task_instance,derive_child_lineage,game_task_instance,1,25,"(parent, ""game_task_instance"", ""1"")",False
+component_c_generator/pipeline/session.py:171,run_c_session,SeedManager.component_c_session,component_c_session,,4,"(student_id=STU-0001, intervention_session_number=3, c_session_index=1)",True
+component_c_generator/pipeline/session.py:176,run_c_session,SeedManager.task_opportunity,task_opportunity,,15,"(student_id=STU-0001, intervention_session_number=3, c_session_index=1, task_index=1)",True
+component_c_generator/pipeline/session.py:240,run_c_session,SeedManager.gameplay_process,gameplay_process,,15,"(student_id=STU-0001, intervention_session_number=3, c_session_index=1, task_index=1, instance_index=1, process_index=1)",True
+component_c_generator/pipeline/session.py:305,run_c_session,derive_child_lineage,policy_decision,1,14,"(parent, ""policy_decision"", ""1"")",True
+component_c_generator/selection/selector.py:219,select_task,derive_child_lineage,selection_skill,1,14,"(parent, ""selection_skill"", ""1"")",False
+component_c_generator/selection/selector.py:220,select_task,derive_child_lineage,selection_template,1,14,"(parent, ""selection_template"", ""1"")",False
+component_c_generator/selection/selector.py:224,select_task,derive_child_lineage,selection_rotation,1,3,"(parent, ""selection_rotation"", ""1"")",False

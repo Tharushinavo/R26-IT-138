@@ -1,0 +1,116 @@
+{
+  "schema_version": "1.0",
+  "bundle_version": "be3b-test-fixture-1.0",
+  "publication_state": "DRAFT",
+  "immutable_after_publication": true,
+  "backend_code_version": "0.1.0-be3b-test-fixture",
+  "database_schema_revision": "UNRESOLVED_PLACEHOLDER_BE3B_TEST_FIXTURE",
+  "generator": {
+    "source_identifier": "upadya-component-b-live-engine",
+    "source_path": "provenance/wheels/upadya_component_b_live_engine-0.1.0+bf5.09267ab-py3-none-any.whl",
+    "checksum": {
+      "algorithm": "sha256",
+      "value": "ebcd287bf89737645d27af0f812f357db957f343140a5599a8ff731690a88402"
+    },
+    "interface_version": "be3-1.0"
+  },
+  "catalogue": {
+    "version": "TEST-FIXTURE-1.0",
+    "checksum": {
+      "algorithm": "sha256",
+      "value": "cc02014d9abcb5f14d802199e474e997599481fa5ebe10370f73bafa9008d3e0"
+    },
+    "approval_status": "CALIBRATION_PENDING"
+  },
+  "certification_configuration": {
+    "version": "be3b-test-fixture-1.0",
+    "checksum": {
+      "algorithm": "sha256",
+      "value": "2222222222222222222222222222222222222222222222222222222222222222"
+    },
+    "approval_status": "CALIBRATION_PENDING"
+  },
+  "guess_guard_configuration": {
+    "version": "be3b-test-fixture-1.0",
+    "checksum": {
+      "algorithm": "sha256",
+      "value": "3333333333333333333333333333333333333333333333333333333333333333"
+    },
+    "approval_status": "CALIBRATION_PENDING"
+  },
+  "sequencing_configuration": {
+    "version": "be3b-test-fixture-1.0",
+    "checksum": {
+      "algorithm": "sha256",
+      "value": "4444444444444444444444444444444444444444444444444444444444444444"
+    },
+    "approval_status": "ENGINEERING_ASSUMPTION",
+    "weights": {
+      "mastery_gap": 0.5,
+      "prerequisite_readiness": 0.3,
+      "spacing_due": 0.2
+    }
+  },
+  "safe_progress_policy": {
+    "version": "be3b-test-fixture-1.0",
+    "checksum": {
+      "algorithm": "sha256",
+      "value": "5555555555555555555555555555555555555555555555555555555555555555"
+    },
+    "approval_status": "CALIBRATION_PENDING"
+  },
+  "attempt_policy": {
+    "version": "be3b-test-fixture-1.0",
+    "checksum": {
+      "algorithm": "sha256",
+      "value": "6666666666666666666666666666666666666666666666666666666666666666"
+    },
+    "approval_status": "CALIBRATION_PENDING"
+  },
+  "timeout_policy": {
+    "version": "be3b-test-fixture-1.0",
+    "checksum": {
+      "algorithm": "sha256",
+      "value": "7777777777777777777777777777777777777777777777777777777777777777"
+    },
+    "approval_status": "CALIBRATION_PENDING"
+  },
+  "completion_policy": {
+    "version": "be3b-test-fixture-1.0",
+    "checksum": {
+      "algorithm": "sha256",
+      "value": "8888888888888888888888888888888888888888888888888888888888888888"
+    },
+    "approval_status": "CALIBRATION_PENDING"
+  },
+  "cold_start_policy": {
+    "status": "DISABLED",
+    "version": "be3b-test-fixture-1.0",
+    "checksum": {
+      "algorithm": "sha256",
+      "value": "9999999999999999999999999999999999999999999999999999999999999999"
+    }
+  },
+  "approval_status": "CALIBRATION_PENDING",
+  "activation_date": null,
+  "compatibility": {
+    "backend_api_major": 1,
+    "generator_interface_version": "be3-1.0",
+    "python_specifier": ">=3.11,<3.12",
+    "database_schema_minimum": "UNRESOLVED_PLACEHOLDER_BE3B_TEST_FIXTURE",
+    "supported_grades": [
+      2,
+      3
+    ],
+    "skills": [
+      "counting",
+      "number_sense",
+      "place_value",
+      "addition",
+      "subtraction",
+      "multiplication",
+      "division"
+    ],
+    "required_catalogue_template_count": 36
+  }
+}

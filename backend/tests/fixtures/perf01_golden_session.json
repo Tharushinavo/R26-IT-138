@@ -1,0 +1,3817 @@
+{
+ "responses": [
+  {
+   "blanks": null,
+   "c_task_instance_id": "<uuid-1>",
+   "difficulty_level": 1,
+   "game_family_id": "C-GF-01",
+   "game_task_template_id": "C-CC-03",
+   "interactive_assets": {},
+   "prompt_payload": {
+    "numeral_options": [
+     3,
+     5
+    ],
+    "set_size": 3
+   },
+   "prompt_text": "How many are there? Tap the number.",
+   "representation_mode": "pictorial_objects",
+   "request_id": "req-<uuid-2>",
+   "scaffold_state": "C0",
+   "skill_id": "counting",
+   "task_index": 1,
+   "technical_status": "OK",
+   "valid_action_space": {
+    "selected_numeral": "int"
+   }
+  },
+  {
+   "c_task_instance_id": "<uuid-1>",
+   "request_id": "req-<uuid-3>",
+   "response_matched": false,
+   "scaffold_level": "C1"
+  },
+  {
+   "c_task_instance_id": "<uuid-1>",
+   "request_id": "req-<uuid-4>",
+   "response_matched": true,
+   "scaffold_level": "C0"
+  },
+  {
+   "blanks": null,
+   "c_task_instance_id": "<uuid-5>",
+   "difficulty_level": 1,
+   "game_family_id": "C-GF-06",
+   "game_task_template_id": "C-TC-03",
+   "interactive_assets": {},
+   "prompt_payload": {
+    "minuend": 9,
+    "subtrahend": 1
+   },
+   "prompt_text": "Take the second number away from the first.",
+   "representation_mode": "symbolic",
+   "request_id": "req-<uuid-6>",
+   "scaffold_state": "C0",
+   "skill_id": "subtraction",
+   "task_index": 2,
+   "technical_status": "OK",
+   "valid_action_space": {
+    "submitted_difference": "int"
+   }
+  },
+  {
+   "c_task_instance_id": "<uuid-5>",
+   "request_id": "req-<uuid-7>",
+   "response_matched": true,
+   "scaffold_level": "C0"
+  },
+  {
+   "blanks": null,
+   "c_task_instance_id": "<uuid-8>",
+   "difficulty_level": 1,
+   "game_family_id": "C-GF-04",
+   "game_task_template_id": "C-BT-01",
+   "interactive_assets": {},
+   "prompt_payload": {
+    "target_number": 14
+   },
+   "prompt_text": "How many tens and how many ones?",
+   "representation_mode": "symbolic",
+   "request_id": "req-<uuid-9>",
+   "scaffold_state": "C0",
+   "skill_id": "place_value",
+   "task_index": 3,
+   "technical_status": "OK",
+   "valid_action_space": {
+    "ones": "int",
+    "tens": "int"
+   }
+  },
+  {
+   "c_task_instance_id": "<uuid-8>",
+   "request_id": "req-<uuid-10>",
+   "response_matched": false,
+   "scaffold_level": "C1"
+  },
+  {
+   "c_task_instance_id": "<uuid-8>",
+   "request_id": "req-<uuid-11>",
+   "response_matched": true,
+   "scaffold_level": "C0"
+  },
+  {
+   "blanks": null,
+   "c_task_instance_id": "<uuid-12>",
+   "difficulty_level": 2,
+   "game_family_id": "C-GF-04",
+   "game_task_template_id": "C-BT-01",
+   "interactive_assets": {},
+   "prompt_payload": {
+    "target_number": 10
+   },
+   "prompt_text": "How many tens and how many ones?",
+   "representation_mode": "place_value_chart",
+   "request_id": "req-<uuid-13>",
+   "scaffold_state": "C0",
+   "skill_id": "place_value",
+   "task_index": 4,
+   "technical_status": "OK",
+   "valid_action_space": {
+    "ones": "int",
+    "tens": "int"
+   }
+  },
+  {
+   "c_task_instance_id": "<uuid-12>",
+   "request_id": "req-<uuid-14>",
+   "response_matched": true,
+   "scaffold_level": "C0"
+  },
+  {
+   "blanks": null,
+   "c_task_instance_id": "<uuid-15>",
+   "difficulty_level": 1,
+   "game_family_id": "C-GF-05",
+   "game_task_template_id": "C-JB-02",
+   "interactive_assets": {},
+   "prompt_payload": {
+    "addend_a": 1,
+    "addend_b": 2,
+    "start": 2
+   },
+   "prompt_text": "Use the jump buttons to add. What number do you stop at?",
+   "representation_mode": "number_line",
+   "request_id": "req-<uuid-16>",
+   "scaffold_state": "C0",
+   "skill_id": "addition",
+   "task_index": 5,
+   "technical_status": "OK",
+   "valid_action_space": {
+    "final_position": "int",
+    "jumps": "list[int]"
+   }
+  },
+  {
+   "c_task_instance_id": "<uuid-15>",
+   "request_id": "req-<uuid-17>",
+   "response_matched": false,
+   "scaffold_level": "C1"
+  },
+  {
+   "c_task_instance_id": "<uuid-15>",
+   "request_id": "req-<uuid-18>",
+   "response_matched": true,
+   "scaffold_level": "C0"
+  },
+  {
+   "blanks": null,
+   "c_task_instance_id": "<uuid-19>",
+   "difficulty_level": 2,
+   "game_family_id": "C-GF-05",
+   "game_task_template_id": "C-JB-03",
+   "interactive_assets": {},
+   "prompt_payload": {
+    "addend_a": 2,
+    "addend_b": 5
+   },
+   "prompt_text": "Add the two numbers.",
+   "representation_mode": "ten_frame",
+   "request_id": "req-<uuid-20>",
+   "scaffold_state": "C0",
+   "skill_id": "addition",
+   "task_index": 6,
+   "technical_status": "OK",
+   "valid_action_space": {
+    "submitted_sum": "int"
+   }
+  },
+  {
+   "c_task_instance_id": "<uuid-19>",
+   "request_id": "req-<uuid-21>",
+   "response_matched": true,
+   "scaffold_level": "C0"
+  },
+  {
+   "blanks": null,
+   "c_task_instance_id": "<uuid-22>",
+   "difficulty_level": 1,
+   "game_family_id": "C-GF-04",
+   "game_task_template_id": "C-BT-01",
+   "interactive_assets": {},
+   "prompt_payload": {
+    "target_number": 20
+   },
+   "prompt_text": "How many tens and how many ones?",
+   "representation_mode": "base_ten_blocks",
+   "request_id": "req-<uuid-23>",
+   "scaffold_state": "C0",
+   "skill_id": "place_value",
+   "task_index": 7,
+   "technical_status": "OK",
+   "valid_action_space": {
+    "ones": "int",
+    "tens": "int"
+   }
+  },
+  {
+   "c_task_instance_id": "<uuid-22>",
+   "request_id": "req-<uuid-24>",
+   "response_matched": false,
+   "scaffold_level": "C1"
+  },
+  {
+   "c_task_instance_id": "<uuid-22>",
+   "request_id": "req-<uuid-25>",
+   "response_matched": true,
+   "scaffold_level": "C0"
+  },
+  {
+   "blanks": null,
+   "c_task_instance_id": "<uuid-26>",
+   "difficulty_level": 2,
+   "game_family_id": "C-GF-01",
+   "game_task_template_id": "C-CC-01",
+   "interactive_assets": {},
+   "prompt_payload": {
+    "distractor_object_ids": [
+     "dist-0"
+    ],
+    "valid_object_ids": [
+     "obj-0",
+     "obj-1",
+     "obj-2",
+     "obj-3",
+     "obj-4"
+    ]
+   },
+   "prompt_text": "Tap each one time. Then write how many there are.",
+   "representation_mode": "pictorial_objects",
+   "request_id": "req-<uuid-27>",
+   "scaffold_state": "C0",
+   "skill_id": "counting",
+   "task_index": 8,
+   "technical_status": "OK",
+   "valid_action_space": {
+    "selected_object_ids": "list[str]",
+    "submitted_total": "int"
+   }
+  },
+  {
+   "c_task_instance_id": "<uuid-26>",
+   "request_id": "req-<uuid-28>",
+   "response_matched": true,
+   "scaffold_level": "C0"
+  }
+ ],
+ "rows": {
+  "c_gameplay_events": [
+   {
+    "action_payload": {
+     "final_position": 3,
+     "jumps": [
+      1
+     ]
+    },
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "attempt_number": 2,
+    "before_reference_or_version": null,
+    "config_checksum": "641965f250f5bbc41f6907e0230c9dd77d32449dede466f73794f57a4f956144",
+    "environment": "live-endpoint",
+    "evaluation_payload": null,
+    "event_index": 5,
+    "event_timestamp_relative_ms": 4,
+    "event_type": "answer_submitted",
+    "generator_version": "c2.1-generation-1.0.0",
+    "operation_or_event_type": "c_task.action_submitted",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_gameplay_event",
+    "scaffold_code": null,
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "5"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 5817349253605712068,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 5,
+    "technical_flag": false,
+    "terminal_reason": null
+   },
+   {
+    "action_payload": {
+     "final_position": -999999,
+     "jumps": []
+    },
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "attempt_number": 1,
+    "before_reference_or_version": null,
+    "config_checksum": "641965f250f5bbc41f6907e0230c9dd77d32449dede466f73794f57a4f956144",
+    "environment": "live-endpoint",
+    "evaluation_payload": null,
+    "event_index": 3,
+    "event_timestamp_relative_ms": 2,
+    "event_type": "answer_submitted",
+    "generator_version": "c2.1-generation-1.0.0",
+    "operation_or_event_type": "c_task.action_submitted",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_gameplay_event",
+    "scaffold_code": null,
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "5"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 5817349253605712068,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 5,
+    "technical_flag": false,
+    "terminal_reason": null
+   },
+   {
+    "action_payload": {
+     "ones": -999999,
+     "tens": -999999
+    },
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "attempt_number": 1,
+    "before_reference_or_version": null,
+    "config_checksum": "641965f250f5bbc41f6907e0230c9dd77d32449dede466f73794f57a4f956144",
+    "environment": "live-endpoint",
+    "evaluation_payload": null,
+    "event_index": 3,
+    "event_timestamp_relative_ms": 2,
+    "event_type": "answer_submitted",
+    "generator_version": "c2.1-generation-1.0.0",
+    "operation_or_event_type": "c_task.action_submitted",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_gameplay_event",
+    "scaffold_code": null,
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "3"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 7544044875455767372,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 3,
+    "technical_flag": false,
+    "terminal_reason": null
+   },
+   {
+    "action_payload": {
+     "ones": -999999,
+     "tens": -999999
+    },
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "attempt_number": 1,
+    "before_reference_or_version": null,
+    "config_checksum": "641965f250f5bbc41f6907e0230c9dd77d32449dede466f73794f57a4f956144",
+    "environment": "live-endpoint",
+    "evaluation_payload": null,
+    "event_index": 3,
+    "event_timestamp_relative_ms": 2,
+    "event_type": "answer_submitted",
+    "generator_version": "c2.1-generation-1.0.0",
+    "operation_or_event_type": "c_task.action_submitted",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_gameplay_event",
+    "scaffold_code": null,
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "7"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 572452355626147323,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 7,
+    "technical_flag": false,
+    "terminal_reason": null
+   },
+   {
+    "action_payload": {
+     "ones": 0,
+     "tens": 1
+    },
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "attempt_number": 1,
+    "before_reference_or_version": null,
+    "config_checksum": "641965f250f5bbc41f6907e0230c9dd77d32449dede466f73794f57a4f956144",
+    "environment": "live-endpoint",
+    "evaluation_payload": null,
+    "event_index": 3,
+    "event_timestamp_relative_ms": 2,
+    "event_type": "answer_submitted",
+    "generator_version": "c2.1-generation-1.0.0",
+    "operation_or_event_type": "c_task.action_submitted",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_gameplay_event",
+    "scaffold_code": null,
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "4"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 1867994231801007178,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 4,
+    "technical_flag": false,
+    "terminal_reason": null
+   },
+   {
+    "action_payload": {
+     "ones": 0,
+     "tens": 2
+    },
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "attempt_number": 2,
+    "before_reference_or_version": null,
+    "config_checksum": "641965f250f5bbc41f6907e0230c9dd77d32449dede466f73794f57a4f956144",
+    "environment": "live-endpoint",
+    "evaluation_payload": null,
+    "event_index": 5,
+    "event_timestamp_relative_ms": 4,
+    "event_type": "answer_submitted",
+    "generator_version": "c2.1-generation-1.0.0",
+    "operation_or_event_type": "c_task.action_submitted",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_gameplay_event",
+    "scaffold_code": null,
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "7"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 572452355626147323,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 7,
+    "technical_flag": false,
+    "terminal_reason": null
+   },
+   {
+    "action_payload": {
+     "ones": 4,
+     "tens": 1
+    },
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "attempt_number": 2,
+    "before_reference_or_version": null,
+    "config_checksum": "641965f250f5bbc41f6907e0230c9dd77d32449dede466f73794f57a4f956144",
+    "environment": "live-endpoint",
+    "evaluation_payload": null,
+    "event_index": 5,
+    "event_timestamp_relative_ms": 4,
+    "event_type": "answer_submitted",
+    "generator_version": "c2.1-generation-1.0.0",
+    "operation_or_event_type": "c_task.action_submitted",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_gameplay_event",
+    "scaffold_code": null,
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "3"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 7544044875455767372,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 3,
+    "technical_flag": false,
+    "terminal_reason": null
+   },
+   {
+    "action_payload": {
+     "selected_numeral": -999999
+    },
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "attempt_number": 1,
+    "before_reference_or_version": null,
+    "config_checksum": "641965f250f5bbc41f6907e0230c9dd77d32449dede466f73794f57a4f956144",
+    "environment": "live-endpoint",
+    "evaluation_payload": null,
+    "event_index": 3,
+    "event_timestamp_relative_ms": 2,
+    "event_type": "answer_submitted",
+    "generator_version": "c2.1-generation-1.0.0",
+    "operation_or_event_type": "c_task.action_submitted",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_gameplay_event",
+    "scaffold_code": null,
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "1"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 506368445209501345,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 1,
+    "technical_flag": false,
+    "terminal_reason": null
+   },
+   {
+    "action_payload": {
+     "selected_numeral": 3
+    },
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "attempt_number": 2,
+    "before_reference_or_version": null,
+    "config_checksum": "641965f250f5bbc41f6907e0230c9dd77d32449dede466f73794f57a4f956144",
+    "environment": "live-endpoint",
+    "evaluation_payload": null,
+    "event_index": 5,
+    "event_timestamp_relative_ms": 4,
+    "event_type": "answer_submitted",
+    "generator_version": "c2.1-generation-1.0.0",
+    "operation_or_event_type": "c_task.action_submitted",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_gameplay_event",
+    "scaffold_code": null,
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "1"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 506368445209501345,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 1,
+    "technical_flag": false,
+    "terminal_reason": null
+   },
+   {
+    "action_payload": {
+     "submitted_difference": 8
+    },
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "attempt_number": 1,
+    "before_reference_or_version": null,
+    "config_checksum": "641965f250f5bbc41f6907e0230c9dd77d32449dede466f73794f57a4f956144",
+    "environment": "live-endpoint",
+    "evaluation_payload": null,
+    "event_index": 3,
+    "event_timestamp_relative_ms": 2,
+    "event_type": "answer_submitted",
+    "generator_version": "c2.1-generation-1.0.0",
+    "operation_or_event_type": "c_task.action_submitted",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_gameplay_event",
+    "scaffold_code": null,
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "2"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 930826500554644410,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 2,
+    "technical_flag": false,
+    "terminal_reason": null
+   },
+   {
+    "action_payload": {
+     "submitted_sum": 7
+    },
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "attempt_number": 1,
+    "before_reference_or_version": null,
+    "config_checksum": "641965f250f5bbc41f6907e0230c9dd77d32449dede466f73794f57a4f956144",
+    "environment": "live-endpoint",
+    "evaluation_payload": null,
+    "event_index": 3,
+    "event_timestamp_relative_ms": 2,
+    "event_type": "answer_submitted",
+    "generator_version": "c2.1-generation-1.0.0",
+    "operation_or_event_type": "c_task.action_submitted",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_gameplay_event",
+    "scaffold_code": null,
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "6"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 7812106633422019386,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 6,
+    "technical_flag": false,
+    "terminal_reason": null
+   },
+   {
+    "action_payload": {
+     "selected_object_ids": [
+      "obj-0",
+      "obj-1",
+      "obj-2",
+      "obj-3",
+      "obj-4"
+     ],
+     "submitted_total": 5
+    },
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "attempt_number": 1,
+    "before_reference_or_version": null,
+    "config_checksum": "641965f250f5bbc41f6907e0230c9dd77d32449dede466f73794f57a4f956144",
+    "environment": "live-endpoint",
+    "evaluation_payload": null,
+    "event_index": 3,
+    "event_timestamp_relative_ms": 2,
+    "event_type": "answer_submitted",
+    "generator_version": "c2.1-generation-1.0.0",
+    "operation_or_event_type": "c_task.action_submitted",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_gameplay_event",
+    "scaffold_code": null,
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "8"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 3302973652761841172,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 8,
+    "technical_flag": false,
+    "terminal_reason": null
+   },
+   {
+    "action_payload": null,
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "attempt_number": 1,
+    "before_reference_or_version": null,
+    "config_checksum": "641965f250f5bbc41f6907e0230c9dd77d32449dede466f73794f57a4f956144",
+    "environment": "live-endpoint",
+    "evaluation_payload": {
+     "is_correct": false
+    },
+    "event_index": 4,
+    "event_timestamp_relative_ms": 3,
+    "event_type": "answer_evaluated",
+    "generator_version": "c2.1-generation-1.0.0",
+    "operation_or_event_type": "c_task.action_evaluated",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_gameplay_event",
+    "scaffold_code": null,
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "1"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 506368445209501345,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 1,
+    "technical_flag": false,
+    "terminal_reason": null
+   },
+   {
+    "action_payload": null,
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "attempt_number": 1,
+    "before_reference_or_version": null,
+    "config_checksum": "641965f250f5bbc41f6907e0230c9dd77d32449dede466f73794f57a4f956144",
+    "environment": "live-endpoint",
+    "evaluation_payload": {
+     "is_correct": false
+    },
+    "event_index": 4,
+    "event_timestamp_relative_ms": 3,
+    "event_type": "answer_evaluated",
+    "generator_version": "c2.1-generation-1.0.0",
+    "operation_or_event_type": "c_task.action_evaluated",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_gameplay_event",
+    "scaffold_code": null,
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "3"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 7544044875455767372,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 3,
+    "technical_flag": false,
+    "terminal_reason": null
+   },
+   {
+    "action_payload": null,
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "attempt_number": 1,
+    "before_reference_or_version": null,
+    "config_checksum": "641965f250f5bbc41f6907e0230c9dd77d32449dede466f73794f57a4f956144",
+    "environment": "live-endpoint",
+    "evaluation_payload": {
+     "is_correct": false
+    },
+    "event_index": 4,
+    "event_timestamp_relative_ms": 3,
+    "event_type": "answer_evaluated",
+    "generator_version": "c2.1-generation-1.0.0",
+    "operation_or_event_type": "c_task.action_evaluated",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_gameplay_event",
+    "scaffold_code": null,
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "5"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 5817349253605712068,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 5,
+    "technical_flag": false,
+    "terminal_reason": null
+   },
+   {
+    "action_payload": null,
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "attempt_number": 1,
+    "before_reference_or_version": null,
+    "config_checksum": "641965f250f5bbc41f6907e0230c9dd77d32449dede466f73794f57a4f956144",
+    "environment": "live-endpoint",
+    "evaluation_payload": {
+     "is_correct": false
+    },
+    "event_index": 4,
+    "event_timestamp_relative_ms": 3,
+    "event_type": "answer_evaluated",
+    "generator_version": "c2.1-generation-1.0.0",
+    "operation_or_event_type": "c_task.action_evaluated",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_gameplay_event",
+    "scaffold_code": null,
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "7"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 572452355626147323,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 7,
+    "technical_flag": false,
+    "terminal_reason": null
+   },
+   {
+    "action_payload": null,
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "attempt_number": 1,
+    "before_reference_or_version": null,
+    "config_checksum": "641965f250f5bbc41f6907e0230c9dd77d32449dede466f73794f57a4f956144",
+    "environment": "live-endpoint",
+    "evaluation_payload": {
+     "is_correct": true
+    },
+    "event_index": 4,
+    "event_timestamp_relative_ms": 3,
+    "event_type": "answer_evaluated",
+    "generator_version": "c2.1-generation-1.0.0",
+    "operation_or_event_type": "c_task.action_evaluated",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_gameplay_event",
+    "scaffold_code": null,
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "2"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 930826500554644410,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 2,
+    "technical_flag": false,
+    "terminal_reason": null
+   },
+   {
+    "action_payload": null,
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "attempt_number": 1,
+    "before_reference_or_version": null,
+    "config_checksum": "641965f250f5bbc41f6907e0230c9dd77d32449dede466f73794f57a4f956144",
+    "environment": "live-endpoint",
+    "evaluation_payload": {
+     "is_correct": true
+    },
+    "event_index": 4,
+    "event_timestamp_relative_ms": 3,
+    "event_type": "answer_evaluated",
+    "generator_version": "c2.1-generation-1.0.0",
+    "operation_or_event_type": "c_task.action_evaluated",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_gameplay_event",
+    "scaffold_code": null,
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "4"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 1867994231801007178,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 4,
+    "technical_flag": false,
+    "terminal_reason": null
+   },
+   {
+    "action_payload": null,
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "attempt_number": 1,
+    "before_reference_or_version": null,
+    "config_checksum": "641965f250f5bbc41f6907e0230c9dd77d32449dede466f73794f57a4f956144",
+    "environment": "live-endpoint",
+    "evaluation_payload": {
+     "is_correct": true
+    },
+    "event_index": 4,
+    "event_timestamp_relative_ms": 3,
+    "event_type": "answer_evaluated",
+    "generator_version": "c2.1-generation-1.0.0",
+    "operation_or_event_type": "c_task.action_evaluated",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_gameplay_event",
+    "scaffold_code": null,
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "6"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 7812106633422019386,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 6,
+    "technical_flag": false,
+    "terminal_reason": null
+   },
+   {
+    "action_payload": null,
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "attempt_number": 1,
+    "before_reference_or_version": null,
+    "config_checksum": "641965f250f5bbc41f6907e0230c9dd77d32449dede466f73794f57a4f956144",
+    "environment": "live-endpoint",
+    "evaluation_payload": {
+     "is_correct": true
+    },
+    "event_index": 4,
+    "event_timestamp_relative_ms": 3,
+    "event_type": "answer_evaluated",
+    "generator_version": "c2.1-generation-1.0.0",
+    "operation_or_event_type": "c_task.action_evaluated",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_gameplay_event",
+    "scaffold_code": null,
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "8"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 3302973652761841172,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 8,
+    "technical_flag": false,
+    "terminal_reason": null
+   },
+   {
+    "action_payload": null,
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "attempt_number": 2,
+    "before_reference_or_version": null,
+    "config_checksum": "641965f250f5bbc41f6907e0230c9dd77d32449dede466f73794f57a4f956144",
+    "environment": "live-endpoint",
+    "evaluation_payload": {
+     "is_correct": true
+    },
+    "event_index": 6,
+    "event_timestamp_relative_ms": 5,
+    "event_type": "answer_evaluated",
+    "generator_version": "c2.1-generation-1.0.0",
+    "operation_or_event_type": "c_task.action_evaluated",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_gameplay_event",
+    "scaffold_code": null,
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "1"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 506368445209501345,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 1,
+    "technical_flag": false,
+    "terminal_reason": null
+   },
+   {
+    "action_payload": null,
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "attempt_number": 2,
+    "before_reference_or_version": null,
+    "config_checksum": "641965f250f5bbc41f6907e0230c9dd77d32449dede466f73794f57a4f956144",
+    "environment": "live-endpoint",
+    "evaluation_payload": {
+     "is_correct": true
+    },
+    "event_index": 6,
+    "event_timestamp_relative_ms": 5,
+    "event_type": "answer_evaluated",
+    "generator_version": "c2.1-generation-1.0.0",
+    "operation_or_event_type": "c_task.action_evaluated",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_gameplay_event",
+    "scaffold_code": null,
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "3"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 7544044875455767372,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 3,
+    "technical_flag": false,
+    "terminal_reason": null
+   },
+   {
+    "action_payload": null,
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "attempt_number": 2,
+    "before_reference_or_version": null,
+    "config_checksum": "641965f250f5bbc41f6907e0230c9dd77d32449dede466f73794f57a4f956144",
+    "environment": "live-endpoint",
+    "evaluation_payload": {
+     "is_correct": true
+    },
+    "event_index": 6,
+    "event_timestamp_relative_ms": 5,
+    "event_type": "answer_evaluated",
+    "generator_version": "c2.1-generation-1.0.0",
+    "operation_or_event_type": "c_task.action_evaluated",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_gameplay_event",
+    "scaffold_code": null,
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "5"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 5817349253605712068,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 5,
+    "technical_flag": false,
+    "terminal_reason": null
+   },
+   {
+    "action_payload": null,
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "attempt_number": 2,
+    "before_reference_or_version": null,
+    "config_checksum": "641965f250f5bbc41f6907e0230c9dd77d32449dede466f73794f57a4f956144",
+    "environment": "live-endpoint",
+    "evaluation_payload": {
+     "is_correct": true
+    },
+    "event_index": 6,
+    "event_timestamp_relative_ms": 5,
+    "event_type": "answer_evaluated",
+    "generator_version": "c2.1-generation-1.0.0",
+    "operation_or_event_type": "c_task.action_evaluated",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_gameplay_event",
+    "scaffold_code": null,
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "7"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 572452355626147323,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 7,
+    "technical_flag": false,
+    "terminal_reason": null
+   },
+   {
+    "action_payload": null,
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "attempt_number": null,
+    "before_reference_or_version": null,
+    "config_checksum": "54c88a76d44b3e4bbb59852fa0e1be84169ba6090a0f4ae3a5296695c38720e6",
+    "environment": "live-endpoint",
+    "evaluation_payload": null,
+    "event_index": 1,
+    "event_timestamp_relative_ms": 0,
+    "event_type": "game_task_offered",
+    "generator_version": "c2.1-generation-1.0.0",
+    "operation_or_event_type": "c_task.offered",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_gameplay_event",
+    "scaffold_code": null,
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "1"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 506368445209501345,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 1,
+    "technical_flag": false,
+    "terminal_reason": null
+   },
+   {
+    "action_payload": null,
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "attempt_number": null,
+    "before_reference_or_version": null,
+    "config_checksum": "54c88a76d44b3e4bbb59852fa0e1be84169ba6090a0f4ae3a5296695c38720e6",
+    "environment": "live-endpoint",
+    "evaluation_payload": null,
+    "event_index": 1,
+    "event_timestamp_relative_ms": 0,
+    "event_type": "game_task_offered",
+    "generator_version": "c2.1-generation-1.0.0",
+    "operation_or_event_type": "c_task.offered",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_gameplay_event",
+    "scaffold_code": null,
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "2"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 930826500554644410,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 2,
+    "technical_flag": false,
+    "terminal_reason": null
+   },
+   {
+    "action_payload": null,
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "attempt_number": null,
+    "before_reference_or_version": null,
+    "config_checksum": "54c88a76d44b3e4bbb59852fa0e1be84169ba6090a0f4ae3a5296695c38720e6",
+    "environment": "live-endpoint",
+    "evaluation_payload": null,
+    "event_index": 1,
+    "event_timestamp_relative_ms": 0,
+    "event_type": "game_task_offered",
+    "generator_version": "c2.1-generation-1.0.0",
+    "operation_or_event_type": "c_task.offered",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_gameplay_event",
+    "scaffold_code": null,
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "3"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 7544044875455767372,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 3,
+    "technical_flag": false,
+    "terminal_reason": null
+   },
+   {
+    "action_payload": null,
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "attempt_number": null,
+    "before_reference_or_version": null,
+    "config_checksum": "54c88a76d44b3e4bbb59852fa0e1be84169ba6090a0f4ae3a5296695c38720e6",
+    "environment": "live-endpoint",
+    "evaluation_payload": null,
+    "event_index": 1,
+    "event_timestamp_relative_ms": 0,
+    "event_type": "game_task_offered",
+    "generator_version": "c2.1-generation-1.0.0",
+    "operation_or_event_type": "c_task.offered",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_gameplay_event",
+    "scaffold_code": null,
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "4"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 1867994231801007178,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 4,
+    "technical_flag": false,
+    "terminal_reason": null
+   },
+   {
+    "action_payload": null,
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "attempt_number": null,
+    "before_reference_or_version": null,
+    "config_checksum": "54c88a76d44b3e4bbb59852fa0e1be84169ba6090a0f4ae3a5296695c38720e6",
+    "environment": "live-endpoint",
+    "evaluation_payload": null,
+    "event_index": 1,
+    "event_timestamp_relative_ms": 0,
+    "event_type": "game_task_offered",
+    "generator_version": "c2.1-generation-1.0.0",
+    "operation_or_event_type": "c_task.offered",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_gameplay_event",
+    "scaffold_code": null,
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "5"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 5817349253605712068,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 5,
+    "technical_flag": false,
+    "terminal_reason": null
+   },
+   {
+    "action_payload": null,
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "attempt_number": null,
+    "before_reference_or_version": null,
+    "config_checksum": "54c88a76d44b3e4bbb59852fa0e1be84169ba6090a0f4ae3a5296695c38720e6",
+    "environment": "live-endpoint",
+    "evaluation_payload": null,
+    "event_index": 1,
+    "event_timestamp_relative_ms": 0,
+    "event_type": "game_task_offered",
+    "generator_version": "c2.1-generation-1.0.0",
+    "operation_or_event_type": "c_task.offered",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_gameplay_event",
+    "scaffold_code": null,
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "6"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 7812106633422019386,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 6,
+    "technical_flag": false,
+    "terminal_reason": null
+   },
+   {
+    "action_payload": null,
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "attempt_number": null,
+    "before_reference_or_version": null,
+    "config_checksum": "54c88a76d44b3e4bbb59852fa0e1be84169ba6090a0f4ae3a5296695c38720e6",
+    "environment": "live-endpoint",
+    "evaluation_payload": null,
+    "event_index": 1,
+    "event_timestamp_relative_ms": 0,
+    "event_type": "game_task_offered",
+    "generator_version": "c2.1-generation-1.0.0",
+    "operation_or_event_type": "c_task.offered",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_gameplay_event",
+    "scaffold_code": null,
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "7"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 572452355626147323,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 7,
+    "technical_flag": false,
+    "terminal_reason": null
+   },
+   {
+    "action_payload": null,
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "attempt_number": null,
+    "before_reference_or_version": null,
+    "config_checksum": "54c88a76d44b3e4bbb59852fa0e1be84169ba6090a0f4ae3a5296695c38720e6",
+    "environment": "live-endpoint",
+    "evaluation_payload": null,
+    "event_index": 1,
+    "event_timestamp_relative_ms": 0,
+    "event_type": "game_task_offered",
+    "generator_version": "c2.1-generation-1.0.0",
+    "operation_or_event_type": "c_task.offered",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_gameplay_event",
+    "scaffold_code": null,
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "8"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 3302973652761841172,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 8,
+    "technical_flag": false,
+    "terminal_reason": null
+   },
+   {
+    "action_payload": null,
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "attempt_number": null,
+    "before_reference_or_version": null,
+    "config_checksum": "641965f250f5bbc41f6907e0230c9dd77d32449dede466f73794f57a4f956144",
+    "environment": "live-endpoint",
+    "evaluation_payload": null,
+    "event_index": 2,
+    "event_timestamp_relative_ms": 1,
+    "event_type": "game_task_started",
+    "generator_version": "c2.1-generation-1.0.0",
+    "operation_or_event_type": "c_task.started",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_gameplay_event",
+    "scaffold_code": null,
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "1"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 506368445209501345,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 1,
+    "technical_flag": false,
+    "terminal_reason": null
+   },
+   {
+    "action_payload": null,
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "attempt_number": null,
+    "before_reference_or_version": null,
+    "config_checksum": "641965f250f5bbc41f6907e0230c9dd77d32449dede466f73794f57a4f956144",
+    "environment": "live-endpoint",
+    "evaluation_payload": null,
+    "event_index": 2,
+    "event_timestamp_relative_ms": 1,
+    "event_type": "game_task_started",
+    "generator_version": "c2.1-generation-1.0.0",
+    "operation_or_event_type": "c_task.started",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_gameplay_event",
+    "scaffold_code": null,
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "2"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 930826500554644410,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 2,
+    "technical_flag": false,
+    "terminal_reason": null
+   },
+   {
+    "action_payload": null,
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "attempt_number": null,
+    "before_reference_or_version": null,
+    "config_checksum": "641965f250f5bbc41f6907e0230c9dd77d32449dede466f73794f57a4f956144",
+    "environment": "live-endpoint",
+    "evaluation_payload": null,
+    "event_index": 2,
+    "event_timestamp_relative_ms": 1,
+    "event_type": "game_task_started",
+    "generator_version": "c2.1-generation-1.0.0",
+    "operation_or_event_type": "c_task.started",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_gameplay_event",
+    "scaffold_code": null,
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "3"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 7544044875455767372,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 3,
+    "technical_flag": false,
+    "terminal_reason": null
+   },
+   {
+    "action_payload": null,
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "attempt_number": null,
+    "before_reference_or_version": null,
+    "config_checksum": "641965f250f5bbc41f6907e0230c9dd77d32449dede466f73794f57a4f956144",
+    "environment": "live-endpoint",
+    "evaluation_payload": null,
+    "event_index": 2,
+    "event_timestamp_relative_ms": 1,
+    "event_type": "game_task_started",
+    "generator_version": "c2.1-generation-1.0.0",
+    "operation_or_event_type": "c_task.started",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_gameplay_event",
+    "scaffold_code": null,
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "4"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 1867994231801007178,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 4,
+    "technical_flag": false,
+    "terminal_reason": null
+   },
+   {
+    "action_payload": null,
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "attempt_number": null,
+    "before_reference_or_version": null,
+    "config_checksum": "641965f250f5bbc41f6907e0230c9dd77d32449dede466f73794f57a4f956144",
+    "environment": "live-endpoint",
+    "evaluation_payload": null,
+    "event_index": 2,
+    "event_timestamp_relative_ms": 1,
+    "event_type": "game_task_started",
+    "generator_version": "c2.1-generation-1.0.0",
+    "operation_or_event_type": "c_task.started",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_gameplay_event",
+    "scaffold_code": null,
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "5"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 5817349253605712068,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 5,
+    "technical_flag": false,
+    "terminal_reason": null
+   },
+   {
+    "action_payload": null,
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "attempt_number": null,
+    "before_reference_or_version": null,
+    "config_checksum": "641965f250f5bbc41f6907e0230c9dd77d32449dede466f73794f57a4f956144",
+    "environment": "live-endpoint",
+    "evaluation_payload": null,
+    "event_index": 2,
+    "event_timestamp_relative_ms": 1,
+    "event_type": "game_task_started",
+    "generator_version": "c2.1-generation-1.0.0",
+    "operation_or_event_type": "c_task.started",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_gameplay_event",
+    "scaffold_code": null,
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "6"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 7812106633422019386,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 6,
+    "technical_flag": false,
+    "terminal_reason": null
+   },
+   {
+    "action_payload": null,
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "attempt_number": null,
+    "before_reference_or_version": null,
+    "config_checksum": "641965f250f5bbc41f6907e0230c9dd77d32449dede466f73794f57a4f956144",
+    "environment": "live-endpoint",
+    "evaluation_payload": null,
+    "event_index": 2,
+    "event_timestamp_relative_ms": 1,
+    "event_type": "game_task_started",
+    "generator_version": "c2.1-generation-1.0.0",
+    "operation_or_event_type": "c_task.started",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_gameplay_event",
+    "scaffold_code": null,
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "7"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 572452355626147323,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 7,
+    "technical_flag": false,
+    "terminal_reason": null
+   },
+   {
+    "action_payload": null,
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "attempt_number": null,
+    "before_reference_or_version": null,
+    "config_checksum": "641965f250f5bbc41f6907e0230c9dd77d32449dede466f73794f57a4f956144",
+    "environment": "live-endpoint",
+    "evaluation_payload": null,
+    "event_index": 2,
+    "event_timestamp_relative_ms": 1,
+    "event_type": "game_task_started",
+    "generator_version": "c2.1-generation-1.0.0",
+    "operation_or_event_type": "c_task.started",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_gameplay_event",
+    "scaffold_code": null,
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "8"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 3302973652761841172,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 8,
+    "technical_flag": false,
+    "terminal_reason": null
+   },
+   {
+    "action_payload": null,
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "attempt_number": null,
+    "before_reference_or_version": null,
+    "config_checksum": "641965f250f5bbc41f6907e0230c9dd77d32449dede466f73794f57a4f956144",
+    "environment": "live-endpoint",
+    "evaluation_payload": null,
+    "event_index": 5,
+    "event_timestamp_relative_ms": 4,
+    "event_type": "game_task_completed",
+    "generator_version": "c2.1-generation-1.0.0",
+    "operation_or_event_type": "c_task.completed_correct",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_gameplay_event",
+    "scaffold_code": null,
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "2"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 930826500554644410,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 2,
+    "technical_flag": false,
+    "terminal_reason": "completed_correct"
+   },
+   {
+    "action_payload": null,
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "attempt_number": null,
+    "before_reference_or_version": null,
+    "config_checksum": "641965f250f5bbc41f6907e0230c9dd77d32449dede466f73794f57a4f956144",
+    "environment": "live-endpoint",
+    "evaluation_payload": null,
+    "event_index": 5,
+    "event_timestamp_relative_ms": 4,
+    "event_type": "game_task_completed",
+    "generator_version": "c2.1-generation-1.0.0",
+    "operation_or_event_type": "c_task.completed_correct",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_gameplay_event",
+    "scaffold_code": null,
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "4"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 1867994231801007178,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 4,
+    "technical_flag": false,
+    "terminal_reason": "completed_correct"
+   },
+   {
+    "action_payload": null,
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "attempt_number": null,
+    "before_reference_or_version": null,
+    "config_checksum": "641965f250f5bbc41f6907e0230c9dd77d32449dede466f73794f57a4f956144",
+    "environment": "live-endpoint",
+    "evaluation_payload": null,
+    "event_index": 5,
+    "event_timestamp_relative_ms": 4,
+    "event_type": "game_task_completed",
+    "generator_version": "c2.1-generation-1.0.0",
+    "operation_or_event_type": "c_task.completed_correct",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_gameplay_event",
+    "scaffold_code": null,
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "6"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 7812106633422019386,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 6,
+    "technical_flag": false,
+    "terminal_reason": "completed_correct"
+   },
+   {
+    "action_payload": null,
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "attempt_number": null,
+    "before_reference_or_version": null,
+    "config_checksum": "641965f250f5bbc41f6907e0230c9dd77d32449dede466f73794f57a4f956144",
+    "environment": "live-endpoint",
+    "evaluation_payload": null,
+    "event_index": 5,
+    "event_timestamp_relative_ms": 4,
+    "event_type": "game_task_completed",
+    "generator_version": "c2.1-generation-1.0.0",
+    "operation_or_event_type": "c_task.completed_correct",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_gameplay_event",
+    "scaffold_code": null,
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "8"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 3302973652761841172,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 8,
+    "technical_flag": false,
+    "terminal_reason": "completed_correct"
+   },
+   {
+    "action_payload": null,
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "attempt_number": null,
+    "before_reference_or_version": null,
+    "config_checksum": "641965f250f5bbc41f6907e0230c9dd77d32449dede466f73794f57a4f956144",
+    "environment": "live-endpoint",
+    "evaluation_payload": null,
+    "event_index": 7,
+    "event_timestamp_relative_ms": 6,
+    "event_type": "game_task_completed",
+    "generator_version": "c2.1-generation-1.0.0",
+    "operation_or_event_type": "c_task.completed_correct",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_gameplay_event",
+    "scaffold_code": null,
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "1"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 506368445209501345,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 1,
+    "technical_flag": false,
+    "terminal_reason": "completed_correct"
+   },
+   {
+    "action_payload": null,
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "attempt_number": null,
+    "before_reference_or_version": null,
+    "config_checksum": "641965f250f5bbc41f6907e0230c9dd77d32449dede466f73794f57a4f956144",
+    "environment": "live-endpoint",
+    "evaluation_payload": null,
+    "event_index": 7,
+    "event_timestamp_relative_ms": 6,
+    "event_type": "game_task_completed",
+    "generator_version": "c2.1-generation-1.0.0",
+    "operation_or_event_type": "c_task.completed_correct",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_gameplay_event",
+    "scaffold_code": null,
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "3"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 7544044875455767372,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 3,
+    "technical_flag": false,
+    "terminal_reason": "completed_correct"
+   },
+   {
+    "action_payload": null,
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "attempt_number": null,
+    "before_reference_or_version": null,
+    "config_checksum": "641965f250f5bbc41f6907e0230c9dd77d32449dede466f73794f57a4f956144",
+    "environment": "live-endpoint",
+    "evaluation_payload": null,
+    "event_index": 7,
+    "event_timestamp_relative_ms": 6,
+    "event_type": "game_task_completed",
+    "generator_version": "c2.1-generation-1.0.0",
+    "operation_or_event_type": "c_task.completed_correct",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_gameplay_event",
+    "scaffold_code": null,
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "5"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 5817349253605712068,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 5,
+    "technical_flag": false,
+    "terminal_reason": "completed_correct"
+   },
+   {
+    "action_payload": null,
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "attempt_number": null,
+    "before_reference_or_version": null,
+    "config_checksum": "641965f250f5bbc41f6907e0230c9dd77d32449dede466f73794f57a4f956144",
+    "environment": "live-endpoint",
+    "evaluation_payload": null,
+    "event_index": 7,
+    "event_timestamp_relative_ms": 6,
+    "event_type": "game_task_completed",
+    "generator_version": "c2.1-generation-1.0.0",
+    "operation_or_event_type": "c_task.completed_correct",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_gameplay_event",
+    "scaffold_code": null,
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "7"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 572452355626147323,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 7,
+    "technical_flag": false,
+    "terminal_reason": "completed_correct"
+   }
+  ],
+  "c_policy_decisions": [
+   {
+    "action_overridden": false,
+    "after_reference_or_version": null,
+    "applied_action": "decrease_difficulty",
+    "approval_evidence_reference": null,
+    "before_reference_or_version": null,
+    "difficulty_after": 1,
+    "difficulty_before": 2,
+    "environment": "live-endpoint",
+    "evidence_snapshot": {
+     "current_difficulty_level": 2,
+     "is_recovery_context": false,
+     "prior_session_end_state": null,
+     "recent_avg_attempts": 1.4,
+     "recent_consecutive_error_max": 1,
+     "recent_correctness_rate": 1.0,
+     "recent_inactivity_periods": 0,
+     "recent_scaffold_use_count": 0,
+     "rolling_strain_score": 0.13333333333333333,
+     "safety_increase_block_remaining": 0,
+     "session_mode": "c_only",
+     "session_phase": "c_only",
+     "technical_issue_current_task": false
+    },
+    "increase_block_remaining": 0,
+    "internal_reward": null,
+    "operation_or_event_type": "c_task.adaptation_decided",
+    "policy_mode": "frozen_q_evaluation",
+    "policy_version": "c-rl-q-v1+c4.1-safety-controller-1.0.0",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_policy_decision",
+    "rl_state": {
+     "allowed": [
+      "decrease_difficulty",
+      "hold"
+     ],
+     "artifact_file": "q_c_only_v2.json",
+     "artifact_sha256": "5893e91f8917cdabc72a5a9b737c93267f9a55b1b4acbea03353b491218f0e6b",
+     "q_values": [
+      2.524907587326569,
+      2.415080091978883,
+      0.0
+     ],
+     "state": "2,1,0,3"
+    },
+    "rolling_strain_bucket": "low",
+    "safety_forces_recovery": false,
+    "safety_reason": "fallback_session_cap",
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "6"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 7812106633422019386,
+    "selected_action": "decrease_difficulty",
+    "session_start_state_bucket": null,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle"
+   },
+   {
+    "action_overridden": false,
+    "after_reference_or_version": null,
+    "applied_action": "decrease_difficulty",
+    "approval_evidence_reference": null,
+    "before_reference_or_version": null,
+    "difficulty_after": 1,
+    "difficulty_before": 2,
+    "environment": "live-endpoint",
+    "evidence_snapshot": {
+     "current_difficulty_level": 2,
+     "is_recovery_context": false,
+     "prior_session_end_state": null,
+     "recent_avg_attempts": 1.4,
+     "recent_consecutive_error_max": 1,
+     "recent_correctness_rate": 1.0,
+     "recent_inactivity_periods": 0,
+     "recent_scaffold_use_count": 0,
+     "rolling_strain_score": 0.13333333333333333,
+     "safety_increase_block_remaining": 0,
+     "session_mode": "c_only",
+     "session_phase": "c_only",
+     "technical_issue_current_task": false
+    },
+    "increase_block_remaining": 0,
+    "internal_reward": null,
+    "operation_or_event_type": "c_task.adaptation_decided",
+    "policy_mode": "frozen_q_evaluation",
+    "policy_version": "c-rl-q-v1+c4.1-safety-controller-1.0.0",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_policy_decision",
+    "rl_state": {
+     "allowed": [
+      "decrease_difficulty",
+      "hold"
+     ],
+     "artifact_file": "q_c_only_v2.json",
+     "artifact_sha256": "5893e91f8917cdabc72a5a9b737c93267f9a55b1b4acbea03353b491218f0e6b",
+     "q_values": [
+      2.524907587326569,
+      2.415080091978883,
+      0.0
+     ],
+     "state": "2,1,0,3"
+    },
+    "rolling_strain_bucket": "low",
+    "safety_forces_recovery": false,
+    "safety_reason": "fallback_session_cap",
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "8"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 3302973652761841172,
+    "selected_action": "decrease_difficulty",
+    "session_start_state_bucket": null,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle"
+   },
+   {
+    "action_overridden": false,
+    "after_reference_or_version": null,
+    "applied_action": "decrease_difficulty",
+    "approval_evidence_reference": null,
+    "before_reference_or_version": null,
+    "difficulty_after": 1,
+    "difficulty_before": 2,
+    "environment": "live-endpoint",
+    "evidence_snapshot": {
+     "current_difficulty_level": 2,
+     "is_recovery_context": false,
+     "prior_session_end_state": null,
+     "recent_avg_attempts": 1.5,
+     "recent_consecutive_error_max": 1,
+     "recent_correctness_rate": 1.0,
+     "recent_inactivity_periods": 0,
+     "recent_scaffold_use_count": 0,
+     "rolling_strain_score": 0.13333333333333333,
+     "safety_increase_block_remaining": 0,
+     "session_mode": "c_only",
+     "session_phase": "c_only",
+     "technical_issue_current_task": false
+    },
+    "increase_block_remaining": 0,
+    "internal_reward": null,
+    "operation_or_event_type": "c_task.adaptation_decided",
+    "policy_mode": "frozen_q_evaluation",
+    "policy_version": "c-rl-q-v1+c4.1-safety-controller-1.0.0",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_policy_decision",
+    "rl_state": {
+     "allowed": [
+      "decrease_difficulty",
+      "hold"
+     ],
+     "artifact_file": "q_c_only_v2.json",
+     "artifact_sha256": "5893e91f8917cdabc72a5a9b737c93267f9a55b1b4acbea03353b491218f0e6b",
+     "q_values": [
+      2.524907587326569,
+      2.415080091978883,
+      0.0
+     ],
+     "state": "2,1,0,3"
+    },
+    "rolling_strain_bucket": "low",
+    "safety_forces_recovery": false,
+    "safety_reason": "fallback_session_cap",
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "4"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 1867994231801007178,
+    "selected_action": "decrease_difficulty",
+    "session_start_state_bucket": null,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle"
+   },
+   {
+    "action_overridden": false,
+    "after_reference_or_version": null,
+    "applied_action": "hold",
+    "approval_evidence_reference": null,
+    "before_reference_or_version": null,
+    "difficulty_after": 1,
+    "difficulty_before": 1,
+    "environment": "live-endpoint",
+    "evidence_snapshot": {
+     "current_difficulty_level": 1,
+     "is_recovery_context": false,
+     "prior_session_end_state": null,
+     "recent_avg_attempts": 1.5,
+     "recent_consecutive_error_max": 1,
+     "recent_correctness_rate": 1.0,
+     "recent_inactivity_periods": 0,
+     "recent_scaffold_use_count": 0,
+     "rolling_strain_score": 0.15,
+     "safety_increase_block_remaining": 0,
+     "session_mode": "c_only",
+     "session_phase": "c_only",
+     "technical_issue_current_task": false
+    },
+    "increase_block_remaining": 0,
+    "internal_reward": null,
+    "operation_or_event_type": "c_task.adaptation_decided",
+    "policy_mode": "frozen_q_evaluation",
+    "policy_version": "c-rl-q-v1+c4.1-safety-controller-1.0.0",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_policy_decision",
+    "rl_state": {
+     "allowed": [
+      "hold",
+      "increase_difficulty"
+     ],
+     "artifact_file": "q_c_only_v2.json",
+     "artifact_sha256": "5893e91f8917cdabc72a5a9b737c93267f9a55b1b4acbea03353b491218f0e6b",
+     "q_values": [
+      0.0,
+      2.4342302991430302,
+      2.57405772372243
+     ],
+     "state": "1,1,0,3"
+    },
+    "rolling_strain_bucket": "low",
+    "safety_forces_recovery": false,
+    "safety_reason": "fallback_session_cap",
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "2"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 930826500554644410,
+    "selected_action": "hold",
+    "session_start_state_bucket": null,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle"
+   },
+   {
+    "action_overridden": false,
+    "after_reference_or_version": null,
+    "applied_action": "hold",
+    "approval_evidence_reference": null,
+    "before_reference_or_version": null,
+    "difficulty_after": 1,
+    "difficulty_before": 1,
+    "environment": "live-endpoint",
+    "evidence_snapshot": {
+     "current_difficulty_level": 1,
+     "is_recovery_context": false,
+     "prior_session_end_state": null,
+     "recent_avg_attempts": 2.0,
+     "recent_consecutive_error_max": 1,
+     "recent_correctness_rate": 1.0,
+     "recent_inactivity_periods": 0,
+     "recent_scaffold_use_count": 0,
+     "rolling_strain_score": 0.2,
+     "safety_increase_block_remaining": 0,
+     "session_mode": "c_only",
+     "session_phase": "c_only",
+     "technical_issue_current_task": false
+    },
+    "increase_block_remaining": 0,
+    "internal_reward": null,
+    "operation_or_event_type": "c_task.adaptation_decided",
+    "policy_mode": "frozen_q_evaluation",
+    "policy_version": "c-rl-q-v1+c4.1-safety-controller-1.0.0",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_policy_decision",
+    "rl_state": {
+     "allowed": [
+      "hold",
+      "increase_difficulty"
+     ],
+     "artifact_file": "q_c_only_v2.json",
+     "artifact_sha256": "5893e91f8917cdabc72a5a9b737c93267f9a55b1b4acbea03353b491218f0e6b",
+     "q_values": [
+      0.0,
+      2.2672100947743936,
+      2.53883668558859
+     ],
+     "state": "1,0,0,3"
+    },
+    "rolling_strain_bucket": "low",
+    "safety_forces_recovery": false,
+    "safety_reason": "fallback_session_cap",
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "1"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 506368445209501345,
+    "selected_action": "hold",
+    "session_start_state_bucket": null,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle"
+   },
+   {
+    "action_overridden": false,
+    "after_reference_or_version": null,
+    "applied_action": "increase_difficulty",
+    "approval_evidence_reference": null,
+    "before_reference_or_version": null,
+    "difficulty_after": 2,
+    "difficulty_before": 1,
+    "environment": "live-endpoint",
+    "evidence_snapshot": {
+     "current_difficulty_level": 1,
+     "is_recovery_context": false,
+     "prior_session_end_state": null,
+     "recent_avg_attempts": 1.6,
+     "recent_consecutive_error_max": 1,
+     "recent_correctness_rate": 1.0,
+     "recent_inactivity_periods": 0,
+     "recent_scaffold_use_count": 0,
+     "rolling_strain_score": 0.16666666666666669,
+     "safety_increase_block_remaining": 0,
+     "session_mode": "c_only",
+     "session_phase": "c_only",
+     "technical_issue_current_task": false
+    },
+    "increase_block_remaining": 0,
+    "internal_reward": null,
+    "operation_or_event_type": "c_task.adaptation_decided",
+    "policy_mode": "frozen_q_evaluation",
+    "policy_version": "c-rl-q-v1+c4.1-safety-controller-1.0.0",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_policy_decision",
+    "rl_state": {
+     "allowed": [
+      "hold",
+      "increase_difficulty"
+     ],
+     "artifact_file": "q_c_only_v2.json",
+     "artifact_sha256": "5893e91f8917cdabc72a5a9b737c93267f9a55b1b4acbea03353b491218f0e6b",
+     "q_values": [
+      0.0,
+      2.4342302991430302,
+      2.57405772372243
+     ],
+     "state": "1,1,0,3"
+    },
+    "rolling_strain_bucket": "low",
+    "safety_forces_recovery": false,
+    "safety_reason": "fallback_session_cap",
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "5"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 5817349253605712068,
+    "selected_action": "increase_difficulty",
+    "session_start_state_bucket": null,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle"
+   },
+   {
+    "action_overridden": false,
+    "after_reference_or_version": null,
+    "applied_action": "increase_difficulty",
+    "approval_evidence_reference": null,
+    "before_reference_or_version": null,
+    "difficulty_after": 2,
+    "difficulty_before": 1,
+    "environment": "live-endpoint",
+    "evidence_snapshot": {
+     "current_difficulty_level": 1,
+     "is_recovery_context": false,
+     "prior_session_end_state": null,
+     "recent_avg_attempts": 1.6,
+     "recent_consecutive_error_max": 1,
+     "recent_correctness_rate": 1.0,
+     "recent_inactivity_periods": 0,
+     "recent_scaffold_use_count": 0,
+     "rolling_strain_score": 0.16666666666666669,
+     "safety_increase_block_remaining": 0,
+     "session_mode": "c_only",
+     "session_phase": "c_only",
+     "technical_issue_current_task": false
+    },
+    "increase_block_remaining": 0,
+    "internal_reward": null,
+    "operation_or_event_type": "c_task.adaptation_decided",
+    "policy_mode": "frozen_q_evaluation",
+    "policy_version": "c-rl-q-v1+c4.1-safety-controller-1.0.0",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_policy_decision",
+    "rl_state": {
+     "allowed": [
+      "hold",
+      "increase_difficulty"
+     ],
+     "artifact_file": "q_c_only_v2.json",
+     "artifact_sha256": "5893e91f8917cdabc72a5a9b737c93267f9a55b1b4acbea03353b491218f0e6b",
+     "q_values": [
+      0.0,
+      2.4342302991430302,
+      2.57405772372243
+     ],
+     "state": "1,1,0,3"
+    },
+    "rolling_strain_bucket": "low",
+    "safety_forces_recovery": false,
+    "safety_reason": "fallback_session_cap",
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "7"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 572452355626147323,
+    "selected_action": "increase_difficulty",
+    "session_start_state_bucket": null,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle"
+   },
+   {
+    "action_overridden": false,
+    "after_reference_or_version": null,
+    "applied_action": "increase_difficulty",
+    "approval_evidence_reference": null,
+    "before_reference_or_version": null,
+    "difficulty_after": 2,
+    "difficulty_before": 1,
+    "environment": "live-endpoint",
+    "evidence_snapshot": {
+     "current_difficulty_level": 1,
+     "is_recovery_context": false,
+     "prior_session_end_state": null,
+     "recent_avg_attempts": 1.6666666666666667,
+     "recent_consecutive_error_max": 1,
+     "recent_correctness_rate": 1.0,
+     "recent_inactivity_periods": 0,
+     "recent_scaffold_use_count": 0,
+     "rolling_strain_score": 0.16666666666666669,
+     "safety_increase_block_remaining": 0,
+     "session_mode": "c_only",
+     "session_phase": "c_only",
+     "technical_issue_current_task": false
+    },
+    "increase_block_remaining": 0,
+    "internal_reward": null,
+    "operation_or_event_type": "c_task.adaptation_decided",
+    "policy_mode": "frozen_q_evaluation",
+    "policy_version": "c-rl-q-v1+c4.1-safety-controller-1.0.0",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_policy_decision",
+    "rl_state": {
+     "allowed": [
+      "hold",
+      "increase_difficulty"
+     ],
+     "artifact_file": "q_c_only_v2.json",
+     "artifact_sha256": "5893e91f8917cdabc72a5a9b737c93267f9a55b1b4acbea03353b491218f0e6b",
+     "q_values": [
+      0.0,
+      2.2672100947743936,
+      2.53883668558859
+     ],
+     "state": "1,0,0,3"
+    },
+    "rolling_strain_bucket": "low",
+    "safety_forces_recovery": false,
+    "safety_reason": "fallback_session_cap",
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "3"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 7544044875455767372,
+    "selected_action": "increase_difficulty",
+    "session_start_state_bucket": null,
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle"
+   }
+  ],
+  "c_safety_events": [],
+  "c_scaffold_events": [
+   {
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "before_reference_or_version": null,
+    "consecutive_incorrect_current_task": 1,
+    "environment": "live-endpoint",
+    "event_type": "shown",
+    "operation_or_event_type": "c_task.scaffold_shown",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_scaffold_event",
+    "safety_forces_recovery": false,
+    "scaffold_level": "C1",
+    "schema_revision": "20260816_0004",
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle"
+   },
+   {
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "before_reference_or_version": null,
+    "consecutive_incorrect_current_task": 1,
+    "environment": "live-endpoint",
+    "event_type": "shown",
+    "operation_or_event_type": "c_task.scaffold_shown",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_scaffold_event",
+    "safety_forces_recovery": false,
+    "scaffold_level": "C1",
+    "schema_revision": "20260816_0004",
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle"
+   },
+   {
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "before_reference_or_version": null,
+    "consecutive_incorrect_current_task": 1,
+    "environment": "live-endpoint",
+    "event_type": "shown",
+    "operation_or_event_type": "c_task.scaffold_shown",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_scaffold_event",
+    "safety_forces_recovery": false,
+    "scaffold_level": "C1",
+    "schema_revision": "20260816_0004",
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle"
+   },
+   {
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "before_reference_or_version": null,
+    "consecutive_incorrect_current_task": 1,
+    "environment": "live-endpoint",
+    "event_type": "shown",
+    "operation_or_event_type": "c_task.scaffold_shown",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_scaffold_event",
+    "safety_forces_recovery": false,
+    "scaffold_level": "C1",
+    "schema_revision": "20260816_0004",
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle"
+   }
+  ],
+  "c_task_instances": [
+   {
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "before_reference_or_version": null,
+    "catalogue_version": "1.0",
+    "completion_condition": "action_submitted",
+    "correct_answer_payload": {
+     "cardinality": 3
+    },
+    "correctness_function_id": "C-CC-03.correctness.v1",
+    "curriculum_node_id": "CNT-03",
+    "difficulty_level": 1,
+    "difficulty_vector": {
+     "cardinality": 3,
+     "distractor_count": 1
+    },
+    "environment": "live-endpoint",
+    "failure_condition": "technical_status=FAILED after bounded invalid/ambiguous-generation retries are exhausted",
+    "functional_role": "SUPPORT",
+    "game_family_id": "C-GF-01",
+    "game_task_template_id": "C-CC-03",
+    "generator_version": "c2.1-generation-1.0.0",
+    "grade_scope": 2,
+    "interactive_assets": {},
+    "operation_or_event_type": "c_task.instance_generated",
+    "prompt_payload": {
+     "numeral_options": [
+      3,
+      5
+     ],
+     "set_size": 3
+    },
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "representation_mode": "pictorial_objects",
+    "resource_type": "c_task_instance",
+    "scaffold_state": "C0",
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "1"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 506368445209501345,
+    "skill_id": "counting",
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 1,
+    "technical_status": "OK",
+    "template_version": "1.0",
+    "valid_action_space": {
+     "selected_numeral": "int"
+    }
+   },
+   {
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "before_reference_or_version": null,
+    "catalogue_version": "1.0",
+    "completion_condition": "action_submitted",
+    "correct_answer_payload": {
+     "difference": 8
+    },
+    "correctness_function_id": "C-TC-03.correctness.v1",
+    "curriculum_node_id": "SUB-03",
+    "difficulty_level": 1,
+    "difficulty_vector": {
+     "minuend_max": 9
+    },
+    "environment": "live-endpoint",
+    "failure_condition": "technical_status=FAILED after bounded invalid/ambiguous-generation retries are exhausted",
+    "functional_role": "MAIN",
+    "game_family_id": "C-GF-06",
+    "game_task_template_id": "C-TC-03",
+    "generator_version": "c2.1-generation-1.0.0",
+    "grade_scope": 2,
+    "interactive_assets": {},
+    "operation_or_event_type": "c_task.instance_generated",
+    "prompt_payload": {
+     "minuend": 9,
+     "subtrahend": 1
+    },
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "representation_mode": "symbolic",
+    "resource_type": "c_task_instance",
+    "scaffold_state": "C0",
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "2"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 930826500554644410,
+    "skill_id": "subtraction",
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 2,
+    "technical_status": "OK",
+    "template_version": "1.0",
+    "valid_action_space": {
+     "submitted_difference": "int"
+    }
+   },
+   {
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "before_reference_or_version": null,
+    "catalogue_version": "1.0",
+    "completion_condition": "action_submitted",
+    "correct_answer_payload": {
+     "expected_total": 5,
+     "valid_object_ids": [
+      "obj-0",
+      "obj-1",
+      "obj-2",
+      "obj-3",
+      "obj-4"
+     ]
+    },
+    "correctness_function_id": "C-CC-01.correctness.v1",
+    "curriculum_node_id": "CNT-02",
+    "difficulty_level": 2,
+    "difficulty_vector": {
+     "distractor_count": 1,
+     "set_size": 5
+    },
+    "environment": "live-endpoint",
+    "failure_condition": "technical_status=FAILED after bounded invalid/ambiguous-generation retries are exhausted",
+    "functional_role": "SUPPORT",
+    "game_family_id": "C-GF-01",
+    "game_task_template_id": "C-CC-01",
+    "generator_version": "c2.1-generation-1.0.0",
+    "grade_scope": 2,
+    "interactive_assets": {},
+    "operation_or_event_type": "c_task.instance_generated",
+    "prompt_payload": {
+     "distractor_object_ids": [
+      "dist-0"
+     ],
+     "valid_object_ids": [
+      "obj-0",
+      "obj-1",
+      "obj-2",
+      "obj-3",
+      "obj-4"
+     ]
+    },
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "representation_mode": "pictorial_objects",
+    "resource_type": "c_task_instance",
+    "scaffold_state": "C0",
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "8"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 3302973652761841172,
+    "skill_id": "counting",
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 8,
+    "technical_status": "OK",
+    "template_version": "1.0",
+    "valid_action_space": {
+     "selected_object_ids": "list[str]",
+     "submitted_total": "int"
+    }
+   },
+   {
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "before_reference_or_version": null,
+    "catalogue_version": "1.0",
+    "completion_condition": "action_submitted",
+    "correct_answer_payload": {
+     "expected_jump_count": 1,
+     "jump_unit": 1,
+     "start": 2,
+     "sum": 3
+    },
+    "correctness_function_id": "C-JB-02.correctness.v1",
+    "curriculum_node_id": "ADD-02",
+    "difficulty_level": 1,
+    "difficulty_vector": {
+     "addend_max": 3,
+     "jump_unit_size": 1
+    },
+    "environment": "live-endpoint",
+    "failure_condition": "technical_status=FAILED after bounded invalid/ambiguous-generation retries are exhausted",
+    "functional_role": "SUPPORT",
+    "game_family_id": "C-GF-05",
+    "game_task_template_id": "C-JB-02",
+    "generator_version": "c2.1-generation-1.0.0",
+    "grade_scope": 2,
+    "interactive_assets": {},
+    "operation_or_event_type": "c_task.instance_generated",
+    "prompt_payload": {
+     "addend_a": 1,
+     "addend_b": 2,
+     "start": 2
+    },
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "representation_mode": "number_line",
+    "resource_type": "c_task_instance",
+    "scaffold_state": "C0",
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "5"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 5817349253605712068,
+    "skill_id": "addition",
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 5,
+    "technical_status": "OK",
+    "template_version": "1.0",
+    "valid_action_space": {
+     "final_position": "int",
+     "jumps": "list[int]"
+    }
+   },
+   {
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "before_reference_or_version": null,
+    "catalogue_version": "1.0",
+    "completion_condition": "action_submitted",
+    "correct_answer_payload": {
+     "sum": 7
+    },
+    "correctness_function_id": "C-JB-03.correctness.v1",
+    "curriculum_node_id": "ADD-03",
+    "difficulty_level": 2,
+    "difficulty_vector": {
+     "addend_max": 6
+    },
+    "environment": "live-endpoint",
+    "failure_condition": "technical_status=FAILED after bounded invalid/ambiguous-generation retries are exhausted",
+    "functional_role": "MAIN",
+    "game_family_id": "C-GF-05",
+    "game_task_template_id": "C-JB-03",
+    "generator_version": "c2.1-generation-1.0.0",
+    "grade_scope": 2,
+    "interactive_assets": {},
+    "operation_or_event_type": "c_task.instance_generated",
+    "prompt_payload": {
+     "addend_a": 2,
+     "addend_b": 5
+    },
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "representation_mode": "ten_frame",
+    "resource_type": "c_task_instance",
+    "scaffold_state": "C0",
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "6"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 7812106633422019386,
+    "skill_id": "addition",
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 6,
+    "technical_status": "OK",
+    "template_version": "1.0",
+    "valid_action_space": {
+     "submitted_sum": "int"
+    }
+   },
+   {
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "before_reference_or_version": null,
+    "catalogue_version": "1.0",
+    "completion_condition": "action_submitted",
+    "correct_answer_payload": {
+     "target_number": 10
+    },
+    "correctness_function_id": "C-BT-01.correctness.v1",
+    "curriculum_node_id": "PV-01",
+    "difficulty_level": 2,
+    "difficulty_vector": {
+     "tens_max": 3
+    },
+    "environment": "live-endpoint",
+    "failure_condition": "technical_status=FAILED after bounded invalid/ambiguous-generation retries are exhausted",
+    "functional_role": "MAIN_SUPPORT",
+    "game_family_id": "C-GF-04",
+    "game_task_template_id": "C-BT-01",
+    "generator_version": "c2.1-generation-1.0.0",
+    "grade_scope": 2,
+    "interactive_assets": {},
+    "operation_or_event_type": "c_task.instance_generated",
+    "prompt_payload": {
+     "target_number": 10
+    },
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "representation_mode": "place_value_chart",
+    "resource_type": "c_task_instance",
+    "scaffold_state": "C0",
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "4"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 1867994231801007178,
+    "skill_id": "place_value",
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 4,
+    "technical_status": "OK",
+    "template_version": "1.0",
+    "valid_action_space": {
+     "ones": "int",
+     "tens": "int"
+    }
+   },
+   {
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "before_reference_or_version": null,
+    "catalogue_version": "1.0",
+    "completion_condition": "action_submitted",
+    "correct_answer_payload": {
+     "target_number": 14
+    },
+    "correctness_function_id": "C-BT-01.correctness.v1",
+    "curriculum_node_id": "PV-01",
+    "difficulty_level": 1,
+    "difficulty_vector": {
+     "tens_max": 2
+    },
+    "environment": "live-endpoint",
+    "failure_condition": "technical_status=FAILED after bounded invalid/ambiguous-generation retries are exhausted",
+    "functional_role": "MAIN_SUPPORT",
+    "game_family_id": "C-GF-04",
+    "game_task_template_id": "C-BT-01",
+    "generator_version": "c2.1-generation-1.0.0",
+    "grade_scope": 2,
+    "interactive_assets": {},
+    "operation_or_event_type": "c_task.instance_generated",
+    "prompt_payload": {
+     "target_number": 14
+    },
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "representation_mode": "symbolic",
+    "resource_type": "c_task_instance",
+    "scaffold_state": "C0",
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "3"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 7544044875455767372,
+    "skill_id": "place_value",
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 3,
+    "technical_status": "OK",
+    "template_version": "1.0",
+    "valid_action_space": {
+     "ones": "int",
+     "tens": "int"
+    }
+   },
+   {
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "before_reference_or_version": null,
+    "catalogue_version": "1.0",
+    "completion_condition": "action_submitted",
+    "correct_answer_payload": {
+     "target_number": 20
+    },
+    "correctness_function_id": "C-BT-01.correctness.v1",
+    "curriculum_node_id": "PV-01",
+    "difficulty_level": 1,
+    "difficulty_vector": {
+     "tens_max": 2
+    },
+    "environment": "live-endpoint",
+    "failure_condition": "technical_status=FAILED after bounded invalid/ambiguous-generation retries are exhausted",
+    "functional_role": "MAIN_SUPPORT",
+    "game_family_id": "C-GF-04",
+    "game_task_template_id": "C-BT-01",
+    "generator_version": "c2.1-generation-1.0.0",
+    "grade_scope": 2,
+    "interactive_assets": {},
+    "operation_or_event_type": "c_task.instance_generated",
+    "prompt_payload": {
+     "target_number": 20
+    },
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "representation_mode": "base_ten_blocks",
+    "resource_type": "c_task_instance",
+    "scaffold_state": "C0",
+    "schema_revision": "20260816_0004",
+    "seed_lineage_global_seed": 42,
+    "seed_lineage_path": [
+     [
+      "task_index",
+      "7"
+     ],
+     [
+      "game_task_instance",
+      "1"
+     ]
+    ],
+    "seed_lineage_seed": 572452355626147323,
+    "skill_id": "place_value",
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 7,
+    "technical_status": "OK",
+    "template_version": "1.0",
+    "valid_action_space": {
+     "ones": "int",
+     "tens": "int"
+    }
+   }
+  ],
+  "c_task_opportunities": [
+   {
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "before_reference_or_version": null,
+    "environment": "live-endpoint",
+    "initial_difficulty_level": 1,
+    "mastery_context_mode": "unavailable_fallback",
+    "mastery_selected_skill": null,
+    "operation_or_event_type": "c_task.offered",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_task_opportunity",
+    "schema_revision": "20260816_0004",
+    "selected_skill_id": "addition",
+    "selected_template_id": "C-JB-02",
+    "session_phase": "c_only",
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 5,
+    "terminal_reason": null
+   },
+   {
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "before_reference_or_version": null,
+    "environment": "live-endpoint",
+    "initial_difficulty_level": 1,
+    "mastery_context_mode": "unavailable_fallback",
+    "mastery_selected_skill": null,
+    "operation_or_event_type": "c_task.offered",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_task_opportunity",
+    "schema_revision": "20260816_0004",
+    "selected_skill_id": "number_sense",
+    "selected_template_id": "C-CC-03",
+    "session_phase": "c_only",
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 1,
+    "terminal_reason": null
+   },
+   {
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "before_reference_or_version": null,
+    "environment": "live-endpoint",
+    "initial_difficulty_level": 1,
+    "mastery_context_mode": "unavailable_fallback",
+    "mastery_selected_skill": null,
+    "operation_or_event_type": "c_task.offered",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_task_opportunity",
+    "schema_revision": "20260816_0004",
+    "selected_skill_id": "place_value",
+    "selected_template_id": "C-BT-01",
+    "session_phase": "c_only",
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 3,
+    "terminal_reason": null
+   },
+   {
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "before_reference_or_version": null,
+    "environment": "live-endpoint",
+    "initial_difficulty_level": 1,
+    "mastery_context_mode": "unavailable_fallback",
+    "mastery_selected_skill": null,
+    "operation_or_event_type": "c_task.offered",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_task_opportunity",
+    "schema_revision": "20260816_0004",
+    "selected_skill_id": "place_value",
+    "selected_template_id": "C-BT-01",
+    "session_phase": "c_only",
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 7,
+    "terminal_reason": null
+   },
+   {
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "before_reference_or_version": null,
+    "environment": "live-endpoint",
+    "initial_difficulty_level": 1,
+    "mastery_context_mode": "unavailable_fallback",
+    "mastery_selected_skill": null,
+    "operation_or_event_type": "c_task.offered",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_task_opportunity",
+    "schema_revision": "20260816_0004",
+    "selected_skill_id": "subtraction",
+    "selected_template_id": "C-TC-03",
+    "session_phase": "c_only",
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 2,
+    "terminal_reason": null
+   },
+   {
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "before_reference_or_version": null,
+    "environment": "live-endpoint",
+    "initial_difficulty_level": 2,
+    "mastery_context_mode": "unavailable_fallback",
+    "mastery_selected_skill": null,
+    "operation_or_event_type": "c_task.offered",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_task_opportunity",
+    "schema_revision": "20260816_0004",
+    "selected_skill_id": "addition",
+    "selected_template_id": "C-JB-03",
+    "session_phase": "c_only",
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 6,
+    "terminal_reason": null
+   },
+   {
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "before_reference_or_version": null,
+    "environment": "live-endpoint",
+    "initial_difficulty_level": 2,
+    "mastery_context_mode": "unavailable_fallback",
+    "mastery_selected_skill": null,
+    "operation_or_event_type": "c_task.offered",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_task_opportunity",
+    "schema_revision": "20260816_0004",
+    "selected_skill_id": "counting",
+    "selected_template_id": "C-CC-01",
+    "session_phase": "c_only",
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 8,
+    "terminal_reason": null
+   },
+   {
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "before_reference_or_version": null,
+    "environment": "live-endpoint",
+    "initial_difficulty_level": 2,
+    "mastery_context_mode": "unavailable_fallback",
+    "mastery_selected_skill": null,
+    "operation_or_event_type": "c_task.offered",
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_task_opportunity",
+    "schema_revision": "20260816_0004",
+    "selected_skill_id": "place_value",
+    "selected_template_id": "C-BT-01",
+    "session_phase": "c_only",
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_index": 4,
+    "terminal_reason": null
+   }
+  ],
+  "c_task_opportunity_summaries": [
+   {
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "before_reference_or_version": null,
+    "c_answer_changes": 0,
+    "consecutive_error_max_within_task": 0,
+    "correct_task": true,
+    "environment": "live-endpoint",
+    "final_attempt_correct": true,
+    "first_attempt_correct": true,
+    "highest_scaffold_level": null,
+    "inactive_time_sec": 0.0,
+    "inactivity_periods": 0,
+    "operation_or_event_type": "c_task.summary_derived",
+    "quit_after_error": false,
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_task_opportunity_summary",
+    "retry_count": 0,
+    "scaffold_count": 0,
+    "scaffold_requested": false,
+    "schema_revision": "20260816_0004",
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_completed": true,
+    "task_index": 2,
+    "task_latency_sec": 0.001,
+    "task_offered": true,
+    "task_quit": false,
+    "task_skipped": false,
+    "task_started": true,
+    "technical_issue": false,
+    "terminal_reason": "completed_correct",
+    "total_attempts": 1
+   },
+   {
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "before_reference_or_version": null,
+    "c_answer_changes": 0,
+    "consecutive_error_max_within_task": 0,
+    "correct_task": true,
+    "environment": "live-endpoint",
+    "final_attempt_correct": true,
+    "first_attempt_correct": true,
+    "highest_scaffold_level": null,
+    "inactive_time_sec": 0.0,
+    "inactivity_periods": 0,
+    "operation_or_event_type": "c_task.summary_derived",
+    "quit_after_error": false,
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_task_opportunity_summary",
+    "retry_count": 0,
+    "scaffold_count": 0,
+    "scaffold_requested": false,
+    "schema_revision": "20260816_0004",
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_completed": true,
+    "task_index": 4,
+    "task_latency_sec": 0.001,
+    "task_offered": true,
+    "task_quit": false,
+    "task_skipped": false,
+    "task_started": true,
+    "technical_issue": false,
+    "terminal_reason": "completed_correct",
+    "total_attempts": 1
+   },
+   {
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "before_reference_or_version": null,
+    "c_answer_changes": 0,
+    "consecutive_error_max_within_task": 0,
+    "correct_task": true,
+    "environment": "live-endpoint",
+    "final_attempt_correct": true,
+    "first_attempt_correct": true,
+    "highest_scaffold_level": null,
+    "inactive_time_sec": 0.0,
+    "inactivity_periods": 0,
+    "operation_or_event_type": "c_task.summary_derived",
+    "quit_after_error": false,
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_task_opportunity_summary",
+    "retry_count": 0,
+    "scaffold_count": 0,
+    "scaffold_requested": false,
+    "schema_revision": "20260816_0004",
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_completed": true,
+    "task_index": 6,
+    "task_latency_sec": 0.001,
+    "task_offered": true,
+    "task_quit": false,
+    "task_skipped": false,
+    "task_started": true,
+    "technical_issue": false,
+    "terminal_reason": "completed_correct",
+    "total_attempts": 1
+   },
+   {
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "before_reference_or_version": null,
+    "c_answer_changes": 0,
+    "consecutive_error_max_within_task": 0,
+    "correct_task": true,
+    "environment": "live-endpoint",
+    "final_attempt_correct": true,
+    "first_attempt_correct": true,
+    "highest_scaffold_level": null,
+    "inactive_time_sec": 0.0,
+    "inactivity_periods": 0,
+    "operation_or_event_type": "c_task.summary_derived",
+    "quit_after_error": false,
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_task_opportunity_summary",
+    "retry_count": 0,
+    "scaffold_count": 0,
+    "scaffold_requested": false,
+    "schema_revision": "20260816_0004",
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_completed": true,
+    "task_index": 8,
+    "task_latency_sec": 0.001,
+    "task_offered": true,
+    "task_quit": false,
+    "task_skipped": false,
+    "task_started": true,
+    "technical_issue": false,
+    "terminal_reason": "completed_correct",
+    "total_attempts": 1
+   },
+   {
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "before_reference_or_version": null,
+    "c_answer_changes": 1,
+    "consecutive_error_max_within_task": 1,
+    "correct_task": true,
+    "environment": "live-endpoint",
+    "final_attempt_correct": true,
+    "first_attempt_correct": false,
+    "highest_scaffold_level": null,
+    "inactive_time_sec": 0.0,
+    "inactivity_periods": 0,
+    "operation_or_event_type": "c_task.summary_derived",
+    "quit_after_error": false,
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_task_opportunity_summary",
+    "retry_count": 1,
+    "scaffold_count": 0,
+    "scaffold_requested": false,
+    "schema_revision": "20260816_0004",
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_completed": true,
+    "task_index": 1,
+    "task_latency_sec": 0.001,
+    "task_offered": true,
+    "task_quit": false,
+    "task_skipped": false,
+    "task_started": true,
+    "technical_issue": false,
+    "terminal_reason": "completed_correct",
+    "total_attempts": 2
+   },
+   {
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "before_reference_or_version": null,
+    "c_answer_changes": 1,
+    "consecutive_error_max_within_task": 1,
+    "correct_task": true,
+    "environment": "live-endpoint",
+    "final_attempt_correct": true,
+    "first_attempt_correct": false,
+    "highest_scaffold_level": null,
+    "inactive_time_sec": 0.0,
+    "inactivity_periods": 0,
+    "operation_or_event_type": "c_task.summary_derived",
+    "quit_after_error": false,
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_task_opportunity_summary",
+    "retry_count": 1,
+    "scaffold_count": 0,
+    "scaffold_requested": false,
+    "schema_revision": "20260816_0004",
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_completed": true,
+    "task_index": 3,
+    "task_latency_sec": 0.001,
+    "task_offered": true,
+    "task_quit": false,
+    "task_skipped": false,
+    "task_started": true,
+    "technical_issue": false,
+    "terminal_reason": "completed_correct",
+    "total_attempts": 2
+   },
+   {
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "before_reference_or_version": null,
+    "c_answer_changes": 1,
+    "consecutive_error_max_within_task": 1,
+    "correct_task": true,
+    "environment": "live-endpoint",
+    "final_attempt_correct": true,
+    "first_attempt_correct": false,
+    "highest_scaffold_level": null,
+    "inactive_time_sec": 0.0,
+    "inactivity_periods": 0,
+    "operation_or_event_type": "c_task.summary_derived",
+    "quit_after_error": false,
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_task_opportunity_summary",
+    "retry_count": 1,
+    "scaffold_count": 0,
+    "scaffold_requested": false,
+    "schema_revision": "20260816_0004",
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_completed": true,
+    "task_index": 5,
+    "task_latency_sec": 0.001,
+    "task_offered": true,
+    "task_quit": false,
+    "task_skipped": false,
+    "task_started": true,
+    "technical_issue": false,
+    "terminal_reason": "completed_correct",
+    "total_attempts": 2
+   },
+   {
+    "after_reference_or_version": null,
+    "approval_evidence_reference": null,
+    "before_reference_or_version": null,
+    "c_answer_changes": 1,
+    "consecutive_error_max_within_task": 1,
+    "correct_task": true,
+    "environment": "live-endpoint",
+    "final_attempt_correct": true,
+    "first_attempt_correct": false,
+    "highest_scaffold_level": null,
+    "inactive_time_sec": 0.0,
+    "inactivity_periods": 0,
+    "operation_or_event_type": "c_task.summary_derived",
+    "quit_after_error": false,
+    "reason_code": "AUTHORIZED_C_SESSION_LIFECYCLE_COMMAND",
+    "resource_type": "c_task_opportunity_summary",
+    "retry_count": 1,
+    "scaffold_count": 0,
+    "scaffold_requested": false,
+    "schema_revision": "20260816_0004",
+    "source_class": "REAL",
+    "source_record_id": null,
+    "source_system": "studentapp-api",
+    "system_actor": "c-session-lifecycle",
+    "task_completed": true,
+    "task_index": 7,
+    "task_latency_sec": 0.001,
+    "task_offered": true,
+    "task_quit": false,
+    "task_skipped": false,
+    "task_started": true,
+    "technical_issue": false,
+    "terminal_reason": "completed_correct",
+    "total_attempts": 2
+   }
+  ],
+  "c_task_opportunity_verdicts": []
+ }
+}

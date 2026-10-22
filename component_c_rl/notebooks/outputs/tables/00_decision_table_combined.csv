@@ -1,0 +1,13 @@
+task,skill,template,difficulty,recovery,scaffold_start,correct,first_try,attempts,terminal,selected,applied,overridden,safety_reason,d_after,strain_bucket,block_left
+1,subtraction,C-TC-01,3,False,C0,True,False,2,completed_correct,hold,hold,False,,3,low,0
+2,subtraction,C-TC-03,3,False,C0,True,True,1,completed_correct,hold,hold,False,,3,low,0
+3,subtraction,C-TC-01,3,False,C0,True,False,2,completed_correct,hold,hold,False,,3,low,0
+4,subtraction,C-TC-01,3,False,C0,True,True,1,completed_correct,hold,hold,False,,3,low,0
+5,subtraction,C-TC-02,3,False,C0,True,False,2,completed_correct,hold,hold,False,,3,low,0
+6,subtraction,C-TC-02,3,False,C0,True,False,2,completed_correct,hold,hold,False,,3,low,0
+7,subtraction,C-TC-01,3,False,C0,True,True,1,completed_correct,hold,hold,False,,3,low,0
+8,subtraction,C-TC-03,3,False,C0,True,True,1,completed_correct,hold,hold,False,,3,low,0
+9,subtraction,C-TC-03,3,False,C0,,,0,technical_issue,hold,hold,False,,3,moderate,0
+10,subtraction,C-TC-01,3,False,C0,True,False,2,completed_correct,hold,hold,False,,3,moderate,0
+11,subtraction,C-TC-01,3,False,C0,True,True,1,completed_correct,hold,hold,False,,3,moderate,0
+12,subtraction,C-TC-02,3,False,C0,True,True,1,completed_correct,increase_difficulty,increase_difficulty,False,,4,low,0

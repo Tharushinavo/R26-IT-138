@@ -1,0 +1,277 @@
+{
+  "schema_version": "1.0",
+  "component": "B",
+  "review": "POST_BE2_LIMITED_BATCH_1_GOVERNANCE_AUTHORIZATION",
+  "recorded_at_utc": "2026-07-22T04:59:19.879Z",
+  "review_baseline": {
+    "be2_limited_batch_1_decision": "BE2_LIMITED_BATCH_1_CLOSED",
+    "corrective_commit": "7a7b03ccbb972b8a3fabe7f6686e6f9d17cbd0f7",
+    "migration_head": "20260722_0003",
+    "test_result": "37 passed, 1 known upstream warning",
+    "application_table_count": 8
+  },
+  "formal_decision": "BE2_NEXT_SCOPE_NOT_AUTHORIZED",
+  "decision_reason": "No executable next scope can be authorized without inventing account-to-learner cardinality, role and profile-management authority, grade-change authority, consent and retention policy, REAL-record admission rules, or session transition policy. Session preparation is additionally blocked by the absence of an approved live runtime bundle and BE3 live-engine integration.",
+  "sources_reviewed": [
+    "backend/provenance/component-b-be2-governance-authorization.json",
+    "backend/buildLog.md",
+    "backend.md",
+    "frontend.md",
+    "../Component_B_Backend_Frontend_Software_Architecture_v1.0.md",
+    "../componantBArchi.md",
+    "Yass/Component_B_Generator_v1.0/SPEC.md",
+    "Yass/Component_B_Generator_v1.0/R26-IT-138_Component_B_Phase_B2B_Learner_Response_and_Attempt_Spec_v1.0.md",
+    "Yass/Registers_v0.3/R26-IT-138_Component_B_Variable_Register_v0.3.md",
+    "Yass/Registers_v0.3/R26-IT-138_Shared_Foundation_Decision_Register_v0.3.md",
+    "backend/app/infrastructure/persistence_models.py",
+    "backend/app/application/repositories.py",
+    "backend/app/infrastructure/repositories.py",
+    "backend/migrations/versions/20260722_0001_empty_infrastructure_baseline.py",
+    "backend/migrations/versions/20260722_0002_be2_neutral_persistence.py",
+    "backend/migrations/versions/20260722_0003_bundle_integrity_guards.py"
+  ],
+  "authorized_tables": {
+    "existing_only": [
+      "app_users",
+      "b_learners",
+      "app_user_learner_links",
+      "b_runtime_bundle_records",
+      "b_sessions",
+      "b_session_events",
+      "b_idempotency_records",
+      "b_audit_events"
+    ],
+    "new_tables": [],
+    "new_columns": [],
+    "mutation_authority": "No new live or API mutation authority is granted by this record."
+  },
+  "authorized_endpoints": {
+    "existing_unchanged": [
+      "GET /health/live",
+      "GET /health/ready",
+      "GET /api/v1/me"
+    ],
+    "new": []
+  },
+  "authorized_request_fields": [],
+  "authorized_response_fields": {
+    "new": [],
+    "existing_me_contract_unchanged": [
+      "user_id",
+      "email"
+    ],
+    "note": "The architecture's proposed roles and learner expansion for /api/v1/me is not authorized by this record."
+  },
+  "ownership_rules": {
+    "resolved": [
+      "A verified Supabase JWT subject is the external authenticated identity key.",
+      "The Supabase subject maps conceptually to app_users and must never be used as learner_id.",
+      "learner_id is an opaque pseudonymous UUID.",
+      "Possession of a learner or session UUID is never authorization.",
+      "Roles and relationships must be server-controlled and must not be trusted from editable client metadata."
+    ],
+    "unresolved": [
+      "Whether an account owns one learner or multiple learners.",
+      "Who may create, list, retrieve, update, deactivate, relink, or unlink learner profiles.",
+      "Whether learner, guardian, parent, supervisor, teacher, operator, researcher, or administrator roles exist in the application and their exact capabilities.",
+      "How app_users rows are provisioned, activated, disabled, and reconciled with Supabase subjects.",
+      "Who assigns learner grade and who may change it."
+    ],
+    "fail_closed": "No learner resource may be selected or mutated from an authenticated subject until the relationship and role contract is approved."
+  },
+  "learner_profile_api": {
+    "creation_authorized": false,
+    "listing_authorized": false,
+    "retrieval_authorized": false,
+    "update_authorized": false,
+    "deactivation_authorized": false,
+    "personally_identifying_fields_authorized": [],
+    "future_minimum_candidate_fields_not_yet_authorized": [
+      "learner_id",
+      "grade",
+      "status"
+    ],
+    "blockers": [
+      "Account-to-learner cardinality and access-control ownership are unresolved.",
+      "Profile provisioning and grade-change authority are unresolved.",
+      "Consent, retention, withdrawal, and deletion policies are unresolved.",
+      "REAL provenance admission is not authorized."
+    ]
+  },
+  "authorized_lifecycle_transitions": [],
+  "session_lifecycle_review": {
+    "schema_vocabulary_only": [
+      "starting",
+      "active",
+      "completing",
+      "completed",
+      "abandoned",
+      "expired",
+      "technical_failed"
+    ],
+    "start_authorized": false,
+    "prepare_authorized": false,
+    "resume_authorized": false,
+    "abandon_authorized": false,
+    "expire_authorized": false,
+    "complete_authorized": false,
+    "multiple_starting_or_active_sessions_per_learner": false,
+    "existing_database_rule": "At most one starting or active session per learner.",
+    "blockers": [
+      "Session transition ownership, replacement, recovery, expiry, and completion policies are unresolved.",
+      "Learner ownership and access control are unresolved.",
+      "No approved published live runtime bundle exists.",
+      "BE3 live-engine integration is not authorized."
+    ]
+  },
+  "session_preparation": {
+    "authorized": false,
+    "may_create_without_question": false,
+    "neutral_response_fields_authorized": [],
+    "grade_learner_and_bundle_identifiers_sufficient": false,
+    "first_question_blocked_until_be3": true,
+    "classification": "Session preparation is a BE2 lifecycle operation with BE3 bundle and engine prerequisites; it is not authorized by architecture prose alone and must not silently become BE4 learning behavior.",
+    "fail_closed": "Do not create a starting or active real session, pin a bundle, or return a prepared-session DTO."
+  },
+  "idempotency_requirements": {
+    "new_commands_authorized": false,
+    "future_contract": [
+      "Every state-changing command requires an opaque Idempotency-Key.",
+      "Scope by verified actor, HTTP method, operation identifier, and key.",
+      "Store a canonical request fingerprint and canonical committed response atomically with the domain mutation.",
+      "Identical replay returns the committed response; body mismatch fails with a stable conflict.",
+      "Concurrent replay must not execute the mutation twice."
+    ]
+  },
+  "provenance_rules": {
+    "real_records_authorized": false,
+    "live_endpoint_allowed_source_classes": [],
+    "existing_test_scope_allowed_source_classes": [
+      "TEST",
+      "SYNTHETIC"
+    ],
+    "future_real_requirements": [
+      "source_class must be REAL and server-assigned, never accepted from the client.",
+      "actor_user_id must be derived from the verified subject-to-app_users mapping.",
+      "request_id, operation_or_event_type, reason_code, resource type and ID, source system, environment, schema revision, and server timestamp are mandatory.",
+      "TEST, SYNTHETIC, and IMPORTED records must be rejected by live command paths.",
+      "Tests must use isolated databases and visibly non-real identities."
+    ]
+  },
+  "audit_requirements": {
+    "future_minimum": [
+      "Audit profile creation, grade changes, status changes, relationship changes, session lifecycle commands, bundle selection, overrides, and privileged reads.",
+      "Record verified actor, request ID, reason, target resource, before and after references or versions, timestamp, environment, and approval evidence when required.",
+      "Audit records are append-only and contain no token, Authorization header, raw answer, answer key, or direct personal identifier."
+    ],
+    "new_audited_operations_authorized": []
+  },
+  "privacy_constraints": [
+    "Store only an opaque learner identifier, governed grade, and neutral status when later authorized.",
+    "Do not store names, contact details, date of birth, diagnosis, population, subtype, hidden learner truth, or research-group membership in the operational learner profile.",
+    "Separate authentication identity from learner and research identifiers.",
+    "Do not expose raw JWT claims, tokens, private task data, scientific parameters, or research identifiers.",
+    "No research export or identity join is authorized.",
+    "Retention, withdrawal, deletion, consent, and child-safety policies must be approved before REAL records are admitted."
+  ],
+  "prohibited_behavior": [
+    "New learner or session endpoints",
+    "REAL learner or session record creation",
+    "Executable session lifecycle transitions",
+    "Item opportunities",
+    "Answer attempts",
+    "Hints and retries",
+    "Timing interpretation",
+    "BKT and mastery",
+    "Sequencing",
+    "Guess-Guard",
+    "Certification",
+    "Progress and completion",
+    "Component B live-engine integration",
+    "Yass research-generator installation or import",
+    "Component C",
+    "Component 3",
+    "Research exports",
+    "Pilot behavior",
+    "Production behavior"
+  ],
+  "unresolved_blockers": [
+    {
+      "name": "account_to_learner_cardinality_and_ownership",
+      "required_decision": "Approve exact cardinality, provisioning source, relationship types, and resource permissions.",
+      "required_approvers": [
+        "product owner",
+        "privacy or child-safety owner",
+        "backend security owner"
+      ]
+    },
+    {
+      "name": "role_vocabulary_and_authority",
+      "required_decision": "Reconcile learner/supervisor/operator with learner/guardian/teacher/researcher/admin and approve exact server-controlled capabilities.",
+      "required_approvers": [
+        "product owner",
+        "security owner"
+      ]
+    },
+    {
+      "name": "learner_profile_and_grade_governance",
+      "required_decision": "Approve who creates, reads, updates, deactivates, and changes grade, including permitted fields.",
+      "required_approvers": [
+        "product owner",
+        "academic owner",
+        "privacy owner"
+      ]
+    },
+    {
+      "name": "real_data_consent_retention_withdrawal_and_deletion",
+      "required_decision": "Approve REAL-data admission, consent evidence, retention periods, withdrawal, deletion or anonymization, and environment isolation.",
+      "required_approvers": [
+        "ethics or project governance",
+        "privacy owner",
+        "child-safety owner"
+      ]
+    },
+    {
+      "name": "session_lifecycle_and_preparation",
+      "required_decision": "Approve the smallest executable transition set, ownership checks, response contract, idempotency, expiry and recovery semantics.",
+      "required_approvers": [
+        "product owner",
+        "backend domain owner"
+      ]
+    },
+    {
+      "name": "live_runtime_bundle_and_engine_prerequisites",
+      "required_decision": "Approve a complete published runtime bundle and separately authorize BE3 live-engine integration before question issuance.",
+      "required_approvers": [
+        "Component B owner",
+        "academic or research approver"
+      ]
+    }
+  ],
+  "fail_closed_behavior": [
+    "Keep all new endpoint and lifecycle authorization lists empty.",
+    "Do not infer learner ownership from a Supabase subject, email, UUID, or editable token metadata.",
+    "Do not create app_users, learner, relationship, or session rows through live requests.",
+    "Do not assign a default grade, role, relationship, consent state, expiry, or runtime bundle.",
+    "Do not expose learner profile or session data beyond the existing approved /api/v1/me principal fields.",
+    "Keep pilot and production readiness false."
+  ],
+  "required_tests_for_future_authorized_scope": [
+    "Subject-to-app_users provisioning, uniqueness, disabled-account, and fail-closed mapping tests.",
+    "Role and relationship authorization matrix tests, including cross-learner IDOR denial.",
+    "Learner profile field allow-list, PII rejection, grade authority, and deactivation tests.",
+    "REAL provenance server-assignment and TEST/SYNTHETIC/IMPORTED live-path rejection tests.",
+    "Idempotent identical replay, mismatched body, concurrent replay, and atomic rollback tests.",
+    "Audit completeness, append-only behavior, privileged-read audit, and sensitive-log leakage tests.",
+    "Consent, withdrawal, retention, deletion or anonymization, and environment-isolation tests.",
+    "If session preparation is later authorized: ownership, one-active-session, eligible-bundle pin, transition matrix, recovery, and no-question/no-engine boundary tests."
+  ],
+  "exit_criteria": [
+    "Every unresolved blocker needed by the selected next scope has a named owner, explicit approved decision, and authoritative source.",
+    "A replacement or amendment machine-readable authorization enumerates exact endpoints, fields, roles, ownership rules, transitions, provenance, audit, idempotency, and privacy behavior.",
+    "REAL data remains prohibited unless consent, retention, withdrawal, deletion, and environment-isolation rules are explicitly approved.",
+    "Session preparation remains prohibited unless its transition and response contract and an eligible approved runtime-bundle path are explicitly authorized.",
+    "No scientific or live-engine behavior is included unless separately authorized for BE3 or later."
+  ],
+  "next_governance_task": "Obtain owner decisions for account-to-learner cardinality, reconciled role vocabulary, learner profile and grade authority, and REAL-data privacy governance; then issue a narrower machine-readable authorization before implementation."
+}

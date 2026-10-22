@@ -1,0 +1,83 @@
+{
+  "schema_version": "1.0",
+  "record_type": "BE4_ENGINEERING_AMENDMENT_PROPOSAL",
+  "component": "B",
+  "recorded_at_utc": "2026-07-26T00:00:00Z",
+  "purpose": "Propose, for real named-owner adoption, a NARROW amendment authorizing Component B BE4 engineering ONLY on isolated TEST-provenance runtime bundles that can never be published or selected as a live alias, with no real-learner, pilot, production, or scientific-effectiveness authorization. This record adopts nothing; it takes effect only when the required named owners record real, dated sign-off. It does not clear the scientific gate (GATE-B) and does not modify closure-decisions.json blocked_scope.",
+  "governing_documents": [
+    "Dev/backend/provenance/component-b-closure-decisions.json",
+    "Upadya/Component_B_Scientific_Gate_Decision_Pack_v1.0.md",
+    "Dev/backend/provenance/runtime-bundle.schema.json",
+    "Dev/backend/buildLog.md",
+    "Dev/backend/provenance/component-b-live-engine-reuse-map.json",
+    "Dev/Component_B_BE4_Sequencing_Plan.md"
+  ],
+  "source_authority_note": "This record is a proposal only. It sits below adopted governance decisions and does not override the runtime-bundle schema's approval_status enum/const values or the exit_gate.blocked_scope field in component-b-closure-decisions.json. It has no authority to adopt, approve, or sign anything.",
+  "proposed_amendment_text": "BE4 engineering may proceed using isolated TEST-provenance runtime bundles in local development and CI. Such bundles must be impossible to publish or select as a live alias. No real learner record, pilot activation, production deployment, educational-effectiveness claim, calibrated mastery claim, or scientific validation claim is authorized until the full scientific gate closes through real named and dated human approval.",
+  "proposed_amendment_text_source": "Upadya/Component_B_Scientific_Gate_Decision_Pack_v1.0.md §44 (Proposed narrow BE4 engineering amendment), quoted verbatim from the blockquoted 'Proposed wording for human review.'",
+  "rationale": "Per SG-16 (§28, conclusion C): the fail-closed runtime-bundle loader already rejects non-APPROVED bundles on the activation path (default require_approved=True), and BE3b already exercised an isolated unapproved bundle (valid_unapproved_bundle.json, approval_status: CALIBRATION_PENDING) with require_approved=False in a test-only context. The amendment states in words the boundary the code already enforces. Without it, BE4 engineering would proceed under assumed permission even though 'BE4 live learning flow' is explicitly named in component-b-closure-decisions.json exit_gate.blocked_scope — governance does not currently state in words the distinction between BE4 engineering on isolated test bundles (arguably allowed by existing pattern) and BE4 live flow (clearly blocked).",
+  "authorizes": [
+    "BE4 engineering (batches BE4a-f per Dev/Component_B_BE4_Sequencing_Plan.md) implemented and tested against TEST-provenance DRAFT runtime bundles only, in local development and CI environments only."
+  ],
+  "does_not_authorize": [
+    "Any real-learner record, behaviour, or data",
+    "Pilot activation of any kind",
+    "Production deployment",
+    "Any educational-effectiveness claim",
+    "Any calibrated-mastery claim",
+    "Any scientific-validation claim",
+    "Publication of any runtime bundle",
+    "Live-alias selection of any runtime bundle",
+    "Any GATE-B item, including BKT live parameter values, theta_B, guess-guard numerics, attempt policy, timeout policy, completion policy, or safe-progress policy",
+    "Any named scientific sign-off on SG-01 through SG-15"
+  ],
+  "gate_b_status": "GATE-B (the full scientific gate, SG-01 through SG-15) remains fully required and is entirely unaffected by this amendment. This amendment addresses only the SG-16 governance-interpretation question of whether BE4 engineering on isolated TEST-provenance bundles may proceed; it does not touch, resolve, or shortcut any scientific-parameter approval.",
+  "technical_guards": [
+    "Bundles used by BE4 engineering are TEST-provenance AND DRAFT publication_state; never APPROVED, published, or alias-selectable",
+    "The fail-closed runtime-bundle loader default (require_approved=True) is retained; only isolated test/CI contexts may use require_approved=False against DRAFT fixtures",
+    "The import-boundary guard (backend/tests/test_be3_live_engine_boundary.py) stays green",
+    "LiveEngineAdapter remains the sole app/ importer of component_b_generator",
+    "The 13 prohibited synthetic/dataset modules listed in component-b-live-engine-reuse-map.json (explicitly_prohibited_from_application) stay unreachable from the live application"
+  ],
+  "relationship_to_blocked_scope": "This amendment layers a narrow, explicit carve-out for BE4 engineering on isolated test bundles on top of component-b-closure-decisions.json exit_gate.blocked_scope, which continues to list 'BE4 live learning flow' unchanged. It neither deletes nor rewrites that field. If adopted, the adoption itself must be recorded as a new closure/provenance entry rather than by editing blocked_scope in place.",
+  "required_approvers": [
+    "project_supervisor",
+    "component_b_owner"
+  ],
+  "named_approver_slots": [
+    {
+      "role": "project_supervisor",
+      "name": "UNRESOLVED_PLACEHOLDER",
+      "decision": "UNRESOLVED",
+      "decision_date": null,
+      "approved_scope": null,
+      "conditions": [],
+      "note": "This slot cannot be completed by an AI assistant. It requires an actual named project supervisor to record a real, dated decision. Yasindu is not to be entered in this slot unless a real project-supervisor decision has assigned that role to him, and even then not by an AI assistant."
+    },
+    {
+      "role": "component_b_owner",
+      "name": "UNRESOLVED_PLACEHOLDER",
+      "decision": "UNRESOLVED",
+      "decision_date": null,
+      "approved_scope": null,
+      "conditions": [],
+      "note": "This slot cannot be completed by an AI assistant. It requires an actual named Component B owner to record a real, dated decision. Yasindu is not to be entered in this slot unless a real owner decision has assigned that role to him, and even then not by an AI assistant."
+    },
+    {
+      "role": "academic_owner_acknowledgement",
+      "name": "UNRESOLVED_PLACEHOLDER",
+      "decision": "UNRESOLVED",
+      "decision_date": null,
+      "approved_scope": null,
+      "conditions": [],
+      "note": "This is an acknowledgement slot, not a required-to-adopt approval, per SG-16 ('project supervisor + Component B owner (governance amendment); academic owner acknowledgement'). It cannot be completed by an AI assistant. It requires an actual named academic owner to record a real, dated acknowledgement. Yasindu is not to be entered in this slot unless a real decision has assigned that role to him, and even then not by an AI assistant."
+    }
+  ],
+  "adoption_effect": "On real, dated sign-off by project_supervisor AND component_b_owner (with academic_owner_acknowledgement recorded), this amendment is adopted and BE4 engineering (tier a, TEST-provenance DRAFT bundles only) unblocks. GATE-B (tier b: full SG-01...SG-15 named sign-off as an APPROVED bundle) remains required before any live/pilot use, and calibration plus validation (tier c) remain required before production. Adoption must be recorded via a new buildLog entry and a new provenance/closure entry; this proposal record does not itself constitute that adoption.",
+  "does_not_clear": [
+    "The scientific gate (GATE-B) as a whole",
+    "Any SG-01 through SG-15 item",
+    "The pilot entry in exit_gate.blocked_scope",
+    "The production entry in exit_gate.blocked_scope"
+  ]
+}

@@ -1,0 +1,26 @@
+# Local environment and caches -- never committed from anywhere in this tree.
+.venv/
+__pycache__/
+.ipynb_checkpoints/
+.pytest_cache/
+
+# ONLY THE NOTEBOOKS AND WHAT THEY PRODUCE ARE TRACKED (owner decision, 2026-10-20).
+#
+# Everything else here is working material: `rl_core/` and `tests/` are the library the notebooks
+# import, and the manifest, requirements and runner are local scaffolding. The notebooks and their
+# outputs/ are the deliverable -- the figures, models and reports a reader needs to follow the
+# work without running it.
+#
+# The pattern is deny-then-allow, which is the only way to express "nothing except": a bare
+# `rl_core/` line would have to be extended by hand every time a new directory appears here, and
+# the thing that gets forgotten is exactly the thing that should not be published.
+/*
+!.gitignore
+!notebooks/
+notebooks/*
+!notebooks/*.ipynb
+!notebooks/outputs/
+
+# NB05 is excluded by name (owner decision): it exports a training DATASET, which is working
+# material rather than part of the written-up result.
+notebooks/NB05_training_dataset_export.ipynb

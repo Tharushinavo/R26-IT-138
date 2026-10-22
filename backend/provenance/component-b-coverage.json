@@ -1,0 +1,188 @@
+{
+  "schema_version": "1.0",
+  "component": "B",
+  "source": {
+    "catalogue_path": "Component_B_v1.0/R26-IT-138_Component_B_Item_and_Task_Set_Catalogue_v1.0.md",
+    "catalogue_version": "1.0",
+    "catalogue_status": "PROPOSED_FOR_APPROVAL",
+    "catalogue_sha256": "eaf073da8af155bdb935b7c2abfba04f892bbfecf44522f20f044aeec4b579ac",
+    "generator_git_tree_sha1": "73acb113bbb179f5946333c27b0142c43f3063f3"
+  },
+  "summary": {
+    "catalogue_template_count": 36,
+    "implemented_count": 29,
+    "deferred_count": 7,
+    "partition_complete": true,
+    "deferred_fail_closed": true,
+    "generic_fallback_generated": false
+  },
+  "implemented_template_ids": [
+    "B-ADD01-COMBINE-SETS",
+    "B-ADD02-COUNT-ON",
+    "B-ADD03-SINGLE-DIGIT",
+    "B-ADD04-2D-NO-REGROUP",
+    "B-ADD05-REGROUP",
+    "B-CNT01-SEQ-CONTINUE",
+    "B-CNT02-COUNT-OBJECTS",
+    "B-CNT03-HOW-MANY",
+    "B-CNT04-MAKE-SET",
+    "B-CNT06-SKIP-COUNT",
+    "B-DIV01-EQUAL-SHARING",
+    "B-DIV02-EQUAL-GROUPING",
+    "B-DIV03-DIVIDE-BY-2",
+    "B-MUL01-EQUAL-GROUPS",
+    "B-MUL02-ARRAY-TOTAL",
+    "B-MUL03-FACTS-2-5-10",
+    "B-NS02-QUANTITY-NUMERAL",
+    "B-NS03-COMPARE-SETS",
+    "B-NS04-COMPARE-NUMERALS",
+    "B-NS05-ORDER-NUMBERS",
+    "B-NS07-CONSERVATION",
+    "B-PV01-IDENTIFY-TENS-ONES",
+    "B-PV02-DECOMPOSE-2D",
+    "B-PV03-IDENTIFY-HTO",
+    "B-PV04-DECOMPOSE-3D",
+    "B-SUB01-TAKE-AWAY",
+    "B-SUB03-WITHIN-9",
+    "B-SUB04-2D-NO-BORROW",
+    "B-SUB05-BORROW"
+  ],
+  "deferred_templates": [
+    {
+      "template_id": "B-CNT05-FORWARD-FROM-N",
+      "coverage_status": "calibration_restricted",
+      "decision_code": "DEFER_CALIBRATION_PENDING"
+    },
+    {
+      "template_id": "B-DIV04-INVERSE-FACT",
+      "coverage_status": "calibration_restricted",
+      "decision_code": "DEFER_CALIBRATION_PENDING"
+    },
+    {
+      "template_id": "B-NS01-READ-NUMERAL",
+      "coverage_status": "insufficiently_specified",
+      "decision_code": "DEFER_UNDERSPECIFIED"
+    },
+    {
+      "template_id": "B-NS06-NUMBER-LINE",
+      "coverage_status": "calibration_restricted",
+      "decision_code": "DEFER_CALIBRATION_PENDING"
+    },
+    {
+      "template_id": "B-PV05-REGROUP-ONES",
+      "coverage_status": "insufficiently_specified",
+      "decision_code": "DEFER_UNDERSPECIFIED"
+    },
+    {
+      "template_id": "B-PV06-UNGROUP-TEN",
+      "coverage_status": "insufficiently_specified",
+      "decision_code": "DEFER_UNDERSPECIFIED"
+    },
+    {
+      "template_id": "B-SUB02-DIFFERENCE",
+      "coverage_status": "calibration_restricted",
+      "decision_code": "DEFER_CALIBRATION_PENDING"
+    }
+  ],
+  "grade_activation": {
+    "grade_2": {
+      "active_template_count": 14,
+      "active_skills": [
+        "addition",
+        "counting",
+        "number_sense",
+        "place_value",
+        "subtraction"
+      ],
+      "multiplication_excluded": true,
+      "division_excluded": true
+    },
+    "grade_3": {
+      "active_template_count": 16,
+      "active_skills": [
+        "addition",
+        "counting",
+        "division",
+        "multiplication",
+        "number_sense",
+        "place_value",
+        "subtraction"
+      ],
+      "all_seven_skills_represented": true
+    },
+    "hard_gates": [
+      "grade",
+      "implementation_support",
+      "catalogue_availability"
+    ],
+    "prerequisites_are_soft_scoring_inputs": true
+  },
+  "response_formats": {
+    "catalogue_format_count": 14,
+    "catalogue_formats": [
+      "binary_or_choice",
+      "interactive_set_selection",
+      "ordered_integer_sequence",
+      "ordered_list",
+      "relation_choice",
+      "single_choice",
+      "single_choice_or_integer",
+      "single_integer",
+      "single_integer_or_choice",
+      "single_integer_or_mark",
+      "single_mark_choice",
+      "structured_exchange",
+      "structured_pair",
+      "structured_triple_or_expression"
+    ],
+    "implemented_runtime_format_count": 9,
+    "implemented_runtime_formats": [
+      "binary_or_choice",
+      "expanded_form",
+      "interactive_set_selection",
+      "ordered_list",
+      "relation_choice",
+      "single_choice",
+      "single_choice_or_integer",
+      "single_integer",
+      "single_integer_or_choice"
+    ],
+    "implemented_format_mismatches": [
+      {
+        "template_id": "B-ADD02-COUNT-ON",
+        "catalogue_response_format": "single_integer_or_mark",
+        "runtime_response_format": "single_integer_or_choice",
+        "review_classification": "UNRESOLVED",
+        "frontend_renderer_contract": "NOT_FOUND",
+        "reason": "Numeric endpoint equivalence does not prove mark-selection or renderer compatibility."
+      },
+      {
+        "template_id": "B-CNT06-SKIP-COUNT",
+        "catalogue_response_format": "ordered_integer_sequence",
+        "runtime_response_format": "single_integer",
+        "review_classification": "UNRESOLVED",
+        "frontend_renderer_contract": "NOT_FOUND",
+        "reason": "The generator collects one terminal value, which is narrower than the catalogue sequence contract; owner intent is unconfirmed."
+      },
+      {
+        "template_id": "B-PV02-DECOMPOSE-2D",
+        "catalogue_response_format": "structured_pair",
+        "runtime_response_format": "expanded_form",
+        "review_classification": "UNRESOLVED",
+        "frontend_renderer_contract": "NOT_FOUND",
+        "reason": "Expanded-form equivalences are not an exact structured-pair DTO and frontend parsing support is unproven."
+      },
+      {
+        "template_id": "B-PV04-DECOMPOSE-3D",
+        "catalogue_response_format": "structured_triple_or_expression",
+        "runtime_response_format": "expanded_form",
+        "review_classification": "UNRESOLVED",
+        "frontend_renderer_contract": "NOT_FOUND",
+        "reason": "Expanded form plausibly covers the expression branch but not an explicit structured triple or renderer behavior."
+      }
+    ],
+    "mismatch_status": "UNRESOLVED_4_OF_4_OWNER_APPROVAL_REQUIRED",
+    "decision_record": "backend/provenance/component-b-closure-decisions.json",
+    "note": "Existing generator tests pass with these runtime labels, but the backend adapter must not assume the catalogue and runtime vocabularies are identical. An explicit reviewed mapping is required before public DTO integration."
+  }
+}

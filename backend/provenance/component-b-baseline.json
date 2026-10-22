@@ -1,0 +1,520 @@
+{
+  "schema_version": "1.0",
+  "component": "B",
+  "phase": "BE0",
+  "baseline_status": "TECHNICAL_AND_PY311_REPRODUCTION_PASS_GOVERNANCE_AND_PACKAGING_PENDING",
+  "recorded_at_utc": "2026-07-21T19:08:35.0574739Z",
+  "backend_repository": {
+    "path": "C:\\Users\\Yasindu\\Desktop\\ResearchProject\\Upadya\\Dev",
+    "git_commit_sha1": "a360b8c6390bc77ae13989dcc03e7198388ce70b",
+    "baseline_files_committed_at_recording_time": false
+  },
+  "source": {
+    "repository": "Yass",
+    "observed_repository_path": "C:\\Users\\Yasindu\\Desktop\\ResearchProject\\Yass",
+    "git_commit_sha1": "0e86fdcbc0ffcdbda3d37c742e83b1d532910e2b",
+    "git_commit_role": "BE0_BASELINE_SNAPSHOT",
+    "post_validation_repository_head": {
+      "git_commit_sha1": "848742c1a453648478c6b2ef02d91ca996ea566b",
+      "subject": "Component C: implement Phase C6.0 single-session orchestration + safety-seam wiring",
+      "component_b_effective_source_unchanged": true,
+      "verified_identical_objects": [
+        "Implementation_v1.0/component_b_generator",
+        "Implementation_v1.0/models",
+        "Implementation_v1.0/validators",
+        "Component_B_v1.0/R26-IT-138_Component_B_Item_and_Task_Set_Catalogue_v1.0.md"
+      ]
+    },
+    "generator_repository_relative_path": "Implementation_v1.0/component_b_generator",
+    "generator_git_tree_sha1": "73acb113bbb179f5946333c27b0142c43f3063f3",
+    "generator_tracked_source_manifest": {
+      "algorithm": "sha256",
+      "value": "fd4f052e41539434ad4ff6bbb72fa01815ef750ceeb0a6d8ebc6fbc481e07e2c",
+      "tracked_file_count": 82,
+      "construction": "SHA-256 of UTF-8 lines '<generator-relative-path>\\t<lowercase-file-sha256>\\n' in git ls-tree order for files tracked under the generator tree at the pinned commit"
+    },
+    "required_shared_modules": {
+      "models": {
+        "repository_relative_path": "Implementation_v1.0/models",
+        "git_tree_sha1": "1f1c517043e7ac43197506ea8edfd0339021b5c4",
+        "tracked_manifest_sha256": "9ee1cc5ef18d09d5ae543235501d21ac1bc1b1b45bf8baca5c5348044c83b239",
+        "tracked_file_count": 2,
+        "required_file": {
+          "path": "Implementation_v1.0/models/contracts.py",
+          "git_blob_sha1": "43d643fd30b8c64541eb230bcebd90eaf0d283ad",
+          "sha256": "b730c3f60b4565cc3bb390480337a821f229306f846884546727e8f42abb5e15"
+        }
+      },
+      "validators": {
+        "repository_relative_path": "Implementation_v1.0/validators",
+        "git_tree_sha1": "dcd9bb307567ce0b811ba1bc40a0c24a0a515303",
+        "tracked_manifest_sha256": "4bc2066d77a5283cab7ac6eb24c37a33c75ab94e65da3938337f8f189173b386",
+        "tracked_file_count": 2,
+        "required_file": {
+          "path": "Implementation_v1.0/validators/contract_validators.py",
+          "git_blob_sha1": "4c532bfd8de21ab2b1343b1524d3732c772afd8a",
+          "sha256": "613a81085ea12983791997c42d9a6f59fa5597610417f81f6493e91e8f570fee"
+        },
+        "scope_note": "Required by the existing serialization and future-boundary adapters; those Component C/3 adapters are not part of the current live backend milestone."
+      }
+    },
+    "declared_package_metadata": {
+      "phase": "B1",
+      "catalogue_version": "1.0",
+      "generator_package_version": "0.1.0-phase-b1",
+      "status": "STALE_METADATA_DO_NOT_USE_AS_SOLE_PROVENANCE"
+    }
+  },
+  "test_runtime": {
+    "python_runtime_family": "CPython 3.10",
+    "python_version": "3.10.20",
+    "operating_system": "Microsoft Windows NT 10.0.26200.0",
+    "architecture": "x64",
+    "verification_environment": "clean temporary venv installed with pip --require-hashes",
+    "source_environment_used_to_derive_versions": "conda:component_b",
+    "dependency_input": {
+      "path": "backend/provenance/requirements-generator.in",
+      "sha256": "8870351034a456771dd5e535a18c282b20b54d3b36a6471f439ebcc459430b88"
+    },
+    "dependency_lock": {
+      "path": "backend/provenance/requirements-generator-win-py310.lock",
+      "sha256": "27c04928c42688e45d7c82e44d07623c0f7d9c3cee8dd2ab3650532d32d6b04a",
+      "hashes_required": true,
+      "target": "CPython 3.10 on Windows x64",
+      "package_count": 29,
+      "compiler": "uv 0.11.1",
+      "clean_environment_pip": "23.0.1",
+      "docker_ci_note": "Regenerate and verify a Python 3.11 Linux hash lock from the exact-version input before BE1 Docker use; no scientific version may change silently."
+    },
+    "pinned_generator_dependencies": {
+      "pydantic": {
+        "version": "2.13.4",
+        "declared_constraint": ">=2.13,<3"
+      },
+      "PyYAML": {
+        "version": "6.0.3",
+        "declared_constraint": ">=6.0,<7"
+      },
+      "jsonschema": {
+        "version": "4.25.1",
+        "declared_constraint": ">=4.25,<5"
+      },
+      "pytest": {
+        "version": "9.1.1",
+        "declared_constraint": ">=9.1,<10"
+      },
+      "scikit-learn": {
+        "version": "1.7.2",
+        "declared_constraint": ">=1.7,<2"
+      },
+      "numpy": {
+        "version": "2.2.6",
+        "declared_constraint": ">=2.2,<3"
+      },
+      "pandas": {
+        "version": "2.3.3",
+        "declared_constraint": ">=2.3,<3"
+      }
+    }
+  },
+  "catalogue": {
+    "repository_relative_path": "Component_B_v1.0/R26-IT-138_Component_B_Item_and_Task_Set_Catalogue_v1.0.md",
+    "observed_absolute_path": "C:\\Users\\Yasindu\\Desktop\\ResearchProject\\Yass\\Component_B_v1.0\\R26-IT-138_Component_B_Item_and_Task_Set_Catalogue_v1.0.md",
+    "version": "1.0",
+    "status": "PROPOSED_FOR_APPROVAL",
+    "sha256": "eaf073da8af155bdb935b7c2abfba04f892bbfecf44522f20f044aeec4b579ac",
+    "coverage_report": "backend/provenance/component-b-coverage.json",
+    "catalogue_response_formats": [
+      "binary_or_choice",
+      "interactive_set_selection",
+      "ordered_integer_sequence",
+      "ordered_list",
+      "relation_choice",
+      "single_choice",
+      "single_choice_or_integer",
+      "single_integer",
+      "single_integer_or_choice",
+      "single_integer_or_mark",
+      "single_mark_choice",
+      "structured_exchange",
+      "structured_pair",
+      "structured_triple_or_expression"
+    ],
+    "implemented_runtime_response_formats": [
+      "binary_or_choice",
+      "expanded_form",
+      "interactive_set_selection",
+      "ordered_list",
+      "relation_choice",
+      "single_choice",
+      "single_choice_or_integer",
+      "single_integer",
+      "single_integer_or_choice"
+    ],
+    "response_format_mapping_status": "UNRESOLVED_4_OF_4",
+    "response_format_mapping_review": "backend/provenance/component-b-closure-decisions.json"
+  },
+  "coverage": {
+    "catalogue_template_count": 36,
+    "implemented_count": 29,
+    "implemented_template_ids": [
+      "B-ADD01-COMBINE-SETS",
+      "B-ADD02-COUNT-ON",
+      "B-ADD03-SINGLE-DIGIT",
+      "B-ADD04-2D-NO-REGROUP",
+      "B-ADD05-REGROUP",
+      "B-CNT01-SEQ-CONTINUE",
+      "B-CNT02-COUNT-OBJECTS",
+      "B-CNT03-HOW-MANY",
+      "B-CNT04-MAKE-SET",
+      "B-CNT06-SKIP-COUNT",
+      "B-DIV01-EQUAL-SHARING",
+      "B-DIV02-EQUAL-GROUPING",
+      "B-DIV03-DIVIDE-BY-2",
+      "B-MUL01-EQUAL-GROUPS",
+      "B-MUL02-ARRAY-TOTAL",
+      "B-MUL03-FACTS-2-5-10",
+      "B-NS02-QUANTITY-NUMERAL",
+      "B-NS03-COMPARE-SETS",
+      "B-NS04-COMPARE-NUMERALS",
+      "B-NS05-ORDER-NUMBERS",
+      "B-NS07-CONSERVATION",
+      "B-PV01-IDENTIFY-TENS-ONES",
+      "B-PV02-DECOMPOSE-2D",
+      "B-PV03-IDENTIFY-HTO",
+      "B-PV04-DECOMPOSE-3D",
+      "B-SUB01-TAKE-AWAY",
+      "B-SUB03-WITHIN-9",
+      "B-SUB04-2D-NO-BORROW",
+      "B-SUB05-BORROW"
+    ],
+    "deferred_count": 7,
+    "deferred_templates": [
+      {
+        "template_id": "B-CNT05-FORWARD-FROM-N",
+        "coverage_status": "calibration_restricted",
+        "decision_code": "DEFER_CALIBRATION_PENDING"
+      },
+      {
+        "template_id": "B-DIV04-INVERSE-FACT",
+        "coverage_status": "calibration_restricted",
+        "decision_code": "DEFER_CALIBRATION_PENDING"
+      },
+      {
+        "template_id": "B-NS01-READ-NUMERAL",
+        "coverage_status": "insufficiently_specified",
+        "decision_code": "DEFER_UNDERSPECIFIED"
+      },
+      {
+        "template_id": "B-NS06-NUMBER-LINE",
+        "coverage_status": "calibration_restricted",
+        "decision_code": "DEFER_CALIBRATION_PENDING"
+      },
+      {
+        "template_id": "B-PV05-REGROUP-ONES",
+        "coverage_status": "insufficiently_specified",
+        "decision_code": "DEFER_UNDERSPECIFIED"
+      },
+      {
+        "template_id": "B-PV06-UNGROUP-TEN",
+        "coverage_status": "insufficiently_specified",
+        "decision_code": "DEFER_UNDERSPECIFIED"
+      },
+      {
+        "template_id": "B-SUB02-DIFFERENCE",
+        "coverage_status": "calibration_restricted",
+        "decision_code": "DEFER_CALIBRATION_PENDING"
+      }
+    ]
+  },
+  "scientific_configuration": {
+    "status_vocabulary": [
+      "APPROVED",
+      "APPROVED_FOR_PROVISIONAL_IMPLEMENTATION",
+      "PROVISIONAL",
+      "ENGINEERING_ASSUMPTION",
+      "CALIBRATION_PENDING",
+      "DISABLED",
+      "UNRESOLVED"
+    ],
+    "bkt_parameters": {
+      "status": "CALIBRATION_PENDING",
+      "source": [
+        "Component_B_v1.0/R26-IT-138_Component_B_Empirical_Statistical_Parameters_v1.0.md",
+        "Implementation_v1.0/component_b_generator/bkt/config.py"
+      ],
+      "required_shape": "Separate P(L0), P(T), P(G), and P(S) for each of the seven frozen skills",
+      "approved_values": null,
+      "note": "The code has no production numeric defaults. Existing test-fixture parameters must not be promoted to live configuration."
+    },
+    "certification_threshold": {
+      "status": "CALIBRATION_PENDING",
+      "source": "Implementation_v1.0/component_b_generator/bkt/config.py",
+      "parameter": "theta_B",
+      "approved_value": null
+    },
+    "guess_guard": {
+      "rule_status": "APPROVED_FOR_PROVISIONAL_IMPLEMENTATION",
+      "numeric_configuration_status": "CALIBRATION_PENDING",
+      "source": [
+        "Implementation_v1.0/component_b_generator/bkt/guess_guard.py",
+        "Implementation_v1.0/component_b_generator/bkt/certification.py"
+      ],
+      "approved_floor_quantile": null,
+      "approved_minimum_observations": null,
+      "insufficient_evidence_effect": "Certification is false until evidence is sufficient, even when mastery exceeds theta_B",
+      "certification_sticky": false
+    },
+    "sequencing": {
+      "rule_status": "APPROVED_FOR_PROVISIONAL_IMPLEMENTATION",
+      "source": [
+        "Component_B_Generator_v1.0/SPEC.md",
+        "Implementation_v1.0/component_b_generator/sequencing/config.py"
+      ],
+      "weights": {
+        "mastery_gap": 0.5,
+        "prerequisite_readiness": 0.3,
+        "spacing_due": 0.2
+      },
+      "weights_status": "APPROVED_FOR_PROVISIONAL_IMPLEMENTATION",
+      "prerequisites": "soft scoring inputs",
+      "hard_gates": [
+        "grade",
+        "implementation_support",
+        "catalogue_availability"
+      ],
+      "spacing_saturation_sessions": {
+        "value": 4,
+        "status": "ENGINEERING_ASSUMPTION",
+        "source": "Implementation_v1.0/component_b_generator/sequencing/features.py"
+      }
+    },
+    "hint_catalogue": {
+      "status": "PROVISIONAL",
+      "source": "Component_B_v1.0/R26-IT-138_Component_B_Item_and_Task_Set_Catalogue_v1.0.md",
+      "catalogue_sha256": "eaf073da8af155bdb935b7c2abfba04f892bbfecf44522f20f044aeec4b579ac",
+      "implemented_coverage": "All 29 implemented templates have nonblank exact L1, L2, and L3 content",
+      "fallback": "DISABLED"
+    },
+    "attempt_limits": {
+      "live_policy_status": "UNRESOLVED",
+      "approved_values": null,
+      "note": "Synthetic attempt-loop bounds exist for generator experiments but are not automatically authorized for the live backend."
+    },
+    "timeout_policy": {
+      "semantic_rule_status": "APPROVED_FOR_PROVISIONAL_IMPLEMENTATION",
+      "numeric_threshold_status": "UNRESOLVED",
+      "approved_threshold": null,
+      "rule": "A genuine server-enforced first-attempt timeout may be incorrect; a network, API, database, or infrastructure failure is technical and never learner failure."
+    },
+    "completion_policy": {
+      "status": "UNRESOLVED",
+      "approved_values": null
+    },
+    "safe_progress_policy": {
+      "status": "UNRESOLVED",
+      "approved_version": null
+    },
+    "cold_start_policy": {
+      "status": "DISABLED",
+      "override_enabled": false,
+      "note": "Evidence may be persisted later, but no unapproved bootstrap override may alter live mastery or sequencing."
+    },
+    "calibration_limitations": {
+      "status": "CALIBRATION_PENDING",
+      "items": [
+        "BKT parameters",
+        "certification threshold",
+        "Guess-Guard numeric floor policy",
+        "catalogue operand and difficulty thresholds",
+        "attempt and timeout numeric bounds",
+        "seven deferred templates"
+      ]
+    },
+    "academic_owner_approval": {
+      "status": "UNRESOLVED",
+      "formal_signoff_recorded": false
+    }
+  },
+  "generator_packaging": {
+    "planned_strategy": "MINIMAL_UPADYA_COMPONENT_B_LIVE_ENGINE_AT_BE3",
+    "decision_status": "ARCHITECTURE_CORRECTED_LIVE_ENGINE_NOT_BUILT",
+    "current_be0_supply": "Pinned immutable Yass source commit/tree used only for characterization",
+    "wheel_built": true,
+    "wheel_classification": "BE0_RESEARCH_REPRODUCIBILITY_ARTIFACT_ONLY",
+    "wheel_filename": "upadya_component_b_generator-0.1.0+be0.0e86fdc-py3-none-any.whl",
+    "wheel_sha256": "12b5ba5b7e8a70785a3e2b49e5c07bc8f89cc677c268ea509907f8f6d517e750",
+    "wheel_application_container_installation": "PROHIBITED",
+    "installed_wheel_test": {
+      "status": "FAILED_ONE_OFFLINE_PILOT_PROVENANCE_ASSERTION",
+      "passed": 884,
+      "failed": 1,
+      "skipped": 0,
+      "warnings": 0,
+      "duration_seconds": 213.14,
+      "output_sha256": "03514e92481b4458cc775d9c1f0ca359ec63eeed97bea4c0680815888895c41c",
+      "scientific_logic_failure": false,
+      "rerun_or_fix_performed": false
+    },
+    "future_live_engine_package": "upadya-component-b-live-engine",
+    "future_live_engine_build_phase": "BE3",
+    "future_live_engine_built": false,
+    "live_engine_reuse_map": "backend/provenance/component-b-live-engine-reuse-map.json",
+    "repository_relative_source_import": "REJECTED",
+    "decision_record": "backend/provenance/component-b-closure-decisions.json",
+    "required_live_engine_contents": [
+      "only the reviewed live-safe source dependency closure listed in component-b-live-engine-reuse-map.json",
+      "only required shared models and validators",
+      "no synthetic learner, cohort, simulated response/latency, pipeline, pilot, audit runner, dataset-generation, or experiment-runner modules"
+    ],
+    "catalogue_supply": "Explicit runtime-bundle path and checksum; never rely on the loader's repository-relative default",
+    "stale_metadata_limitation": "GENERATOR_PACKAGE_VERSION remains 0.1.0-phase-b1 even though the source includes B1 through B6; commit, tree, shared-module, catalogue, and configuration checksums are authoritative.",
+    "safe_for_live_adapter_use": [
+      "catalogue loading and activation",
+      "coverage classification",
+      "deterministic task generation",
+      "answer normalization and evaluation",
+      "catalogue hint lookup",
+      "BKT state and update mathematics",
+      "Guess-Guard and certification",
+      "adaptive sequencing",
+      "session aggregation"
+    ],
+    "offline_or_synthetic_only": [
+      "behaviour simulation",
+      "hidden learner truth",
+      "latency simulation",
+      "cohort generation",
+      "pipeline.py",
+      "pilot.py",
+      "synthetic experiment runners",
+      "population/dd_subtype-driven audits"
+    ],
+    "live_import_policy": "Offline or synthetic-only modules must never be imported by live backend API, application, or infrastructure adapters."
+  },
+  "python_3_11_runtime_reconciliation": {
+    "status": "PASSED",
+    "intended_docker_ci_runtime_baseline": true,
+    "python_version": "3.11.15",
+    "operating_system": "Microsoft Windows NT 10.0.26200.0",
+    "architecture": "x64",
+    "verification_environment": "clean Conda prefix installed from hash lock with pip --require-hashes",
+    "dependency_lock": {
+      "path": "backend/provenance/requirements-generator-win-py311.lock",
+      "sha256": "27c04928c42688e45d7c82e44d07623c0f7d9c3cee8dd2ab3650532d32d6b04a",
+      "byte_identical_to_python_3_10_lock": true,
+      "package_count": 29
+    },
+    "full_suite": {
+      "collected": 885,
+      "passed": 885,
+      "failed": 0,
+      "skipped": 0,
+      "warnings": 0,
+      "errors": 0,
+      "pytest_reported_duration_seconds": 192.97,
+      "captured_output_sha256": "e3c7a35695b240b99c957d4f228ff99cf662726a2f5732a38a7489883c45b6eb"
+    },
+    "focused_suite": {
+      "collected": 20,
+      "passed": 20,
+      "failed": 0,
+      "skipped": 0,
+      "warnings": 0,
+      "errors": 0,
+      "pytest_reported_duration_seconds": 1.59,
+      "captured_output_sha256": "7c5450e4934e30b8485d5cc1b4876c144bae83874402b6094af813a7ce776ed1"
+    },
+    "deterministic_generation": {
+      "global_seed": 20260716,
+      "item_instance_count": 54,
+      "private_output_sha256": "b1d8cb3388ac7e47dd353af68210b24debf3d49791f40a6447ad57f74641926c",
+      "matches_python_3_10": true
+    },
+    "scientific_logic_changed": false,
+    "detailed_report": "backend/provenance/component-b-characterization.json"
+  },
+  "governance": {
+    "overall_release_approval": "UNRESOLVED",
+    "decision_register": "backend/provenance/component-b-closure-decisions.json",
+    "catalogue_approval": "PROVISIONAL",
+    "scientific_parameter_status": "CALIBRATION_PENDING",
+    "formal_academic_signoff": "UNRESOLVED",
+    "cold_start_override": "DISABLED",
+    "live_runtime_constraints": [
+      "Synthetic learner behaviour and hidden truth are offline-only",
+      "Population and dd_subtype are audit/synthetic-only and cannot control live runtime",
+      "The seven deferred templates remain fail-closed",
+      "Only first-attempt observations may update BKT",
+      "No Component C or Component 3 implementation is part of this baseline"
+    ]
+  },
+  "be0_closure_exit_gate": {
+    "technical_characterization": "PASSED",
+    "reproducibility": "PASSED",
+    "python_3_11_compatibility": "PASSED_WINDOWS_X64",
+    "packaging": "FULL_WHEEL_RESEARCH_ONLY_MINIMAL_LIVE_ENGINE_DEFERRED_TO_BE3",
+    "response_mappings": "UNRESOLVED_4_OF_4",
+    "governance_approvals": "UNRESOLVED",
+    "permission_to_begin_be1_engineering": "INFRASTRUCTURE_ONLY_BE1_AUTHORIZED",
+    "full_research_wheel_runtime_use": "PROHIBITED",
+    "be2_be3_be4_be5_pilot_production": "BLOCKED_BY_PHASE_AND_UNRESOLVED_GOVERNANCE",
+    "pilot_or_production_readiness": "NOT_READY"
+  },
+  "characterization_test_run": {
+    "status": "PASSED",
+    "scope_definition": "Component B-specific generator tests: activation classification plus every test_b_generator_phase_*.py file; Component C tests and future shared B-to-C/B-to-3 contract tests are excluded",
+    "characterization_report": "backend/provenance/component-b-characterization.json",
+    "environment": "clean temporary venv installed from the committed hash lock with pip --require-hashes",
+    "dependency_lock_used": "backend/provenance/requirements-generator-win-py310.lock",
+    "dependency_lock_sha256": "27c04928c42688e45d7c82e44d07623c0f7d9c3cee8dd2ab3650532d32d6b04a",
+    "test_file_count": 15,
+    "test_files": [
+      "tests/test_activation_classification.py",
+      "tests/test_b_generator_phase_b1.py",
+      "tests/test_b_generator_phase_b2a.py",
+      "tests/test_b_generator_phase_b2a2.py",
+      "tests/test_b_generator_phase_b2b0.py",
+      "tests/test_b_generator_phase_b2b1.py",
+      "tests/test_b_generator_phase_b2b2.py",
+      "tests/test_b_generator_phase_b2b3.py",
+      "tests/test_b_generator_phase_b3.py",
+      "tests/test_b_generator_phase_b4.py",
+      "tests/test_b_generator_phase_b5.py",
+      "tests/test_b_generator_phase_b6_0.py",
+      "tests/test_b_generator_phase_b6_1_leakage.py",
+      "tests/test_b_generator_phase_b6_2_fidelity.py",
+      "tests/test_b_generator_phase_b6_3_pilot.py"
+    ],
+    "working_directory": "Implementation_v1.0",
+    "command": "C:\\tmp\\component-b-be0-venv-20260722\\Scripts\\python.exe -B -m pytest -q --tb=short -p no:cacheprovider tests/test_activation_classification.py tests/test_b_generator_phase_b1.py tests/test_b_generator_phase_b2a.py tests/test_b_generator_phase_b2a2.py tests/test_b_generator_phase_b2b0.py tests/test_b_generator_phase_b2b1.py tests/test_b_generator_phase_b2b2.py tests/test_b_generator_phase_b2b3.py tests/test_b_generator_phase_b3.py tests/test_b_generator_phase_b4.py tests/test_b_generator_phase_b5.py tests/test_b_generator_phase_b6_0.py tests/test_b_generator_phase_b6_1_leakage.py tests/test_b_generator_phase_b6_2_fidelity.py tests/test_b_generator_phase_b6_3_pilot.py",
+    "started_at_utc": "2026-07-21T19:03:30.4054736Z",
+    "finished_at_utc": "2026-07-21T19:08:23.1680282Z",
+    "duration_seconds": 292.763,
+    "pytest_reported_duration_seconds": 292.09,
+    "collected_tests": 885,
+    "passed": 885,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "warnings": 0,
+    "exit_code": 0,
+    "result_summary": "885 passed in 292.09s (0:04:52)",
+    "initial_conda_confirmation_run": {
+      "environment": "conda:component_b",
+      "started_at_utc": "2026-07-21T18:46:15.3207202Z",
+      "finished_at_utc": "2026-07-21T18:51:33.3709842Z",
+      "duration_seconds": 318.05,
+      "pytest_reported_duration_seconds": 315.21,
+      "passed": 885,
+      "failed": 0,
+      "exit_code": 0
+    },
+    "post_run_integrity": {
+      "git_commit_unchanged": true,
+      "generator_git_tree_unchanged": true,
+      "catalogue_sha256_unchanged": true,
+      "component_b_source_and_test_scope_worktree_clean": true
+    }
+  }
+}

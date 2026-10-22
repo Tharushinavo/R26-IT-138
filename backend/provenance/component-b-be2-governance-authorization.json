@@ -1,0 +1,439 @@
+{
+  "schema_version": "1.0",
+  "component": "B",
+  "review": "BE1_TO_BE2_GOVERNANCE_AUTHORIZATION",
+  "recorded_at_utc": "2026-07-22T03:01:05.774Z",
+  "technical_baseline": {
+    "be1_batch_3_commit": "7d6ef7036120185a1017a7773bb46990c39d7c66",
+    "be1_closure_review_commit": "6a7b4a9",
+    "technical_gates": "PASSED",
+    "tests": "26 passed",
+    "migrations": "upgrade_downgrade_upgrade passed",
+    "business_tables_at_review_start": 0
+  },
+  "documents_reviewed": [
+    "backend/provenance/component-b-baseline.json",
+    "backend/provenance/component-b-closure-decisions.json",
+    "backend/provenance/component-b-coverage.json",
+    "backend/provenance/component-b-characterization.json",
+    "backend/provenance/component-b-live-engine-reuse-map.json",
+    "backend/provenance/runtime-bundle.schema.json",
+    "backend/buildLog.md",
+    "backend.md",
+    "backend/BEplan.md",
+    "../componantBArchi.md",
+    "../Component_B_Backend_Frontend_Software_Architecture_v1.0.md",
+    "Yass/Component_B_Generator_v1.0/SPEC.md",
+    "Yass/Registers_v0.3/R26-IT-138_Component_B_Variable_Register_v0.3.md",
+    "Yass/Registers_v0.3/R26-IT-138_Shared_Foundation_Decision_Register_v0.3.md",
+    "Yass/Governance/R26-IT-138_Blocking_Decisions_Memo_v1.0_APPROVED.md",
+    "Yass/Governance/R26-IT-138_Approval_Status_Confirmation.md",
+    "Yass/Component_B_v1.0/R26-IT-138_Component_B_Empirical_Statistical_Parameters_v1.0.md",
+    "Yass/Component_B_v1.0/R26-IT-138_Component_B_Item_and_Task_Set_Catalogue_v1.0.md"
+  ],
+  "blockers": [
+    {
+      "blocker_name": "authenticated user identity ownership",
+      "current_status": "RESOLVED_FOR_SCHEMA",
+      "authoritative_source": "backend/BEplan.md BE1.8; backend.md 11.1; Component_B_Backend_Frontend_Software_Architecture_v1.0.md sections 12 and 20",
+      "blocks_persistence_schema": false,
+      "blocks_api_behavior": false,
+      "blocks_scientific_behavior": false,
+      "may_be_formally_deferred": false,
+      "required_owner_or_approver": "backend security owner for later role and relationship policy",
+      "permitted_engineering_behavior_while_unresolved": "Treat the verified Supabase JWT subject as the unique external application-user key; store no token and do not use it as the learner identifier."
+    },
+    {
+      "blocker_name": "learner identity and account-to-learner cardinality",
+      "current_status": "PARTIALLY_RESOLVED_CARDINALITY_UNAPPROVED",
+      "authoritative_source": "backend.md 11.1; backend/BEplan.md BE1.9 and BE2.1; Component_B_Backend_Frontend_Software_Architecture_v1.0.md identity and access-control domains",
+      "blocks_persistence_schema": false,
+      "blocks_api_behavior": true,
+      "blocks_scientific_behavior": false,
+      "may_be_formally_deferred": true,
+      "required_owner_or_approver": "product owner and child-access/privacy owner",
+      "permitted_engineering_behavior_while_unresolved": "Use a separate opaque learner UUID and a junction relation that does not impose one-to-one cardinality; do not expose learner selection, linking, or CRUD behavior."
+    },
+    {
+      "blocker_name": "learner grade ownership and change policy",
+      "current_status": "UNRESOLVED",
+      "authoritative_source": "backend/BEplan.md BE2.3; backend.md 9.1 and 11.2; catalogue grade_scope",
+      "blocks_persistence_schema": false,
+      "blocks_api_behavior": true,
+      "blocks_scientific_behavior": true,
+      "may_be_formally_deferred": true,
+      "required_owner_or_approver": "product owner, authorized educator/guardian policy owner, and academic owner",
+      "permitted_engineering_behavior_while_unresolved": "A nullable grade field constrained to 2 or 3 may be modeled; no default, inferred grade, grade-change endpoint, session activation, or grade-dependent behavior is permitted."
+    },
+    {
+      "blocker_name": "session lifecycle states and active-session cardinality",
+      "current_status": "STATE_VOCABULARY_DOCUMENTED_TRANSITION_EXECUTION_WITHHELD",
+      "authoritative_source": "backend.md sections 9.1 and 10.3; Component_B_Backend_Frontend_Software_Architecture_v1.0.md section 13",
+      "blocks_persistence_schema": false,
+      "blocks_api_behavior": true,
+      "blocks_scientific_behavior": false,
+      "may_be_formally_deferred": true,
+      "required_owner_or_approver": "product owner and backend domain owner",
+      "permitted_engineering_behavior_while_unresolved": "Model the documented state vocabulary and a database constraint allowing at most one starting or active session per learner; create no live session and execute no transition."
+    },
+    {
+      "blocker_name": "session start resume abandon recovery and replacement semantics",
+      "current_status": "UNRESOLVED",
+      "authoritative_source": "backend/BEplan.md BE2.3; Component_B_Backend_Frontend_Software_Architecture_v1.0.md sections 13.2-13.5",
+      "blocks_persistence_schema": false,
+      "blocks_api_behavior": true,
+      "blocks_scientific_behavior": false,
+      "may_be_formally_deferred": true,
+      "required_owner_or_approver": "product owner and child-safety/operations owner",
+      "permitted_engineering_behavior_while_unresolved": "Repository interfaces and constraints may be designed using isolated synthetic fixtures; start, resume, abandon, replacement, and recovery APIs remain prohibited."
+    },
+    {
+      "blocker_name": "session expiry policy",
+      "current_status": "UNRESOLVED",
+      "authoritative_source": "component-b-closure-decisions.json timeout policy; backend/BEplan.md BE2.3",
+      "blocks_persistence_schema": false,
+      "blocks_api_behavior": true,
+      "blocks_scientific_behavior": true,
+      "may_be_formally_deferred": true,
+      "required_owner_or_approver": "product owner with academic/research approval",
+      "permitted_engineering_behavior_while_unresolved": "An optional UTC expiry timestamp may be modeled without a default; no duration, automatic expiry, learner outcome, or replacement behavior may be invented."
+    },
+    {
+      "blocker_name": "command idempotency and duplicate submission",
+      "current_status": "ENGINEERING_CONTRACT_APPROVED",
+      "authoritative_source": "backend.md section 10.2; backend/BEplan.md non-negotiable 14 and BE2.4",
+      "blocks_persistence_schema": false,
+      "blocks_api_behavior": false,
+      "blocks_scientific_behavior": false,
+      "may_be_formally_deferred": false,
+      "required_owner_or_approver": "backend security/reliability owner",
+      "permitted_engineering_behavior_while_unresolved": "Persist actor, operation, idempotency key, canonical body hash, status, canonical committed response, and expiry; identical replay returns the original response and body mismatch conflicts; enforce concurrency atomically."
+    },
+    {
+      "blocker_name": "maximum attempts per item",
+      "current_status": "UNRESOLVED",
+      "authoritative_source": "component-b-baseline.json scientific_configuration.attempt_limits; component-b-closure-decisions.json governance_register",
+      "blocks_persistence_schema": false,
+      "blocks_api_behavior": true,
+      "blocks_scientific_behavior": true,
+      "may_be_formally_deferred": true,
+      "required_owner_or_approver": "product owner with academic/research approval",
+      "permitted_engineering_behavior_while_unresolved": "Do not store a default or synthetic-generator bound. Attempt tables and attempt APIs are outside the authorized BE2 scope."
+    },
+    {
+      "blocker_name": "first-attempt evidence retry persistence and duplicate attempt semantics",
+      "current_status": "FIRST_ATTEMPT_RULE_DOCUMENTED_RUNTIME_DEFERRED",
+      "authoritative_source": "backend/BEplan.md non-negotiable 6 and BE4.3-BE4.4; Yass Component B SPEC sections 6.10-6.11",
+      "blocks_persistence_schema": false,
+      "blocks_api_behavior": true,
+      "blocks_scientific_behavior": true,
+      "may_be_formally_deferred": true,
+      "required_owner_or_approver": "academic/research owner for evidence rule; backend owner for transactional realization",
+      "permitted_engineering_behavior_while_unresolved": "Preserve the rule as a future uniqueness requirement only. Do not add attempt, opportunity, mastery-update, or retry behavior in this limited scope."
+    },
+    {
+      "blocker_name": "server timing authority and raw timing provenance",
+      "current_status": "AUTHORITY_RESOLVED_THRESHOLD_UNRESOLVED",
+      "authoritative_source": "backend.md section 10.1; Blocking Decisions Memo; component-b-closure-decisions.json timeout policy",
+      "blocks_persistence_schema": false,
+      "blocks_api_behavior": true,
+      "blocks_scientific_behavior": true,
+      "may_be_formally_deferred": true,
+      "required_owner_or_approver": "product owner with academic/research approval for thresholds",
+      "permitted_engineering_behavior_while_unresolved": "Future schemas may distinguish server issuance/receipt UTC timestamps, raw server duration, optional client telemetry, and nullable derived classification. No threshold, pause deduction, timeout classification, or incorrect observation is permitted."
+    },
+    {
+      "blocker_name": "background pause reconnect and inactivity policy",
+      "current_status": "UNRESOLVED",
+      "authoritative_source": "Component_B_Backend_Frontend_Software_Architecture_v1.0.md sections 8.4, 13.5 and 25.4",
+      "blocks_persistence_schema": false,
+      "blocks_api_behavior": true,
+      "blocks_scientific_behavior": true,
+      "may_be_formally_deferred": true,
+      "required_owner_or_approver": "product owner, mobile owner, and academic/research approver",
+      "permitted_engineering_behavior_while_unresolved": "Store no derived pause-adjusted duration. Connectivity and infrastructure failures remain technical and cannot create learner attempts or outcomes."
+    },
+    {
+      "blocker_name": "session completion policy",
+      "current_status": "UNRESOLVED",
+      "authoritative_source": "component-b-baseline.json scientific_configuration.completion_policy; component-b-closure-decisions.json governance_register",
+      "blocks_persistence_schema": false,
+      "blocks_api_behavior": true,
+      "blocks_scientific_behavior": true,
+      "may_be_formally_deferred": true,
+      "required_owner_or_approver": "product owner and academic/research approver",
+      "permitted_engineering_behavior_while_unresolved": "Keep completion disabled. Completed must remain distinct from stopped, abandoned, expired, and technical_failed; no minimum item, evidence, or skill-coverage value may be stored as a default."
+    },
+    {
+      "blocker_name": "safe-progress and descriptive summary policy",
+      "current_status": "UNRESOLVED",
+      "authoritative_source": "component-b-baseline.json scientific_configuration.safe_progress_policy; runtime-bundle.schema.json",
+      "blocks_persistence_schema": false,
+      "blocks_api_behavior": true,
+      "blocks_scientific_behavior": true,
+      "may_be_formally_deferred": true,
+      "required_owner_or_approver": "product owner and academic/research approver",
+      "permitted_engineering_behavior_while_unresolved": "Expose no session summary, progress label, mastery, certification, readiness, recommendation, or provisional scientific result. Even descriptive learner counts remain unexposed until privacy and presentation approval."
+    },
+    {
+      "blocker_name": "catalogue response mappings and catalogue approval",
+      "current_status": "PROVISIONAL_MAPPINGS_UNRESOLVED_4_OF_4",
+      "authoritative_source": "component-b-closure-decisions.json response_format_mapping_review and governance_register",
+      "blocks_persistence_schema": false,
+      "blocks_api_behavior": true,
+      "blocks_scientific_behavior": true,
+      "may_be_formally_deferred": true,
+      "required_owner_or_approver": "Component B owner, frontend contract owner, and academic/research approver",
+      "permitted_engineering_behavior_while_unresolved": "Do not add response-format fields, item opportunities, submitted-answer contracts, renderers, or session activation."
+    },
+    {
+      "blocker_name": "BKT sequencing hints certification Guess-Guard task generation and live-engine package",
+      "current_status": "BE3_AND_BE4_ONLY_NOT_AUTHORIZED",
+      "authoritative_source": "component-b-live-engine-reuse-map.json; component-b-baseline.json; backend/BEplan.md BE3-BE4",
+      "blocks_persistence_schema": false,
+      "blocks_api_behavior": true,
+      "blocks_scientific_behavior": true,
+      "may_be_formally_deferred": true,
+      "required_owner_or_approver": "Component B owner and academic/research calibration owner",
+      "permitted_engineering_behavior_while_unresolved": "BE2 may store only identifiers, lifecycle metadata, provenance, audit, and idempotency. No scientific values, placeholder probabilities, task payloads, answer evaluation, hint content, selection features, or live-engine import is permitted."
+    },
+    {
+      "blocker_name": "runtime-bundle publication and session pinning",
+      "current_status": "SCHEMA_DEFINED_NO_APPROVED_PUBLISHED_BUNDLE",
+      "authoritative_source": "runtime-bundle.schema.json; component-b-baseline.json governance",
+      "blocks_persistence_schema": false,
+      "blocks_api_behavior": true,
+      "blocks_scientific_behavior": true,
+      "may_be_formally_deferred": true,
+      "required_owner_or_approver": "Component B owner and academic/research approver",
+      "permitted_engineering_behavior_while_unresolved": "Model immutable bundle identity/checksum references only; do not publish, activate, fabricate, or pin a live session to a draft or incomplete bundle."
+    },
+    {
+      "blocker_name": "data provenance and synthetic-real separation",
+      "current_status": "MANDATORY_ENGINEERING_CONTRACT",
+      "authoritative_source": "component-b-live-engine-reuse-map.json; Component_B_Backend_Frontend_Software_Architecture_v1.0.md sections 22.2, 24 and 28.4",
+      "blocks_persistence_schema": false,
+      "blocks_api_behavior": false,
+      "blocks_scientific_behavior": false,
+      "may_be_formally_deferred": false,
+      "required_owner_or_approver": "backend data owner and research governance owner",
+      "permitted_engineering_behavior_while_unresolved": "Use explicit origin, source-system, source-record, environment, schema-revision, creation time, actor and request audit fields. Synthetic/test fixtures must use isolated databases and visibly synthetic identities; they can never be copied into live learner tables."
+    },
+    {
+      "blocker_name": "privacy consent retention withdrawal and deletion",
+      "current_status": "RETENTION_AND_WITHDRAWAL_POLICY_UNRESOLVED",
+      "authoritative_source": "Component_B_Backend_Frontend_Software_Architecture_v1.0.md sections 10.5, 24.5 and 28.4",
+      "blocks_persistence_schema": false,
+      "blocks_api_behavior": true,
+      "blocks_scientific_behavior": false,
+      "may_be_formally_deferred": true,
+      "required_owner_or_approver": "ethics/project governance, privacy owner, and child-safety owner",
+      "permitted_engineering_behavior_while_unresolved": "Design minimum-data pseudonymous schemas and access boundaries using isolated synthetic fixtures only. No production/staging real-child persistence, live session start, identifying data, research export, or deletion automation is authorized."
+    },
+    {
+      "blocker_name": "formal owner and academic approval",
+      "current_status": "UNRESOLVED",
+      "authoritative_source": "component-b-closure-decisions.json governance_register; Yass Approval Status Confirmation",
+      "blocks_persistence_schema": false,
+      "blocks_api_behavior": true,
+      "blocks_scientific_behavior": true,
+      "may_be_formally_deferred": true,
+      "required_owner_or_approver": "named Component B owner and named academic/research approver",
+      "permitted_engineering_behavior_while_unresolved": "Proceed only within this non-live, non-scientific limited scope. Pilot, production, session behavior and scientific activation remain fail-closed."
+    }
+  ],
+  "be2_scope": {
+    "authorization_class": "LIMITED_SCHEMA_AND_REPOSITORY_FOUNDATION_ONLY",
+    "data_environment": "ISOLATED_SYNTHETIC_TEST_DATA_ONLY",
+    "authorized_tables": [
+      {
+        "name": "app_users",
+        "purpose": "Verified Supabase-subject mapping and account status only; no tokens or credentials."
+      },
+      {
+        "name": "b_learners",
+        "purpose": "Opaque pseudonymous learner identity, nullable grade constrained to 2 or 3, and neutral status fields; no research or synthetic traits."
+      },
+      {
+        "name": "app_user_learner_links",
+        "purpose": "Cardinality-neutral authorization relation; no assumption that one account owns exactly one learner and no public linking behavior."
+      },
+      {
+        "name": "b_runtime_bundle_records",
+        "purpose": "Immutable manifest identity and checksum metadata only; no activation or invented scientific configuration."
+      },
+      {
+        "name": "b_sessions",
+        "purpose": "Lifecycle/provenance projection only; no live rows or executable session behavior until required approvals exist."
+      },
+      {
+        "name": "b_session_events",
+        "purpose": "Append-only technical and lifecycle audit events with privacy-safe payloads; no learner answers or scientific outcomes."
+      },
+      {
+        "name": "b_idempotency_records",
+        "purpose": "Operation-scoped request fingerprints and canonical committed responses for future commands."
+      },
+      {
+        "name": "b_audit_events",
+        "purpose": "Append-only actor, reason, reference, request and approval evidence for privileged or lifecycle-relevant actions."
+      }
+    ],
+    "authorized_endpoints": [],
+    "endpoint_note": "No new BE2 API, CRUD, lifecycle, recovery, resume, or summary endpoint is authorized. Existing BE1 endpoints are unchanged.",
+    "authorized_state_transitions": [],
+    "state_vocabulary_allowed_for_schema": [
+      "starting",
+      "active",
+      "completing",
+      "completed",
+      "abandoned",
+      "expired",
+      "technical_failed"
+    ],
+    "transition_note": "The vocabulary may be constrained in the schema, but no transition may be executed against live data in this limited scope.",
+    "required_constraints": [
+      "Supabase subject is unique in app_users and is never used as learner_id.",
+      "learner_id and session_id are opaque UUIDs.",
+      "Account-to-learner mapping must not encode a one-to-one assumption.",
+      "grade is nullable and, when present, restricted to integer 2 or 3 with no default.",
+      "At most one session in starting or active state per learner.",
+      "Published runtime-bundle records are immutable; no bundle may be marked active without complete approved checksums.",
+      "Session active state requires an immutable approved runtime-bundle reference; because none exists, live activation fails closed.",
+      "Session and audit event records are append-only.",
+      "Mutable projections use a non-negative row version.",
+      "All timestamps are timezone-aware UTC and are server generated.",
+      "No cascading deletion may silently erase audit or scientific history.",
+      "Synthetic and test rows exist only in isolated non-live databases and cannot be promoted or copied into real learner records."
+    ],
+    "required_idempotency_behavior": {
+      "scope": "authenticated actor plus HTTP method plus route/operation plus idempotency key",
+      "fingerprint": "canonical request-body hash",
+      "same_key_same_body": "return the canonical committed response without repeating the mutation",
+      "same_key_different_body": "return stable 409 conflict",
+      "concurrent_replay": "serialize through a unique constraint and lock; never execute twice",
+      "atomicity": "idempotency record and domain mutation commit in the same transaction",
+      "client_event_id": "future state-changing mobile commands also require a command-scoped unique client event ID",
+      "tokens": "never persisted"
+    },
+    "required_audit_fields": [
+      "record_id",
+      "created_at_utc",
+      "updated_at_utc_for_mutable_projections",
+      "actor_user_id_or_system_actor",
+      "request_id",
+      "operation_or_event_type",
+      "reason_code",
+      "resource_type",
+      "resource_id",
+      "before_reference_or_version",
+      "after_reference_or_version",
+      "source_class_REAL_SYNTHETIC_IMPORTED_TEST",
+      "source_system",
+      "source_record_id_when_applicable",
+      "environment",
+      "schema_revision",
+      "approval_evidence_reference_when_required"
+    ],
+    "prohibited_scientific_fields": [
+      "mastery_probability",
+      "BKT P(L0) P(T) P(G) P(S)",
+      "certification threshold or certified state",
+      "Guess-Guard thresholds or status",
+      "sequencing feature values scores weights or selection rationale",
+      "task private snapshot answer key distractor rules or generated task",
+      "hint content or hint policy",
+      "attempt limit timeout threshold completion threshold or safe-progress mapping",
+      "submitted or normalized answers correctness error class or mastery delta",
+      "provisional placeholder scientific values"
+    ],
+    "prohibited_synthetic_fields": [
+      "population",
+      "dd_subtype",
+      "hidden learner truth",
+      "true mastery",
+      "synthetic learner traits",
+      "simulated answer",
+      "simulated correctness",
+      "simulated latency or response time",
+      "off_day",
+      "learner random effect",
+      "synthetic cohort or experiment identifier",
+      "pipeline pilot or audit-runner output"
+    ],
+    "explicitly_prohibited_scope": [
+      "item-opportunity table",
+      "attempt table",
+      "mastery or skill-state table",
+      "hint table",
+      "selection table",
+      "session-summary or progress table",
+      "outbox or Component C/Component 3 integration table",
+      "learner CRUD and account-linking APIs",
+      "session start resume recover abandon expire complete APIs",
+      "lifecycle transition execution",
+      "real learner or child data collection",
+      "descriptive session summaries or counts",
+      "research export",
+      "live-engine package build or integration",
+      "full research-generator wheel or Yass source in the application",
+      "pilot or production behavior"
+    ],
+    "unresolved_policies_fail_closed": [
+      {
+        "policy": "grade owner and change policy",
+        "handling": "grade may remain null; no session activation or grade-dependent behavior"
+      },
+      {
+        "policy": "account-to-learner cardinality and relationship roles",
+        "handling": "cardinality-neutral relation only; no public link or selection behavior"
+      },
+      {
+        "policy": "session lifecycle resume abandonment expiry and replacement",
+        "handling": "no live session rows or executable transitions"
+      },
+      {
+        "policy": "attempt limit timing and timeout",
+        "handling": "no item opportunities attempts timeouts or derived learner outcomes"
+      },
+      {
+        "policy": "completion and safe progress",
+        "handling": "completion and all summaries/progress disabled"
+      },
+      {
+        "policy": "catalogue mappings and scientific configurations",
+        "handling": "no published live bundle engine adapter task generation or scientific field"
+      },
+      {
+        "policy": "consent retention withdrawal and deletion",
+        "handling": "isolated synthetic test data only; no real-child persistence or export"
+      },
+      {
+        "policy": "formal owner and academic sign-off",
+        "handling": "BE3 BE4 live flows pilot and production remain blocked"
+      }
+    ],
+    "be2_exit_criteria": [
+      "Only authorized tables and constraints are implemented through reviewed Alembic migrations.",
+      "Schema and repository tests use visibly synthetic identities in an isolated test database.",
+      "Migration upgrade downgrade upgrade passes in Docker PostgreSQL 16.",
+      "No new public endpoint or session lifecycle execution exists.",
+      "No item opportunity attempt mastery hint sequencing summary progress or integration table exists.",
+      "No scientific or synthetic-only field module wheel source path or dependency exists in the application.",
+      "Idempotency and concurrency constraints are proven at the repository/database layer.",
+      "Provenance and privacy-safe audit fields are present and sensitive values are absent from logs.",
+      "A BE2 closure review confirms the limited boundary and records which governance approvals are still required before BE3 or any live behavior."
+    ]
+  },
+  "formal_transition_decision": "BE1_CLOSED_BE2_LIMITED_SCOPE_AUTHORIZED",
+  "decision_effect": {
+    "be1": "CLOSED",
+    "be2": "AUTHORIZED_ONLY_FOR_NON_LIVE_SCHEMA_MIGRATION_REPOSITORY_IDEMPOTENCY_AND_AUDIT_FOUNDATIONS",
+    "be3": "BLOCKED",
+    "be4": "BLOCKED",
+    "be5": "BLOCKED_WHERE_DEPENDENT_ON_UNRESOLVED_RESPONSE_FORMATS_OR_LIVE_FLOW",
+    "controlled_pilot": "BLOCKED",
+    "production": "BLOCKED"
+  },
+  "exact_next_task": "Implement BE2 Limited Batch 1 only: the authorized neutral persistence models, Alembic migrations, repositories, idempotency/audit foundations, constraints, and isolated synthetic database tests. Add no endpoints, live records, lifecycle execution, item opportunities, attempts, scientific fields, live-engine integration, pilot, or production behavior."
+}

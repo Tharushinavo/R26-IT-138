@@ -1,0 +1,422 @@
+{
+  "schema_version": "1.0",
+  "authorization_version": "1.0",
+  "component": "B",
+  "review": "CLASSROOM_INVITE_MEMBERSHIP_VERSION_1_GOVERNANCE_AUTHORIZATION",
+  "recorded_at_utc": "2026-07-23T13:11:34Z",
+  "supersedes_for_this_scope": "backend/provenance/component-b-profile-classroom-authorization.json#authorized_endpoint_candidates (the eight POLICY_GATED_NOT_EXECUTABLE invite/membership endpoint candidates and the learner_multi_classroom_membership, invite_cross_learner_reuse_policy, and invite_expiry_duration entries under unresolved_decisions)",
+  "preserves_prior_decision_history": true,
+  "decision": "BE2_INVITE_MEMBERSHIP_SCOPE_AUTHORIZED",
+  "decision_summary": "The classroom invitation and membership workflow is authorized as a bounded Version 1 implementation batch: nine endpoints (including teacher-initiated invite revocation) reusing existing profile/classroom/invite/membership foundations, one narrowly scoped additive migration, and the Version 1 product decisions recorded below. No session, question, attempt, hint, progress, or scientific behavior is authorized. No implementation occurred during this authorization task or during the governance correction recorded in correction_log.",
+  "governance_status_dependency": {
+    "depends_on": "backend/provenance/component-b-profile-classroom-ratification.json#engineering_continuation",
+    "required_status": "ENGINEERING_CONTINUATION_ALLOWED_RATIFICATION_DEFERRED_TO_BE6",
+    "effect_if_status_changes": "If the engineering_continuation status is ever revoked or altered before BE6 without an equivalent replacement, this authorization is automatically suspended pending re-review; it does not independently authorize engineering work outside that status.",
+    "final_sign_off_still_required": "Product owner, backend security owner, and privacy and child-safety owner ratification remains required before any pilot use, per the same deferred-to-BE6 gate. This authorization does not create, satisfy, or shortcut that requirement."
+  },
+  "correction_log": [
+    {
+      "corrected_at_utc": "2026-07-23T13:11:34Z",
+      "correction_summary": "Standardized the invite-creation idempotency operation identifier to classroom_invite.create everywhere it appears; defined the canonical-fingerprint composition (including the normalized path parameter) required for path-based POST commands with empty bodies; authorized a ninth endpoint, POST /api/v1/classroom-invites/{classroom_invite_id}/revoke; expanded required_tests for revocation replay, path-parameter mismatch, concurrency, rollback, and leakage coverage; corrected the placeholder 2026-07-23T00:00:00Z recorded_at_utc value to the real recording time of this correction. The prior decision BE2_INVITE_MEMBERSHIP_SCOPE_AUTHORIZED, and the ENGINEERING_CONTINUATION_ALLOWED_RATIFICATION_DEFERRED_TO_BE6 / BE2_PROFILE_CLASSROOM_NOT_RATIFIED statuses this authorization depends on, are unchanged.",
+      "buildLog_reference": "backend/buildLog.md#Classroom-Invite-and-Membership-Authorization-Correction-Idempotency-and-Revocation"
+    },
+    {
+      "corrected_at_utc": "2026-07-24T04:02:15Z",
+      "correction_summary": "Post-closure record-keeping reconciliation only; no code, schema, migration, endpoint, or test changed, and the closed batch (commit 3e13106, pushed to origin/B_frontend) is unaffected. Ratifies the mid-batch product clarification that the invite secret is a human-readable classroom join code, not an opaque URL-safe string or a QR payload: an uppercase code drawn from the 31-symbol visually-unambiguous alphabet '23456789ABCDEFGHJKMNPQRSTUVWXYZ' (excludes 0/O/1/I/L), 8 characters generated via a CSPRNG (secrets.choice) for approximately log2(31)*8 = 39.6 bits of entropy, grouped 4-4 for display (for example 'M7KP-4X9D'), normalized case-insensitively and separator-insensitively, and SHA-256-hashed into the existing 64-lowercase-hex token_hash column. This supersedes the 'opaque raw token string' phrasing in the resolved_ambiguities crypto entry for WIRE-DISPLAY PURPOSES ONLY; the wire field names invite_token and the classroom_invite resource identity remain frozen, and the one-way-hash-storage, never-logged, and 24h-expiry-plus-revocation properties are unchanged. The approximately 39.6-bit entropy figure is recorded here as the specific value the deferred BE6 invite_token_cryptographic_contract review (still SECURITY_DESIGN_REQUIRED) must evaluate for a short, human-typeable, revocable, 24h code. Also carries forward the closure review's single non-blocking observation for BE6 backend-security-owner awareness: create_invite's insert is not wrapped in an IntegrityError handler for the pre-existing uq_classroom_invites_token_hash unique constraint; at approximately 39.6 bits this is not a practical collision risk at realistic invite volumes and is explicitly outside this batch's authorized IntegrityError-to-ConflictError conversion scope, which is limited to membership approval behind the partial unique index. The prior decision BE2_INVITE_MEMBERSHIP_SCOPE_AUTHORIZED, the first correction entry above, and the ENGINEERING_CONTINUATION_ALLOWED_RATIFICATION_DEFERRED_TO_BE6 / BE2_PROFILE_CLASSROOM_NOT_RATIFIED statuses this authorization depends on, are all unchanged; this reconciliation is not a named-approver ratification.",
+      "buildLog_reference": "backend/buildLog.md#BE2-Classroom-Invite-and-Membership-Join-Code-Ratification-and-Closure-Observation-Record"
+    }
+  ],
+  "reviewed_documents": [
+    "backend/provenance/component-b-profile-classroom-authorization.json",
+    "backend/provenance/component-b-profile-classroom-ratification.json",
+    "backend/buildLog.md",
+    "backend/app/application/profile_classroom.py",
+    "backend/app/api/routes/profile_classroom.py",
+    "backend/app/domain/profile_classroom.py",
+    "backend/app/infrastructure/persistence_models.py",
+    "backend/app/infrastructure/repositories.py",
+    "backend/app/infrastructure/unit_of_work.py",
+    "backend/app/core/errors.py",
+    "backend.md",
+    "frontend.md"
+  ],
+  "product_decisions_v1": [
+    { "id": 1, "text": "One teacher may own multiple classrooms.", "status": "UNCHANGED", "note": "Already true of the existing classrooms foundation; restated for completeness, no new engineering required." },
+    { "id": 2, "text": "One learner may have only one APPROVED classroom membership at a time." },
+    { "id": 3, "text": "A learner may have a pending request, but approval must fail if the learner already belongs to another classroom." },
+    { "id": 4, "text": "A classroom invite may be used by multiple different learners." },
+    { "id": 5, "text": "Repeated use by the same learner must return the existing membership/request safely." },
+    { "id": 6, "text": "Invite tokens must be random and unguessable." },
+    { "id": 7, "text": "Store only a cryptographic token hash, never the raw token." },
+    { "id": 8, "text": "Raw invite tokens must not appear in logs, audit payloads, errors, or database records." },
+    { "id": 9, "text": "An invite expires 24 hours after creation." },
+    { "id": 10, "text": "A teacher may revoke an invite." },
+    { "id": 11, "text": "Scanning or resolving an invite creates or returns a PENDING membership request only." },
+    { "id": 12, "text": "Only the classroom-owning teacher may approve or reject a request." },
+    { "id": 13, "text": "Membership states are exactly PENDING, APPROVED, and REJECTED." },
+    { "id": 14, "text": "Approval and rejection must be idempotent." },
+    { "id": 15, "text": "A teacher may list only requests and approved learners belonging to their own classroom." },
+    { "id": 16, "text": "A learner may retrieve only their own classroom membership." },
+    { "id": 17, "text": "Live endpoint-created records use server-controlled REAL provenance." },
+    { "id": 18, "text": "Tests must use isolated TEST provenance." },
+    { "id": 19, "text": "No password, raw JWT, invite token, unnecessary learner data, or scientific information may be stored or logged." }
+  ],
+  "resolved_ambiguities": [
+    {
+      "topic": "Interaction between decisions 3 and 2: can a learner hold PENDING requests to more than one classroom at once?",
+      "resolution": "Yes. Decision 3 places the one-membership check at APPROVAL time, not at REQUEST time, and the existing classroom_memberships unique pair is scoped to (classroom_id, learner_id), which does not prevent a learner from having separate PENDING rows for different classrooms. A learner may therefore hold multiple concurrent PENDING requests across different classrooms; at most one may ever become APPROVED.",
+      "consequence": "If a learner's request to classroom A is approved while a PENDING request to classroom B still exists, no automatic mutation of the classroom B row occurs. A later attempt to approve the classroom B request must fail with the authorized CONFLICT under decision 3's rule, exactly as it would for any other already-elsewhere-approved learner. No additional invented auto-rejection or auto-cleanup behavior is authorized."
+    },
+    {
+      "topic": "Division of responsibility between POST /api/v1/classroom-invites/resolve and POST /api/v1/classroom-memberships/requests.",
+      "resolution": "resolve is a non-mutating, authenticated preview: it validates the token against the stored hash, checks revocation and expiry, and returns the classroom name and grade without creating any classroom_memberships row. requests is the action that creates (or returns the existing) PENDING row. Decision 11's 'creates or returns a PENDING membership request only' is satisfied because the mutating half of this workflow (requests) never produces anything beyond PENDING; resolve produces nothing at all beyond an idempotency bookkeeping record."
+    },
+    {
+      "topic": "Repeated use by the same learner after a REJECTED outcome (decision 5).",
+      "resolution": "Decision 5 is read literally and conservatively: 'return the existing membership/request safely' applies regardless of the row's current state. A learner who was previously REJECTED and scans the same or another invite for the same classroom again receives their existing REJECTED record; no new PENDING row is created and no re-request pathway exists in this Version 1 authorization. A future re-request-after-rejection flow is out of scope and would require a separate governed decision."
+    },
+    {
+      "topic": "Invite token cryptographic implementation (decisions 6-8).",
+      "resolution": "This authorization fixes the required properties (cryptographically secure random source, sufficient entropy to make guessing infeasible, one-way hash storage only, never logged or persisted in raw form) but does not select the exact algorithm, library, or byte length, consistent with the prior authorization's SECURITY_DESIGN_REQUIRED treatment of the same topic. The existing classroom_invites.token_hash column is already constrained to 64 lowercase hexadecimal characters, which fixes the stored digest to a 256-bit hash (for example SHA-256); the specific hashing function and the raw token's generation method remain an implementation-time engineering decision within these bounds, subject to backend security owner review at BE6.",
+      "out_of_scope": "QR image encoding, rendering, or payload format is not defined by this authorization. The invite-creation endpoint returns only an opaque raw token string; whether or how a client renders that string as a QR code is a frontend concern outside this backend authorization."
+    },
+    {
+      "topic": "Expiry column nullability (decision 9).",
+      "resolution": "The existing classroom_invites.expires_at_utc column is nullable at the schema level. Decision 9 fixes a single Version 1 policy (always 24 hours from creation) enforced at the application layer, which does not require a schema change; the column already accepts the value the application must always populate. No migration is authorized to tighten this to NOT NULL, since the existing foundation does not lack a field or constraint required by this contract on this point."
+    },
+    {
+      "topic": "Revoking an invite that is already revoked (via a different Idempotency-Key), or is already expired but never revoked (decision 10 combined with decisions 6-9).",
+      "resolution": "Only a genuinely new revoke command (a fresh Idempotency-Key) against an invite whose revoked_at_utc is still NULL and whose expires_at_utc has not yet passed sets revoked_at_utc for the first time. A different-key revoke command against an invite that is already revoked returns the authorized stable CONFLICT, consistent with the same not-in-a-transitionable-state rule already used for approve and reject. Revoking an already-expired, never-revoked invite is explicitly NOT authorized as a distinct successful transition in this Version 1 batch and also returns the authorized stable CONFLICT: the task did not explicitly select allowing post-expiry revocation, and this project's established convention is to fail closed absent an explicit selection. A future Version 2 decision may explicitly authorize post-expiry revocation if a demonstrated need (for example, audit-trail clarity) outweighs the added state complexity."
+    }
+  ],
+  "table_reuse": {
+    "classroom_invites": {
+      "strategy": "REUSE_UNCHANGED",
+      "existing_fields_used": ["classroom_invite_id", "classroom_id", "token_hash", "expires_at_utc", "revoked_at_utc", "created_by_user_id", "row_version"],
+      "existing_constraints_relied_on": [
+        "UniqueConstraint(token_hash)",
+        "CheckConstraint(token_hash ~ '^[0-9a-f]{64}$')"
+      ],
+      "gap_assessment": "No gap. All fields and constraints required by decisions 6-10 already exist."
+    },
+    "classroom_memberships": {
+      "strategy": "REUSE_WITH_ONE_ADDITIVE_CONSTRAINT",
+      "existing_fields_used": ["classroom_membership_id", "classroom_id", "learner_id", "classroom_invite_id", "state", "requested_at_utc", "decided_at_utc", "decided_by_user_id", "row_version"],
+      "existing_constraints_relied_on": [
+        "UniqueConstraint(classroom_id, learner_id)",
+        "CheckConstraint(state IN ('PENDING','APPROVED','REJECTED'))",
+        "CheckConstraint(decision-fields-consistent-with-state)"
+      ],
+      "gap_assessment": "One genuine gap: no existing constraint enforces decision 2 (at most one APPROVED membership per learner across all classrooms) at the database level. The existing (classroom_id, learner_id) unique pair is scoped per classroom and cannot express this cross-row, cross-classroom invariant. Relying on application-level checks alone repeats the exact defect class already found and corrected in the profile-provisioning concurrency fix (backend/buildLog.md, BE2 Profile/Classroom Corrective Test Evidence section)."
+    },
+    "classrooms": { "strategy": "REUSE_UNCHANGED", "gap_assessment": "No gap." },
+    "teacher_profiles": { "strategy": "REUSE_UNCHANGED", "gap_assessment": "No gap." },
+    "b_learners": { "strategy": "REUSE_UNCHANGED", "gap_assessment": "No gap. Grade remains not client-writable and is never synchronized from classroom.grade by this batch." },
+    "app_user_learner_links": { "strategy": "REUSE_UNCHANGED", "gap_assessment": "No gap." },
+    "b_idempotency_records": { "strategy": "REUSE_UNCHANGED", "gap_assessment": "No gap; existing (actor_user_id, http_method, operation_identifier, idempotency_key) scope covers every command below." },
+    "b_audit_events": { "strategy": "REUSE_UNCHANGED", "gap_assessment": "No gap." }
+  },
+  "migration_authorization": {
+    "authorized": true,
+    "scope": "Exactly one additive change: a PostgreSQL partial unique index on classroom_memberships(learner_id) WHERE state = 'APPROVED', enforcing product decision 2 (at most one currently-approved classroom membership per learner) at the database level, mirroring the existing pattern already used for b_sessions (uq_b_sessions_one_starting_or_active_per_learner).",
+    "revision_chain": "Must chain after 20260722_0004; the exact revision identifier is assigned at implementation time.",
+    "not_authorized_in_this_migration": [
+      "Any new table",
+      "Any dropped table or column",
+      "Any new column",
+      "Any trigger or stored procedure",
+      "Any change to classroom_invites",
+      "Any seed data or bulk insert",
+      "Tightening expires_at_utc to NOT NULL (see resolved_ambiguities)"
+    ],
+    "expected_table_count_after_migration": 12,
+    "note": "An index is not a table; the twelve-application-table inventory established at the profile/classroom closure review is expected to remain unchanged by this migration.",
+    "revoke_endpoint_schema_impact": "None. POST /api/v1/classroom-invites/{classroom_invite_id}/revoke uses only the existing classroom_invites.revoked_at_utc and row_version columns; no additional migration is authorized or required for revocation."
+  },
+  "concurrency_lessons_carried_forward": {
+    "source": "backend/buildLog.md, BE2 Profile/Classroom Corrective Test Evidence — Replay, Concurrency and Rollback",
+    "lesson": "A prior defect showed that inserting a row before acquiring a serializing lock, or keying that lock on a value generated after the race begins (such as a freshly minted primary key) rather than on a stable pre-existing identifier, allows concurrent duplicate submissions to surface an unhandled database integrity error instead of the authorized idempotent outcome.",
+    "required_application": [
+      "POST /api/v1/classroom-memberships/requests must acquire a transaction-scoped advisory lock keyed by the stable pair (learner_id, classroom_id) — resolved from the invite token server-side — before checking for an existing classroom_memberships row and before inserting, so that a concurrent duplicate request returns the existing PENDING row rather than racing on the (classroom_id, learner_id) unique constraint.",
+      "POST /api/v1/classroom-memberships/{membership_id}/approve must acquire a transaction-scoped advisory lock keyed by the stable learner_id (not merely the membership_id being approved) before checking whether that learner already holds an APPROVED membership elsewhere and before transitioning state, so that two teachers concurrently approving two different PENDING requests for the same learner cannot both succeed.",
+      "POST /api/v1/classroom-invites/{classroom_invite_id}/revoke must serialize on the same idempotency-scoped advisory lock (actor + operation + key) already required generally, so that concurrent same-key revoke attempts commit exactly one result rather than racing on the revoked_at_utc/row_version update."
+    ]
+  },
+  "authorized_endpoints": [
+    {
+      "method": "POST",
+      "path": "/api/v1/classrooms/{classroom_id}/invites",
+      "status": "AUTHORIZED",
+      "role": "TEACHER",
+      "ownership_check": "classroom_id must belong to the verified teacher's teacher_profile_id; absent or non-owned classroom returns RESOURCE_NOT_FOUND to prevent enumeration.",
+      "request_fields": [],
+      "response_fields_first_response": ["classroom_invite_id", "invite_token", "expires_at_utc", "created_at_utc", "request_id"],
+      "response_fields_replay_response": ["classroom_invite_id", "invite_token: null", "token_already_issued: true", "expires_at_utc", "created_at_utc", "request_id"],
+      "idempotency": {
+        "scope": "actor_user_id + POST + \"classroom_invite.create\" + Idempotency-Key",
+        "canonical_fingerprint": "The canonical request fingerprint must be computed over HTTP method, operation identifier (classroom_invite.create), authenticated actor, the normalized classroom_id path parameter, and the canonical (empty) request body — not the body alone. An empty body must not cause two different classroom_id values to collide on the same fingerprint. Reusing the same Idempotency-Key against a different classroom_id must return the authorized stable CONFLICT and must never replay the first classroom's invite.",
+        "behavior": "Identical replay (same key, same classroom_id) returns the same classroom_invite_id and metadata but never re-exposes invite_token; the stored canonical_response excludes the raw token entirely so it never enters b_idempotency_records. This is required by decision 8 (raw token must not appear in any database record) and cannot be satisfied by the generic canonical-response-stores-everything pattern used elsewhere without this explicit exclusion."
+      },
+      "audit": "Invite creation event recording actor, classroom_id, classroom_invite_id, and expires_at_utc only; no token or token hash in the audit payload.",
+      "privacy": "The raw token is present only in the single first-issuance HTTP response body; it is never logged, never included in audit payloads, and never persisted.",
+      "errors": ["AUTHENTICATION_REQUIRED", "FORBIDDEN for LEARNER", "RESOURCE_NOT_FOUND for absent or non-owned classroom"],
+      "concurrency": "Concurrent requests with the same Idempotency-Key must produce exactly one invite row, with the losing/replayed request receiving the no-token-reissue replay response. Concurrent requests with different keys may each create a distinct invite; this authorization does not limit the number of simultaneously active invites per classroom.",
+      "prohibited_side_effects": ["No membership creation", "No QR image generation or encoding", "No raw token persistence beyond the one-time response"]
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/classroom-invites/{classroom_invite_id}/revoke",
+      "status": "AUTHORIZED",
+      "role": "TEACHER",
+      "ownership_check": "classroom_invite_id must resolve to a classroom_invites row whose classroom_id belongs to the verified teacher's teacher_profile_id; absent or non-owned invite returns RESOURCE_NOT_FOUND to prevent enumeration.",
+      "request_fields": [],
+      "response_fields": ["classroom_invite_id", "classroom_id", "revoked_at_utc", "row_version", "request_id"],
+      "idempotency": {
+        "scope": "actor_user_id + POST + \"classroom_invite.revoke\" + Idempotency-Key",
+        "canonical_fingerprint": "The canonical request fingerprint must be computed over HTTP method, operation identifier (classroom_invite.revoke), authenticated actor, the normalized classroom_invite_id path parameter, and the canonical (empty) request body. An empty body must not cause two different classroom_invite_id values to collide on the same fingerprint. Reusing the same Idempotency-Key against a different classroom_invite_id must return the authorized stable CONFLICT and must never replay the first invite's revocation.",
+        "behavior": "The first valid revoke command (revoked_at_utc still NULL and expires_at_utc not yet passed) sets revoked_at_utc from server time and increments row_version. Identical replay (same key, same classroom_invite_id) returns the same revoked_at_utc and row_version unchanged. A revoke command presented with a different Idempotency-Key against an invite that is already revoked, or whose expires_at_utc has already passed without a prior revocation, returns the authorized stable CONFLICT and does not mutate revoked_at_utc; see resolved_ambiguities."
+      },
+      "audit": "Revocation event recording only actor, classroom_id, classroom_invite_id, and revoked_at_utc; no token or token hash in the audit payload.",
+      "privacy": "The raw token and token_hash are never looked up, returned, logged, or included in the audit payload or idempotency canonical response for this endpoint; the invite is identified only by classroom_invite_id.",
+      "errors": [
+        "AUTHENTICATION_REQUIRED",
+        "FORBIDDEN for LEARNER",
+        "RESOURCE_NOT_FOUND for absent or non-owned classroom_invite_id",
+        "CONFLICT for a different-key revoke command against an already-revoked or already-expired invite"
+      ],
+      "concurrency": "Concurrent revoke requests with the same Idempotency-Key must produce exactly one revocation result, with the losing/replayed request receiving the identical replay response rather than an unhandled database integrity error, following the same idempotency-advisory-lock pattern already established for the other commands in this authorization.",
+      "prohibited_side_effects": ["No invite deletion", "No mutation of any existing classroom_memberships row", "No raw token or token hash exposure"]
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/classroom-invites/resolve",
+      "status": "AUTHORIZED",
+      "role": "LEARNER",
+      "ownership_check": "Resolves for the verified learner's own profile only; the classroom is derived exclusively from the token hash lookup, never from a client-supplied classroom_id.",
+      "request_fields": ["invite_token"],
+      "response_fields": ["invite_resolution_id", "classroom_name", "grade", "request_id"],
+      "idempotency": {
+        "scope": "actor_user_id + POST + \"classroom_invite.resolve\" + Idempotency-Key",
+        "behavior": "Required so a retried resolve does not have to be distinguished from a fresh one by the client; the request-body fingerprint is a one-way hash of the canonical body, so the raw token is never persisted even indirectly through the idempotency mechanism."
+      },
+      "audit": "Resolution result recorded without the token, without teacher email, and without the raw request body.",
+      "privacy": "invite_token must never appear in structured logs, error details, or audit payloads. No mutation of classroom_invites or classroom_memberships occurs.",
+      "errors": ["AUTHENTICATION_REQUIRED", "FORBIDDEN when the caller has no learner profile", "RESOURCE_NOT_FOUND for an unknown token hash", "CONFLICT for a revoked or expired token"],
+      "concurrency": "Non-mutating beyond idempotency bookkeeping; no domain-row locking is required.",
+      "prohibited_side_effects": ["No membership state change", "No APPROVED grant", "No revocation or expiry mutation", "No raw token logging"]
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/classroom-memberships/requests",
+      "status": "AUTHORIZED",
+      "role": "LEARNER",
+      "ownership_check": "The learner is derived from the verified subject's own b_learners profile through app_user_learner_links; the classroom is derived from validating invite_token server-side (hash lookup, not revoked, not expired), never from a client-supplied classroom_id.",
+      "request_fields": ["invite_token"],
+      "response_fields": ["classroom_membership_id", "classroom_id", "classroom_name", "grade", "state", "requested_at_utc", "request_id"],
+      "idempotency": {
+        "scope": "actor_user_id + POST + \"classroom_membership.request\" + Idempotency-Key",
+        "behavior": "Identical replay of the same key and body returns the original response. Independently of the Idempotency-Key mechanism, if the learner already holds any classroom_memberships row for the resolved classroom (PENDING, APPROVED, or REJECTED, created under any key), the endpoint must return that existing row's identity and current state rather than attempting a second insert, per decision 5 and resolved_ambiguities."
+      },
+      "audit": "PENDING request creation recorded without the token.",
+      "privacy": "invite_token must never appear in logs, audit payloads, or error details.",
+      "errors": ["AUTHENTICATION_REQUIRED", "FORBIDDEN when the caller has no learner profile", "RESOURCE_NOT_FOUND for an unknown token hash", "CONFLICT for a revoked or expired token"],
+      "concurrency": "See concurrency_lessons_carried_forward. A transaction-scoped advisory lock keyed by (learner_id, classroom_id) is required before the existence check and insert; a concurrent duplicate must never surface an unhandled database integrity error and must instead receive the authorized existing-row response.",
+      "prohibited_side_effects": ["No APPROVED grant", "No learner grade mutation", "No session creation"]
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/classrooms/{classroom_id}/membership-requests",
+      "status": "AUTHORIZED",
+      "role": "TEACHER",
+      "ownership_check": "classroom_id must belong to the verified teacher; absent or non-owned classroom returns RESOURCE_NOT_FOUND.",
+      "request_fields": [],
+      "response_fields": ["requests[].classroom_membership_id", "requests[].learner_id", "requests[].learner_name", "requests[].state", "requests[].requested_at_utc", "requests[].decided_at_utc", "request_id"],
+      "idempotency": "Not required for read.",
+      "audit": "No b_audit_events row required for a read; existing structured HTTP request logging (route, status, duration) satisfies accountability, consistent with the profile/classroom batch's treatment of reads.",
+      "privacy": "No learner email; no data from non-owned classrooms.",
+      "errors": ["AUTHENTICATION_REQUIRED", "FORBIDDEN for LEARNER", "RESOURCE_NOT_FOUND for absent or non-owned classroom"],
+      "concurrency": "None required; standard read consistency only.",
+      "prohibited_side_effects": ["No mutation"],
+      "scope_note": "Returns requests in every state (PENDING, APPROVED, REJECTED) for the owned classroom so a teacher can see their own decision history, restricted per decision 15 to their own classroom only."
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/classroom-memberships/{membership_id}/approve",
+      "status": "AUTHORIZED",
+      "role": "TEACHER",
+      "ownership_check": "The membership's classroom must belong to the verified teacher; absent or non-owned membership_id returns RESOURCE_NOT_FOUND.",
+      "request_fields": [],
+      "response_fields": ["classroom_membership_id", "classroom_id", "learner_id", "state", "decided_at_utc", "row_version", "request_id"],
+      "idempotency": {
+        "scope": "actor_user_id + POST + \"classroom_membership.approve\" + Idempotency-Key",
+        "canonical_fingerprint": "The canonical request fingerprint must be computed over HTTP method, operation identifier (classroom_membership.approve), authenticated actor, the normalized membership_id path parameter, and the canonical (empty) request body. An empty body must not cause two different membership_id values to collide on the same fingerprint. Reusing the same Idempotency-Key against a different membership_id must return the authorized stable CONFLICT and must never replay the first membership's approval result.",
+        "behavior": "Replay of the same key against the same membership_id returns the original APPROVED decision unchanged."
+      },
+      "audit": "Approval event with actor, before/after state (PENDING -> APPROVED), and REAL provenance.",
+      "privacy": "No learner email; response contains only the allow-listed fields.",
+      "errors": [
+        "AUTHENTICATION_REQUIRED",
+        "FORBIDDEN for LEARNER",
+        "RESOURCE_NOT_FOUND for absent or non-owned membership",
+        "CONFLICT when the membership is not PENDING and this is not an identical replay of an already-processed approval",
+        "CONFLICT when the learner already holds an APPROVED membership in another classroom (decision 3)"
+      ],
+      "concurrency": "See concurrency_lessons_carried_forward. A transaction-scoped advisory lock keyed by learner_id (not only membership_id) is required, held while checking the one-APPROVED-membership invariant and performing the state transition, so two teachers cannot concurrently approve two different PENDING requests for the same learner.",
+      "prohibited_side_effects": ["No grade-row overwrite on b_learners", "No session or progress creation"]
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/classroom-memberships/{membership_id}/reject",
+      "status": "AUTHORIZED",
+      "role": "TEACHER",
+      "ownership_check": "The membership's classroom must belong to the verified teacher; absent or non-owned membership_id returns RESOURCE_NOT_FOUND.",
+      "request_fields": [],
+      "response_fields": ["classroom_membership_id", "classroom_id", "learner_id", "state", "decided_at_utc", "row_version", "request_id"],
+      "idempotency": {
+        "scope": "actor_user_id + POST + \"classroom_membership.reject\" + Idempotency-Key",
+        "canonical_fingerprint": "The canonical request fingerprint must be computed over HTTP method, operation identifier (classroom_membership.reject), authenticated actor, the normalized membership_id path parameter, and the canonical (empty) request body. An empty body must not cause two different membership_id values to collide on the same fingerprint. Reusing the same Idempotency-Key against a different membership_id must return the authorized stable CONFLICT and must never replay the first membership's rejection result.",
+        "behavior": "Replay of the same key against the same membership_id returns the original REJECTED decision unchanged."
+      },
+      "audit": "Rejection event with actor, before/after state, and REAL provenance; no free-text reason field is authorized.",
+      "privacy": "No learner email; no free-text reason accepted or stored.",
+      "errors": ["AUTHENTICATION_REQUIRED", "FORBIDDEN for LEARNER", "RESOURCE_NOT_FOUND for absent or non-owned membership", "CONFLICT when not PENDING and not an identical replay"],
+      "concurrency": "Standard row-level idempotent-replay handling, matching the pattern already used for classroom creation; no cross-membership invariant applies to rejection.",
+      "prohibited_side_effects": ["No learner deactivation", "No session or progress mutation"]
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/classrooms/{classroom_id}/learners",
+      "status": "AUTHORIZED",
+      "role": "TEACHER",
+      "ownership_check": "classroom_id must belong to the verified teacher; only APPROVED memberships are returned.",
+      "request_fields": [],
+      "response_fields": ["learners[].learner_id", "learners[].name", "learners[].membership_id", "learners[].membership_state", "request_id"],
+      "idempotency": "Not required for read.",
+      "audit": "No b_audit_events row required for a read; existing structured HTTP request logging satisfies accountability.",
+      "privacy": "No learner email; no session, progress, or scientific data.",
+      "errors": ["AUTHENTICATION_REQUIRED", "FORBIDDEN for LEARNER", "RESOURCE_NOT_FOUND for absent or non-owned classroom"],
+      "concurrency": "None required; standard read consistency only.",
+      "prohibited_side_effects": ["No mutation"]
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/learner/classrooms",
+      "status": "AUTHORIZED",
+      "role": "LEARNER",
+      "ownership_check": "Returns memberships only for the learner mapped to the verified subject.",
+      "request_fields": [],
+      "response_fields": ["memberships[].membership_id", "memberships[].classroom_id", "memberships[].classroom_name", "memberships[].grade", "memberships[].state", "memberships[].requested_at_utc", "memberships[].decided_at_utc", "request_id"],
+      "idempotency": "Not required for read.",
+      "audit": "No privileged audit event for own membership read.",
+      "privacy": "No other learner's membership; no teacher email.",
+      "errors": ["AUTHENTICATION_REQUIRED", "FORBIDDEN for TEACHER", "RESOURCE_NOT_FOUND when the caller has no learner profile"],
+      "concurrency": "None required; standard read consistency only.",
+      "prohibited_side_effects": ["No mutation"],
+      "scope_note": "Returns the learner's own memberships in every state, since decision 3's design allows multiple concurrent PENDING rows across classrooms."
+    }
+  ],
+  "idempotency_operation_identifiers": {
+    "classroom_invite.create": "POST /api/v1/classrooms/{classroom_id}/invites",
+    "classroom_invite.resolve": "POST /api/v1/classroom-invites/resolve",
+    "classroom_membership.request": "POST /api/v1/classroom-memberships/requests",
+    "classroom_membership.approve": "POST /api/v1/classroom-memberships/{membership_id}/approve",
+    "classroom_membership.reject": "POST /api/v1/classroom-memberships/{membership_id}/reject",
+    "classroom_invite.revoke": "POST /api/v1/classroom-invites/{classroom_invite_id}/revoke"
+  },
+  "path_based_idempotency_fingerprint_rule": {
+    "applies_to": [
+      "POST /api/v1/classrooms/{classroom_id}/invites",
+      "POST /api/v1/classroom-memberships/{membership_id}/approve",
+      "POST /api/v1/classroom-memberships/{membership_id}/reject",
+      "POST /api/v1/classroom-invites/{classroom_invite_id}/revoke"
+    ],
+    "rule": "For every command whose target resource is identified by a path parameter, the canonical request fingerprint used for idempotency-key scoping must be computed over the HTTP method, the operation identifier, the authenticated actor, the normalized path parameter (classroom_id, membership_id, or classroom_invite_id as applicable), and the canonical request body. It must not be computed over the body alone.",
+    "reason": "Each of these four commands has an empty request body. Fingerprinting the body alone would make every request to a given operation, for the same actor and key, hash-identical regardless of which classroom, membership, or invite the path parameter names. Reusing the same Idempotency-Key against a different resource of the same kind would then be misclassified as an identical replay and would incorrectly return the first resource's cached result instead of the authorized stable CONFLICT.",
+    "consequence_if_key_reused_across_resources": "The endpoint must return the authorized stable CONFLICT and must never replay the first resource's committed response.",
+    "note": "This is a required deviation from the simpler body-only fingerprint pattern used for commands whose full identity is already carried in the body (for example POST /api/v1/classrooms, POST /api/v1/classroom-invites/resolve, and POST /api/v1/classroom-memberships/requests), which are unaffected by this rule."
+  },
+  "provenance_rules": {
+    "live_mutations": "Server assigns source_class REAL; clients cannot submit or override provenance.",
+    "test_isolation": "TEST provenance is allowed only in isolated test environments with visibly non-real identities, matching the existing profile/classroom pattern.",
+    "live_rejections": ["TEST", "SYNTHETIC", "IMPORTED"]
+  },
+  "privacy_constraints": [
+    "Raw invite tokens are never logged, never included in audit payloads, never included in error details, and never persisted beyond the transient request/response cycle.",
+    "Only the token hash is persisted, using the existing 64-lowercase-hex-character constraint.",
+    "Teacher access to learner identity is limited to APPROVED memberships in classrooms that teacher owns.",
+    "Learner access is limited to their own membership records.",
+    "No email, diagnosis, population, subtype, research identifier, mastery, or scientific field enters any request, response, audit payload, or log for these endpoints."
+  ],
+  "fail_closed_behavior": [
+    "Reject any role other than the endpoint's authorized role.",
+    "Reject expired or revoked invites with CONFLICT; never resolve or accept a request against them.",
+    "Reject an approval that would give a learner a second concurrently APPROVED membership.",
+    "Reject a revoke command presented with a different Idempotency-Key against an invite that is already revoked or already expired, using the authorized stable CONFLICT, rather than performing or fabricating a new revocation.",
+    "Reject reuse of the same Idempotency-Key against a different classroom_id, membership_id, or classroom_invite_id with the authorized stable CONFLICT, never a replay of the original resource's result.",
+    "Do not expose non-owned classrooms, memberships, or invites; use RESOURCE_NOT_FOUND where needed to prevent enumeration.",
+    "Do not create any learning session or scientific record from any endpoint in this batch."
+  ],
+  "prohibited_behavior": [
+    "Session creation or any session lifecycle transition",
+    "Question generation, item opportunities",
+    "Answer submission, retries, hints",
+    "BKT, mastery, Guess-Guard, certification, sequencing, progress, completion",
+    "Component B live-engine integration",
+    "Component C",
+    "Component 3",
+    "Research export",
+    "Synthetic dataset generation",
+    "Pilot or production rollout",
+    "Real-child onboarding",
+    "Yass source, research wheel, or generator dependency"
+  ],
+  "required_tests": [
+    "Every POST endpoint passes identical replay, body mismatch (where applicable), concurrency, and rollback tests, following the exact pattern established in the profile/classroom corrective batch.",
+    "For every path-based POST command (invite creation, approve, reject, revoke), a path-parameter mismatch test proves that reusing the same Idempotency-Key against a different classroom_id, membership_id, or classroom_invite_id returns the authorized stable CONFLICT and never replays the first resource's result.",
+    "Concurrent duplicate classroom-membership requests for the same (learner, classroom) produce exactly one row and no unhandled integrity error.",
+    "Concurrent approvals of two different PENDING requests for the same learner in different classrooms produce exactly one APPROVED result and one authorized CONFLICT.",
+    "Invite resolution and membership request both fail closed (RESOURCE_NOT_FOUND or CONFLICT as specified) for unknown, revoked, and expired tokens, with no membership side effect.",
+    "Raw invite tokens never appear in b_idempotency_records.canonical_response, b_audit_events, structured logs, or error responses; the invite-creation replay response is verified to omit invite_token.",
+    "Invite revocation succeeds for an owned, not-yet-revoked, not-yet-expired invite, setting revoked_at_utc from server time; identical replay (same key, same classroom_invite_id) returns the same result.",
+    "A different-key revoke command against an already-revoked invite, and a different-key revoke command against an already-expired never-revoked invite, both return the authorized stable CONFLICT without mutating revoked_at_utc.",
+    "Concurrent revocation of the same invite (same key) produces exactly one revocation result and no unhandled integrity error.",
+    "Revocation rollback: an injected failure during revocation leaves revoked_at_utc unset and the audit/idempotency records absent, and a subsequent valid retry succeeds.",
+    "Revocation ownership isolation: a teacher cannot revoke another teacher's invite (RESOURCE_NOT_FOUND); a learner receives FORBIDDEN for the revoke endpoint.",
+    "Revocation does not delete the classroom_invites row and does not mutate any classroom_memberships row created before the revocation.",
+    "A revoked invite fails POST /api/v1/classroom-invites/resolve and POST /api/v1/classroom-memberships/requests with the authorized CONFLICT and no membership side effect.",
+    "Raw token and token hash leakage scans cover the revoke endpoint's response, logs, errors, audit payloads, and idempotency canonical response, in addition to the existing invite-creation and resolution coverage.",
+    "Ownership isolation: a teacher cannot read or decide on another teacher's classroom's requests; a learner cannot read another learner's memberships.",
+    "Grade remains GRADE_2/GRADE_3-only at the classroom level; b_learners.grade is never written by approval.",
+    "Architecture guards confirm the OpenAPI inventory grows by exactly these nine operations, the application table count remains twelve after the authorized migration, and no session, attempt, hint, progress, or scientific route or import exists.",
+    "Migration upgrade/downgrade/re-upgrade and no-drift checks pass for the new revision."
+  ],
+  "exit_criteria": [
+    "Only the nine authorized endpoints are added; no policy-gated endpoint beyond this set becomes executable.",
+    "Only the one authorized partial unique index is added; no other schema change exists.",
+    "All ownership, cross-account, cardinality, idempotency, path-fingerprint, audit, provenance, privacy, and concurrency tests specified above pass.",
+    "No raw invite token, password, raw JWT, research identifier, scientific field, or synthetic record enters live persistence, responses, or logs.",
+    "All prohibited learning and scientific behavior remains absent.",
+    "A separate closure review verifies implementation against this file before any further scope."
+  ],
+  "required_approvers": {
+    "this_limited_scope": ["product owner", "backend security owner", "privacy and child-safety owner"],
+    "ratification_status_for_this_scope": "Deferred to BE6 pre-pilot review under ENGINEERING_CONTINUATION_ALLOWED_RATIFICATION_DEFERRED_TO_BE6, per component-b-profile-classroom-ratification.json#engineering_continuation. This authorization permits engineering and testing only, not pilot or production use.",
+    "before_pilot_or_production": ["ethics or project governance", "privacy and child-safety owner", "Component B owner", "academic or research approver", "operations and security owner"]
+  },
+  "implementation_boundaries": {
+    "authorized_next_batch": [
+      "Add the single authorized partial unique index migration on classroom_memberships.",
+      "Implement exactly the nine authorized endpoints listed above, including invite revocation and its canonical-fingerprint requirement.",
+      "Reuse existing authentication, stable error envelope, request IDs, idempotency, unit of work, audit, and REAL provenance foundations."
+    ],
+    "not_authorized_in_next_batch": [
+      "Any endpoint not in the authorized_endpoints list above",
+      "Any table, column, or trigger beyond the one authorized index",
+      "QR image encoding or rendering",
+      "Any session, attempt, hint, progress, or scientific behavior",
+      "Pilot, production, or real-child onboarding"
+    ],
+    "no_implementation_in_this_review": true
+  },
+  "exact_next_task": "Implement the classroom invitation and membership workflow batch against this authorization: the one authorized migration, the nine authorized endpoints (including invite revocation), the path_based_idempotency_fingerprint_rule for invite creation, approve, reject, and revoke, and the required tests listed above. Do not implement invite QR rendering, learning sessions, or scientific behavior. On completion, conduct a separate closure review before any further scope, following the same pattern already used for the profile/classroom batch."
+}

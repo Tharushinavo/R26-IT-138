@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "record_type": "BE4_ENGINEERING_CONTINUATION_INSTRUCTION",
+  "component": "B",
+  "recorded_at_utc": "2026-07-26T00:00:00Z",
+  "purpose": "Record a project-director instruction, issued by Yasindu Kularathne (the person directing this project), that authorizes Component B BE4 ENGINEERING on isolated TEST-provenance DRAFT bundles to proceed now, following the same authorization-then-implementation-then-closure discipline used since BE1. It is expressly NOT a named project-supervisor decision and NOT the named Component B owner ratification; it defers those to the BE6 pre-pilot gate. It clears no scientific value and no gate-B item, and authorizes no real-child, pilot, or production use.",
+  "governing_documents": [
+    "Dev/backend/provenance/component-b-profile-classroom-ratification.json",
+    "Dev/backend/provenance/component-b-be4-engineering-amendment.json",
+    "Dev/backend/provenance/component-b-closure-decisions.json",
+    "Dev/Component_B_BE4_Sequencing_Plan.md"
+  ],
+  "authority": {
+    "issued_by": "Yasindu Kularathne",
+    "capacity": "person directing this project (this session)",
+    "date": "2026-07-26",
+    "is_named_approver_ratification": false
+  },
+  "identity_discrepancy_surfaced": "The Component B owner of record in the governing documents (component-b-be4-engineering-amendment.json named_approver_slots, component-b-profile-classroom-ratification.json approver_records) is 'Dhananjani G.A.U. (IT22224316)', which differs from the instructing party 'Yasindu Kularathne'. This relationship is UNRECONCILED. Therefore this record is a project-director instruction, NOT the named Component B owner ratification, and full named ratification still requires reconciling this identity.",
+  "relationship_to_be4_amendment": "This instruction does NOT adopt component-b-be4-engineering-amendment.json. That amendment's named_approver_slots (project_supervisor, component_b_owner, academic_owner_acknowledgement) remain UNRESOLVED_PLACEHOLDER and the project-supervisor sign-off is still outstanding, deferred to BE6.",
+  "permits": [
+    "BE4a-f engineering (per Dev/Component_B_BE4_Sequencing_Plan.md) on TEST-provenance DRAFT runtime bundles only, in local development and CI environments, under the standard bounded-batch + separate-closure discipline used since BE1."
+  ],
+  "does_not_permit": [
+    "Real-child data or onboarding",
+    "Pilot deployment",
+    "Production deployment",
+    "Research export",
+    "Any educational-effectiveness claim",
+    "Any calibrated-mastery or validation claim",
+    "Runtime bundle publication or live-alias selection",
+    "Any GATE-B or SG-01 through SG-15 scientific value or sign-off"
+  ],
+  "technical_guards_required": [
+    "Bundles used by BE4 engineering are TEST-provenance AND DRAFT publication_state only; never APPROVED, published, or alias-selectable",
+    "The fail-closed runtime-bundle loader default (require_approved=True) is retained; only isolated test/CI contexts may use require_approved=False against DRAFT fixtures",
+    "The import-boundary guard stays green",
+    "LiveEngineAdapter remains the sole app/ importer of component_b_generator",
+    "The 13 prohibited synthetic/dataset modules listed in component-b-live-engine-reuse-map.json (explicitly_prohibited_from_application) stay unreachable from the live application"
+  ],
+  "deferred_to_be6": [
+    "Named project-supervisor ratification",
+    "Named Component B owner ratification, with the Dhananjani/Yasindu identity reconciled",
+    "The full sign-off chain per the engineering-continuation precedent's BE6 review gate (component-b-profile-classroom-ratification.json engineering_continuation.review_gate)"
+  ],
+  "does_not_clear": [
+    "The scientific gate (GATE-B) as a whole",
+    "Any SG-01 through SG-15 item",
+    "The pilot entry in component-b-closure-decisions.json exit_gate.blocked_scope",
+    "The production entry in component-b-closure-decisions.json exit_gate.blocked_scope"
+  ]
+}

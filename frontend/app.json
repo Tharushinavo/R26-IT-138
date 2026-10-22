@@ -1,0 +1,52 @@
+{
+  "expo": {
+    "name": "MathMingo",
+    "slug": "mathmingo",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/mathmingo-logo.png",
+    "scheme": "mathmingo",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#f4f4f6",
+        "foregroundImage": "./assets/images/mathmingo-logo.png"
+      },
+      "edgeToEdgeEnabled": true,
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "output": "static",
+      "favicon": "./assets/images/mathmingo-logo.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/mathmingo-logo.png",
+          "imageWidth": 260,
+          "resizeMode": "contain",
+          "backgroundColor": "#f4f4f6"
+        }
+      ],
+      "expo-secure-store",
+      "expo-asset",
+      [
+        "expo-audio",
+        {
+          "microphonePermission": false,
+          "recordAudioAndroid": false
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    }
+  }
+}

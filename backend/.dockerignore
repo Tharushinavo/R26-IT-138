@@ -1,0 +1,105 @@
+.git
+.gitignore
+.github
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+secrets/
+.venv/
+venv/
+env/
+.conda/
+conda-meta/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+*.log
+*.pid
+*.tmp
+*.temp
+tmp/
+temp/
+dist/
+build/
+*.egg-info/
+node_modules/
+frontend/
+web-build/
+research/
+datasets/
+data/
+output/
+provenance/
+packaging/
+*.whl
+buildLog.md
+BEplan.md
+README.md
+Dockerfile*
+docker-compose*.yml
+compose*.yml
+
+# BE3b exception: the pinned live-engine wheel and the runtime-bundle JSON Schema are governed
+# runtime dependencies and must be resolvable in the build context. Only these exact files are
+# allowed back in — the prohibited full research wheel (upadya-component-b-generator) and the
+# rest of provenance/ (baseline manifests, closure decisions, generator source lock) stay
+# excluded from the image.
+!provenance/wheels/
+provenance/wheels/*
+!provenance/wheels/upadya_component_b_live_engine-0.1.0+be3.0e86fdc-py3-none-any.whl
+# BF-4: re-pinned wheel. The BE3 line above is kept, not replaced — it is what lets the old,
+# still-retained wheel be rebuilt into an image for historical verification if anyone ever needs
+# to reproduce the BE3-era manifest entry; it is never installed today (nothing in
+# requirements.lock references it) so keeping it in the build context is inert.
+!provenance/wheels/upadya_component_b_live_engine-0.1.0+bf4.09267ab-py3-none-any.whl
+# VALIDATORS BATCH: re-versioned wheel (validators/ added at the same 09267ab pin). The bf4 line
+# above is kept, not replaced — same retention rationale as the BF-4 comment above it; it is
+# never installed today (requirements.lock references only bf5).
+!provenance/wheels/upadya_component_b_live_engine-0.1.0+bf5.09267ab-py3-none-any.whl
+# Phase 1 batch 1a: Component C packaging only, no adapter wiring yet (see
+# backend/provenance/component-c-live-engine-manifest.json). Excludes nothing else new — the
+# full research generator tree, the prohibited full research wheel, and the rest of
+# provenance/ stay excluded exactly as before.
+!provenance/wheels/prabathi_component_c_live_engine-0.1.0+c1.09267ab-py3-none-any.whl
+# VALIDATORS BATCH: re-versioned wheel (B dependency pin bumped to 0.1.0+bf5.09267ab; C's own
+# file inventory unchanged). The c1 line above is kept, not replaced, same rationale as bf4/bf5.
+!provenance/wheels/prabathi_component_c_live_engine-0.1.0+c2.09267ab-py3-none-any.whl
+# 9b-0: rebuilt to ship component_c_generator/c_to_3/emit.py (DEC-1's blocker resolved -- B now
+# ships validators/). The c2 line above is kept, not replaced, same retention rationale as
+# c1/bf4/bf5 -- the superseded wheel binary stays in the repo even though it is no longer
+# installed (requirements.lock references only c3).
+!provenance/wheels/prabathi_component_c_live_engine-0.1.0+c3.09267ab-py3-none-any.whl
+!provenance/runtime-bundle.schema.json
+# Phase 2: Component C's own minimal runtime-bundle schema (validated at test/run time by
+# app.infrastructure.runtime_bundle_c.loader). Same carve-out pattern as B's schema above.
+!provenance/c-runtime-bundle.schema.json
+# BE3c exception: the implemented/deferred template partition provenance is read by the
+# characterization test suite to cross-check the TEST-FIXTURE-ONLY catalogue against the
+# reviewed coverage report. Contains no generator source, no wheel, no research artifacts.
+!provenance/component-b-coverage.json
+# CONNECT Step 2: the governed Component C catalogue (vendored verbatim from the sibling Yass/
+# tree, sha256 82004a5fef94528ea1e4187473420453bdfb7e1d3b5ade48ce2bc03486630851), read by
+# _CATALOGUE_PATH in c_session_service.py and task_service.py. Contains no generator source, no
+# wheel, no research artifacts -- a single reviewed Markdown catalogue document. Its own status
+# line reads PROPOSED FOR APPROVAL, not APPROVED; vendoring it does not change that status.
+!provenance/R26-IT-138_Component_C_Game_Task_Catalogue_v1.0.md
+# CONNECT Step 3: the approved C runtime bundle manifest, authored under
+# APPROVAL-2026-08-26-seven-families.md. Read by _BUNDLE_PATH in c_session_service.py and
+# task_service.py. Contains no generator source, no wheel, no research artifacts -- a single
+# JSON manifest, schema-validated against provenance/c-runtime-bundle.schema.json.
+!provenance/c-runtime-bundle-approved-1.0.json
+# LIVE-01: the frozen Q-learning policy tables (hash-verified at session start against MANIFEST.json), read by
+# app/application/live_engine_c/q_policy.py. Plain JSON, no generator source, no wheel.
+!provenance/c_policy/
+# Component D trained model (owner, 2026-10-21): the owner's cognitive_model.pkl and its MANIFEST.json,
+# sha256-verified before unpickling by app/application/d_model_profile.py. No source, no dataset.
+!provenance/d_model/
